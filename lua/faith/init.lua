@@ -1,0 +1,6 @@
+require("faith.plugins")
+require("faith.settings")
+require("faith.session")
+require("faith.keymap")
+require("faith.mappings")
+-- require("faith.winbar")

@@ -1,0 +1,114 @@
+local servers = {
+	"jdtls",
+	"sumneko_lua",
+	"lemminx",
+	"clangd",
+	"cmake",
+	"tsserver",
+	"html",
+	"emmet_ls",
+	"cssls",
+	"cssmodules_ls",
+	"jsonls",
+}
+
+local settings = {
+	ui = {
+		border = "single",
+		icons = {
+			package_installed = "◍",
+			package_pending = "◍",
+			package_uninstalled = "◍",
+		},
+	},
+	log_level = vim.log.levels.DEBUG,
+	max_concurrent_installers = 4,
+}
+
+require("mason").setup(settings)
+require("mason-lspconfig").setup {
+	ensure_installed = servers,
+	automatic_installation = true
+}
+
+local lspconfig_status_ok, lspconfig = pcall(require, "lspconfig")
+if not lspconfig_status_ok then
+	return
+end
+
+local opts = {}
+
+for _, server in pairs(servers) do
+	opts = {
+		on_attach = require("faith.lsp.handlers").on_attach,
+		capabilities = require("faith.lsp.handlers").capabilities,
+	}
+
+	server = vim.split(server, "@")[1]
+
+	if server == "sumneko_lua" then
+		--[[ local sumneko_opts = require "faith.lsp.settings.sumneko_lua"
+		opts = vim.tbl_deep_extend("force", sumneko_opts, opts) ]]
+		local l_status_ok, lua_dev = pcall(require, "lua-dev")
+		if not l_status_ok then
+			return
+		end
+		local luadev = lua_dev.setup {
+			-- add any options here, or leave empty to use the default settings
+			-- lspconfig = opts,
+			lspconfig = {
+				on_attach = opts.on_attach,
+				capabilities = opts.capabilities,
+				setting = {
+					Lua = {
+						runtime = {
+							hint = {
+								enable = true,
+								arrayIndex = "Enable", -- "Enable", "Auto", "Disable"
+								await = true,
+								paramName = "All", -- "All", "Literal", "Disable"
+								paramType = true,
+								semicolon = "Disable", -- "All", "SameLine", "Disable"
+								setType = true,
+							},
+						},
+					},
+				},
+				--   -- settings = opts.settings,
+			},
+		}
+		lspconfig.sumneko_lua.setup(luadev)
+		goto continue
+	end
+
+	if server == "tsserver" then
+    local tsserver_opts = require "faith.lsp.settings.tsserver"
+    opts = vim.tbl_deep_extend("force", tsserver_opts, opts)
+  end
+
+	if server == "jsonls" then
+    local jsonls_opts = require "faith.lsp.settings.jsonls"
+    opts = vim.tbl_deep_extend("force", jsonls_opts, opts)
+  end
+
+  if server == "emmet_ls" then
+    local emmet_ls_opts = require "faith.lsp.settings.emmet_ls"
+    opts = vim.tbl_deep_extend("force", emmet_ls_opts, opts)
+  end
+
+	if server == "clangd" then
+		opts.capabilities.offsetEncoding = { "utf-16" }
+	end
+
+	if server == "lemminx" then
+		local lemminx_opts = require "faith.lsp.settings.lemminx"
+		opts = vim.tbl_deep_extend("force", lemminx_opts, opts)
+	end
+	-- special case: configured in ftplugin/java.lua
+	if server == "jdtls" then
+		goto continue
+	end
+
+	lspconfig[server].setup(opts)
+	::continue::
+end
