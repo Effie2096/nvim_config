@@ -158,6 +158,10 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 			vim.api.nvim_set_hl(0, hl_name, { fg = value.color, bg = fileBG })
 		end
 
+		local white_space_colors = vim.api.nvim_get_hl_by_name("Whitespace", true)
+		vim.api.nvim_set_hl(0, "IndentBlanklineSpaceChar", { fg = white_space_colors.foreground })
+		vim.api.nvim_set_hl(0, "IndentBlanklineSpaceCharBlankline", { fg = white_space_colors.foreground })
+
 		vim.api.nvim_set_hl(0, "IndentBlanklineContextStart", { sp = colors.text, underline = true })
 
 		vim.cmd [[highlight ExtraWhitespace ctermfg=red guifg=red gui=nocombine]]

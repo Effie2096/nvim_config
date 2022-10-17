@@ -1,11 +1,5 @@
 vim.opt.termguicolors = true
 
-vim.opt.list = true
-local empty_chars = { eol = ' ', tab = '  ', trail = '×', space = ' ', extends = ' ', precedes = ' ', nbsp = ' ' }
-local listchars = { eol = '﬋', tab = '▸▸', trail = '×', space = '•', extends = '›', precedes = '‹', nbsp = '␣' }
-vim.opt.listchars = empty_chars
--- vim.opt.listchars:append("eol = '﬋', tab = '»»', space = '•'")
---▸▸﬋
 -- ['│','|','¦','┆','┊','']
 
 local status_ok, indent_blankline = pcall(require, 'indent_blankline')

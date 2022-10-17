@@ -494,8 +494,6 @@ local language_server = {
 		end
 	end,
 	padding = 0,
-	cond = hide_in_width,
-	-- separator = "%#SLSeparator#" .. " │" .. "%*",
 }
 
 local spaces = {
