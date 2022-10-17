@@ -6,10 +6,10 @@ end
 -- configure it
 catppuccin.setup({
 	compile_path = vim.fn.stdpath "cache" .. "/catppuccin",
-	transparent_background = false,
+	transparent_background = true,
 	term_colors = false,
 	dim_inactive = {
-		enable = true,
+		enable = false,
 		shade = "dark",
 		percentage = 0.15
 	},
@@ -63,6 +63,7 @@ catppuccin.setup({
 			enable = false,
 			custom_bg = "NONE",
 		},
+		mason = true
 	}
 })
 

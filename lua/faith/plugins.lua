@@ -79,6 +79,7 @@ Plug ('lukas-reineke/indent-blankline.nvim', { ['commit'] = 'db7cbcb40cc00fc5d60
 Plug ('norcalli/nvim-colorizer.lua', { ['commit'] = '36c610a9717cc9ec426a07c8e6bf3b3abcb139d6' })
 Plug ('folke/twilight.nvim', { ['commit'] = '1ffa6a4d89fb2fbb784c6674044bf54f1fca936f' })
 Plug ('folke/zen-mode.nvim', { ['commit'] = '6f5702db4fd4a4c9a212f8de3b7b982f3d93b03c' })
+Plug 'xiyaowong/nvim-transparent'
 Plug ('karb94/neoscroll.nvim', { ['commit'] = '54c5c419f6ee2b35557b3a6a7d631724234ba97a' })
 Plug ('rcarriga/nvim-notify', { ['commit'] = '142069baf554c3d41c8de4a6f7472c618a58becc' })
 Plug ('romgrk/nvim-treesitter-context', { ['commit'] = '8d0759eb798fee2e1201b26c3279713ac67c44c2' })

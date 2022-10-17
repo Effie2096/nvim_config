@@ -1,5 +1,14 @@
 ---@diagnostic disable: unused-local
 
+local status_ok, notify = pcall(require, 'notify')
+if not status_ok then
+	return
+end
+
+notify.setup({
+	background_colour = require('catppuccin.palettes').get_palette().base
+})
+
 -- Utility functions shared between progress reports for LSP and DAP
 local client_notifs = {}
 
