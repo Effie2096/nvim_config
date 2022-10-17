@@ -47,13 +47,13 @@ for _, server in pairs(servers) do
 	server = vim.split(server, "@")[1]
 
 	if server == "sumneko_lua" then
-		--[[ local sumneko_opts = require "faith.lsp.settings.sumneko_lua"
-		opts = vim.tbl_deep_extend("force", sumneko_opts, opts) ]]
-		local l_status_ok, lua_dev = pcall(require, "lua-dev")
-		if not l_status_ok then
+		local sumneko_opts = require "faith.lsp.settings.sumneko_lua"
+		opts = vim.tbl_deep_extend("force", sumneko_opts, opts)
+		local status_ok, neodev = pcall(require, "neodev")
+		if not status_ok then
 			return
 		end
-		local luadev = lua_dev.setup {
+		neodev.setup {
 			-- add any options here, or leave empty to use the default settings
 			-- lspconfig = opts,
 			lspconfig = {
@@ -77,7 +77,7 @@ for _, server in pairs(servers) do
 				--   -- settings = opts.settings,
 			},
 		}
-		lspconfig.sumneko_lua.setup(luadev)
+		lspconfig.sumneko_lua.setup(opts)
 		goto continue
 	end
 

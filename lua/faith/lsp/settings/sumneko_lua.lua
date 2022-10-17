@@ -8,10 +8,10 @@ return {
 					reload = "require",
 				}
 			},
-			diagnostics = {
+			--[[ diagnostics = {
 				-- Get the language server to recognize the `vim` global
 				globals = { 'vim' },
-			},
+			}, ]]
 			type = {
 				-- weakUnionCheck = true,
 				-- weakNilCheck = true,
@@ -31,7 +31,7 @@ return {
 			},
 			workspace = {
 				-- Make the server aware of Neovim runtime files
-				library = vim.api.nvim_get_runtime_file("", true),
+				-- library = vim.api.nvim_get_runtime_file("", true),
 				--[[ library = {
 					---@diagnostic disable-next-line: missing-parameter
 					[vim.fn.expand "$VIMRUNTIME/lua"] = true,
