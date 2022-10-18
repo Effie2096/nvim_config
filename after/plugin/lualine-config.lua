@@ -34,8 +34,9 @@ function! MyTabLine()
 			let tabSepHL	 = '%#TabLineSep#'
 			let tabCloseHL = '%#TabLineClose#'
 		endif
-		let s .= tabSepHL
-		let s .= leftSep
+
+		" let s .= tabSepHL
+		" let s .= leftSep
 		let s .= tabHL
 		let s .= tabNumHL
 
@@ -116,8 +117,8 @@ function! MyTabLine()
 		" let s .= '%999X' . close
 		" let s .= tabHL
 		let s .= ' '
-		let s .= tabSepHL
-		let s .= rightSep
+		" let s .= tabSepHL
+		" let s .= rightSep
 	endfor
 	" let s .= '%#TabLineFill#%T'
 
@@ -194,7 +195,6 @@ local trans_flag = {
 	{ '" "', color = { bg = '#ffb5cd', --[[fg = '#1BB3FF',]] }, padding = 0, },
 	{ '" "', color = { bg = '#5bcffa', --[[fg = '#1BB3FF',]] }, padding = 0, },
 }
-
 
 function SetWinbarNavic()
 	local location = navic.get_location()
@@ -539,7 +539,7 @@ require('lualine').setup {
 		-- component_separators = { left = '', right = ''},
 		-- section_separators = { left = '', right = ''},
 		component_separators = '|',
-		section_separators = { left = '', right = '' },
+		section_separators = { left = '', right = '' },
 		always_divide_middle = true,
 		globalstatus = true,
 		refresh = {
@@ -614,6 +614,7 @@ require('lualine').setup {
 			{
 				'MyTabLine',
 				max_length = vim.o.columns * 3 / 5,
+				padding = { left = 0, right = 0 },
 				cond = function()
 					return vim.fn.tabpagenr('$') >= 2
 				end,

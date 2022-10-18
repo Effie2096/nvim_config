@@ -44,7 +44,7 @@ inlayhints.setup({
 		-- padding from the left if max_len_align is true
 		max_len_align_padding = 1,
 		-- highlight group
-		highlight = "LspInlayHint",
+		highlight = "Comment",
 	},
 	enabled_at_startup = true,
 	debug_mode = false,
