@@ -53,6 +53,7 @@ Plug ('JoosepAlviste/nvim-ts-context-commentstring', { ['commit'] = '4d3a68c41a5
 Plug ('kylechui/nvim-surround', { ['commit'] = '17191679202978b1de8c1bd5d975400897b1b92d' })
 Plug ('windwp/nvim-autopairs', { ['commit'] = '14cc2a4fc6243152ba085cc2059834113496c60a' })
 Plug ('ggandor/lightspeed.nvim', { ['commit'] = 'a5b79ddbd755ac8d21a8704c370b5f643dda94aa' })
+Plug 'nat-418/boole.nvim'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-repeat'
 Plug 'godlygeek/tabular'
