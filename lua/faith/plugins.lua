@@ -2,6 +2,7 @@ local Plug = vim.fn['plug#']
 
 vim.call('plug#begin')
 Plug ('catppuccin/nvim', {['as'] = 'catppuccin', ['do'] = 'CatppucinCompile' })
+Plug ('lewis6991/impatient.nvim', { ['commit'] = 'b842e16ecc1a700f62adb9802f8355b99b52a5a6' })
 
 Plug ('nvim-lualine/lualine.nvim', { ['commit'] = 'edca2b03c724f22bdc310eee1587b1523f31ec7c' })
 Plug ('akinsho/toggleterm.nvim', {['tag'] = 'v2.*'})
