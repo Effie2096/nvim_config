@@ -18,6 +18,7 @@ local opts = { noremap = true, silent = true }
 vim.keymap.set('n', '<leader>ff', require('telescope.builtin').find_files, opts)
 vim.keymap.set('n', '<leader>fl', require('telescope.builtin').live_grep, opts)
 vim.keymap.set('n', '<leader>fb', require('telescope.builtin').buffers, opts)
+vim.keymap.set('n', '<leader>fh', require('telescope.builtin').help_tags, opts)
 vim.keymap.set('n', '<leader>fe', require('telescope').extensions.file_browser.file_browser, opts)
 vim.keymap.set('n', '<leader>fp', require('telescope.builtin').current_buffer_fuzzy_find, opts)
 vim.keymap.set('n', '<leader>fs', require('telescope.builtin').treesitter, opts)
@@ -54,18 +55,13 @@ telescope.setup {
 			}
 		},
 		current_buffer_fuzzy_find = {
-			layout_strategy = 'bottom_pane',
-			borderchars = {
-				{ '─', ' ', ' ', ' ', '─', '─', '┘', '└' },
-				prompt = { "─", " ", "─", " ", '─', '─', "│", "│" },
-				results = { "─", " ", " ", " ", " ", " ", " ", " " },
-				preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
-			},
 			results_title = false,
+			previewer = false,
 			sorting_strategy = 'ascending',
 			layout_config = {
 				prompt_position = 'top',
-				height = 15,
+				width = 100,
+				height = 0.3,
 			},
 		},
 		treesitter = {

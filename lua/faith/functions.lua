@@ -13,4 +13,8 @@ function M.get_buf_option(opt)
   end
 end
 
+function string.insert(str1, str2, pos)
+	return str1:sub(1, pos) .. str2 .. str1:sub(pos + 1)
+end
+
 return M

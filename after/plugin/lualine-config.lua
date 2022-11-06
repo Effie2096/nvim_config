@@ -1,5 +1,10 @@
 M = {}
 
+local lualine_status_ok, lualine = pcall(require, 'lualine')
+if not lualine_status_ok then
+	return
+end
+
 local navic_status_ok, navic = pcall(require, "nvim-navic")
 if not navic_status_ok then
 	return
@@ -21,7 +26,7 @@ local indent = {
 		end
 		if not mixed then return '' end
 		if mixed_same_line ~= nil and mixed_same_line > 0 then
-			return 'hix@' .. mixed_same_line
+			return 'mix@' .. mixed_same_line
 		end
 		local space_indent_cnt = vim.fn.searchcount({ pattern = space_pat, max_count = 1e3 }).total
 		local tab_indent_cnt = vim.fn.searchcount({ pattern = tab_pat, max_count = 1e3 }).total
@@ -42,7 +47,7 @@ local trailing_space = {
 
 local encoding = {
 	"fileformat",
-	padding = { left = 0, right = 1 },
+	padding = { left = 1, right = 1 },
 	fmt = function(str)
 		if str == '' then -- only show if *not* unix format
 			return ''
@@ -90,42 +95,6 @@ function GetFileTypeIcon()
 	else
 		return { '', nil }
 	end
-end
-
-function WinBarDir()
-	local f = require('faith.functions')
-	local seperator = '' --❯
-
-	local path_breadcrumbs = ''
-	---@diagnostic disable-next-line: missing-parameter
-	local path_from_root = vim.fn.expand('%:h', false)
-
-local filetype = f.get_buf_option "filetype"
-	if filetype == "java" then
-		path_from_root = vim.fn.substitute(path_from_root, '.*\\ze\\<com\\>', '', '')
-		path_breadcrumbs = path_breadcrumbs .. seperator .. " … "
-elseif filetype == "toggleterm" then
-		path_from_root = ""
-	end
-
-	local folders = vim.fn.split(path_from_root, '/')
-
-	for _, value in pairs(folders) do
-		if value == '.' then goto continue end
-		path_breadcrumbs = path_breadcrumbs .. seperator .. " "
-		path_breadcrumbs = path_breadcrumbs .. value .. " "
-		::continue::
-	end
-
-	return path_breadcrumbs
-end
-
-function WinBarRoot()
-	local root = vim.fn.fnamemodify(vim.fn.getcwd(), ':t')
-	local win_root = ""
-	-- win_root = win_root .. ' '
-	win_root = win_root .. root
-	return win_root
 end
 
 function WinBarFile()
@@ -198,18 +167,6 @@ function WinBarGitStatus()
 	return diff_status
 end
 
-function MyWinBar()
-	local winNum = WinBarNumber()
-	local winGit = WinBarGitStatus()
-	local winFile = WinBarFile()
-
-	local winbar = ' ' .. winNum
-	winbar = winbar .. winGit
-	winbar = winbar .. ' ' .. winFile
-
-	return winbar
-end
-
 function WinBarNumber()
 	local seperators = { '', '' }
 	local sepHL = '%#WinBarWinNumEnd#'
@@ -231,20 +188,12 @@ end
 
 -- check if value in table
 local function contains(t, value)
-  for _, v in pairs(t) do
-    if v == value then
-      return true
-    end
-  end
-  return false
-end
-
-local hide_in_width = function()
-  return vim.o.columns > 80
-end
-
-local hl_str = function(str, hl)
-  return "%#" .. hl .. "#" .. str .. "%*"
+	for _, v in pairs(t) do
+		if v == value then
+			return true
+		end
+	end
+	return false
 end
 
 local winbar = {
@@ -260,22 +209,22 @@ local winbar = {
 			'diff',
 			source = diff_source,
 			separator = { left = '', right = '' },
-			padding = { left = 0, right = 0 },
+			-- padding = { left = 0, right = 1 },
+		},
+		{
+			'diagnostics',
+			sources = { 'nvim_diagnostic' },
+			symbols = diagnostic_symbols,
+			-- padding = { left = 0, right = 0 },
+			separator = { left = '', right = '' },
+			-- color = { bg = "NONE" },
+			update_in_insert = true,
 		},
 		--[[ {
 				"%{%v:lua.WinBarGitStatus()%}",
 				padding = { left = 0, right = 0 },
 				separator = { left = '', right = '' },
 			}, ]]
-		{
-			'diagnostics',
-			sources = { 'nvim_diagnostic' },
-			symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' },
-			padding = { left = 1, right = 0 },
-			-- separator = { right = '' },
-			separator = { left = '', right = '' },
-			update_in_insert = true,
-		},
 	},
 	lualine_c = {
 		{
@@ -287,6 +236,8 @@ local winbar = {
 			padding = { left = 0, right = 0 },
 			separator = { left = '', right = '' },
 		},
+	},
+	lualine_z = {
 	},
 }
 
@@ -343,12 +294,15 @@ local language_server = {
 		local formatter = registered["NULL_LS_FORMATTING"]
 		local linter = registered["NULL_LS_DIAGNOSTICS"]
 		if formatter ~= nil then
+			---@diagnostic disable-next-line: missing-parameter
 			vim.list_extend(client_names, formatter)
 		end
 		if linter ~= nil then
+			---@diagnostic disable-next-line: missing-parameter
 			vim.list_extend(client_names, linter)
 		end
 
+		table.sort(client_names)
 		-- join client names with commas
 		local client_names_str = table.concat(client_names, ", ")
 
@@ -356,7 +310,6 @@ local language_server = {
 		local language_servers = ""
 		local client_names_str_len = #client_names_str
 		if client_names_str_len ~= 0 then
-			-- TODO: alphabetise client names so they always appear same order <Effie2096 havealittlefaith2096@gmail.com> 
 			language_servers = " " .. client_names_str .. " "
 		end
 
@@ -371,42 +324,63 @@ local language_server = {
 }
 
 local spaces = {
-  function()
-    local buf_ft = vim.bo.filetype
+	function()
+		local buf_ft = vim.bo.filetype
 
-    local ui_filetypes = {
-      "help",
-      "packer",
-      "neogitstatus",
-      "NvimTree",
-      "Trouble",
-      "lir",
-      "Outline",
-      "spectre_panel",
-      "DressingSelect",
-      "",
-    }
-    local space = ""
+		local ui_filetypes = {
+			"help",
+			"packer",
+			"neogitstatus",
+			"NvimTree",
+			"Trouble",
+			"lir",
+			"Outline",
+			"spectre_panel",
+			"DressingSelect",
+			"",
+		}
+		local space = ""
 
-    if contains(ui_filetypes, buf_ft) then
-      space = " "
-    end
+		if contains(ui_filetypes, buf_ft) then
+			space = " "
+		end
 
-    local shiftwidth = vim.api.nvim_buf_get_option(0, "shiftwidth")
+		local shiftwidth = vim.api.nvim_buf_get_option(0, "shiftwidth")
 
-    if shiftwidth == nil then
-      return ""
-    end
+		if shiftwidth == nil then
+			return ""
+		end
 
-    -- TODO: update codicons and use their indent
-    return " " .. shiftwidth .. space
-  end,
-  padding = 1,
-  -- separator = "%#SLSeparator#" .. " │" .. "%*",
-  -- cond = hide_in_width_100,
+		return " " .. shiftwidth .. space
+	end,
+	padding = 1,
+	-- separator = "%#SLSeparator#" .. " │" .. "%*",
+	-- cond = hide_in_width_100,
 }
 
-require('lualine').setup {
+local git = {
+	'b:gitsigns_head',
+	color = 'lualine_a_normal',
+	icon = { '', align = 'left' },
+}
+
+--[[ local mode = {
+	'mode',
+	fmt = function(str) return str:sub(1,1) end
+} ]]
+
+local workspace_diagnostics = {
+	'diagnostics',
+	sources = { 'nvim_workspace_diagnostic' },
+	symbols = diagnostic_symbols,
+	update_in_insert = true,
+}
+
+local location = {
+	"%11(%l/%L:%c%) " --'%l/%L:%c'
+}
+
+lualine.setup {
 	options = {
 		icons_enabled = true,
 		theme = 'catppuccin',
@@ -423,36 +397,10 @@ require('lualine').setup {
 		}
 	},
 	sections = {
-		lualine_a = {
-			{
-				'b:gitsigns_head',
-				color = 'lualine_a_normal',
-				icon = { '', align = 'left' },
-				-- color = { fg = colors.blue }
-			},
-			--[[ {
-				'mode',
-				fmt = function(str) return str:sub(1,1) end
-			}, ]]
-		},
-		lualine_b = {
-			{
-				'diagnostics',
-				-- sources = { 'nvim_workspace_diagnostic' },
-				sources = { 'nvim_workspace_diagnostic' },
-				symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' },
-				update_in_insert = true,
-			},
-
-		},
-		lualine_c = {
-			language_server,
-		},
-		lualine_x = {
-			{
-				"%11(%l/%L:%c%) " --'%l/%L:%c'
-			},
-		},
+		lualine_a = { git },
+		lualine_b = { workspace_diagnostics },
+		lualine_c = { language_server, },
+		lualine_x = { location },
 		lualine_y = { encoding, fileformat, spaces, indent, trailing_space },
 		lualine_z = trans_flag,
 	},

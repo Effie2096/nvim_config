@@ -5,6 +5,7 @@ end
 
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
+vim.opt.foldopen:remove('hor') -- don't open folds when moving on the line
 -- vim.opt.foldcolumn = '1'
 -- vim.opt.fillchars = [[foldopen:,foldsep:│,foldclose:]]
 vim.opt.fillchars = [[foldopen:,foldsep: ,foldclose:]]

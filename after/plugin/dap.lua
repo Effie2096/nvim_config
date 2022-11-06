@@ -23,10 +23,6 @@ vim.keymap.set("n", "<Leader>dp", function () require'dap'.set_breakpoint(nil, n
 
 -- vim.keymap.set("v", "<M-k", require('dapui').eval(), opts)
 
---[[ fun GotoWindow(id)
-    call win_gotoid(a:id)
-    MaximizerToggle
-endfun ]]
 function GotoWindow(id)
 	vim.call("win_gotoid", id)
 	vim.cmd("MaximizerToggle")
@@ -70,13 +66,6 @@ vim.keymap.set("n", "<Leader>dS", function() GotoWindow(vim.call("bufwinid", 'DA
 vim.keymap.set("n", "<Leader>ds", function() GotoWindow(vim.call("bufwinid", 'DAP Scopes')) end, opts)
 vim.keymap.set("n", "<Leader>dr", function() GotoWindow(vim.call("bufwinid", 'dap-repl')) end, opts)
 vim.keymap.set("n", "<Leader>dt", function() GotoWindow(vim.call("bufwinid", 'dap-terminal')) end, opts)
---[[ nnoremap <leader>m :MaximizerToggle!<CR>
-nnoremap <leader>dc :call GotoWindow(g:vimspector_session_windows.code)<CR>
-nnoremap <leader>dt :call GotoWindow(g:vimspector_session_windows.tabpage)<CR>
-nnoremap <leader>dv :call GotoWindow(g:vimspector_session_windows.variables)<CR>
-nnoremap <leader>dw :call GotoWindow(g:vimspector_session_windows.watches)<CR>
-nnoremap <leader>ds :call GotoWindow(g:vimspector_session_windows.stack_trace)<CR>
-nnoremap <leader>do :call GotoWindow(g:vimspector_session_windows.output)<CR> ]]
 
 dap.listeners.after.event_initialized["dapui_config"] = function()
   dapui.open()

@@ -106,7 +106,7 @@ cmp.setup {
 			menu = {
 				buffer = "[buf]",
 				nvim_lsp = "[LSP]",
-				nvim_lua = "[api]",
+				-- nvim_lua = "[api]",
 				path = "[path]",
 				luasnip = "[snip]",
 				calc = "[maff]"
@@ -140,12 +140,4 @@ cmp.setup.filetype({ "dap-repl", "dapui_watches" }, {
 	sources = {
 		{ name = "dap" },
 	},
-})
-
-cmp.setup.cmdline('/', {
-	sources = cmp.config.sources({
-		{ name = 'nvim_lsp_document_symbol' }
-		}, {
-			{ name = 'buffer' }
-	})
 })

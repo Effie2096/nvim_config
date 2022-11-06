@@ -182,37 +182,36 @@ local function lsp_keymaps(bufnr)
 		end
 	end, opts)
 
-	vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, opts)
-	vim.keymap.set("n", "<leader>gD", vim.lsp.buf.declaration, opts)
-	vim.keymap.set("n", "<leader>gi", vim.lsp.buf.implementation, opts)
-	vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, opts)
+	vim.keymap.set("n", "<leader>ld", vim.lsp.buf.definition, opts)
+	vim.keymap.set("n", "<leader>lD", vim.lsp.buf.declaration, opts)
+	vim.keymap.set("n", "<leader>li", vim.lsp.buf.implementation, opts)
+	vim.keymap.set("n", "<leader>lr", vim.lsp.buf.references, opts)
 
-	vim.keymap.set("n", "<leader>gl", vim.diagnostic.open_float, opts)
-	vim.keymap.set("n", "<leader>gs", vim.lsp.buf.signature_help, opts)
-	vim.keymap.set("n", "<M-a>", vim.lsp.buf.code_action, opts)
+	vim.keymap.set("n", "<leader>ls", vim.lsp.buf.signature_help, opts)
 
+	vim.keymap.set("n", "<leader>dl", vim.diagnostic.open_float, opts)
 	vim.keymap.set("n", "<leader>dj", vim.diagnostic.goto_next, opts)
 	vim.keymap.set("n", "<leader>dk", vim.diagnostic.goto_prev, opts)
-	vim.keymap.set("n", "<leader>dl", "<cmd>Telescope diagnostics<cr>", opts)
+	vim.keymap.set("n", "<leader>dq", vim.diagnostic.setqflist, opts)
 
 	vim.keymap.set({ "n", "v" }, "<leader>a", vim.lsp.buf.code_action, opts)
 
 	vim.keymap.set("n", "<leader>rn", require("faith.lsp.handlers").rename, opts)
 	-- vim.cmd [[ command! Format execute 'lua vim.lsp.buf.format({ async = true })' ]]
 	vim.cmd [[ command! Format execute 'lua Reset_Spaces(true)' ]]
-	vim.keymap.set("n", "<M-f>", "<cmd>Format<cr>", opts)
+	-- vim.keymap.set("n", "<M-f>", "<cmd>Format<cr>", opts)
 end
 
 local function jdt_keymaps(bufnr)
 	local opts = { noremap = true, silent = true, buffer = bufnr }
-	vim.keymap.set("n", "<M-a>", require 'jdtls'.organize_imports, opts)
+	-- vim.keymap.set("n", "<M-a>", require 'jdtls'.organize_imports, opts)
 	vim.keymap.set("v", "<leader>em", "<cmd> lua require('jdtls').extract_method(true)<CR>", opts)
 	vim.keymap.set("n", "<leader>ev", require('jdtls').extract_variable, opts)
 	vim.keymap.set("v", "<leader>ev", "<cmd> lua require('jdtls').extract_variable(true)<CR>", opts)
 	vim.keymap.set("n", "<leader>ec", require('jdtls').extract_constant, opts)
 	vim.keymap.set("v", "<leader>ec", "<cmd> lua require('jdtls').extract_constant(true)<CR>", opts)
-	vim.keymap.set("n", "<leader>t", require 'jdtls'.test_nearest_method, opts)
-	vim.keymap.set("n", "<leader>T", require 'jdtls'.test_class, opts)
+	vim.keymap.set("n", "<leader>tm", require 'jdtls'.test_nearest_method, opts)
+	vim.keymap.set("n", "<leader>tc", require 'jdtls'.test_class, opts)
 
 	vim.cmd "command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_compile JdtCompile lua require('jdtls').compile(<f-args>)"
 	vim.cmd "command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_set_runtime JdtSetRuntime lua require('jdtls').set_runtime(<f-args>)"

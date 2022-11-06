@@ -28,8 +28,8 @@ nnoremap("<C-s>", "<cmd>w<CR>", opts)
 
 inoremap("<C-s>", "<cmd>w<CR>", opts)
 
-nnoremap("<Leader>qj", "<cmd>cnext<CR>", opts)
-nnoremap("<Leader>qk", "<cmd>cprevious<CR>", opts)
+nnoremap("<Leader>qj", "<cmd>cnext<CR>zz", opts)
+nnoremap("<Leader>qk", "<cmd>cprevious<CR>zz", opts)
 
 -- autocmd FileType java set makeprg=mvn\ compile\ -q\ -f\ .\pom.xml
 
