@@ -220,11 +220,6 @@ local winbar = {
 			-- color = { bg = "NONE" },
 			update_in_insert = true,
 		},
-		--[[ {
-				"%{%v:lua.WinBarGitStatus()%}",
-				padding = { left = 0, right = 0 },
-				separator = { left = '', right = '' },
-			}, ]]
 	},
 	lualine_c = {
 		{
@@ -303,6 +298,21 @@ local language_server = {
 		end
 
 		table.sort(client_names)
+
+		--remove duplicate entries
+		--only want to know which clients are active. not how many times they've attached
+		local hash = {}
+		local res = {}
+
+		for _, v in ipairs(client_names) do
+			if (not hash[v]) then
+				res[#res+1] = v
+				hash[v] = true
+			end
+		end
+
+		client_names = res
+
 		-- join client names with commas
 		local client_names_str = table.concat(client_names, ", ")
 

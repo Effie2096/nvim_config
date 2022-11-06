@@ -151,22 +151,3 @@ vim.api.nvim_create_autocmd({"VimEnter", "WinEnter", "BufWinEnter"},{
 vim.api.nvim_create_autocmd("WinLeave",{
 	callback = function() vim.opt_local.cursorline = false end, group = winFocusGroup
 })
-
--- " set path+=**
--- set wildmenu
--- " Don't offer to open certain...
--- " ...directories
--- set wildignore+=*\\bin\\*,*\\tmp\\*,*\\build\\*,*\\.git\\*,*\\.github\\*,*\\.vs\\*,*\\Library\\*,*\\Logs\\*,*\\obj\\*,*\\Packages\\*,*\\node_modules\\*,*\\ProjectSettings\\*,
-
--- set wildignore+=*.swp,*.zip,*.exe,*.mid,*.jar,*.class,*.mm,*.o,*.obj
--- set wildignore+=*.csproj,*.sln,*.cache,*.asset,*.prefs,*.dwlt,*.db,*.catalog,*.graph,*.meta
--- " ...images
--- set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png,*.ico
--- " ...docs
--- set wildignore+=*.pdf
-
--- set wildmode=full
-
--- " save undo trees in files
--- set undofile
--- set undolevels=10000

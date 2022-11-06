@@ -190,7 +190,7 @@ vim.cmd [[
 		au TextYankPost * silent lua vim.highlight.on_yank({higroup="YankFlash", timeout=40})
 		augroup END
 ]]
--- vim.cmd[[2match ExtraWhitespace /\s\+$\|\t/]]
+
 vim.cmd [[2match ExtraWhitespace /\s\+$/]]
 vim.cmd [[autocmd BufWinEnter * 2match ExtraWhitespace /\s\+$/]]
 vim.cmd [[autocmd InsertEnter * 2match ExtraWhitespace /\s\+\%#\@<!$/]]

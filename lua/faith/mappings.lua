@@ -28,21 +28,10 @@ nnoremap("<C-s>", "<cmd>w<CR>", opts)
 
 inoremap("<C-s>", "<cmd>w<CR>", opts)
 
-nnoremap("<Leader>qj", "<cmd>cnext<CR>zz", opts)
-nnoremap("<Leader>qk", "<cmd>cprevious<CR>zz", opts)
-
--- autocmd FileType java set makeprg=mvn\ compile\ -q\ -f\ .\pom.xml
-
--- autocmd FileType java nnoremap("n", "<F8> :echo "Building maven project..."<CR>:silent :!mvn clean compile package -Dskiptests -e -f .\pom.xml --log-file .\mvn.log<CR>:echo "Build Done! Check mvn.log"<CR>
--- autocmd FileType java nnoremap("n", "<f9> :FloatermNew --name=JavaRun --wintype=vsplit --autoclose=0 --width=80 --position=botright java -jar target\my-app-1.0-SNAPSHOT.jar<CR>
--- autocmd filetype c nnoremap("n", "<F9> :w <CR> <bar> :!gcc % -o %:r<CR>
--- autocmd filetype c nnoremap("n", "<F10> :!./%:r.exe<CR>
-
--- autocmd filetype cpp nnoremap("n", "<F9> :w <bar> !g++ -std=c++14 % -o %:r<CR>
--- autocmd filetype cpp nnoremap("n", "<F10> :!%:r<CR>
-
--- autocmd filetype autohotkey nnoremap("n", "<F10> :w <bar> :! & 'C:\Program Files\AutoHotkey\AutoHotkey.exe' /ErrorStdOut
---						 \ '%:p'<CR>
+nnoremap("]q", "<cmd>cnext<CR>zz", opts)
+nnoremap("[q", "<cmd>cprevious<CR>zz", opts)
+nnoremap("[Q", "<cmd>cfirst<CR>zz", opts)
+nnoremap("]Q", "<cmd>clast<CR>zz", opts)
 
 -- Set working dir to dir of current buffer's file
 nnoremap("<leader>cd", "<cmd>cd %:p:h<CR>", opts)
@@ -102,21 +91,8 @@ nnoremap("<PageDown>", "<cmd>tabprevious<CR>", opts)
 vnoremap("<", "<gv", opts)
 vnoremap(">", ">gv", opts)
 
--- Better window navigation
---[[ nnoremap("<C-h>", "<C-w>h", opts)
-nnoremap("<C-j>", "<C-w>j", opts)
-nnoremap("<C-k>", "<C-w>k", opts)
-nnoremap("<C-l>", "<C-w>l", opts) ]]
-
 -- enter insert mode on next line, with text after cursor on line after that
 inoremap("<M-o>", "<Space><Esc>r<CR>O", opts)
 
 -- Delete current buffer without closing split
 nnoremap("<leader>bc", "<cmd>bp |bd #<CR>", opts)
-
--- `gf` opens file under cursor in a new vertical split
--- nnoremap("gf :vertical wincmd f<CR>
-
--- remove search highlight and search term from search register
--- nnoremap("<leader>/ :let @/=""<CR>
--- }} Key maps

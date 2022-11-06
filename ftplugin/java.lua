@@ -5,20 +5,6 @@ vim.opt_local.shiftwidth = indentWidth -- Change the number of space characters 
 -- vim.opt_local.foldcolumn = "auto:2"
 vim.opt_local.makeprg = "mvn clean compile -Dskiptests -q -f pom.xml"
 vim.opt_local.errorformat = "[ERROR] %f:[%l\\,%v] %m"
--- vim.cmd[[
--- CompilerSet errorformat=
---						 \[%tRROR]\ %#Malformed\ POM\ %f:\ %m@%l:%c%.%#,
---						 \[%tRROR]\ %#Non-parseable\ POM\ %f:\ %m\ %#\\@\ line\ %l\\,\ column\ %c%.%#,
---						 \[%[A-Z]%#]\ %f:[%l\\,%c]\ %t%[a-z]%#:\ %m,
---						 \[%t%[A-Z]%#]\ %f:[%l\\,%c]\ %[%^:]%#:\ %m,
---						 \%A[%[A-Z]%#]\ Exit\ code:\ %[0-9]%#\ -\ %f:%l:\ %m,
---						 \%A[%[A-Z]%#]\ %f:%l:\ %m,
---						 \%-Z[%[A-Z]%#]\ %p^,
---						 \%C[%[A-Z]%#]\ %#%m
--- ]]
--- autocmd FileType java set makeprg=mvn\ compile\ -q\ -f\ .\pom.xml
-
--- autocmd FileType java keymap("n", "<F8> :echo "Building maven project..."<CR>:silent :!mvn clean compile package -Dskiptests -e -f .\pom.xml --log-file .\mvn.log<CR>:echo "Build Done! Check mvn.log"<CR>
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 

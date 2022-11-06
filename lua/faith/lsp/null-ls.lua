@@ -6,7 +6,8 @@ end
 -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
 local formatting = null_ls.builtins.formatting
 -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
--- local diagnostics = null_ls.builtins.diagnostics
+local diagnostics = null_ls.builtins.diagnostics
+local actions = null_ls.builtins.code_actions
 
 null_ls.setup {
 	debug = false,
@@ -23,9 +24,9 @@ null_ls.setup {
 			-- extra_filetypes = { "toml", "solidity" },
 			extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote", "--use-tabs" },
 		},
-		null_ls.builtins.code_actions.eslint_d,
-		null_ls.builtins.diagnostics.eslint_d,
-		null_ls.builtins.code_actions.gitsigns,
+		actions.eslint_d,
+		diagnostics.eslint_d,
+		actions.gitsigns,
 		-- formatting.google_java_format,
 	},
 }

@@ -82,6 +82,3 @@ ufo.setup({
 	end,
 	fold_virt_text_handler = handler
 })
-
--- local bufnr = vim.api.nvim_get_current_buf()
--- ufo.setFoldVirtTextHandler(bufnr, handler)

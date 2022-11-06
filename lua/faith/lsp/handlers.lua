@@ -138,8 +138,6 @@ M.rename = function()
 
 	---@diagnostic disable-next-line: param-type-mismatch, unused-local
 	vim.lsp.buf_request(0, "textDocument/rename", position_params, function(err, result, ctx)
-		-- print(vim.inspect(result))
-		-- print(vim.inspect(ctx))
 		vim.lsp.buf.rename()
 
 		local entries = {}
