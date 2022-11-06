@@ -1,5 +1,6 @@
 require("faith.plugins")
 require("impatient")
+require("faith.lsp")
 require("faith.settings")
 require("faith.session")
 require("faith.keymap")
