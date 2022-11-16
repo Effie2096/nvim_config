@@ -29,13 +29,26 @@ ts_conf.setup {
 				-- You can use the capture groups defined in textobjects.scm
 				["af"] = "@function.outer",
 				["if"] = "@function.inner",
-				["ac"] = "@class.outer",
+				["aF"] = "@class.outer",
 				-- You can optionally set descriptions to the mappings (used in the desc parameter of
 				-- nvim_buf_set_keymap) which plugins like which-key display
-				["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
+				["iF"] = { query = "@class.inner", desc = "Select inner part of a class region" },
 				["av"] = "@parameter.outer",
-				["iv"] = "@parameter.outer",
+				["iv"] = "@parameter.inner",
+				["al"] = "@loop.outer",
+				["il"] = "@loop.inner",
+				["ac"] = "@conditional.outer",
+				["ic"] = "@conditional.inner",
+				["ab"] = "@block.outer",
+				["ib"] = "@block.inner",
 			},
+			selection_modes = {
+				['@parameter.outer'] = 'v', -- charwise
+				['@function.outer'] = 'V', -- linewise
+				['@class.outer'] = 'V', -- blockwise
+				['@loop.inner'] = 'V', -- linewise
+			},
+			include_surrounding_whitespace = true,
 		},
 		swap = {
 			enable = true,
@@ -51,18 +64,22 @@ ts_conf.setup {
 				goto_next_start = {
 					["]m"] = "@function.outer",
 					["]]"] = { query = "@class.outer", desc = "Next class start" },
+					["]b"] = "@block.outer",
 				},
 				goto_next_end = {
 					["]M"] = "@function.outer",
 					["]["] = "@class.outer",
+					["]B"] = "@block.outer",
 				},
 				goto_previous_start = {
 					["[m"] = "@function.outer",
 					["[["] = "@class.outer",
+					["[b"] = "@block.outer",
 				},
 				goto_previous_end = {
 					["[M"] = "@function.outer",
 					["[]"] = "@class.outer",
+					["]b"] = "@block.outer",
 				},
     },
 		},

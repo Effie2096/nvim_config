@@ -59,6 +59,8 @@ dap.configurations.cpp = {
   },
 }
 
+vim.keymap.set("n", "<Leader>do", require("dapui").open, opts)
+vim.keymap.set("n", "<Leader>dc", require("dapui").close, opts)
 vim.keymap.set("n", "<Leader>m", ":MaximizerToggle!<CR>", opts)
 vim.keymap.set("n", "<Leader>dw", function() GotoWindow(vim.call("bufwinid", 'DAP Watches')) end, opts)
 vim.keymap.set("n", "<Leader>dS", function() GotoWindow(vim.call("bufwinid", 'DAP Stacks')) end, opts)
@@ -114,22 +116,28 @@ dapui.setup({
     {
       elements = {
       -- Elements can be strings or table with id and size keys.
-        { id = "scopes", size = 0.25 },
-        "breakpoints",
         "stacks",
-        "watches",
+				{ id = "scopes", size = 0.5 },
       },
-      size = 40, -- 40 columns
+      size = 0.4,
       position = "right",
     },
     {
       elements = {
-        "repl",
+				"repl",
         "console",
       },
-      size = 0.25, -- 25% of total lines
+      size = 0.25,
       position = "bottom",
     },
+		{
+			elements = {
+				"watches",
+				"breakpoints",
+			},
+			size = 0.2,
+			position = "left"
+		},
   },
   floating = {
     max_height = nil, -- These can be integers or a float between 0 and 1.

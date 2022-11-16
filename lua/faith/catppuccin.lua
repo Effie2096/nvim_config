@@ -34,6 +34,7 @@ catppuccin.setup({
 		notify = true,
 		treesitter_context = true,
 		treesitter = true,
+		lsp_trouble = true,
 		ts_rainbow = false,
 		telescope = true,
 		native_lsp = {
@@ -63,7 +64,7 @@ catppuccin.setup({
 			enable = false,
 			custom_bg = "NONE",
 		},
-		mason = true
+		-- mason = true
 	}
 })
 
@@ -86,15 +87,10 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 	pattern = "*",
 	callback = function()
 		local colors = require 'catppuccin.palettes'.get_palette()
-		local cnf = require("catppuccin").options
-		local bg_highlight = (cnf.transparent_background and cnf.dim_inactive.enabled and colors.dim)
-				or (cnf.transparent_background and "NONE")
-				or (cnf.dim_inactive.enabled and colors.dim)
-				or colors.base
 		local changeColor = colors.blue
 		vim.api.nvim_exec('highlight GitSignsChange guifg=' .. changeColor, false)
 		vim.api.nvim_exec('highlight GitSignsChangeNr guifg=' .. changeColor, false)
-		vim.api.nvim_exec('highlight GitSignsChangeLn guifg=' .. changeColor .. ' guibg=' .. bg_highlight, false)
+		vim.api.nvim_exec('highlight GitSignsChangeLn guifg=' .. changeColor .. ' guibg=' .. colors.base, false)
 
 		vim.api.nvim_set_hl(0, "LspInlayHint", { fg = '#d8d8d8', bg = '#3a3a3a' })
 
@@ -130,19 +126,20 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		local diff_add_col = vim.api.nvim_get_hl_by_name("GitSignsAdd", true)
 		local diff_change_col = vim.api.nvim_get_hl_by_name("GitSignsChange", true)
 		local diff_delete_col = vim.api.nvim_get_hl_by_name("GitSignsDelete", true)
+		vim.api.nvim_set_hl(0, "WinBar", { fg = colors.text, bold = true })
 		vim.api.nvim_set_hl(0, "WinBarDiffAdd", { fg = diff_add_col.foreground, bg = diffBG, bold = true })
 		vim.api.nvim_set_hl(0, "WinBarDiffChange", { fg = diff_change_col.foreground, bg = diffBG, bold = true })
 		vim.api.nvim_set_hl(0, "WinBarDiffDelete", { fg = diff_delete_col.foreground, bg = diffBG, bold = true })
 		vim.api.nvim_set_hl(0, "WinBarDiffSep", { fg = diffBG, bg = colors.base, bold = true })
 
 		vim.api.nvim_set_hl(0, "WinBarWinNum", { fg = numFG, bg = numBG, bold = true })
-		vim.api.nvim_set_hl(0, "WinBarWinNumEnd", { fg = numBG, bg = colors.base })
-		vim.api.nvim_set_hl(0, "WinBarFile", { fg = fileFG, bg = fileBG, bold = true })
-		vim.api.nvim_set_hl(0, "WinBarFileModified", { fg = modified, bg = fileBG })
-		vim.api.nvim_set_hl(0, "WinBarNavic", { fg = fileFG, bg = navBG })
-		vim.api.nvim_set_hl(0, "WinBarFileSep", { fg = fileBG, bg = navBG })
-		vim.api.nvim_set_hl(0, "WinBarFileEnd", { fg = fileBG, bg = colors.base })
-		vim.api.nvim_set_hl(0, "WinBarNavicEnd", { fg = navBG, bg = colors.base })
+		vim.api.nvim_set_hl(0, "WinBarWinNumEnd", { fg = numBG,  --[[ bg = colors.base ]] })
+		vim.api.nvim_set_hl(0, "WinBarFile", { fg = fileFG, --[[ bg = fileBG, ]] bold = true })
+		vim.api.nvim_set_hl(0, "WinBarFileModified", { fg = modified, --[[ bg = fileBG, ]] bold = true })
+		vim.api.nvim_set_hl(0, "WinBarNavic", { fg = fileFG, --[[ bg = navBG ]] })
+		vim.api.nvim_set_hl(0, "WinBarFileSep", { fg = fileBG, --[[ bg = navBG ]] })
+		vim.api.nvim_set_hl(0, "WinBarFileEnd", { fg = fileBG, --[[ bg = colors.base ]] })
+		vim.api.nvim_set_hl(0, "WinBarNavicEnd", { fg = navBG, --[[ bg = colors.base ]] })
 
 		--[[ local navicHLGroups = { "NavicIconsFile", "NavicIconsModule", "NavicIconsNamespace", "NavicIconsPackage",
 			"NavicIconsClass", "NavicIconsMethod", "NavicIconsProperty", "NavicIconsField", "NavicIconsConstructor",
@@ -154,6 +151,17 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		for _, value in pairs(navicHLGroups) do
 			vim.api.nvim_set_hl(0, value, { bg = navBG, fg = navFG })
 		end ]]
+
+		local telescope_normal = colors.surface0
+		local telescope_prompt = colors.surface1
+
+		vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = telescope_normal })
+		vim.api.nvim_set_hl(0, "TelescopeSelection", { bg = telescope_prompt })
+		vim.api.nvim_set_hl(0, "TelescopePromptNormal", { bg = telescope_prompt })
+		vim.api.nvim_set_hl(0, "TelescopeBorder", { fg = colors.blue, bg = telescope_normal })
+		vim.api.nvim_set_hl(0, "TelescopePromptBorder", { fg = colors.blue, bg = telescope_prompt })
+		vim.api.nvim_set_hl(0, "TelescopePromptTitle", { fg = colors.crust, bg = colors.pink })
+		vim.api.nvim_set_hl(0, "TelescopePreviewTitle", { fg = colors.crust, bg = colors.green })
 
 		local icons = require('nvim-web-devicons').get_icons()
 		for _, value in pairs(icons) do
