@@ -86,6 +86,7 @@ Plug 'xiyaowong/nvim-transparent'
 Plug ('karb94/neoscroll.nvim', { ['commit'] = '54c5c419f6ee2b35557b3a6a7d631724234ba97a' })
 Plug ('rcarriga/nvim-notify', { ['commit'] = '142069baf554c3d41c8de4a6f7472c618a58becc' })
 Plug ('romgrk/nvim-treesitter-context', { ['commit'] = '8d0759eb798fee2e1201b26c3279713ac67c44c2' })
+Plug ('tversteeg/registers.nvim')
 Plug ('kevinhwang91/nvim-ufo', { ['commit'] = 'c1c0dd76f2298bd93ebd417360a2bfbeade37ac2' }) Plug ('kevinhwang91/promise-async', { ['commit'] = '70b09063cdf029079b25c7925e4494e7416ee995' })
 -- Plug ('folke/noice.nvim' Plug 'MunifTanjim/nui.nvim', { ['commit'] = '' })
 
