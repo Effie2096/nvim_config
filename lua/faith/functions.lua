@@ -17,4 +17,9 @@ function string.insert(str1, str2, pos)
 	return str1:sub(1, pos) .. str2 .. str1:sub(pos + 1)
 end
 
+function M.exists(lookup)
+	local a, c = pcall(load, "return " .. lookup .. " ~= nil")
+	return a and c
+end
+
 return M

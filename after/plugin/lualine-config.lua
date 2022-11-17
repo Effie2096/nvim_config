@@ -5,11 +5,6 @@ if not lualine_status_ok then
 	return
 end
 
-local navic_status_ok, navic = pcall(require, "nvim-navic")
-if not navic_status_ok then
-	return
-end
-
 local diagnostic_symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' }
 
 local indent = {
@@ -75,58 +70,6 @@ local trans_flag = {
 	{ '" "', color = { bg = '#5bcffa', --[[fg = '#1BB3FF',]] }, padding = 0, },
 }
 
-function SetWinbarNavic()
-	local location = navic.get_location()
-	if (navic.is_available()) and (location ~= "") then
-		local data = vim.fn.substitute(location, "(.*)", "", "")
-		return " %#WinBarFileSep# %#WinBarNavic#" .. data .. " %#WinBarNavicEnd#"
-	else
-		return ''
-	end
-end
-
-function GetFileTypeIcon()
-	---@diagnostic disable-next-line: missing-parameter
-	local file = vim.fn.expand('%')
-	if (package.loaded['nvim-web-devicons']) and (file ~= '') then
-		---@diagnostic disable-next-line: missing-parameter
-		local icon, color = require 'nvim-web-devicons'.get_icon(file, vim.fn.expand('%:e'), { default = true })
-		return { icon, color }
-	else
-		return { '', nil }
-	end
-end
-
-function WinBarFile()
-	---@diagnostic disable-next-line: missing-parameter
-	local file = vim.fn.expand('%:t:r')
-	local string = ""
-	if file ~= "" then
-		local f = require('faith.functions')
-		local icon = GetFileTypeIcon()
-
-		if string.find(file, ';#toggleterm#') then
-			file = "ToggleTerm"
-			icon[2] = "DevIconTerminal"
-			icon[1] = ""
-		end
-
-		string = string .. "%#WinBarFileEnd#%#WinBarFile#"
-		-- string = string .. WinBarDir()
-		string = string .. "%#Winbar" .. icon[2] .. "#" .. icon[1] .. "%#WinBarFile# " .. file
-		if f.get_buf_option "mod" then
-			string = string .. '%#WinBarFileModified# '
-			string = string .. ''
-		end
-		if SetWinbarNavic() ~= "" then
-			string = string .. SetWinbarNavic()
-		else
-			string = string .. " %#WinBarFileEnd#%*"
-		end
-	end
-	return string
-end
-
 function WinBarGitStatus()
 	local git_dict = vim.api.nvim_eval("get(b:,'gitsigns_status_dict', '')")
 	-- local seperators = { '', '' }
@@ -167,14 +110,6 @@ function WinBarGitStatus()
 	return diff_status
 end
 
-function WinBarNumber()
-	local seperators = { '', '' }
-	local sepHL = '%#WinBarWinNumEnd#'
-	local hl = '%#WinBarWinNum#'
-	local winNumber = vim.fn.tabpagewinnr(vim.fn.tabpagenr())
-	return sepHL .. seperators[1] .. hl .. winNumber .. sepHL .. seperators[2] .. '%*'
-end
-
 local function diff_source()
 	local gitsigns = vim.b.gitsigns_status_dict
 	if gitsigns then
@@ -195,46 +130,6 @@ local function contains(t, value)
 	end
 	return false
 end
-
-local winbar = {
-	lualine_a = {
-		{
-			"%{%v:lua.WinBarNumber()%}",
-			padding = { left = 0, right = 1 }, separator = { left = '', right = '' },
-			color = 'lualine_b_diagnostics'
-		},
-	},
-	lualine_b = {
-		{
-			'diff',
-			source = diff_source,
-			separator = { left = '', right = '' },
-			-- padding = { left = 0, right = 1 },
-		},
-		{
-			'diagnostics',
-			sources = { 'nvim_diagnostic' },
-			symbols = diagnostic_symbols,
-			-- padding = { left = 0, right = 0 },
-			separator = { left = '', right = '' },
-			-- color = { bg = "NONE" },
-			update_in_insert = true,
-		},
-	},
-	lualine_c = {
-		{
-			"%{%v:lua.WinBarFile()%}",
-			color = 'lualine_b_diagnostics'
-		},
-		{
-			"%*",
-			padding = { left = 0, right = 0 },
-			separator = { left = '', right = '' },
-		},
-	},
-	lualine_z = {
-	},
-}
 
 local language_server = {
 	function()
@@ -422,8 +317,8 @@ lualine.setup {
 		lualine_y = {},
 		lualine_z = {}
 	},
-	winbar = winbar,
-	inactive_winbar = winbar,
+	--[[ winbar = winbar,
+	inactive_winbar = winbar, ]]
 	tabline = {},
 	extensions = {
 		'fugitive',

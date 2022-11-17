@@ -16,3 +16,4 @@ require("faith.snippets.comment_nvim")
 
 require("faith.listchars")
 require("faith.modules.tabline")
+require("faith.modules.winbar")
