@@ -157,7 +157,6 @@ M.get_filename = function (self, win)
 	local extension = api.nvim_buf_get_option(bufnr, 'filetype')
 	local f = require('faith.functions')
 
-	if not f.isempty(filename) then
 		local file_icon, file_icon_color = require('nvim-web-devicons').get_icon_color(filename, extension, { default = true })
 		local hl_group = "FileIconColor" .. extension
 
@@ -191,12 +190,14 @@ M.get_filename = function (self, win)
 			hl_group = "DevIconGitLogo"
 			file_icon = ""
 		end
-		--[[ if f.get_buf_option("mod") then
-			-- filename = self.highlight_str(filename, colors.modified)
-		end ]]
+
+		if filename == "COMMIT_EDITMSG" then
+			filename = "Commit"
+			hl_group = "DevIconGitLogo"
+			file_icon = require('nvim-web-devicons').get_icon_by_filetype('git', {})
+		end
 
 		return self.highlight_str(file_icon, hl_group) .. ' ' .. filename
-	end
 end
 
 M.get_file_modified = function (self, win)
