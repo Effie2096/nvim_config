@@ -82,7 +82,18 @@ M.get_tab_buffers = function (tabnr)
 		elseif buf == 'quickfix' then
 			tab_buffers = tab_buffers .. '[Q]' .. fn.getqflist({title = 1}).title
 		elseif fn.getbufvar(buffer, "&modifiable") then
-			tab_buffers = tab_buffers .. fn.fnamemodify(fn.bufname(buffer), ':t') .. ', '
+			local name = api.nvim_buf_get_name(buffer)
+			if not require('faith.functions').isempty(name) then
+				if string.match(name, "fugitive://(.*)%.git%/%/$") then
+					tab_buffers = tab_buffers .. '[Git]Status, '
+				elseif string.match(name, "fugitive://(.*)%.git%/%/[^\n]") then
+					tab_buffers = tab_buffers .. '[Git]Diff, '
+				else
+					tab_buffers = tab_buffers .. fn.fnamemodify(fn.bufname(buffer), ':t') .. ', '
+				end
+			else
+				tab_buffers = tab_buffers .. '[New], '
+			end
 		end
 		::continue::
 	end
