@@ -3,14 +3,16 @@ if not status_ok then
 	return
 end
 
+local icons = require('faith.icons').characters
+
 registers.setup({
 	symbols = {
 		-- Show a special character for line breaks
-		newline = "﬋",
+		newline = icons.eol,
 		-- Show space characters without changes
-		space = "•",
+		space = icons.space,
 		-- Show a special character for tabs
-		tab = "▸▸",
+		tab = icons.space,
 		-- The character to show when a register will be applied in a char-wise fashion
 		register_type_charwise = "ᶜ",
 		-- The character to show when a register will be applied in a line-wise fashion

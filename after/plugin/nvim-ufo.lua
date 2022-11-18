@@ -3,14 +3,13 @@ if not status_ok then
 	return
 end
 
+local icons = require('faith.icons')
+
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
 vim.opt.foldopen:remove('hor') -- don't open folds when moving on the line
 -- vim.opt.foldcolumn = '1'
--- vim.opt.fillchars = [[foldopen:,foldsep:│,foldclose:]]
-vim.opt.fillchars = [[foldopen:,foldsep: ,foldclose:]]
--- vim.opt.fillchars = [[foldopen:,foldsep:│,foldclose:]]
--- vim.opt.fillchars = [[foldopen:,foldsep: ,foldclose:]]
+vim.opt.fillchars = "foldopen:".. icons.ui.ArrowFillOpen .. ",foldsep: ,foldclose:" .. icons.ui.ArrowFillClosed
 vim.opt.foldnestmax = 1
 vim.opt.foldenable = true
 
@@ -68,7 +67,7 @@ ufo.setup({
 	open_fold_hl_timeout = 0,
 	preview = {
 		win_config = {
-			border = { '', '─', '', '', '', '─', '', '' },
+			border = { '', icons.borders.square.top, '', '', '', icons.borders.square.bottom, '', '' },
 			winhighlight = 'Normal:Folded',
 			winblend = 0
 		},

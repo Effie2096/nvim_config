@@ -5,20 +5,7 @@ local f = require('faith.functions')
 
 M = {}
 
-M.seperators = {
-	slant = { left = '', right = '' },
-	rounded = { left = '', right = '' },
-	arrow = { left = '', right = '' },
-	arrow_bracket = { left = '', right = ''},
-	rounded_bracket = { left = '', right = '' },
-	blank = { left = '', right = '' },
-}
-
-M.icons = {
-	modified = '',
-	close = '',
-	folder = ''
-}
+M.icons = require('faith.icons')
 
 local default_padding = 1
 local active_sep = 'arrow'
@@ -103,7 +90,7 @@ M.get_tab_buffers = function (tabnr)
 end
 
 M.get_tab_modified = function (self, tabnr)
-	local icon = self.icons.modified
+	local icon = self.icons.ui.Dot
 
 	local buffers = fn.tabpagebuflist(tabnr)
 	local modified_count = 0
@@ -135,7 +122,7 @@ M.get_dir_root = function ()
 end
 
 M.get_file_path = function (self)
-	local path_seperator = self.seperators.arrow_bracket.left
+	local path_seperator = self.icons.separators.arrow_bracket.left
 	local path_from_root = fn.expand('%:h', false)
 	local path_breadcrumbs = ''
 
@@ -143,7 +130,11 @@ M.get_file_path = function (self)
 
 	if filetype == "java" then
 		path_from_root = fn.substitute(path_from_root, '.*\\ze\\<com\\>', '', '')
-		path_breadcrumbs = path_breadcrumbs .. path_seperator .. " … "
+		path_breadcrumbs = path_breadcrumbs .. path_seperator
+		path_breadcrumbs = path_breadcrumbs .. self.apply_padding(
+			self.icons.ui.Ellipses,
+			1
+		)
 	elseif filetype == "toggleterm" then
 		path_from_root = ""
 	end
@@ -162,7 +153,7 @@ end
 
 M.create_path = function (self)
 	local folder_icon = self.apply_padding(
-			self.icons.folder
+		self.icons.ui.Project
 	)
 	local root_dir = self.apply_padding(
 		self.get_dir_root(),
@@ -174,8 +165,8 @@ M.create_path = function (self)
 		folder_icon .. root_dir .. path_breadcrumbs,
 		"@text.note"
 	)
- local seperator = self.highlight_str(
-		self.seperators[active_sep]['left'],
+	local seperator = self.highlight_str(
+		self.icons.separators[active_sep]['left'],
 		"Function"
 	)
 	return a .. seperator
@@ -269,7 +260,7 @@ M.get_tabline = function (self)
 			tab_colors = colors.tab.inactive
 		end
 
-		tabs = tabs .. self.create_tab(self, i, tab_colors, self.seperators.slant)
+		tabs = tabs .. self.create_tab(self, i, tab_colors, self.icons.separators.slant)
 	end
 
 	tabline = tabline .. self.create_path(self) .. '%*'

@@ -5,16 +5,18 @@ if not status_cmp_ok then
 	return
 end
 
+local diagnostic_icons = require('faith.icons').diagnostic
+
 M.capabilities = vim.lsp.protocol.make_client_capabilities()
 M.capabilities.textDocument.completion.completionItem.snippetSupport = false
 M.capabilities = cmp_nvim_lsp.update_capabilities(M.capabilities)
 
 M.setup = function()
 	local signs = {
-		{ name = "DiagnosticSignError", text = "" },
-		{ name = "DiagnosticSignWarn", text = "" },
-		{ name = "DiagnosticSignHint", text = "" },
-		{ name = "DiagnosticSignInfo", text = "" },
+		{ name = "DiagnosticSignError", text = diagnostic_icons.error },
+		{ name = "DiagnosticSignWarn", text = diagnostic_icons.warn },
+		{ name = "DiagnosticSignHint", text = diagnostic_icons.hint },
+		{ name = "DiagnosticSignInfo", text = diagnostic_icons.info },
 	}
 
 	for _, sign in ipairs(signs) do

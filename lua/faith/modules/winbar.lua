@@ -3,31 +3,7 @@ local api = vim.api
 
 M = {}
 
-M.seperators = {
-	slant = { left = '', right = '' },
-	rounded = { left = '', right = '' },
-	arrow = { left = '', right = '' },
-	arrow_bracket = { left = '', right = ''},
-	rounded_bracket = { left = '', right = '' },
-	blank = { left = '', right = '' },
-}
-
-M.icons = {
-	modified = '',
-	ui = {
-		Bug = "",
-		Stacks = " ",
-		Scopes = "",
-		Watches = "",
-		Chevron_Right = ''
-	},
-	diagnostic = {
-		error = ' ',
-		warn = ' ',
-		info = ' ',
-		hint = ' ',
-	},
-}
+M.icons = require('faith.icons')
 
 M.colors = {
 	winbar = {
@@ -136,7 +112,7 @@ M.apply_padding = function (content, padding)
 end
 
 M.win_number = function (self, win)
-	local seperators = self.seperators.rounded
+	local seperators = self.icons.separators.rounded
 	local color = self.colors.winbar.active.number
 	local sepHL, hl = color.seperator, color.label
 
@@ -149,46 +125,44 @@ end
 
 M.get_filename = function (self, win)
 	-- local colors = self.colors.winbar.active
-	local icons = self.icons.ui
+	local icons = self.icons
 	--[[ local filename = fn.expand("%:t")
 	local extension = fn.expand("%:e") ]]
 	local bufnr = api.nvim_win_get_buf(win)
 	local filename = fn.fnamemodify(api.nvim_buf_get_name(bufnr), ":t")
 	local extension = api.nvim_buf_get_option(bufnr, 'filetype')
-	local f = require('faith.functions')
 
 		local file_icon, file_icon_color = require('nvim-web-devicons').get_icon_color(filename, extension, { default = true })
 		local hl_group = "FileIconColor" .. extension
 
 		api.nvim_set_hl(0, hl_group, { fg = file_icon_color })
-		-- filename = self.highlight_str(filename, colors.file.label)
 
 		if extension == "dapui_breakpoints" then
-			file_icon = icons.Bug
+			file_icon = icons.ui.Bug
 		end
 
 		if extension == "dapui_stacks" then
-			file_icon = icons.Stacks
+			file_icon = icons.ui.Stacks
 		end
 
 		if extension == "dapui_scopes" then
-			file_icon = icons.Scopes
+			file_icon = icons.ui.Scopes
 		end
 
 		if extension == "dapui_watches" then
-			file_icon = icons.Watches
+			file_icon = icons.ui.Watches
 		end
 
 		if extension == "toggleterm" then
 			filename = "ToggleTerm"
 			hl_group = "DevIconTerminal"
-			file_icon = ""
+			file_icon = require('nvim-web-devicons').get_icon_by_filetype("terminal", {})
 		end
 
 		if extension == "fugitive" then
 			filename = "Fugitive"
 			hl_group = "DevIconGitLogo"
-			file_icon = ""
+			file_icon = require('nvim-web-devicons').get_icon_by_filetype('git', {})
 		end
 
 		if filename == "COMMIT_EDITMSG" then
@@ -201,7 +175,7 @@ M.get_filename = function (self, win)
 end
 
 M.get_file_modified = function (self, win)
-	local icon = self.icons.modified
+	local icon = self.icons.ui.Dot
 
 	local bufnr = api.nvim_win_get_buf(win)
 	if api.nvim_buf_get_option(bufnr, 'mod') then
@@ -249,7 +223,7 @@ M.get_navic = function (self, win)
 			end
 			return ""
 		end
-		return "hi"
+		return ""
 	end
 end
 
@@ -344,7 +318,7 @@ M.get_winbar = function (self, win)
 	local navic = self.get_navic(self, win)
 	if not f.isempty(navic) then
 		navic_sep = self.apply_padding(
-			self.icons.ui.Chevron_Right,
+			self.icons.ui.ChevronRight,
 			1
 		)
 	end

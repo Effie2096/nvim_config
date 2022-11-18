@@ -5,7 +5,7 @@ if not lualine_status_ok then
 	return
 end
 
-local diagnostic_symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' }
+local icons = require('faith.icons')
 
 local indent = {
 	function()
@@ -215,7 +215,12 @@ local language_server = {
 		local language_servers = ""
 		local client_names_str_len = #client_names_str
 		if client_names_str_len ~= 0 then
-			language_servers = " " .. client_names_str .. " "
+			language_servers =
+				" "
+				.. icons.seperators.rounded_bracket.left
+				.. client_names_str
+				.. icons.seperators.rounded_bracket.right
+				.. " "
 		end
 
 		if client_names_str_len == 0 then
@@ -256,7 +261,7 @@ local spaces = {
 			return ""
 		end
 
-		return " " .. shiftwidth .. space
+		return icons.ui.Tab .. shiftwidth .. space
 	end,
 	padding = 1,
 	-- separator = "%#SLSeparator#" .. " │" .. "%*",
@@ -277,7 +282,7 @@ local git = {
 local workspace_diagnostics = {
 	'diagnostics',
 	sources = { 'nvim_workspace_diagnostic' },
-	symbols = diagnostic_symbols,
+	symbols = icons.diagnostic,
 	update_in_insert = true,
 }
 
@@ -291,7 +296,7 @@ lualine.setup {
 		theme = 'catppuccin',
 		-- component_separators = { left = '', right = ''},
 		-- section_separators = { left = '', right = ''},
-		component_separators = '|',
+		component_separators = { left = icons.separators.straight.left, right = icons.separators.straight.right },
 		section_separators = { left = '', right = '' },
 		always_divide_middle = true,
 		globalstatus = true,

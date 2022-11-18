@@ -1,19 +1,76 @@
 M = {}
 
+local icons = require('faith.icons')
+
 M.borders = {
-	Square_borders = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
-	Round_borders = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+	Square_borders = {
+		icons.borders.square.top, -- top
+		icons.borders.square.right, -- right
+		icons.borders.square.bottom, -- bottom
+		icons.borders.square.left, -- left
+		icons.borders.square.top_left, -- top left
+		icons.borders.square.top_right, -- top right
+		icons.borders.square.bottom_right, -- bottom right
+		icons.borders.square.bottom_left -- bottom left
+	},
+	Round_borders = {
+		icons.borders.round.top, -- top
+		icons.borders.round.right, -- right
+		icons.borders.round.bottom, -- bottom
+		icons.borders.round.left, -- left
+		icons.borders.round.top_left, -- top left
+		icons.borders.round.top_right, -- top right
+		icons.borders.round.bottom_right, -- bottom right
+		icons.borders.round.bottom_left -- bottom left
+
+	},
 	Blank_borders = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-	Hor_seperator_bot = { ' ', ' ', '─', ' ', ' ', ' ', '─', '─' },
-	Hor_seperator_top = { '─', ' ', ' ', ' ', '─', '─', ' ', ' ' },
+	Hor_seperator_bot = {
+		' ',
+		' ',
+		icons.borders.square.bottom,
+		' ',
+		' ',
+		' ',
+		icons.borders.square.bottom,
+		icons.borders.square.bottom
+	},
+	Hor_seperator_top = {
+		icons.borders.square.top,
+		' ',
+		' ',
+		' ',
+		icons.borders.square.top,
+		icons.borders.square.top,
+		' ',
+		' '
+	},
 }
 
 M.border_presets = {
 	Square_borders_alt = {
-			M.borders.Square_borders,
-			prompt = { "─", "│", " ", "│", '┌', '┐', "│", "│" },
-			results = { "─", "│", "─", "│", "├", "┤", "┘", "└" },
-			preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
+		M.borders.Square_borders,
+		prompt = {
+			icons.borders.square.top,
+			icons.borders.square.right,
+			" ",
+			icons.borders.square.left,
+			icons.borders.square.top_left,
+			icons.borders.square.top_right,
+			icons.borders.square.right,
+			icons.borders.square.left
+		},
+		results = {
+			icons.borders.square.top,
+			icons.borders.square.right,
+			icons.borders.square.bottom,
+			icons.borders.square.left,
+			icons.borders.square.inter_left,
+			icons.borders.square.inter_right,
+			icons.borders.square.bottom_right,
+			icons.borders.square.bottom_left
+		},
+		preview = M.borders.Square_borders,
 	}
 }
 
@@ -21,9 +78,9 @@ M.layout_configs = {
 	defaults = {
 		results_title = false,
 		preview_title = false,
-		prompt_prefix = '  ',
-		selection_caret = ' ',
-		multi_icon = ' ',
+		prompt_prefix = icons.ui.Search .. ' ',
+		selection_caret = icons.ui.Caret_Arrow,
+		multi_icon = icons.ui.Multi_Select,
 		color_devicons = true,
 		winblend = 0,
 		layout_config = {

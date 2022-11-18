@@ -12,13 +12,15 @@ local servers = {
 	"jsonls",
 }
 
+local icons = require('faith.icons')
+
 local settings = {
 	ui = {
 		border = "single",
 		icons = {
-			package_installed = "◍",
-			package_pending = "◍",
-			package_uninstalled = "◍",
+			package_installed = icons.ui.Check,
+			package_pending = icons.ui.Mason,
+			package_uninstalled = icons.ui.Circle_Empty,
 		},
 	},
 	log_level = vim.log.levels.DEBUG,
