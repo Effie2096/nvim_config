@@ -2,26 +2,9 @@ local fn = vim.fn
 local api = vim.api
 
 local f = require('faith.functions')
-
 M = {}
 
 M.icons = require('faith.icons')
-
-local default_padding = 1
-local active_sep = 'arrow'
-
-M.trunc_width = setmetatable({
-	tabs = 140
-}, {
-	__index = function ()
-		return 80 -- handle edge cases
-	end
-})
-
-M.is_truncated = function (_, width)
-	local current_width = api.nvim_win_get_width(0)
-	return current_width < width
-end
 
 M.colors = {
 	tab = {
@@ -42,12 +25,28 @@ M.colors = {
 	}
 }
 
+local default_padding = 1
+local active_sep = 'arrow'
+
+M.trunc_width = setmetatable({
+	tabs = 140
+}, {
+	__index = function ()
+		return 80 -- handle edge cases
+	end
+})
+
+M.is_truncated = function (_, width)
+	local current_width = api.nvim_win_get_width(0)
+	return current_width < width
+end
+
 M.set_tab_number = function (tabnr)
 	return '%' .. tabnr .. 'T'
 end
 
 M.get_tab_name = function (tabnr)
-	if fn.exists(':TabooOpen') then
+	if fn.exists('g:loaded_taboo') ~= 0 then
 		return fn.TabooTabName(tabnr)
 	end
 	return ''
@@ -80,7 +79,7 @@ M.get_tab_buffers = function (self, tabnr)
 			tab_buffers = tab_buffers .. '[Q]' .. fn.getqflist({title = 1}).title
 		elseif fn.getbufvar(buffer, "&modifiable") then
 			local name = api.nvim_buf_get_name(buffer)
-			if not require('faith.functions').isempty(name) then
+			if not f.isempty(name) then
 				if string.match(name, "fugitive://(.*)%.git%/%/$") then
 					tab_buffers = tab_buffers .. '[Git]Status, '
 				elseif string.match(name, "fugitive://(.*)%.git%/%/[^\n]") then
@@ -107,9 +106,15 @@ M.get_tab_modified = function (self, tabnr)
 	local modified_count = 0
 
 	for _, buffer in pairs(buffers) do
+		local buf = api.nvim_buf_get_option(buffer, 'buftype')
+
 		if api.nvim_buf_get_option(buffer, "mod") then
+			if buf == 'prompt' then
+				goto continue
+			end
 			modified_count = modified_count + 1
 		end
+		::continue::
 	end
 
 	if modified_count > 0 then
@@ -246,8 +251,7 @@ M.create_tab = function (self, tabnr, colors, seperators)
 	)
 
 	local tab = string.format(
-		'%s%s%s%s%s%s%s',
-		' ',
+		'%s%s%s%s%s%s',
 		self.set_tab_number(tabnr),
 		l_seperator,
 		tab_number,
@@ -262,7 +266,7 @@ end
 M.get_tabline = function (self)
 	local colors = self.colors
 	local tabline = ''
-	local tabs = ''
+	local tabs = {}
 
 	for i = 1, fn.tabpagenr('$'), 1 do
 		local tab_colors = {}
@@ -273,12 +277,12 @@ M.get_tabline = function (self)
 			tab_colors = colors.tab.inactive
 		end
 
-		tabs = tabs .. self.create_tab(self, i, tab_colors, self.icons.separators.slant)
+		table.insert(tabs, self.create_tab(self, i, tab_colors, self.icons.separators.slant))
 	end
 
 	tabline = tabline .. self.create_path(self) .. '%*'
 	if fn.tabpagenr('$') > 1 then
-		tabline = tabline .. '%=' .. tabs
+		tabline = tabline .. '%=' .. table.concat(tabs, ' ', 1, #tabs)
 	end
 
 	return tabline
