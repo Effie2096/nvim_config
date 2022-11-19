@@ -247,7 +247,7 @@ end
 
 function Reset_Spaces(async)
 	vim.lsp.buf.format({ async = async })
-	vim.cmd('%retab!')
+	-- vim.cmd('%retab!')
 end
 
 function M.enable_format_on_save()

@@ -17,7 +17,7 @@ null_ls.setup {
 			extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote" },
 		}, ]]
 		formatting.clang_format.with {
-			extra_args = { "--style={IndentWidth: 4, ContinuationIndentWidth: 8, BreakBeforeBraces: Allman, AlignAfterOpenBracket: AlwaysBreak, BreakAfterJavaFieldAnnotations: true, ColumnLimit: 80}" },
+			extra_args = { "--style={UseTab: Always, IndentWidth: 4, TabWidth: 4, ContinuationIndentWidth: 8, BreakBeforeBraces: Allman, AlignAfterOpenBracket: AlwaysBreak, BreakAfterJavaFieldAnnotations: true, ColumnLimit: 80}" },
 		},
 		--, IndentAccessModifiers: true
 		formatting.prettierd.with {
