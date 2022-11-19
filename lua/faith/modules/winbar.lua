@@ -134,7 +134,6 @@ function M.stl_escape(str)
 end
 
 M.get_filename = function (self, win)
-	-- local colors = self.colors.winbar.active
 	local icons = self.icons
 	local bufnr = api.nvim_win_get_buf(win)
 	local filename = fn.fnamemodify(api.nvim_buf_get_name(bufnr), ":t")
@@ -146,18 +145,22 @@ M.get_filename = function (self, win)
 		api.nvim_set_hl(0, hl_group, { fg = file_icon_color })
 
 		if extension == "dapui_breakpoints" then
+		hl_group = "DapBreakpoint"
 			file_icon = icons.ui.Bug
 		end
 
 		if extension == "dapui_stacks" then
+		hl_group = "DAPUISource"
 			file_icon = icons.ui.Stacks
 		end
 
 		if extension == "dapui_scopes" then
+		hl_group = "DAPUIScope"
 			file_icon = icons.ui.Scopes
 		end
 
 		if extension == "dapui_watches" then
+		hl_group = "DAPUIWatchesValue"
 			file_icon = icons.ui.Watches
 		end
 
