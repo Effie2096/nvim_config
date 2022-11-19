@@ -123,11 +123,19 @@ M.win_number = function (self, win)
 		.. self.highlight_str(seperators.left, sepHL)
 end
 
+---Escape % in str so it doesn't get picked as stl item.
+---@param str string
+---@return string
+function M.stl_escape(str)
+  if type(str) ~= 'string' then
+    return str
+  end
+  return str:gsub('%%', '%%%%')
+end
+
 M.get_filename = function (self, win)
 	-- local colors = self.colors.winbar.active
 	local icons = self.icons
-	--[[ local filename = fn.expand("%:t")
-	local extension = fn.expand("%:e") ]]
 	local bufnr = api.nvim_win_get_buf(win)
 	local filename = fn.fnamemodify(api.nvim_buf_get_name(bufnr), ":t")
 	local extension = api.nvim_buf_get_option(bufnr, 'filetype')
@@ -170,6 +178,8 @@ M.get_filename = function (self, win)
 			hl_group = "DevIconGitLogo"
 			file_icon = require('nvim-web-devicons').get_icon_by_filetype('git', {})
 		end
+
+	filename = self.stl_escape(filename)
 
 		return self.highlight_str(file_icon, hl_group) .. ' ' .. filename
 end

@@ -53,7 +53,17 @@ M.get_tab_name = function (tabnr)
 	return ''
 end
 
-M.get_tab_buffers = function (tabnr)
+---Escape % in str so it doesn't get picked as stl item.
+---@param str string
+---@return string
+function M.stl_escape(str)
+  if type(str) ~= 'string' then
+    return str
+  end
+  return str:gsub('%%', '%%%%')
+end
+
+M.get_tab_buffers = function (self, tabnr)
 	local tab_buffers = ''
 
 	local buffers = fn.tabpagebuflist(tabnr)
@@ -86,6 +96,7 @@ M.get_tab_buffers = function (tabnr)
 	end
 
 	tab_buffers = fn.substitute(tab_buffers, ', $', '', '')
+	tab_buffers = self.stl_escape(tab_buffers)
 	return tab_buffers == '' and '[New]' or tab_buffers
 end
 
@@ -111,9 +122,9 @@ end
 M.get_tab_label = function (self, tabnr)
 	local tab_name = self.get_tab_name(tabnr)
 	if tab_name ~= '' then
-		return tab_name
+		return self.stl_escape(tab_name)
 	else
-		return self.get_tab_buffers(tabnr)
+		return self.get_tab_buffers(self, tabnr)
 	end
 end
 
@@ -124,9 +135,11 @@ end
 M.get_file_path = function (self)
 	local path_seperator = self.icons.separators.arrow_bracket.left
 	local path_from_root = fn.expand('%:h', false)
+	path_from_root = self.stl_escape(path_from_root)
 	local path_breadcrumbs = ''
 
 	local filetype = f.get_buf_option("filetype")
+	filetype = self.stl_escape(filetype)
 
 	if filetype == "java" then
 		path_from_root = fn.substitute(path_from_root, '.*\\ze\\<com\\>', '', '')
