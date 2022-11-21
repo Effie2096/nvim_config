@@ -133,23 +133,23 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		vim.api.nvim_set_hl(0, "WinBarDiffSep", { fg = diffBG, bg = colors.base, bold = true })
 
 		vim.api.nvim_set_hl(0, "WinBarWinNum", { fg = numFG, bg = numBG, bold = true })
-		vim.api.nvim_set_hl(0, "WinBarWinNumEnd", { fg = numBG,  --[[ bg = colors.base ]] })
-		vim.api.nvim_set_hl(0, "WinBarFile", { fg = fileFG, --[[ bg = fileBG, ]] bold = true })
-		vim.api.nvim_set_hl(0, "WinBarFileModified", { fg = modified, --[[ bg = fileBG, ]] bold = true })
-		vim.api.nvim_set_hl(0, "WinBarNavic", { fg = fileFG, --[[ bg = navBG ]] })
-		vim.api.nvim_set_hl(0, "WinBarFileSep", { fg = fileBG, --[[ bg = navBG ]] })
-		vim.api.nvim_set_hl(0, "WinBarFileEnd", { fg = fileBG, --[[ bg = colors.base ]] })
-		vim.api.nvim_set_hl(0, "WinBarNavicEnd", { fg = navBG, --[[ bg = colors.base ]] })
+		vim.api.nvim_set_hl(0, "WinBarWinNumEnd", { fg = numBG,  bg = colors.base  })
+		vim.api.nvim_set_hl(0, "WinBarFile", { fg = fileFG, bg = fileBG,  bold = true })
+		vim.api.nvim_set_hl(0, "WinBarFileModified", { fg = modified, bg = fileBG,  bold = true })
+		vim.api.nvim_set_hl(0, "WinBarNavic", { fg = fileFG, bg = navBG  })
+		vim.api.nvim_set_hl(0, "WinBarFileSep", { fg = fileBG, bg = navBG  })
+		vim.api.nvim_set_hl(0, "WinBarFileEnd", { fg = fileBG, bg = colors.base  })
+		vim.api.nvim_set_hl(0, "WinBarNavicEnd", { fg = navBG, bg = colors.base  })
 
-		--[[ local navicHLGroups = { "NavicIconsFile", "NavicIconsModule", "NavicIconsNamespace", "NavicIconsPackage",
+		local navicHLGroups = { "NavicIconsFile", "NavicIconsModule", "NavicIconsNamespace", "NavicIconsPackage",
 			"NavicIconsClass", "NavicIconsMethod", "NavicIconsProperty", "NavicIconsField", "NavicIconsConstructor",
 			"NavicIconsEnum", "NavicIconsInterface", "NavicIconsFunction", "NavicIconsVariable", "NavicIconsConstant",
 			"NavicIconsString", "NavicIconsNumber", "NavicIconsBoolean", "NavicIconsArray", "NavicIconsObject", "NavicIconsKey",
 			"NavicIconsNull", "NavicIconsEnumMember", "NavicIconsStruct", "NavicIconsEvent", "NavicIconsOperator",
 			"NavicIconsTypeParameter", "NavicText", "NavicSeparator", }
-]]
 
-		-- vim.api.nvim_set_hl(0, "NavicIconsFile", { fg = , bg = })
+
+		vim.api.nvim_set_hl(0, "NavicIconsFile", { fg = colors.blue })
 		vim.api.nvim_set_hl(0, "NavicIconsMethod", { link = '@function' })
 		vim.api.nvim_set_hl(0, "NavicIconsFunction", { link = '@function' })
 		vim.api.nvim_set_hl(0, "NavicIconsConstructor", { link = '@function' })
@@ -176,6 +176,12 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		vim.api.nvim_set_hl(0, "NavicIconsEvent", { fg = colors.yellow })
 		vim.api.nvim_set_hl(0, "NavicIconsOperator", { link = '@operator' })
 		vim.api.nvim_set_hl(0, "NavicIconsTypeParameter", { link = '@operator' })
+		vim.api.nvim_set_hl(0, "NavicSeparator", { fg = colors.subtext0 })
+
+		for _, value in pairs(navicHLGroups) do
+			local hl = vim.api.nvim_get_hl_by_name(value, true)
+			vim.api.nvim_set_hl(0, 'Winbar' .. value, { fg = hl.foreground, bg = navBG })
+		end
 
 		local telescope_normal = colors.surface0
 		local telescope_prompt = colors.surface1
