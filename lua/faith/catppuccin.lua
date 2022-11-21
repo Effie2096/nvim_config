@@ -147,10 +147,35 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 			"NavicIconsString", "NavicIconsNumber", "NavicIconsBoolean", "NavicIconsArray", "NavicIconsObject", "NavicIconsKey",
 			"NavicIconsNull", "NavicIconsEnumMember", "NavicIconsStruct", "NavicIconsEvent", "NavicIconsOperator",
 			"NavicIconsTypeParameter", "NavicText", "NavicSeparator", }
+]]
 
-		for _, value in pairs(navicHLGroups) do
-			vim.api.nvim_set_hl(0, value, { bg = navBG, fg = navFG })
-		end ]]
+		-- vim.api.nvim_set_hl(0, "NavicIconsFile", { fg = , bg = })
+		vim.api.nvim_set_hl(0, "NavicIconsMethod", { link = '@function' })
+		vim.api.nvim_set_hl(0, "NavicIconsFunction", { link = '@function' })
+		vim.api.nvim_set_hl(0, "NavicIconsConstructor", { link = '@function' })
+		vim.api.nvim_set_hl(0, "NavicIconsField", { link = '@field' })
+		vim.api.nvim_set_hl(0, "NavicIconsVariable", { link = '@variable' })
+		vim.api.nvim_set_hl(0, "NavicIconsClass", { link = '@storageclass' })
+		vim.api.nvim_set_hl(0, "NavicIconsInterface", { link = '@storageclass' })
+		vim.api.nvim_set_hl(0, "NavicIconsModule", { link = '@function' })
+		vim.api.nvim_set_hl(0, "NavicIconsProperty", { link = '@property' })
+		vim.api.nvim_set_hl(0, "NavicIconsEnum", { link = '@constant' })
+		vim.api.nvim_set_hl(0, "NavicIconsNamespace", { link = '@namespace' })
+		vim.api.nvim_set_hl(0, "NavicIconsPackage", { link = '@text' })
+		vim.api.nvim_set_hl(0, "NavicIconsConstant", { link = '@constant' })
+		vim.api.nvim_set_hl(0, "NavicText", { link = '@string'})
+		vim.api.nvim_set_hl(0, "NavicIconsString", { link = '@string' })
+		vim.api.nvim_set_hl(0, "NavicIconsNumber", { link = '@number' })
+		vim.api.nvim_set_hl(0, "NavicIconsBoolean", { link = '@boolean' })
+		vim.api.nvim_set_hl(0, "NavicIconsArray", { link = '@storageclass' })
+		vim.api.nvim_set_hl(0, "NavicIconsObject", { link = '@storageclass' })
+		vim.api.nvim_set_hl(0, "NavicIconsKey", { link = '@operator' })
+		vim.api.nvim_set_hl(0, "NavicIconsNull", { link = '@constant' })
+		vim.api.nvim_set_hl(0, "NavicIconsEnumMember", { link = '@constant' })
+		vim.api.nvim_set_hl(0, "NavicIconsStruct", { link = '@structure' })
+		vim.api.nvim_set_hl(0, "NavicIconsEvent", { fg = colors.yellow })
+		vim.api.nvim_set_hl(0, "NavicIconsOperator", { link = '@operator' })
+		vim.api.nvim_set_hl(0, "NavicIconsTypeParameter", { link = '@operator' })
 
 		local telescope_normal = colors.surface0
 		local telescope_prompt = colors.surface1

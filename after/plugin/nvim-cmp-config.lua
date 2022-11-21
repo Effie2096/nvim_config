@@ -2,7 +2,9 @@ vim.opt.completeopt = { "menu", "menuone", "noselect" }
 -- vim.opt.completeopt:append "c"
 
 local lspkind = require('lspkind')
-lspkind.init()
+lspkind.init({
+	preset = 'codicons'
+})
 
 local cmp = require('cmp')
 local luasnip = require('luasnip')
