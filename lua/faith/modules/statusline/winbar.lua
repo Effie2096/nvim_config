@@ -16,7 +16,8 @@ M.colors = {
 			},
 			file = {
 				label = 'WinBarFile',
-				seperator = 'WinBarFileEnd'
+				seperator = 'WinBarFileEnd',
+				file_to_navic = 'WinBarFileSep'
 			},
 			navic = {
 				label = 'WinBarNavic',
@@ -88,53 +89,77 @@ M.get_filename = function (self, win)
 	local extension = fn.fnamemodify(api.nvim_buf_get_name(bufnr), ":e")
 	local filetype = api.nvim_buf_get_option(bufnr, 'filetype')
 
-		-- local file_icon, file_icon_color = require('nvim-web-devicons').get_icon_color(filename, extension, { default = true })
-	local file_icon, color = require('nvim-web-devicons').get_icon(filename, extension, {default = true})
-		local hl_group = "Winbar" .. color
+	local file_icon, color
+	local hl_group
 
-		-- api.nvim_set_hl(0, hl_group, { fg = file_icon_color })
-
-		if filetype == "dapui_breakpoints" then
+	-- Filetypes with no associated web-devicon hl
+	if filetype == "dapui_breakpoints" then
 		hl_group = "DapBreakpoint"
-			file_icon = icons.ui.Bug
-		end
+		file_icon = icons.ui.Bug
+		goto continue
+	end
 
-		if filetype == "dapui_stacks" then
+	if filetype == "dapui_stacks" then
 		hl_group = "DAPUISource"
-			file_icon = icons.ui.Stacks
-		end
+		file_icon = icons.ui.Stacks
+		goto continue
+	end
 
-		if filetype == "dapui_scopes" then
+	if filetype == "dapui_scopes" then
 		hl_group = "DAPUIScope"
-			file_icon = icons.ui.Scopes
-		end
+		file_icon = icons.ui.Scopes
+		goto continue
+	end
 
-		if filetype == "dapui_watches" then
+	if filetype == "dapui_watches" then
 		hl_group = "DAPUIWatchesValue"
-			file_icon = icons.ui.Watches
-		end
+		file_icon = icons.ui.Watches
+		goto continue
+	end
 
-		if filetype == "toggleterm" then
-			filename = "ToggleTerm"
-			hl_group = "DevIconTerminal"
-			file_icon = require('nvim-web-devicons').get_icon_by_filetype("terminal", {})
-		end
+	-- Gets skipped by above conditions
+	file_icon, color = require('nvim-web-devicons').get_icon(filename, extension, {default = true})
+	hl_group = color
 
-		if filetype == "fugitive" then
-			filename = "Fugitive"
-			hl_group = "DevIconGitLogo"
-			file_icon = require('nvim-web-devicons').get_icon_by_filetype('git', {})
-		end
+	-- These come after devicon api call because they alter the filename
+	if filetype == "toggleterm" then
+		filename = "ToggleTerm"
+		hl_group = "DevIconTerminal"
+		file_icon = require('nvim-web-devicons').get_icon_by_filetype("terminal", {})
+	end
 
-		if filename == "COMMIT_EDITMSG" then
-			filename = "Commit"
-			hl_group = "DevIconGitLogo"
-			file_icon = require('nvim-web-devicons').get_icon_by_filetype('git', {})
-		end
+	if filetype == "java" and extension == "class" then
+		hl_group = "DevIconJava"
+		file_icon = require('nvim-web-devicons').get_icon_by_filetype(filetype, {})
+	end
+
+	if filetype == "fugitive" then
+		filename = "Fugitive"
+		hl_group = "DevIconGitLogo"
+		file_icon = require('nvim-web-devicons').get_icon_by_filetype('git', {})
+	end
+
+	-- ..get_icon('COMMIT_EDITMSG', 'gitcommit', ...) does return something
+	-- but I don't like the color + setting a nicer file name
+	if filename == "COMMIT_EDITMSG" then
+		filename = "Commit"
+		hl_group = "DevIconGitLogo"
+		file_icon = require('nvim-web-devicons').get_icon_by_filetype('git', {})
+	end
+
+	::continue::
+
+	-- create custom hl for file icon
+	local bg_hl = api.nvim_get_hl_by_name(self.colors.winbar.active.file.label, true)
+	local fg_hl = api.nvim_get_hl_by_name(hl_group, true)
+	api.nvim_set_hl(0, 'Winbar' .. hl_group, { bg = bg_hl.background, fg = fg_hl.foreground })
+
+	hl_group = "Winbar" .. hl_group
 
 	filename = utils.stl_escape(filename)
 
-		return utils.highlight_str(file_icon .. ' ', hl_group) .. filename
+	return utils.highlight_str(file_icon .. ' ', hl_group)
+		.. utils.highlight_str(filename .. ' ', self.colors.winbar.active.file.label)
 end
 
 M.get_file_modified = function (self, win)
@@ -164,18 +189,36 @@ M.get_navic = function (self, win)
 			return ""
 		end
 
-		local status_ok, navic_location = pcall(navic.get_location, {})
-		if not status_ok then
+		if not navic.is_available() then
 			return ""
 		end
 
-		if not navic.is_available() or navic_location == 'error' then
-			return ""
-		end
-
-		if not f.isempty(navic_location) then
-			self._navic_cache[win] = navic_location
-			return navic_location
+		local navic_data = navic.get_data()
+		local next = next
+		if not f.isempty(navic_data) then
+			if next(navic_data) ~= nil then
+				local gps = ''
+				local i = 0
+				for _, value in pairs(navic_data) do
+					i = i + 1
+					gps = gps .. utils.highlight_str(value.icon, 'WinbarNavicIcons' .. value.type)
+					gps = gps .. utils.highlight_str(
+						vim.fn.substitute(value.name, '(.*)','',''),
+						self.colors.winbar.active.navic.label
+					)
+					if i ~= #navic_data then
+						gps = gps .. utils.highlight_str(
+							utils.apply_padding(self.icons.separators.arrow_bracket.left),
+							'WinbarNavicSeparator'
+						)
+					end
+				end
+				gps = gps .. utils.highlight_str(' ', self.colors.winbar.active.navic.label)
+				self._navic_cache[win] = gps
+				return gps
+			else
+				return ""
+			end
 		else
 			return ""
 		end
@@ -253,15 +296,29 @@ M.get_winbar = function (self, win)
 	local win_number = utils.apply_padding(self.win_number(self, win), 0)
 	local filename = utils.apply_padding(
 		self.get_filename(self, win),
-		{ left = 1 }
+		0
 	)
 	local file_modified = utils.highlight_str(
 		utils.apply_padding(
 			self.get_file_modified(self, win),
-			{ left = 1 }
+			{ right = 1 }
 		),
 		colors.modified
 	)
+
+	local file_start = utils.highlight_str(
+		utils.apply_padding(
+			self.icons.separators.rounded.right,
+			{ left = 1 }
+		),
+		colors.file.seperator
+	)
+
+	local file_end = utils.highlight_str(
+		self.icons.separators.arrow.left,
+		colors.file.seperator
+	)
+
 	local diagnostics = utils.apply_padding(
 		self.get_buffer_diagnostics(self, win, { error = true, warn = true, info = true})
 	)
@@ -269,21 +326,30 @@ M.get_winbar = function (self, win)
 	local navic_sep = ''
 	local navic = self.get_navic(self, win)
 	if not f.isempty(navic) then
-		navic_sep = utils.apply_padding(
-			self.icons.ui.ChevronRight,
-			1
+		navic_sep = utils.highlight_str(
+			utils.apply_padding(
+			self.icons.separators.arrow.left,
+				{ right = 1 }
+			),
+			colors.file.file_to_navic
+		)
+		file_end = utils.highlight_str(
+			self.icons.separators.arrow.left,
+			colors.navic.seperator
 		)
 	end
 
 	if not f.isempty(filename) then
 		winbar = string.format(
-			'%s%s%s%s%s%s%s%s',
+			'%s%s%s%s%s%s%s%s%s%s',
 			win_number,
+			file_start,
 			file_modified,
 			filename,
 			navic_sep,
 			'%<',
 			navic,
+			file_end,
 			'%=',
 			diagnostics
 		)
