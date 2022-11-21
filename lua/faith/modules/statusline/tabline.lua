@@ -2,6 +2,8 @@ local fn = vim.fn
 local api = vim.api
 
 local f = require('faith.functions')
+local utils = require('faith.modules.statusline.utils')
+
 M = {}
 
 M.icons = require('faith.icons')
@@ -25,7 +27,6 @@ M.colors = {
 	}
 }
 
-local default_padding = 1
 local active_sep = 'arrow'
 
 M.trunc_width = setmetatable({
@@ -52,17 +53,7 @@ M.get_tab_name = function (tabnr)
 	return ''
 end
 
----Escape % in str so it doesn't get picked as stl item.
----@param str string
----@return string
-function M.stl_escape(str)
-  if type(str) ~= 'string' then
-    return str
-  end
-  return str:gsub('%%', '%%%%')
-end
-
-M.get_tab_buffers = function (self, tabnr)
+M.get_tab_buffers = function (tabnr)
 	local tab_buffers = ''
 
 	local buffers = fn.tabpagebuflist(tabnr)
@@ -95,7 +86,7 @@ M.get_tab_buffers = function (self, tabnr)
 	end
 
 	tab_buffers = fn.substitute(tab_buffers, ', $', '', '')
-	tab_buffers = self.stl_escape(tab_buffers)
+	tab_buffers = utils.stl_escape(tab_buffers)
 	return tab_buffers == '' and '[New]' or tab_buffers
 end
 
@@ -127,9 +118,9 @@ end
 M.get_tab_label = function (self, tabnr)
 	local tab_name = self.get_tab_name(tabnr)
 	if tab_name ~= '' then
-		return self.stl_escape(tab_name)
+		return utils.stl_escape(tab_name)
 	else
-		return self.get_tab_buffers(self, tabnr)
+		return self.get_tab_buffers(tabnr)
 	end
 end
 
@@ -140,16 +131,17 @@ end
 M.get_file_path = function (self)
 	local path_seperator = self.icons.separators.arrow_bracket.left
 	local path_from_root = fn.expand('%:h', false)
-	path_from_root = self.stl_escape(path_from_root)
+	path_from_root = utils.stl_escape(path_from_root)
 	local path_breadcrumbs = ''
 
 	local filetype = f.get_buf_option("filetype")
-	filetype = self.stl_escape(filetype)
+	---@diagnostic disable-next-line: param-type-mismatch
+	filetype = utils.stl_escape(filetype)
 
 	if filetype == "java" then
 		path_from_root = fn.substitute(path_from_root, '.*\\ze\\<com\\>', '', '')
 		path_breadcrumbs = path_breadcrumbs .. path_seperator
-		path_breadcrumbs = path_breadcrumbs .. self.apply_padding(
+		path_breadcrumbs = path_breadcrumbs .. utils.apply_padding(
 			self.icons.ui.Ellipses,
 			1
 		)
@@ -170,82 +162,53 @@ M.get_file_path = function (self)
 end
 
 M.create_path = function (self)
-	local folder_icon = self.apply_padding(
+	local folder_icon = utils.apply_padding(
 		self.icons.ui.Project
 	)
-	local root_dir = self.apply_padding(
+	local root_dir = utils.apply_padding(
 		self.get_dir_root(),
 		{ right = 1 }
 	)
 	local path_breadcrumbs = self.get_file_path(self)
 
-	local a = self.highlight_str(
+	local a = utils.highlight_str(
 		folder_icon .. root_dir .. path_breadcrumbs,
 		"@text.note"
 	)
-	local seperator = self.highlight_str(
+	local seperator = utils.highlight_str(
 		self.icons.separators[active_sep]['left'],
 		"Function"
 	)
 	return a .. seperator
 end
 
-M.apply_padding = function (content, padding)
-	local element = content
-	local pad = padding
-	local l_padding, r_padding
-
-	if f.isempty(pad) then
-		pad = default_padding
-	end
-
-	if type(pad) == 'number' then
-		l_padding, r_padding = pad, pad
-	elseif type(pad) == 'table' then
-		l_padding, r_padding = pad.left, pad.right
-	end
-
-	if l_padding then
-		element = string.insert(element, string.rep(' ', l_padding), 0)
-	end
-	if r_padding then
-		element = string.insert(element, string.rep(' ', r_padding), #element)
-	end
-
-	return element
-end
-
-M.highlight_str = function (str, highlight)
-	return '%#' .. highlight .. '#' .. str .. '%*'
-end
-
 M.create_tab = function (self, tabnr, colors, seperators)
-	local tab_number = self.highlight_str(
-		self.apply_padding(
+	local tab_number = utils.highlight_str(
+		utils.apply_padding(
 			tostring(tabnr)
 		),
 		colors.number
 	)
-	local tab_modified = self.highlight_str(
-		self.apply_padding(
+	local tab_modified = utils.highlight_str(
+		utils.apply_padding(
 			self.get_tab_modified(self, tabnr),
 			0
 		),
 		colors.modified
 	)
-	local tab_label = self.highlight_str(
-		self.apply_padding(
+	local tab_label = utils.highlight_str(
+		utils.apply_padding(
 			self.get_tab_label(self, tabnr),
 			{ left = 0, right = 1 }
 		),
 		colors.label
 	)
 
-	local l_seperator = self.highlight_str(
+	local l_seperator = utils.highlight_str(
 		seperators.right,
 		colors.seperator
 	)
-	local r_seperator = self.highlight_str(
+	local r_seperator = utils.highlight_str(
 		seperators.left,
 		colors.seperator
 	)

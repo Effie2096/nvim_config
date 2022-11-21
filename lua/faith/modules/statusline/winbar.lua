@@ -1,6 +1,8 @@
 local fn = vim.fn
 local api = vim.api
 
+local utils = require('faith.modules.statusline.utils')
+
 M = {}
 
 M.icons = require('faith.icons')
@@ -61,54 +63,10 @@ M.winbar_filetype_exclude = {
 	"",
 }
 
-local default_padding = 1
-
 local excludes = function (self, win)
 	local bufnr = api.nvim_win_get_buf(win)
 	local filetype = api.nvim_buf_get_option(bufnr, 'filetype')
 	return vim.tbl_contains(self.winbar_filetype_exclude or {}, filetype)
-end
-
-M.highlight_str = function (str, highlight)
-	return '%#' .. highlight .. '#' .. str .. '%*'
-end
-
-M.apply_padding = function (content, padding)
-	local f = require('faith.functions')
-	local l_padding, r_padding
-
-	-- use default if padding not specified
-	if f.isempty(padding) then
-		padding = default_padding
-	end
-
-	-- check if padding is a number or a table
-	if type(padding) == 'number' then
-		l_padding, r_padding = padding, padding
-	elseif type(padding) == 'table' then
-		if f.exists("pad.left") then
-			if type(padding.left) == 'number' then
-				l_padding = padding.left
-			end
-		end
-		if f.exists("pad.right") then
-			if type(padding.right) == 'number' then
-				r_padding = padding.right
-			end
-		end
-	end
-
-	-- don't pad empty elements
-	if not f.isempty(content) then
-		if l_padding then
-			content = string.insert(content, string.rep(' ', l_padding), 0)
-		end
-		if r_padding then
-			content = string.insert(content, string.rep(' ', r_padding), #content)
-		end
-	end
-
-	return content
 end
 
 M.win_number = function (self, win)
@@ -118,59 +76,51 @@ M.win_number = function (self, win)
 
 	local winnr = api.nvim_win_get_number(win)
 
-	return self.highlight_str(seperators.right, sepHL)
-		.. self.highlight_str(winnr, hl)
-		.. self.highlight_str(seperators.left, sepHL)
-end
-
----Escape % in str so it doesn't get picked as stl item.
----@param str string
----@return string
-function M.stl_escape(str)
-  if type(str) ~= 'string' then
-    return str
-  end
-  return str:gsub('%%', '%%%%')
+	return utils.highlight_str(seperators.right, sepHL)
+		.. utils.highlight_str(winnr, hl)
+		.. utils.highlight_str(seperators.left, sepHL)
 end
 
 M.get_filename = function (self, win)
 	local icons = self.icons
 	local bufnr = api.nvim_win_get_buf(win)
 	local filename = fn.fnamemodify(api.nvim_buf_get_name(bufnr), ":t")
-	local extension = api.nvim_buf_get_option(bufnr, 'filetype')
+	local extension = fn.fnamemodify(api.nvim_buf_get_name(bufnr), ":e")
+	local filetype = api.nvim_buf_get_option(bufnr, 'filetype')
 
-		local file_icon, file_icon_color = require('nvim-web-devicons').get_icon_color(filename, extension, { default = true })
-		local hl_group = "FileIconColor" .. extension
+		-- local file_icon, file_icon_color = require('nvim-web-devicons').get_icon_color(filename, extension, { default = true })
+	local file_icon, color = require('nvim-web-devicons').get_icon(filename, extension, {default = true})
+		local hl_group = "Winbar" .. color
 
-		api.nvim_set_hl(0, hl_group, { fg = file_icon_color })
+		-- api.nvim_set_hl(0, hl_group, { fg = file_icon_color })
 
-		if extension == "dapui_breakpoints" then
+		if filetype == "dapui_breakpoints" then
 		hl_group = "DapBreakpoint"
 			file_icon = icons.ui.Bug
 		end
 
-		if extension == "dapui_stacks" then
+		if filetype == "dapui_stacks" then
 		hl_group = "DAPUISource"
 			file_icon = icons.ui.Stacks
 		end
 
-		if extension == "dapui_scopes" then
+		if filetype == "dapui_scopes" then
 		hl_group = "DAPUIScope"
 			file_icon = icons.ui.Scopes
 		end
 
-		if extension == "dapui_watches" then
+		if filetype == "dapui_watches" then
 		hl_group = "DAPUIWatchesValue"
 			file_icon = icons.ui.Watches
 		end
 
-		if extension == "toggleterm" then
+		if filetype == "toggleterm" then
 			filename = "ToggleTerm"
 			hl_group = "DevIconTerminal"
 			file_icon = require('nvim-web-devicons').get_icon_by_filetype("terminal", {})
 		end
 
-		if extension == "fugitive" then
+		if filetype == "fugitive" then
 			filename = "Fugitive"
 			hl_group = "DevIconGitLogo"
 			file_icon = require('nvim-web-devicons').get_icon_by_filetype('git', {})
@@ -182,9 +132,9 @@ M.get_filename = function (self, win)
 			file_icon = require('nvim-web-devicons').get_icon_by_filetype('git', {})
 		end
 
-	filename = self.stl_escape(filename)
+	filename = utils.stl_escape(filename)
 
-		return self.highlight_str(file_icon, hl_group) .. ' ' .. filename
+		return utils.highlight_str(file_icon .. ' ', hl_group) .. filename
 end
 
 M.get_file_modified = function (self, win)
@@ -273,8 +223,8 @@ M.get_buffer_diagnostics = function (self, win, levels)
 					bufnr,
 					{ severity = vim.diagnostic.severity[string.upper(level)] }
 				)
-				local part = self.highlight_str(
-					self.apply_padding(
+				local part = utils.highlight_str(
+					utils.apply_padding(
 						icons[level] .. count,
 						{ left = 1 }
 					),
@@ -292,17 +242,6 @@ M.get_buffer_diagnostics = function (self, win, levels)
 		.. diagnostics["hint"]
 end
 
--- TODO: Add container which user can scroll when truncated <17-11-22, Effie2096>
---[[ M.create_section = function (segments, seperator, max_length)
-	local section = table.concat(segments, seperator, 1, #segments)
-	local section_length = fn.strdisplaywidth(section)
-
-	if section_length > max_length then
-		return "too long lol"
-	end
-	return section
-end ]]
-
 M.get_winbar = function (self, win)
 	if excludes(self, win) then
 		return
@@ -311,26 +250,26 @@ M.get_winbar = function (self, win)
 	local f = require('faith.functions')
 	local winbar
 
-	local win_number = self.apply_padding(self.win_number(self, win), 0)
-	local filename = self.apply_padding(
+	local win_number = utils.apply_padding(self.win_number(self, win), 0)
+	local filename = utils.apply_padding(
 		self.get_filename(self, win),
 		{ left = 1 }
 	)
-	local file_modified = self.highlight_str(
-		self.apply_padding(
+	local file_modified = utils.highlight_str(
+		utils.apply_padding(
 			self.get_file_modified(self, win),
 			{ left = 1 }
 		),
 		colors.modified
 	)
-	local diagnostics = self.apply_padding(
+	local diagnostics = utils.apply_padding(
 		self.get_buffer_diagnostics(self, win, { error = true, warn = true, info = true})
 	)
 
 	local navic_sep = ''
 	local navic = self.get_navic(self, win)
 	if not f.isempty(navic) then
-		navic_sep = self.apply_padding(
+		navic_sep = utils.apply_padding(
 			self.icons.ui.ChevronRight,
 			1
 		)
@@ -348,9 +287,6 @@ M.get_winbar = function (self, win)
 			'%=',
 			diagnostics
 		)
-		-- local win_width = api.nvim_win_get_width(api.nvim_get_current_win())
-		-- local winbar_text_width = string.len(winbar)
-		-- local navic_width = win_width - winbar_text_width
 	end
 
 	return winbar
