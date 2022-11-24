@@ -271,7 +271,7 @@ local spaces = {
 local git = {
 	'b:gitsigns_head',
 	color = 'lualine_a_normal',
-	icon = { '', align = 'left' },
+	icon = { icons.git.Branch, align = 'left' },
 }
 
 --[[ local mode = {

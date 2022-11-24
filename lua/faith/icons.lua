@@ -106,7 +106,8 @@ local icons = {
 		Scopes = "",
 		Watches = " ",
 		Ellipses = "…",
-		Tab = " "
+		Tab = " ",
+		House = ' '
 	},
 	characters = {
 		eol = '﬋',
@@ -130,6 +131,7 @@ local icons = {
 		Mod = "~",
 		Remove = "-",
 		Octoface = " ",
+		Branch = ''
 	},
 }
 
@@ -155,8 +157,8 @@ if vim.g.use_codicons then
 		-- File          = " ",
 		File          = " ",
 		Folder        = " ",
-		-- Function      = " ",
-		Function      = " ",
+		Function      = " ",
+		-- Function      = " ",
 		-- Interface     = "練",
 		Interface     = " ",
 		Key           = " ",
