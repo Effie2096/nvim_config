@@ -1,5 +1,3 @@
-vim.opt.termguicolors = true
-
 -- ['│','|','¦','┆','┊','']
 
 local status_ok, indent_blankline = pcall(require, 'indent_blankline')
