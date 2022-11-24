@@ -1,13 +1,22 @@
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 -- vim.opt.completeopt:append "c"
 
-local lspkind = require('lspkind')
+local status_ok_cmp, cmp = pcall(require, 'cmp')
+if not status_ok_cmp then
+	return
+end
+local status_ok_luasnip, luasnip = pcall(require, 'luasnip')
+if not status_ok_luasnip then
+	return
+end
+
+local status_ok_kind, lspkind = pcall(require, 'lspkind')
+if not status_ok_kind then
+	return
+end
 lspkind.init({
 	preset = 'codicons'
 })
-
-local cmp = require('cmp')
-local luasnip = require('luasnip')
 
 local snippet_path = os.getenv("XDG_CONFIG_HOME") .. "/nvim/lua/faith/snippets"
 require("luasnip.loaders.from_lua").lazy_load({paths = snippet_path})

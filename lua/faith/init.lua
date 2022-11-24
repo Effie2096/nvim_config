@@ -1,5 +1,5 @@
 require("faith.plugins")
-require("impatient")
+pcall(require, "impatient")
 
 require("faith.globals")
 
