@@ -257,7 +257,7 @@ Tabline = setmetatable(M, {
 	end
 })
 
-local group = api.nvim_create_augroup("Tabline", {})
+local group = api.nvim_create_augroup("Tabline", { clear = true })
 api.nvim_create_autocmd(
 	{ "CursorMoved","CursorMovedI", "CursorHold", "BufWinEnter", "BufFilePost", "InsertEnter", "BufWritePost", "TabClosed" },
 	{

@@ -104,7 +104,7 @@ local function refresh_codelens()
 end
 
 local function symbol_highlight(buffer)
-	local group = vim.api.nvim_create_augroup("lsp_document_highlight", { clear = false })
+	local group = vim.api.nvim_create_augroup("lsp_document_highlight", { clear = true })
 	vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 		group = group,
 		buffer = buffer,
