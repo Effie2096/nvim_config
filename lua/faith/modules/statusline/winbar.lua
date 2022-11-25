@@ -150,11 +150,14 @@ M.get_filename = function (self, win)
 	::continue::
 
 	-- create custom hl for file icon
-	local bg_hl = api.nvim_get_hl_by_name(self.colors.winbar.active.file.label, true)
-	local fg_hl = api.nvim_get_hl_by_name(hl_group, true)
-	api.nvim_set_hl(0, 'Winbar' .. hl_group, { bg = bg_hl.background, fg = fg_hl.foreground })
+	local winbar_icon_hl = 'Winbar' .. hl_group
+	if fn.hlexists(winbar_icon_hl) == 0 then
+		local bg_hl = api.nvim_get_hl_by_name(self.colors.winbar.active.file.label, true)
+		local fg_hl = api.nvim_get_hl_by_name(hl_group, true)
+		api.nvim_set_hl(0, winbar_icon_hl, { bg = bg_hl.background, fg = fg_hl.foreground })
+	end
 
-	hl_group = "Winbar" .. hl_group
+	hl_group = winbar_icon_hl
 
 	filename = utils.stl_escape(filename)
 
