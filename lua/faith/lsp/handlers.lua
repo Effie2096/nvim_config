@@ -25,7 +25,7 @@ M.setup = function()
 
 	local config = {
 		-- disable virtual text
-		virtual_text = false,
+		virtual_text = true,
 		-- show signs
 		signs = {
 			active = signs,
@@ -94,12 +94,14 @@ vim.diagnostic.handlers.signs = {
 	end,
 }
 
-local function refresh_codelens()
-	local auto_refresh_codelens = vim.api.nvim_create_augroup("RefreshCodelens", { clear = true })
-	vim.api.nvim_create_autocmd({ "InsertLeave" }, {
+local function refresh_codelens(bufnr)
+	local auto_refresh_codelens = vim.api.nvim_create_augroup("RefreshCodelens", { clear = false })
+	vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave" }, {
 		group = auto_refresh_codelens,
-		command = vim.lsp.codelens.refresh,
-		pattern = "*"
+		buffer = bufnr,
+		callback = function ()
+			vim.lsp.codelens.refresh()
+		end
 	})
 end
 
@@ -232,10 +234,22 @@ M.on_attach = function(client, bufnr)
 		symbol_highlight(bufnr)
 	end
 
+	if client.server_capabilities.codeLensProvider then
+		vim.lsp.codelens.refresh()
+		refresh_codelens(bufnr)
+	end
+
+	if client.server_capabilities.inlayHintProvider then
+		local status_ok, inlayhints = pcall(require, 'lsp-inlayhints')
+		if status_ok then
+			inlayhints.on_attach(client, bufnr)
+		end
+	end
+
 	if client.name == "jdtls" then
 		jdt_keymaps(bufnr)
-		vim.lsp.codelens.refresh()
-		vim.cmd [[autocmd BufEnter,InsertLeave *.java lua vim.lsp.codelens.refresh()]]
+		-- vim.lsp.codelens.refresh()
+		-- vim.cmd [[autocmd BufEnter,InsertLeave *.java lua vim.lsp.codelens.refresh()]]
 		-- if JAVA_DAP_ACTIVE then
 		require("jdtls").setup_dap { hotcodereplace = "auto" }
 		require("jdtls.dap").setup_dap_main_class_configs()
