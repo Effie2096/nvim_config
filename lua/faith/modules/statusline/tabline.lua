@@ -4,9 +4,9 @@ local api = vim.api
 local f = require('faith.functions')
 local utils = require('faith.modules.statusline.utils')
 
-M = {}
+local icons = require('faith.icons')
 
-M.icons = require('faith.icons')
+M = {}
 
 M.colors = {
 	tab = {
@@ -91,7 +91,7 @@ M.get_tab_buffers = function (tabnr)
 end
 
 M.get_tab_modified = function (self, tabnr)
-	local icon = self.icons.ui.Dot
+	local icon = icons.ui.Dot
 
 	local buffers = fn.tabpagebuflist(tabnr)
 	local modified_count = 0
@@ -145,7 +145,7 @@ M.create_tab_path = function (self, colors, tabnr)
 
 	local dir_til_root = fn.fnamemodify(tab_dir, ':p:h')
 	local home = os.getenv('HOME')
-	dir_til_root = fn.substitute(dir_til_root, home, self.icons.ui.House, '')
+	dir_til_root = fn.substitute(dir_til_root, home, icons.ui.House, '')
 	local short_folders = fn.pathshorten(dir_til_root)
 
 	return utils.highlight_str(
@@ -159,7 +159,7 @@ M.create_tab_path = function (self, colors, tabnr)
 end
 
 M.get_file_path = function (self)
-	local path_seperator = self.icons.separators.arrow_bracket.left
+	local path_seperator = icons.separators.arrow_bracket.left
 	local diff_root = false
 
 	local path_from_root = fn.expand('%:h', false)
@@ -209,7 +209,7 @@ end
 
 M.create_path = function (self)
 	local folder_icon = utils.apply_padding(
-		self.icons.ui.Project
+		icons.ui.Project
 	)
 	local root_dir = utils.highlight_str(
 		utils.apply_padding(
@@ -222,7 +222,7 @@ M.create_path = function (self)
 		"@text.note"
 	)
 	local seperator = utils.highlight_str(
-		self.icons.separators[active_sep]['left'],
+		icons.separators[active_sep]['left'],
 		"Function"
 	)
 	local path_breadcrumbs, diff_root = self.get_file_path(self)
@@ -234,7 +234,7 @@ M.create_path = function (self)
 		return root_dir .. seperator
 			..utils.highlight_str(
 				utils.apply_padding(
-					self.icons.separators[active_sep]['left'],
+					icons.separators[active_sep]['left'],
 					{ right = 1 }
 				),
 				"@text.note"
@@ -305,7 +305,7 @@ M.get_tabline = function (self)
 			tab_colors = colors.tab.inactive
 		end
 
-		table.insert(tabs, self.create_tab(self, i, tab_colors, self.icons.separators.slant))
+		table.insert(tabs, self.create_tab(self, i, tab_colors, icons.separators.slant))
 	end
 
 	tabline = tabline .. self.create_path(self) .. '%*'

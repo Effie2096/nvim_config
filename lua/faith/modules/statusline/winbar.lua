@@ -3,9 +3,9 @@ local api = vim.api
 
 local utils = require('faith.modules.statusline.utils')
 
-M = {}
+local icons = require('faith.icons')
 
-M.icons = require('faith.icons')
+M = {}
 
 M.colors = {
 	winbar = {
@@ -71,7 +71,7 @@ local excludes = function (self, win)
 end
 
 M.win_number = function (self, win)
-	local seperators = self.icons.separators.rounded
+	local seperators = icons.separators.rounded
 	local color = self.colors.winbar.active.number
 	local sepHL, hl = color.seperator, color.label
 
@@ -83,7 +83,7 @@ M.win_number = function (self, win)
 end
 
 M.get_filename = function (self, win)
-	local icons = self.icons
+	local icons = icons
 	local bufnr = api.nvim_win_get_buf(win)
 	local filename = fn.fnamemodify(api.nvim_buf_get_name(bufnr), ":t")
 	local extension = fn.fnamemodify(api.nvim_buf_get_name(bufnr), ":e")
@@ -166,7 +166,7 @@ M.get_filename = function (self, win)
 end
 
 M.get_file_modified = function (self, win)
-	local icon = self.icons.ui.Dot
+	local icon = icons.ui.Dot
 
 	local bufnr = api.nvim_win_get_buf(win)
 	if api.nvim_buf_get_option(bufnr, 'mod') then
@@ -211,7 +211,7 @@ M.get_navic = function (self, win)
 					)
 					if i ~= #navic_data then
 						gps = gps .. utils.highlight_str(
-							utils.apply_padding(self.icons.separators.arrow_bracket.left),
+							utils.apply_padding(icons.separators.arrow_bracket.left),
 							'WinbarNavicSeparator'
 						)
 					end
@@ -253,7 +253,7 @@ M.get_buffer_diagnostics = function (self, win, levels)
 	local client_active = self.is_client_attached(bufnr)
 
 	if client_active then
-		local icons = self.icons.diagnostic
+		local icons = icons.diagnostic
 		local colors = self.colors.winbar.active.diagnostic
 		local enabled_levels
 
@@ -311,14 +311,14 @@ M.get_winbar = function (self, win)
 
 	local file_start = utils.highlight_str(
 		utils.apply_padding(
-			self.icons.separators.rounded.right,
+			icons.separators.rounded.right,
 			{ left = 1 }
 		),
 		colors.file.seperator
 	)
 
 	local file_end = utils.highlight_str(
-		self.icons.separators.arrow.left,
+		icons.separators.arrow.left,
 		colors.file.seperator
 	)
 
@@ -331,13 +331,13 @@ M.get_winbar = function (self, win)
 	if not f.isempty(navic) then
 		navic_sep = utils.highlight_str(
 			utils.apply_padding(
-			self.icons.separators.arrow.left,
+			icons.separators.arrow.left,
 				{ right = 1 }
 			),
 			colors.file.file_to_navic
 		)
 		file_end = utils.highlight_str(
-			self.icons.separators.arrow.left,
+			icons.separators.arrow.left,
 			colors.navic.seperator
 		)
 	end
