@@ -121,7 +121,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		local fileBG = colors.surface2
 		local fileFG = colors.subtext1
 		local navBG = colors.surface1
-		local navFG = colors.rosewater --subtext0
+		local navFG = colors.rosewater
 		local diffBG = colors.surface1
 
 		local diff_add_col = vim.api.nvim_get_hl_by_name("GitSignsAdd", true)

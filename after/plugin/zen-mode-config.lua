@@ -5,7 +5,7 @@ end
 
 zen_mode.setup {
 	window = {
-		backdrop = 1,
+		backdrop = 0,
 		width = 100,
 		height = 1,
 		options = {
@@ -18,7 +18,7 @@ zen_mode.setup {
 	plugins = {
 		options = {
 			enabled = true,
-			ruler = true,
+			ruler = false,
 			showcmd = false,
 		},
 		gitsigns = { enabled = false },
@@ -26,7 +26,7 @@ zen_mode.setup {
 		tmux = { enabled = false },
 		kitty = {
 			enabled = true,
-			font = "+4",
+			font = "+6",
 		},
 	},
 }
