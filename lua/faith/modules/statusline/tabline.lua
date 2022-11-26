@@ -160,56 +160,89 @@ end
 
 M.get_file_path = function (self)
 	local path_seperator = self.icons.separators.arrow_bracket.left
+	local diff_root = false
+
 	local path_from_root = fn.expand('%:h', false)
-	path_from_root = utils.stl_escape(path_from_root)
 	local path_breadcrumbs = ''
 
-	local filetype = f.get_buf_option("filetype")
-	---@diagnostic disable-next-line: param-type-mismatch
-	filetype = utils.stl_escape(filetype)
+	-- current window has a working dir that differs from nvim's global working dir
+	if fn.haslocaldir(0,0) == 1 then
+		diff_root = true
+		local window_working_directory = fn.fnamemodify(vim.fn.getcwd(0, 0), ':r')
+		local window_directory_tail = fn.fnamemodify(window_working_directory, ':t')
 
-	if filetype == "java" then
-		path_from_root = fn.substitute(path_from_root, '.*\\ze\\<com\\>', '', '')
-		path_breadcrumbs = path_breadcrumbs .. path_seperator
-		path_breadcrumbs = path_breadcrumbs .. utils.apply_padding(
-			self.icons.ui.Ellipses,
-			1
-		)
-	elseif filetype == "toggleterm" then
-		path_from_root = ""
+		if not f.isempty(window_directory_tail) then
+			window_directory_tail = utils.stl_escape(window_directory_tail)
+			path_from_root = string.insert(path_from_root, window_directory_tail .. '/', 0)
+		end
+	end
+
+	if f.isempty(path_from_root) or path_from_root == '.' then
+		return '', diff_root
+	end
+	path_from_root = utils.stl_escape(path_from_root)
+
+	local filetype = f.get_buf_option("filetype")
+	if filetype == "toggleterm" then
+		return 'Terminal ', diff_root
 	end
 
 	local folders = fn.split(path_from_root, '/')
 
-	for _, value in pairs(folders) do
-		if value == '.' then goto continue end
-		path_breadcrumbs = path_breadcrumbs .. path_seperator .. " "
-		path_breadcrumbs = path_breadcrumbs .. value .. " "
-		::continue::
+	local seperator = utils.apply_padding(
+		path_seperator,
+		1
+	)
+	if not diff_root then
+		path_breadcrumbs = path_breadcrumbs .. seperator
 	end
+	path_breadcrumbs = path_breadcrumbs
+	..table.concat(
+		folders,
+		seperator,
+		1,
+		#folders
+	)
 
-	return path_breadcrumbs
+	return path_breadcrumbs .. ' ', diff_root
 end
 
 M.create_path = function (self)
 	local folder_icon = utils.apply_padding(
 		self.icons.ui.Project
 	)
-	local root_dir = utils.apply_padding(
-		self.get_dir_root(),
-		{ right = 1 }
-	)
-	local path_breadcrumbs = self.get_file_path(self)
-
-	local a = utils.highlight_str(
-		folder_icon .. root_dir .. path_breadcrumbs,
+	local root_dir = utils.highlight_str(
+		utils.apply_padding(
+			folder_icon
+			.. utils.stl_escape(
+				self.get_dir_root()
+			),
+			{ right = 1}
+		),
 		"@text.note"
 	)
 	local seperator = utils.highlight_str(
 		self.icons.separators[active_sep]['left'],
 		"Function"
 	)
-	return a .. seperator
+	local path_breadcrumbs, diff_root = self.get_file_path(self)
+	local a = utils.highlight_str(
+			path_breadcrumbs,
+			"@text.note"
+		)
+	if diff_root then
+		return root_dir .. seperator
+			..utils.highlight_str(
+				utils.apply_padding(
+					self.icons.separators[active_sep]['left'],
+					{ right = 1 }
+				),
+				"@text.note"
+			)
+			.. a .. seperator
+	else
+		return root_dir ..  a .. seperator
+	end
 end
 
 M.create_tab = function (self, tabnr, colors, seperators)
