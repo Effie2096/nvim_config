@@ -125,7 +125,37 @@ M.get_tab_label = function (self, tabnr)
 end
 
 M.get_dir_root = function ()
-	return fn.fnamemodify(fn.getcwd(0, 0), ':t')
+	return fn.fnamemodify(fn.getcwd(-1, -1), ':t')
+end
+
+M.get_tab_directory = function (self, tabnr)
+	local tab_dir = fn.fnamemodify(fn.getcwd(-1, tabnr), ':t')
+	if tab_dir ~= self.get_dir_root() then
+		return fn.fnamemodify(fn.getcwd(-1, tabnr), ':.')
+	end
+	return ''
+end
+
+M.create_tab_path = function (self, colors, tabnr)
+	local tab_dir = self.get_tab_directory(self, tabnr)
+	if f.isempty(tab_dir) then
+		return
+	end
+	tab_dir = utils.stl_escape(tab_dir)
+
+	local dir_til_root = fn.fnamemodify(tab_dir, ':p:h')
+	local home = os.getenv('HOME')
+	dir_til_root = fn.substitute(dir_til_root, home, self.icons.ui.House, '')
+	local short_folders = fn.pathshorten(dir_til_root)
+
+	return utils.highlight_str(
+		utils.apply_padding(
+			'['
+			.. short_folders
+			.. ']',
+			{ right = 1} ),
+		colors.label
+	)
 end
 
 M.get_file_path = function (self)
@@ -189,6 +219,7 @@ M.create_tab = function (self, tabnr, colors, seperators)
 		),
 		colors.number
 	)
+	local tab_dir = self.create_tab_path(self, colors, tabnr) or ''
 	local tab_modified = utils.highlight_str(
 		utils.apply_padding(
 			self.get_tab_modified(self, tabnr),
@@ -214,10 +245,11 @@ M.create_tab = function (self, tabnr, colors, seperators)
 	)
 
 	local tab = string.format(
-		'%s%s%s%s%s%s',
+		'%s%s%s%s%s%s%s',
 		self.set_tab_number(tabnr),
 		l_seperator,
 		tab_number,
+		tab_dir,
 		tab_modified,
 		tab_label,
 		r_seperator
