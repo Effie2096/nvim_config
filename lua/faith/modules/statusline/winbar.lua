@@ -83,7 +83,6 @@ M.win_number = function (self, win)
 end
 
 M.get_filename = function (self, win)
-	local icons = icons
 	local bufnr = api.nvim_win_get_buf(win)
 	local filename = fn.fnamemodify(api.nvim_buf_get_name(bufnr), ":t")
 	local extension = fn.fnamemodify(api.nvim_buf_get_name(bufnr), ":e")
@@ -165,12 +164,10 @@ M.get_filename = function (self, win)
 		.. utils.highlight_str(filename .. ' ', self.colors.winbar.active.file.label)
 end
 
-M.get_file_modified = function (self, win)
-	local icon = icons.ui.Dot
-
+M.get_file_modified = function (win)
 	local bufnr = api.nvim_win_get_buf(win)
 	if api.nvim_buf_get_option(bufnr, 'mod') then
-		return icon
+		return icons.ui.Dot
 	end
 	return ''
 end
@@ -253,7 +250,7 @@ M.get_buffer_diagnostics = function (self, win, levels)
 	local client_active = self.is_client_attached(bufnr)
 
 	if client_active then
-		local icons = icons.diagnostic
+		local diagnostic_icons = icons.diagnostic
 		local colors = self.colors.winbar.active.diagnostic
 		local enabled_levels
 
@@ -271,7 +268,7 @@ M.get_buffer_diagnostics = function (self, win, levels)
 				)
 				local part = utils.highlight_str(
 					utils.apply_padding(
-						icons[level] .. count,
+						diagnostic_icons[level] .. count,
 						{ left = 1 }
 					),
 					colors[level]
@@ -303,7 +300,7 @@ M.get_winbar = function (self, win)
 	)
 	local file_modified = utils.highlight_str(
 		utils.apply_padding(
-			self.get_file_modified(self, win),
+			self.get_file_modified(win),
 			{ right = 1 }
 		),
 		colors.modified
