@@ -80,7 +80,6 @@ Plug ('natecraddock/workspaces.nvim', { ['commit'] = '5a3b96bf86faba123476027d8f
 -- Visual/UI
 Plug ('lukas-reineke/indent-blankline.nvim', { ['commit'] = 'db7cbcb40cc00fc5d6074d7569fb37197705e7f6' })
 Plug ('norcalli/nvim-colorizer.lua', { ['commit'] = '36c610a9717cc9ec426a07c8e6bf3b3abcb139d6' })
-Plug ('folke/twilight.nvim', { ['commit'] = '1ffa6a4d89fb2fbb784c6674044bf54f1fca936f' })
 Plug ('folke/zen-mode.nvim', { ['commit'] = '6f5702db4fd4a4c9a212f8de3b7b982f3d93b03c' })
 Plug 'xiyaowong/nvim-transparent'
 Plug ('karb94/neoscroll.nvim', { ['commit'] = '54c5c419f6ee2b35557b3a6a7d631724234ba97a' })

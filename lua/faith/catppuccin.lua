@@ -93,6 +93,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		vim.api.nvim_exec('highlight GitSignsChangeLn guifg=' .. changeColor .. ' guibg=' .. colors.base, false)
 
 		vim.api.nvim_set_hl(0, "LspInlayHint", { fg = '#d8d8d8', bg = '#3a3a3a' })
+		vim.api.nvim_set_hl(0, "ZenBg", { fg = colors.base, bg = colors.base })
 
 		local tabFill = colors.mantle
 		local tabBG = colors.surface1
