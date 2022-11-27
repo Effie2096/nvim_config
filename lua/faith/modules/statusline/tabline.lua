@@ -300,6 +300,17 @@ M.create_tab = function (self, tabnr, colors, seperators)
 	return tab
 end
 
+vim.cmd([[
+function! PreviousTab(minwid, clicks, mouse, mods)
+	if a:clicks == 2 | execute "tabfirst" | return | endif
+	execute "tabprevious"
+endfunction
+function! NextTab(minwid, clicks, mouse, mods)
+	if a:clicks == 2 | execute "tablast" | return | endif
+	execute "tabnext"
+endfunction
+]])
+
 M.get_tabline = function (self)
 	local colors = self.colors
 	local tabline = ''
@@ -348,11 +359,11 @@ M.get_tabline = function (self)
 			start_tab, end_tab = 1, #tabs
 		end
 		if start_tab > 1 then
-			tabline = tabline .. string.format('%s', fn.tabpagenr() == 1 and '' or start_tab - 1 .. ' ' .. icons.ui.ArrowNavLeft)
+			tabline = tabline .. string.format('%s', fn.tabpagenr() == 1 and '' or start_tab - 1 .. ' %@PreviousTab@' .. icons.ui.ArrowNavLeft .. '%X')
 		end
 		tabline = tabline .. table.concat(tabs, ' ', start_tab, end_tab)
 		if (fn.tabpagenr('$') > visible_tabs) then
-			tabline = tabline .. string.format('%s', fn.tabpagenr() == #tabs and '' or icons.ui.ArrowNavRight .. fn.tabpagenr('$') - end_tab)
+			tabline = tabline .. string.format('%s', fn.tabpagenr() == #tabs and '' or '%@NextTab@' .. icons.ui.ArrowNavRight .. '%X' .. fn.tabpagenr('$') - end_tab)
 		end
 		-- tabline = tabline .. string.format('%s/%s', #tabs - visible_tabs - 1, #tabs)
 	end
