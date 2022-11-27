@@ -147,7 +147,7 @@ M.get_tab_directory = function (self, tabnr)
 	return ''
 end
 
-M.create_tab_path = function (self, colors, tabnr)
+M.create_tab_path = function (self, tabnr)
 	local tab_dir = self.get_tab_directory(self, tabnr)
 	if f.isempty(tab_dir) then
 		return
@@ -159,14 +159,7 @@ M.create_tab_path = function (self, colors, tabnr)
 	dir_til_root = fn.substitute(dir_til_root, home, icons.ui.House, '')
 	local short_folders = fn.pathshorten(dir_til_root)
 
-	return utils.highlight_str(
-		utils.apply_padding(
-			'['
-			.. short_folders
-			.. ']',
-			{ right = 1} ),
-		colors.label
-	)
+	return '[' .. short_folders .. ']'
 end
 
 M.get_file_path = function ()
@@ -263,7 +256,12 @@ M.create_tab = function (self, tabnr, colors, seperators)
 		),
 		colors.number
 	)
-	local tab_dir = self.create_tab_path(self, colors, tabnr) or ''
+	local tab_dir = utils.highlight_str(
+		utils.apply_padding(
+			self.create_tab_path(self, tabnr) or '',
+			{ right = 1 } ),
+		colors.label
+	)
 	local tab_modified = utils.highlight_str(
 		utils.apply_padding(
 			self.get_tab_modified(tabnr),
