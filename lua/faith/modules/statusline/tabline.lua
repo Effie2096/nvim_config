@@ -101,7 +101,7 @@ M.get_tab_buffers = function (self, tabnr)
 	return tab_buffers == '' and '[New]' or tab_buffers
 end
 
-M.get_tab_modified = function (self, tabnr)
+M.get_tab_modified = function (tabnr)
 	local icon = icons.ui.Dot
 
 	local buffers = fn.tabpagebuflist(tabnr)
@@ -169,7 +169,7 @@ M.create_tab_path = function (self, colors, tabnr)
 	)
 end
 
-M.get_file_path = function (self)
+M.get_file_path = function ()
 	local path_seperator = icons.separators.arrow_bracket.left
 	local diff_root = false
 
@@ -236,7 +236,7 @@ M.create_path = function (self)
 		icons.separators[active_sep]['left'],
 		"Function"
 	)
-	local path_breadcrumbs, diff_root = self.get_file_path(self)
+	local path_breadcrumbs, diff_root = self.get_file_path()
 	local a = utils.highlight_str(
 			path_breadcrumbs,
 			"@text.note"
@@ -266,7 +266,7 @@ M.create_tab = function (self, tabnr, colors, seperators)
 	local tab_dir = self.create_tab_path(self, colors, tabnr) or ''
 	local tab_modified = utils.highlight_str(
 		utils.apply_padding(
-			self.get_tab_modified(self, tabnr),
+			self.get_tab_modified(tabnr),
 			0
 		),
 		colors.modified
