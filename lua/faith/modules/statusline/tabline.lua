@@ -8,6 +8,12 @@ local icons = require('faith.icons')
 
 M = {}
 
+M.options = {
+	tabs = {
+		list_buffers = false
+	},
+}
+
 M.colors = {
 	tab = {
 		active = {
@@ -53,10 +59,15 @@ M.get_tab_name = function (tabnr)
 	return ''
 end
 
-M.get_tab_buffers = function (tabnr)
+M.get_tab_buffers = function (self, tabnr)
 	local tab_buffers = ''
 
-	local buffers = fn.tabpagebuflist(tabnr)
+	local buffers
+	if self.options.tabs.list_buffers then
+		buffers = fn.tabpagebuflist(tabnr)
+	else
+		buffers = {fn.tabpagebuflist(tabnr)[1]}
+	end
 
 	for _, buffer in pairs(buffers) do
 		local buf = api.nvim_buf_get_option(buffer, 'buftype')
@@ -120,7 +131,7 @@ M.get_tab_label = function (self, tabnr)
 	if tab_name ~= '' then
 		return utils.stl_escape(tab_name)
 	else
-		return self.get_tab_buffers(tabnr)
+		return self.get_tab_buffers(self, tabnr)
 	end
 end
 
