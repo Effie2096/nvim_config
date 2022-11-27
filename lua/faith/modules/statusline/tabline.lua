@@ -317,9 +317,44 @@ M.get_tabline = function (self)
 		table.insert(tabs, self.create_tab(self, i, tab_colors, icons.separators.slant))
 	end
 
-	tabline = tabline .. self.create_path(self) .. '%*'
+	tabline = self.create_path(self) .. '%*' .. tabline .. '%='
 	if fn.tabpagenr('$') > 1 then
-		tabline = tabline .. '%=' .. table.concat(tabs, ' ', 1, #tabs)
+		local visible_tabs = 3
+		local start_tab, end_tab
+		if fn.tabpagenr('$') > visible_tabs then
+				local current_tab_number = fn.tabpagenr()
+			if visible_tabs == 1 then
+				start_tab, end_tab = current_tab_number, current_tab_number
+			else
+				local offset = visible_tabs % 2 == 0 and 1 or 2
+				if current_tab_number == 1 then
+					start_tab, end_tab = 1, visible_tabs
+				elseif current_tab_number == #tabs then
+					start_tab, end_tab = #tabs - (visible_tabs - 1), #tabs
+				else
+					local half_visible_tabs = math.ceil(visible_tabs * 0.5)
+					if current_tab_number < math.ceil(#tabs * 0.5) then
+						start_tab, end_tab = current_tab_number - (half_visible_tabs - offset), current_tab_number + half_visible_tabs
+					elseif current_tab_number == math.ceil(#tabs * 0.5) then
+						local offset2 = visible_tabs % 2 == 0 and offset or offset - 1
+						offset = offset - 1
+						start_tab, end_tab = current_tab_number - (half_visible_tabs - offset), current_tab_number + (half_visible_tabs - offset2)
+					else
+						start_tab, end_tab = current_tab_number - half_visible_tabs, current_tab_number + (half_visible_tabs - offset)
+					end
+				end
+			end
+		else
+			start_tab, end_tab = 1, #tabs
+		end
+		if start_tab > 1 then
+			tabline = tabline .. string.format('%s', fn.tabpagenr() == 1 and '' or start_tab - 1 .. ' ' .. icons.ui.ArrowNavLeft)
+		end
+		tabline = tabline .. table.concat(tabs, ' ', start_tab, end_tab)
+		if (fn.tabpagenr('$') > visible_tabs) then
+			tabline = tabline .. string.format('%s', fn.tabpagenr() == #tabs and '' or icons.ui.ArrowNavRight .. fn.tabpagenr('$') - end_tab)
+		end
+		-- tabline = tabline .. string.format('%s/%s', #tabs - visible_tabs - 1, #tabs)
 	end
 
 	return tabline
