@@ -51,8 +51,8 @@ vim.keymap.set("n", "<Leader>gq", function ()
 	vim.api.nvim_cmd({ cmd = "Gitsigns", args = { "setqflist" }}, {})
 end, opts)
 vim.keymap.set("n", "<Leader>gp", function () vim.api.nvim_cmd({ cmd = "Gitsigns", args = { "preview_hunk" }}, {}) end, opts)
-vim.keymap.set("n", "<leader>gj", "<cmd>Gitsigns next_hunk<CR><CR>", opts)
-vim.keymap.set("n", "<leader>gk", "<cmd>Gitsigns prev_hunk<CR><CR>", opts)
+vim.keymap.set("n", "<leader>gj", "<cmd>Gitsigns next_hunk<CR>zz", opts)
+vim.keymap.set("n", "<leader>gk", "<cmd>Gitsigns prev_hunk<CR>zz", opts)
 
 vim.api.nvim_create_user_command('GitSignsToggleAll',
 	function()
