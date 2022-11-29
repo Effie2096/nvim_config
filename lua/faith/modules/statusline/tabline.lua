@@ -67,7 +67,7 @@ M.get_tab_buffers = function (self, tabnr)
 	if self.options.tabs.list_buffers then
 		buffers = fn.tabpagebuflist(tabnr)
 	else
-		buffers = {fn.tabpagebuflist(tabnr)[1]}
+		buffers = {fn.tabpagebuflist(tabnr)[fn.tabpagewinnr(tabnr)]}
 	end
 
 	for _, buffer in pairs(buffers) do
