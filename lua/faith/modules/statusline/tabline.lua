@@ -10,7 +10,8 @@ M = {}
 
 M.options = {
 	tabs = {
-		list_buffers = false
+		list_buffers = false,
+		show_tab_dir = false
 	},
 }
 
@@ -148,6 +149,9 @@ M.get_tab_directory = function (self, tabnr)
 end
 
 M.create_tab_path = function (self, tabnr)
+	if not self.options.tabs.show_tab_dir then
+		return
+	end
 	local tab_dir = self.get_tab_directory(self, tabnr)
 	if f.isempty(tab_dir) then
 		return
