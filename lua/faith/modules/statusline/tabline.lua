@@ -121,10 +121,10 @@ M.get_tab_modified = function (tabnr)
 	end
 
 	if modified_count > 0 then
-		return icon .. ' '
+		return icon
 	end
 
-	return ''
+	return ' '
 end
 
 M.get_tab_label = function (self, tabnr)
