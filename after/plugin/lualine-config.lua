@@ -42,7 +42,7 @@ local trailing_space = {
 
 local encoding = {
 	"fileformat",
-	padding = { left = 1, right = 1 },
+	padding = { left = 1, right = 2 },
 	fmt = function(str)
 		if str == '' then -- only show if *not* unix format
 			return ''
@@ -261,7 +261,9 @@ local spaces = {
 			return ""
 		end
 
-		return icons.ui.Tab .. shiftwidth .. space
+		local indent_type = vim.api.nvim_buf_get_option(0, 'expandtab') and 'spaces' or 'tabs'
+
+		return indent_type .. ': ' .. shiftwidth .. space
 	end,
 	padding = 1,
 	-- separator = "%#SLSeparator#" .. " │" .. "%*",
@@ -290,6 +292,12 @@ local location = {
 	"%11(%l/%L:%c%) " --'%l/%L:%c'
 }
 
+local filetype = {
+	'filetype',
+	colored = true,
+	icon = { align = 'left' }
+}
+
 lualine.setup {
 	options = {
 		icons_enabled = true,
@@ -310,8 +318,8 @@ lualine.setup {
 		lualine_a = { git },
 		lualine_b = { workspace_diagnostics },
 		lualine_c = { language_server, },
-		lualine_x = { location },
-		lualine_y = { encoding, fileformat, spaces, indent, trailing_space },
+		lualine_x = { location, spaces, indent, trailing_space, filetype, fileformat, encoding},
+		lualine_y = { },
 		lualine_z = trans_flag,
 	},
 	inactive_sections = {
