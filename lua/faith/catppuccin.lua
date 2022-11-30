@@ -90,7 +90,10 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		local changeColor = colors.blue
 		vim.api.nvim_exec('highlight GitSignsChange guifg=' .. changeColor, false)
 		vim.api.nvim_exec('highlight GitSignsChangeNr guifg=' .. changeColor, false)
-		vim.api.nvim_exec('highlight GitSignsChangeLn guifg=' .. changeColor .. ' guibg=' .. colors.base, false)
+		vim.api.nvim_exec('highlight GitSignsChangeLn guifg=' .. colors.yellow .. ' guibg=' .. colors.base, false)
+		vim.api.nvim_set_hl(0, "GitSignsAddInline", { fg = colors.base, bg = colors.green })
+		vim.api.nvim_set_hl(0, "GitSignsDeleteInline", { fg = colors.base, bg = colors.red })
+		vim.api.nvim_set_hl(0, "GitSignsChangeInline", { fg = colors.base, bg = changeColor })
 
 		vim.api.nvim_set_hl(0, "LspInlayHint", { fg = '#d8d8d8', bg = '#3a3a3a' })
 		vim.api.nvim_set_hl(0, "ZenBg", { fg = colors.base, bg = colors.base })

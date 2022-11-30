@@ -6,11 +6,12 @@ end
 
 gitsign.setup {
 	signs                        = {
-		add          = { hl = 'GitSignsAdd', text = '┃', numhl = 'GitSignsAddNr', linehl = 'GitSignsAddLn' },
+		add          = { hl = 'GitSignsAdd'   , text = '┃', numhl = 'GitSignsAddNr'   , linehl = 'GitSignsAddLn' },
 		change       = { hl = 'GitSignsChange', text = '┃', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
 		delete       = { hl = 'GitSignsDelete', text = '_', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
 		topdelete    = { hl = 'GitSignsDelete', text = '‾', numhl = 'GitSignsDeleteNr', linehl = 'GitSignsDeleteLn' },
 		changedelete = { hl = 'GitSignsChange', text = '~', numhl = 'GitSignsChangeNr', linehl = 'GitSignsChangeLn' },
+		untracked    = { hl = 'GitSignsAdd'   , text = '┆', numhl = 'GitSignsAddNr'   , linehl = 'GitSignsAddLn' },
 },
 	signcolumn                   = true, -- Toggle with `:Gitsigns toggle_signs`
 	numhl                        = false, -- Toggle with `:Gitsigns toggle_numhl`
@@ -21,9 +22,9 @@ gitsign.setup {
 		follow_files = true
 },
 	attach_to_untracked          = true,
-	current_line_blame           = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
+	current_line_blame           = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
 	current_line_blame_opts      = {
-	virt_text = false,
+	virt_text = true,
 		virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
 		delay = 1000,
 		ignore_whitespace = false,
@@ -44,23 +45,54 @@ gitsign.setup {
 	yadm                         = {
 		enable = false
 	},
-}
+	on_attach = function (bufnr)
+		local gs = package.loaded.gitsigns
 
-local opts = { noremap = true, silent = true }
-vim.keymap.set("n", "<Leader>gq", function ()
-	vim.api.nvim_cmd({ cmd = "Gitsigns", args = { "setqflist" }}, {})
-end, opts)
-vim.keymap.set("n", "<Leader>gp", function () vim.api.nvim_cmd({ cmd = "Gitsigns", args = { "preview_hunk" }}, {}) end, opts)
-vim.keymap.set("n", "<leader>gj", "<cmd>Gitsigns next_hunk<CR>zz", opts)
-vim.keymap.set("n", "<leader>gk", "<cmd>Gitsigns prev_hunk<CR>zz", opts)
+		local function map(mode, l, r, opts)
+			opts = opts or {}
+			opts.buffer = bufnr
+			vim.keymap.set(mode, l, r, opts)
+		end
+		-- Navigation
+		map('n', ']h', function()
+			if vim.wo.diff then return ']h' end
+			vim.schedule(function() gs.next_hunk() vim.cmd('normal! zz') end)
+			return '<Ignore>'
+		end, {expr=true})
+
+		map('n', '[h', function()
+			if vim.wo.diff then return '[h' end
+			vim.schedule(function() gs.prev_hunk() vim.cmd('normal! zz') end)
+			return '<Ignore>'
+		end, {expr=true})
+
+		-- Actions
+		map({'n', 'v'}, '<leader>hs', ':Gitsigns stage_hunk<CR>')
+		map({'n', 'v'}, '<leader>hr', ':Gitsigns reset_hunk<CR>')
+		-- map('n', '<leader>hS', gs.stage_buffer)
+		map('n', '<leader>hu', gs.undo_stage_hunk)
+		-- map('n', '<leader>hR', gs.reset_buffer)
+		map('n', '<leader>hp', gs.preview_hunk)
+		-- map('n', '<leader>hb', function() gs.blame_line{full=true} end)
+		-- map('n', '<leader>tb', gs.toggle_current_line_blame)
+		map('n', '<leader>gd', gs.diffthis)
+		map('n', '<leader>gD', function() gs.diffthis('~') end)
+		-- map('n', '<leader>td', gs.toggle_deleted)
+	end
+}
 
 vim.api.nvim_create_user_command('GitSignsToggleAll',
 	function()
-		gitsign.toggle_numhl()
-		gitsign.toggle_linehl()
-		gitsign.toggle_word_diff()
-		-- gitsign.toggle_deleted()
-		gitsign.toggle_current_line_blame()
+		-- gitsign.toggle_linehl()
+		gitsign.toggle_deleted()
+		-- vim.wait(200, function () end)
+---@diagnostic disable-next-line: param-type-mismatch
+		vim.defer_fn(function()
+			-- gitsign.toggle_numhl()
+			gitsign.toggle_word_diff()
+			gitsign.toggle_current_line_blame()
+---@diagnostic disable-next-line: param-type-mismatch
+		end, 100)
 	end,
 	{}
 )
