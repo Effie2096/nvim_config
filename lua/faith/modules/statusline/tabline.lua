@@ -171,14 +171,14 @@ end
 
 M.get_file_path = function ()
 	local path_seperator = icons.separators.arrow_bracket.left
-	local diff_root = false
+	local window_has_different_root = false
 
 	local path_from_root = fn.expand('%:h', false)
 	local path_breadcrumbs = ''
 
 	-- current window has a working dir that differs from nvim's global working dir
 	if fn.haslocaldir(0,0) == 1 then
-		diff_root = true
+		window_has_different_root = true
 		local window_working_directory = fn.fnamemodify(vim.fn.getcwd(0, 0), ':r')
 		local window_directory_tail = fn.fnamemodify(window_working_directory, ':t')
 
@@ -189,13 +189,14 @@ M.get_file_path = function ()
 	end
 
 	if f.isempty(path_from_root) or path_from_root == '.' then
-		return '', diff_root
+		return '', window_has_different_root
 	end
 	path_from_root = utils.stl_escape(path_from_root)
 
 	local filetype = f.get_buf_option("filetype")
 	if filetype == "toggleterm" then
-		return 'Terminal ', diff_root
+		return path_seperator .. ' Terminal ', window_has_different_root
+	end
 	end
 
 	local folders = fn.split(path_from_root, '/')
@@ -204,7 +205,7 @@ M.get_file_path = function ()
 		path_seperator,
 		1
 	)
-	if not diff_root then
+	if not window_has_different_root then
 		path_breadcrumbs = path_breadcrumbs .. seperator
 	end
 	path_breadcrumbs = path_breadcrumbs
@@ -215,7 +216,7 @@ M.get_file_path = function ()
 		#folders
 	)
 
-	return path_breadcrumbs .. ' ', diff_root
+	return path_breadcrumbs .. ' ', window_has_different_root
 end
 
 M.create_path = function (self)
