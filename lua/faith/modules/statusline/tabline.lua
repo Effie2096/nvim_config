@@ -395,13 +395,13 @@ M.get_tabline = function (self)
 			if visible_tabs == 1 then
 				start_tab, end_tab = current_tab_number, current_tab_number
 			else
-				local offset = visible_tabs % 2 == 0 and 1 or 2
 				if current_tab_number == 1 then
 					start_tab, end_tab = 1, visible_tabs
 				elseif current_tab_number == #tabs then
 					start_tab, end_tab = #tabs - (visible_tabs - 1), #tabs
 				else
 					local half_visible_tabs = math.ceil(visible_tabs * 0.5)
+					local offset = visible_tabs % 2 == 0 and 1 or 2
 					if current_tab_number < math.ceil(#tabs * 0.5) then
 						start_tab, end_tab = current_tab_number - (half_visible_tabs - offset), current_tab_number + half_visible_tabs
 					elseif current_tab_number == math.ceil(#tabs * 0.5) then
