@@ -14,6 +14,7 @@ M.options = {
 		show_tab_dir = false
 		close_button = false,
 		tab_seperator = 'slant',
+		tab_spacer = true
 	},
 }
 
@@ -384,7 +385,11 @@ M.get_tabline = function (self)
 		if start_tab > 1 then
 			tabline = tabline .. string.format('%s', fn.tabpagenr() == 1 and '' or start_tab - 1 .. ' %@PreviousTab@' .. icons.ui.ArrowNavLeft .. '%X')
 		end
-		tabline = tabline .. table.concat(tabs, ' ', start_tab, end_tab)
+		tabline = tabline .. table.concat(
+			tabs,
+			self.options.tabs.tab_spacer and ' ' or '',
+			start_tab, end_tab
+		)
 		if (fn.tabpagenr('$') > visible_tabs) then
 			tabline = tabline .. string.format('%s', fn.tabpagenr() == #tabs and '' or '%@NextTab@' .. icons.ui.ArrowNavRight .. '%X' .. fn.tabpagenr('$') - end_tab)
 		end
