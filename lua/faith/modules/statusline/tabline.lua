@@ -12,6 +12,7 @@ M.options = {
 	tabs = {
 		list_buffers = false,
 		show_tab_dir = false
+		close_button = false,
 	},
 }
 
@@ -253,6 +254,10 @@ M.create_path = function (self)
 	end
 end
 
+M.create_close_button = function (tabnr)
+	return '%' .. tabnr .. 'X' .. icons.ui.Close .. '%X'
+end
+
 M.create_tab = function (self, tabnr, colors, seperators)
 	local tab_number = utils.highlight_str(
 		utils.apply_padding(
@@ -281,6 +286,17 @@ M.create_tab = function (self, tabnr, colors, seperators)
 		colors.label
 	)
 
+	local tab_close = ''
+	if self.options.tabs.close_button then
+		tab_close = utils.highlight_str(
+			utils.apply_padding(
+				self.create_close_button(tabnr),
+				{ right = 1 }
+			),
+			colors.close
+		)
+	end
+
 	local l_seperator = utils.highlight_str(
 		seperators.right,
 		colors.seperator
@@ -291,13 +307,14 @@ M.create_tab = function (self, tabnr, colors, seperators)
 	)
 
 	local tab = string.format(
-		'%s%s%s%s%s%s%s',
+		'%s%s%s%s%s%s%s%s',
 		self.set_tab_number(tabnr),
 		l_seperator,
 		tab_number,
 		tab_dir,
 		tab_modified,
 		tab_label,
+		tab_close,
 		r_seperator
 	)
 

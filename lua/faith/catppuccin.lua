@@ -116,8 +116,8 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		vim.api.nvim_set_hl(0, "TabModifiedSelected", { fg = modified, bg = tabSelBG })
 		vim.api.nvim_set_hl(0, "TabLineSep", { fg = tabSepFG, bg = tabSepBG })
 		vim.api.nvim_set_hl(0, "TabLineSelSep", { fg = tabSepSelFG, bg = tabSepBG })
-		-- vim.api.nvim_set_hl(0, "TabLineClose",		 { fg = colors.red, bg = tabBG })
-		-- vim.api.nvim_set_hl(0, "TabLineSelClose",		{ fg = colors.red, bg = tabSelBG })
+		vim.api.nvim_set_hl(0, "TabLineClose",		 { fg = colors.red, bg = tabBG })
+		vim.api.nvim_set_hl(0, "TabLineSelClose",		{ fg = colors.red, bg = tabSelBG })
 
 		local numBG = colors.pink
 		local numFG = colors.crust
