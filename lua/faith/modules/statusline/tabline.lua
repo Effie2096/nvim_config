@@ -13,6 +13,7 @@ M.options = {
 		list_buffers = false,
 		show_tab_dir = false
 		close_button = false,
+		tab_seperator = 'slant',
 	},
 }
 
@@ -334,6 +335,7 @@ endfunction
 
 M.get_tabline = function (self)
 	local colors = self.colors
+	local tab_seperators = icons.separators[self.options.tabs.tab_seperator] or 'slant'
 	local tabline = ''
 	local tabs = {}
 
@@ -346,7 +348,7 @@ M.get_tabline = function (self)
 			tab_colors = colors.tab.inactive
 		end
 
-		table.insert(tabs, self.create_tab(self, i, tab_colors, icons.separators.slant))
+		table.insert(tabs, self.create_tab(self, i, tab_colors, tab_seperators))
 	end
 
 	tabline = self.create_path(self) .. '%*' .. tabline .. '%='
