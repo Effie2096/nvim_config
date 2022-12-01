@@ -357,6 +357,22 @@ M.create_tab = function (self, tabnr, colors, seperators)
 	return tab
 end
 
+M.get_visible_tabs = function (self)
+	local nvim_width = api.nvim_get_option('columns')
+	local half_nvim_width = math.floor(nvim_width * 0.5)
+	local tab_label_width = self.options.tabs.max_label_width
+	-- arbitrary estimate of display width for other tab elements i.e. number,
+	-- modified, seperators. Not perfect/deterministic but too complicated actually
+	-- obtaining this from the tabs because stl characters like highlights :c
+	local wiggle_room = 8
+
+	local i = 1
+	repeat
+		i = i + 1
+	until ((math.floor((tab_label_width * i) + (wiggle_room * i))) > half_nvim_width)
+	return i - 1 == 0 and 1 or i - 1
+end
+
 vim.cmd([[
 function! PreviousTab(minwid, clicks, mouse, mods)
 	if a:clicks == 2 | execute "tabfirst" | return | endif
@@ -388,7 +404,7 @@ M.get_tabline = function (self)
 
 	tabline = self.create_path(self) .. '%*' .. tabline .. '%='
 	if fn.tabpagenr('$') > 1 then
-		local visible_tabs = 3
+		local visible_tabs = self.get_visible_tabs(self)
 		local start_tab, end_tab
 		if fn.tabpagenr('$') > visible_tabs then
 				local current_tab_number = fn.tabpagenr()
