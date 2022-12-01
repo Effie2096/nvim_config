@@ -11,7 +11,9 @@ M = {}
 M.options = {
 	tabs = {
 		list_buffers = false,
-		show_tab_dir = false
+		show_tab_dir = false,
+		equal_label_width = true, -- whether tab labels should all be the same width
+		max_label_width = 21, -- max length of tab labels. Ignored if `equal_label_width` is false
 		close_button = false,
 		tab_seperator = 'slant',
 		tab_spacer = true
@@ -292,10 +294,30 @@ M.create_tab = function (self, tabnr, colors, seperators)
 		),
 		colors.modified
 	)
+
+	local label_value = self.get_tab_label(self, tabnr)
+	local display_label
+	if self.options.tabs.equal_label_width then
+		local max_label_width = self.options.tabs.max_label_width
+		local label_width = fn.strdisplaywidth(label_value)
+		if label_width > max_label_width then
+			display_label = string.sub(label_value, 1, (max_label_width - 1)) .. icons.ui.Ellipses
+		else
+			local label_pad = math.floor((max_label_width - label_width) * 0.5)
+			local offset = (label_pad * 2) + label_width == max_label_width and 0 or 1
+			display_label = utils.apply_padding(
+				label_value,
+				{ left = (label_pad) - 1, right = (label_pad + offset) + 1 }
+			)
+		end
+	else
+		display_label = label_value
+	end
+
 	local tab_label = utils.highlight_str(
 		utils.apply_padding(
-			self.get_tab_label(self, tabnr),
-			{ left = 0, right = 1 }
+			display_label,
+			{ left = 1, right = 1 }
 		),
 		colors.label
 	)
