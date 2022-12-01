@@ -169,7 +169,7 @@ M.create_tab_path = function (self, tabnr)
 	return '[' .. short_folders .. ']'
 end
 
-M.get_file_path = function ()
+M.get_file_path = function (self)
 	local path_seperator = icons.separators.arrow_bracket.left
 	local window_has_different_root = false
 
@@ -197,13 +197,24 @@ M.get_file_path = function ()
 	if filetype == "toggleterm" then
 		return path_seperator .. ' Terminal ', window_has_different_root
 	end
+
+	local half_nvim_width = math.floor(api.nvim_get_option('columns') * 0.5) - 8
+	local root_width = fn.strdisplaywidth(self.get_dir_root()) + 8
+	-- also accounts for seperators because includes slashes which aren't removed yet
+	local file_path_width = fn.strdisplaywidth(path_from_root)
+	local seperator_padding = 1
+	if root_width + file_path_width
+		+ ((seperator_padding * 2) * fn.count(path_from_root, '/'))
+		> half_nvim_width
+	then
+		path_from_root = fn.pathshorten(path_from_root)
 	end
 
 	local folders = fn.split(path_from_root, '/')
 
 	local seperator = utils.apply_padding(
 		path_seperator,
-		1
+		seperator_padding
 	)
 	if not window_has_different_root then
 		path_breadcrumbs = path_breadcrumbs .. seperator
@@ -229,7 +240,7 @@ M.create_path = function (self)
 			.. utils.stl_escape(
 				self.get_dir_root()
 			),
-			{ right = 1}
+			{ right = 0 }
 		),
 		"@text.note"
 	)
@@ -237,7 +248,7 @@ M.create_path = function (self)
 		icons.separators[active_sep]['left'],
 		"Function"
 	)
-	local path_breadcrumbs, diff_root = self.get_file_path()
+	local path_breadcrumbs, diff_root = self.get_file_path(self)
 	local a = utils.highlight_str(
 			path_breadcrumbs,
 			"@text.note"
