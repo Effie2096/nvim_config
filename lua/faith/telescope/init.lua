@@ -53,6 +53,11 @@ function M.git_commits()
 	require('telescope.builtin').git_commits(opts)
 end
 
+function M.git_status()
+	local opts = vim.deepcopy(layouts.default_flex) or {}
+	require('telescope.builtin').git_status(opts)
+end
+
 function M.treesitter()
 	local opts = vim.deepcopy(layouts.default_vert) or {}
 	require('telescope.builtin').treesitter(opts)
