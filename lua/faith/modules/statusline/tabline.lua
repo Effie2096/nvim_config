@@ -21,6 +21,11 @@ M.options = {
 }
 
 M.colors = {
+	path = {
+		icon = "TabLineProject",
+		folder = "TabLinePath",
+		seperator = "TabLinePathSep"
+	},
 	tab = {
 		active = {
 			number    = 'TabLineSel',
@@ -233,27 +238,30 @@ M.get_file_path = function (self)
 end
 
 M.create_path = function (self)
-	local folder_icon = utils.apply_padding(
-		icons.ui.Project
-	)
-	local root_dir = utils.highlight_str(
+	local folder_icon = utils.highlight_str(
 		utils.apply_padding(
-			folder_icon
-			.. utils.stl_escape(
+			icons.ui.Project
+		),
+		self.colors.path.icon
+	)
+	local root_dir = folder_icon..
+	utils.highlight_str(
+		utils.apply_padding(
+			utils.stl_escape(
 				self.get_dir_root()
 			),
 			{ right = 0 }
 		),
-		"@text.note"
+		self.colors.path.folder
 	)
 	local seperator = utils.highlight_str(
 		icons.separators[active_sep]['left'],
-		"Function"
+		self.colors.path.seperator
 	)
 	local path_breadcrumbs, diff_root = self.get_file_path(self)
 	local a = utils.highlight_str(
 			path_breadcrumbs,
-			"@text.note"
+		self.colors.path.folder
 		)
 	if diff_root then
 		return root_dir .. seperator
@@ -262,7 +270,7 @@ M.create_path = function (self)
 					icons.separators[active_sep]['left'],
 					{ right = 1 }
 				),
-				"@text.note"
+				self.colors.path.folder
 			)
 			.. a .. seperator
 	else

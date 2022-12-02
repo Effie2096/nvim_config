@@ -107,6 +107,8 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		local tabSepFG = tabBG
 		local tabSepSelFG = tabSelBG
 		local modified = colors.red
+		local tablinePathFG = colors.crust
+		local tablinePathBG = colors.lavender
 
 		vim.api.nvim_set_hl(0, "TabLineFill", { bg = tabFill })
 		vim.api.nvim_set_hl(0, "TabLineNum", { fg = colors.text, bg = tabBG })
@@ -118,6 +120,9 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		vim.api.nvim_set_hl(0, "TabLineSelSep", { fg = tabSepSelFG, bg = tabSepBG })
 		vim.api.nvim_set_hl(0, "TabLineClose",		 { fg = colors.red, bg = tabBG })
 		vim.api.nvim_set_hl(0, "TabLineSelClose",		{ fg = colors.red, bg = tabSelBG })
+		vim.api.nvim_set_hl(0, "TabLinePath", { fg = tablinePathFG, bg = tablinePathBG })
+		vim.api.nvim_set_hl(0, "TabLinePathSep", { fg = tablinePathBG })
+		vim.api.nvim_set_hl(0, "TabLineProject", { fg = colors.yellow, bg = tablinePathBG })
 
 		local numBG = colors.pink
 		local numFG = colors.crust
