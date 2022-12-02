@@ -380,7 +380,7 @@ M.get_visible_tabs = function (self)
 	local i = 1
 	repeat
 		i = i + 1
-	until ((math.floor((tab_label_width * i) + (wiggle_room * i))) > half_nvim_width)
+	until (((tab_label_width * i) + (wiggle_room * i)) > half_nvim_width)
 	return i - 1 == 0 and 1 or i - 1
 end
 
