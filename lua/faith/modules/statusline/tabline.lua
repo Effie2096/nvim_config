@@ -219,6 +219,13 @@ function M.get_file_path(self)
 	if self.file_path_is_too_long(self, path_from_root, half_nvim_width, seperator_padding)
 	then
 		path_from_root = fn.pathshorten(path_from_root)
+		if
+			self.file_path_is_too_long(self, path_from_root, half_nvim_width, seperator_padding)
+		then
+			path_from_root = string.gsub(path_from_root, '/.*$', '')
+			.. '/' .. icons.ui.Ellipses
+			.. '/' .. fn.fnamemodify(path_from_root, ':t')
+		end
 	end
 
 	local folders = fn.split(path_from_root, '/')
