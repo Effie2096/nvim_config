@@ -101,7 +101,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		local tabFill = colors.mantle
 		local tabBG = colors.surface1
 		local tabFG = colors.subtext0
-		local tabSelBG = colors.sapphire
+		local tabSelBG = colors.pink
 		local tabSelFG = colors.crust
 		local tabSepBG = tabFill
 		local tabSepFG = tabBG
