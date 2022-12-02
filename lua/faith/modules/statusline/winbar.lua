@@ -178,6 +178,18 @@ function M.get_file_modified(win)
 	return ''
 end
 
+function M.get_file_flags(win)
+	local bufnr = api.nvim_win_get_buf(win)
+	local buffer_flags = ''
+	if not api.nvim_buf_get_option(bufnr, 'modifiable') then
+		buffer_flags = buffer_flags .. '[-]'
+	end
+	if api.nvim_buf_get_option(bufnr, 'readonly') then
+		buffer_flags = buffer_flags .. '[RO]'
+	end
+	return buffer_flags
+end
+
 M._navic_cache = {}
 
 function M.get_navic(self, win)
@@ -304,6 +316,13 @@ function M.get_winbar(self, win)
 		self.get_filename(self, win),
 		0
 	)
+	local file_flags = utils.highlight_str(
+		utils.apply_padding(
+			self.get_file_flags(win),
+			{ right = 1 }
+		),
+		colors.modified
+	)
 	local file_modified = utils.highlight_str(
 		utils.apply_padding(
 			self.get_file_modified(win),
@@ -347,11 +366,12 @@ function M.get_winbar(self, win)
 
 	if not f.isempty(filename) then
 		winbar = string.format(
-			'%s%s%s%s%s%s%s%s%s%s',
+			'%s%s%s%s%s%s%s%s%s%s%s',
 			win_number,
 			file_start,
 			file_modified,
 			filename,
+			file_flags,
 			navic_sep,
 			'%<',
 			navic,
