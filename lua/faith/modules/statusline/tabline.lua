@@ -176,6 +176,15 @@ function M.create_tab_path(self, tabnr)
 	return '[' .. short_folders .. ']'
 end
 
+function M.file_path_is_too_long(self, path, trunc_width, seperator_padding)
+	local root_width = fn.strdisplaywidth(self.get_dir_root()) + 8
+	local file_path_width = fn.strdisplaywidth(path)
+	return root_width + file_path_width
+		-- also accounts for seperators because includes slashes which aren't removed yet
+		+ ((seperator_padding * 2) * fn.count(path, '/'))
+		> trunc_width
+end
+
 function M.get_file_path(self)
 	local path_seperator = icons.separators.arrow_bracket.left
 	local window_has_different_root = false
@@ -206,13 +215,8 @@ function M.get_file_path(self)
 	end
 
 	local half_nvim_width = math.floor(api.nvim_get_option('columns') * 0.5) - 8
-	local root_width = fn.strdisplaywidth(self.get_dir_root()) + 8
-	-- also accounts for seperators because includes slashes which aren't removed yet
-	local file_path_width = fn.strdisplaywidth(path_from_root)
 	local seperator_padding = 1
-	if root_width + file_path_width
-		+ ((seperator_padding * 2) * fn.count(path_from_root, '/'))
-		> half_nvim_width
+	if self.file_path_is_too_long(self, path_from_root, half_nvim_width, seperator_padding)
 	then
 		path_from_root = fn.pathshorten(path_from_root)
 	end
