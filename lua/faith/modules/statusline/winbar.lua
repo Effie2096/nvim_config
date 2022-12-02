@@ -121,6 +121,12 @@ M.get_filename = function (self, win)
 	hl_group = color
 
 	-- These come after devicon api call because they alter the filename
+	if filetype == "qf" then
+		filename = fn.getqflist({title = 1}).title
+		hl_group = 'healthError'
+		file_icon = icons.ui.List
+	end
+
 	if filetype == "toggleterm" then
 		filename = "ToggleTerm"
 		hl_group = "DevIconTerminal"
