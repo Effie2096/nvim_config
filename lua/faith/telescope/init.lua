@@ -1,3 +1,14 @@
+SHOULD_RELOAD_TELESCOPE = true
+
+local reloader = function()
+  if SHOULD_RELOAD_TELESCOPE then
+    RELOAD "plenary"
+    RELOAD "telescope"
+		RELOAD "faith.telescope"
+    RELOAD "faith.telescope.setup"
+  end
+end
+
 M = {}
 
 local layouts = require('faith.telescope.layouts').layout_configs
@@ -103,6 +114,7 @@ end
 
 return setmetatable({}, {
 	__index = function (_, k)
+		reloader()
 		if M[k] then
 			return M[k]
 		else
