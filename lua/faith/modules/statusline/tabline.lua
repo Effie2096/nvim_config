@@ -228,7 +228,10 @@ function M.get_file_path(self)
 		end
 	end
 
-	local folders = fn.split(path_from_root, '/')
+	local home = os.getenv('HOME')
+	path_from_root = fn.substitute(path_from_root, home, '/' .. icons.ui.House, '')
+
+	local folders = fn.split(path_from_root, '/', false)
 	if folders[#folders] == '.' then
 		table.remove(folders, #folders)
 	end
