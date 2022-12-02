@@ -258,21 +258,22 @@ function M.create_path(self)
 		),
 		self.colors.path.icon
 	)
+	local seperator = utils.highlight_str(
+		icons.separators[active_sep]['left'],
+		self.colors.path.seperator
+	)
+	local path_breadcrumbs, diff_root = self.get_file_path(self)
+	local root_padding = (f.isempty(path_breadcrumbs) or diff_root) and 1 or 0
 	local root_dir = folder_icon..
 	utils.highlight_str(
 		utils.apply_padding(
 			utils.stl_escape(
 				self.get_dir_root()
 			),
-			{ right = 0 }
+			{ right = root_padding }
 		),
 		self.colors.path.folder
 	)
-	local seperator = utils.highlight_str(
-		icons.separators[active_sep]['left'],
-		self.colors.path.seperator
-	)
-	local path_breadcrumbs, diff_root = self.get_file_path(self)
 	local a = utils.highlight_str(
 			path_breadcrumbs,
 		self.colors.path.folder
