@@ -218,6 +218,9 @@ M.get_file_path = function (self)
 	end
 
 	local folders = fn.split(path_from_root, '/')
+	if folders[#folders] == '.' then
+		table.remove(folders, #folders)
+	end
 
 	local seperator = utils.apply_padding(
 		path_seperator,
