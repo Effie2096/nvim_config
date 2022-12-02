@@ -275,7 +275,7 @@ function M.create_path(self)
 		self.colors.path.folder
 	)
 	local a = utils.highlight_str(
-			path_breadcrumbs,
+			'%<' .. path_breadcrumbs,
 		self.colors.path.folder
 		)
 	if diff_root then
