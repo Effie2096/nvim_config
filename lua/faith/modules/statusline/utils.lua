@@ -2,11 +2,11 @@ M = {}
 
 local default_padding = 1
 
-M.highlight_str = function (str, highlight)
+function M.highlight_str(str, highlight)
 	return '%#' .. highlight .. '#' .. str .. '%*'
 end
 
-M.apply_padding = function (string, padding)
+function M.apply_padding(string, padding)
 	local f = require('faith.functions')
 	local l_padding, r_padding
 

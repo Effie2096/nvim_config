@@ -54,23 +54,23 @@ M.trunc_width = setmetatable({
 	end
 })
 
-M.is_truncated = function (_, width)
+function M.is_truncated(_, width)
 	local current_width = api.nvim_win_get_width(0)
 	return current_width < width
 end
 
-M.set_tab_number = function (tabnr)
+function M.set_tab_number(tabnr)
 	return '%' .. tabnr .. 'T'
 end
 
-M.get_tab_name = function (tabnr)
+function M.get_tab_name(tabnr)
 	if fn.exists('g:loaded_taboo') ~= 0 then
 		return fn.TabooTabName(tabnr)
 	end
 	return ''
 end
 
-M.get_tab_buffers = function (self, tabnr)
+function M.get_tab_buffers(self, tabnr)
 	local tab_buffers = ''
 
 	local buffers
@@ -112,7 +112,7 @@ M.get_tab_buffers = function (self, tabnr)
 	return tab_buffers == '' and '[New]' or tab_buffers
 end
 
-M.get_tab_modified = function (tabnr)
+function M.get_tab_modified(tabnr)
 	local icon = icons.ui.Dot
 
 	local buffers = fn.tabpagebuflist(tabnr)
@@ -137,7 +137,7 @@ M.get_tab_modified = function (tabnr)
 	return ' '
 end
 
-M.get_tab_label = function (self, tabnr)
+function M.get_tab_label(self, tabnr)
 	local tab_name = self.get_tab_name(tabnr)
 	if tab_name ~= '' then
 		return utils.stl_escape(tab_name)
@@ -146,11 +146,11 @@ M.get_tab_label = function (self, tabnr)
 	end
 end
 
-M.get_dir_root = function ()
+function M.get_dir_root()
 	return fn.fnamemodify(fn.getcwd(-1, -1), ':t')
 end
 
-M.get_tab_directory = function (self, tabnr)
+function M.get_tab_directory(self, tabnr)
 	local tab_dir = fn.fnamemodify(fn.getcwd(-1, tabnr), ':t')
 	if tab_dir ~= self.get_dir_root() then
 		return fn.fnamemodify(fn.getcwd(-1, tabnr), ':.')
@@ -158,7 +158,7 @@ M.get_tab_directory = function (self, tabnr)
 	return ''
 end
 
-M.create_tab_path = function (self, tabnr)
+function M.create_tab_path(self, tabnr)
 	if not self.options.tabs.show_tab_dir then
 		return
 	end
@@ -176,7 +176,7 @@ M.create_tab_path = function (self, tabnr)
 	return '[' .. short_folders .. ']'
 end
 
-M.get_file_path = function (self)
+function M.get_file_path(self)
 	local path_seperator = icons.separators.arrow_bracket.left
 	local window_has_different_root = false
 
@@ -240,7 +240,7 @@ M.get_file_path = function (self)
 	return path_breadcrumbs .. ' ', window_has_different_root
 end
 
-M.create_path = function (self)
+function M.create_path(self)
 	local folder_icon = utils.highlight_str(
 		utils.apply_padding(
 			icons.ui.Project
@@ -281,11 +281,11 @@ M.create_path = function (self)
 	end
 end
 
-M.create_close_button = function (tabnr)
+function M.create_close_button(tabnr)
 	return '%' .. tabnr .. 'X' .. icons.ui.Close .. '%X'
 end
 
-M.create_tab = function (self, tabnr, colors, seperators)
+function M.create_tab(self, tabnr, colors, seperators)
 	local tab_number = utils.highlight_str(
 		utils.apply_padding(
 			tostring(tabnr)
@@ -368,7 +368,7 @@ M.create_tab = function (self, tabnr, colors, seperators)
 	return tab
 end
 
-M.get_visible_tabs = function (self)
+function M.get_visible_tabs(self)
 	local nvim_width = api.nvim_get_option('columns')
 	local half_nvim_width = math.floor(nvim_width * 0.5)
 	local tab_label_width = self.options.tabs.max_label_width
@@ -395,7 +395,7 @@ function! NextTab(minwid, clicks, mouse, mods)
 endfunction
 ]])
 
-M.get_tabline = function (self)
+function M.get_tabline(self)
 	local colors = self.colors
 	local tab_seperators = icons.separators[self.options.tabs.tab_seperator] or 'slant'
 	local tabline = ''

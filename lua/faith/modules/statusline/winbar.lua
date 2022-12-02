@@ -64,13 +64,13 @@ M.winbar_filetype_exclude = {
 	"",
 }
 
-local excludes = function (self, win)
+local function excludes(self, win)
 	local bufnr = api.nvim_win_get_buf(win)
 	local filetype = api.nvim_buf_get_option(bufnr, 'filetype')
 	return vim.tbl_contains(self.winbar_filetype_exclude or {}, filetype)
 end
 
-M.win_number = function (self, win)
+function M.win_number(self, win)
 	local seperators = icons.separators.rounded
 	local color = self.colors.winbar.active.number
 	local sepHL, hl = color.seperator, color.label
@@ -82,7 +82,7 @@ M.win_number = function (self, win)
 		.. utils.highlight_str(seperators.left, sepHL)
 end
 
-M.get_filename = function (self, win)
+function M.get_filename(self, win)
 	local bufnr = api.nvim_win_get_buf(win)
 	local filename = fn.fnamemodify(api.nvim_buf_get_name(bufnr), ":t")
 	local extension = fn.fnamemodify(api.nvim_buf_get_name(bufnr), ":e")
@@ -170,7 +170,7 @@ M.get_filename = function (self, win)
 		.. utils.highlight_str(filename .. ' ', self.colors.winbar.active.file.label)
 end
 
-M.get_file_modified = function (win)
+function M.get_file_modified(win)
 	local bufnr = api.nvim_win_get_buf(win)
 	if api.nvim_buf_get_option(bufnr, 'mod') then
 		return icons.ui.Dot
@@ -180,7 +180,7 @@ end
 
 M._navic_cache = {}
 
-M.get_navic = function (self, win)
+function M.get_navic(self, win)
 	local bufnr = api.nvim_win_get_buf(win)
 	local f = require("faith.functions")
 
@@ -239,7 +239,7 @@ M.get_navic = function (self, win)
 	end
 end
 
-M.is_client_attached = function (bufnr)
+function M.is_client_attached(bufnr)
 	for _, client in pairs(vim.lsp.get_active_clients()) do
 		local attached_buffers = client["attached_buffers"]
 		if attached_buffers[bufnr] then
@@ -249,7 +249,7 @@ M.is_client_attached = function (bufnr)
 	return false
 end
 
-M.get_buffer_diagnostics = function (self, win, levels)
+function M.get_buffer_diagnostics(self, win, levels)
 	local diagnostics = { error = '', warn = '', info = '', hint = '', }
 
 	local bufnr = api.nvim_win_get_buf(win)
@@ -291,7 +291,7 @@ M.get_buffer_diagnostics = function (self, win, levels)
 		.. diagnostics["hint"]
 end
 
-M.get_winbar = function (self, win)
+function M.get_winbar(self, win)
 	if excludes(self, win) then
 		return
 	end
