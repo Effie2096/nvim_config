@@ -74,6 +74,7 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 		local path = vim.fn.stdpath("config")
 		vim.cmd("luafile" .. path .. "/lua/faith/catppuccin.lua")
 		require('catppuccin').compile()
+		return true
 	end
 })
 
