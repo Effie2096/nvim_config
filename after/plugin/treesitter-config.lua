@@ -41,47 +41,63 @@ ts_conf.setup {
 				["ic"] = "@conditional.inner",
 				["ab"] = "@block.outer",
 				["ib"] = "@block.inner",
+				["ad"] = "@comment.outer",
+				["id"] = "@comment.inner",
 			},
 			selection_modes = {
-				['@parameter.outer'] = 'v', -- charwise
-				['@function.outer'] = 'V', -- linewise
-				['@class.outer'] = 'V', -- blockwise
-				['@loop.inner'] = 'V', -- linewise
+				['@parameter.outer'] = 'v',
+				['@function.outer'] = 'V',
+				['@class.outer'] = 'V',
+				['@loop.inner'] = 'V',
 			},
 			include_surrounding_whitespace = true,
 		},
 		swap = {
 			enable = true,
 			swap_next = {
-				["<leader>p"] = "@parameter.inner",
+				["<leader>sfn"] = "@function.outer",
+				["<leader>svn"] = "@parameter.inner",
 			},
 			swap_previous = {
-				["<leader>P"] = "@parameter.inner",
+				["<leader>sfp"] = "@function.outer",
+				["<leader>svp"] = "@parameter.inner",
 			},
-			move = {
-				enable = true,
-				set_jumps = true, -- whether to set jumps in the jumplist
-				goto_next_start = {
-					["]m"] = "@function.outer",
-					["]]"] = { query = "@class.outer", desc = "Next class start" },
-					["]b"] = "@block.outer",
-				},
-				goto_next_end = {
-					["]M"] = "@function.outer",
-					["]["] = "@class.outer",
-					["]B"] = "@block.outer",
-				},
-				goto_previous_start = {
-					["[m"] = "@function.outer",
-					["[["] = "@class.outer",
-					["[b"] = "@block.outer",
-				},
-				goto_previous_end = {
-					["[M"] = "@function.outer",
-					["[]"] = "@class.outer",
-					["]b"] = "@block.outer",
-				},
-    },
+		},
+		move = {
+			enable = true,
+			set_jumps = true, -- whether to set jumps in the jumplist
+			goto_next_start = {
+				["]m"] = "@function.outer",
+				["]["] = { query = "@class.outer", desc = "Next class start" },
+				["]b"] = "@block.outer",
+				["]v"] = "@parameter.inner",
+			},
+			goto_next_end = {
+				["]M"] = "@function.outer",
+				["]]"] = "@class.outer",
+				["]B"] = "@block.outer",
+				["]V"] = "@parameter.inner",
+			},
+			goto_previous_start = {
+				["[m"] = "@function.outer",
+				["[["] = "@class.outer",
+				["[b"] = "@block.outer",
+				["[v"] = "@parameter.inner",
+			},
+			goto_previous_end = {
+				["[M"] = "@function.outer",
+				["[]"] = "@class.outer",
+				["]B"] = "@block.outer",
+				["[V"] = "@parameter.inner",
+			},
+		},
+		lsp_interop = {
+			enable = true,
+			border = 'single',
+			peek_definition_code = {
+				["<leader>pf"] = "@function.outer",
+				["<leader>pF"] = "@class.outer",
+			},
 		},
 	},
 	playground = {
