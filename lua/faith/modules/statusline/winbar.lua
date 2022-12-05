@@ -392,7 +392,11 @@ Winbar = setmetatable(M, {
 
 local group = api.nvim_create_augroup("Winbar", { clear = true })
 api.nvim_create_autocmd(
-	{ "CursorMoved", "CursorMovedI", "CursorHold", "CursorHoldI", "BufRead", "BufWinEnter", "BufFilePost", "InsertEnter", "BufWritePost", "TabClosed" },
+	{
+		"CursorMoved", "CursorMovedI", "CursorHold", "CursorHoldI", "InsertEnter",
+		"BufRead", "BufWritePost", "BufFilePost",
+		"BufWinEnter", "TabClosed"
+	},
 	{
 		group = group,
 		callback = function ()
