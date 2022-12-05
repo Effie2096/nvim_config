@@ -416,7 +416,7 @@ api.nvim_create_autocmd(
 					if require('faith.functions').isempty(winbar_content) then
 						goto continue
 					end
-					api.nvim_win_set_option(win, 'winbar', tostring(winbar_content))
+					api.nvim_win_set_option(win, 'winbar', winbar_content)
 				end
 				::continue::
 			end
