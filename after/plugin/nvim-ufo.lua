@@ -5,8 +5,10 @@ end
 
 local icons = require('faith.icons')
 
+-- needs to be high for ufo
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
+
 vim.opt.foldopen:remove('hor') -- don't open folds when moving on the line
 -- vim.opt.foldcolumn = '1'
 vim.opt.fillchars = "foldopen:".. icons.ui.ArrowFillOpen .. ",foldsep: ,foldclose:" .. icons.ui.ArrowFillClosed
