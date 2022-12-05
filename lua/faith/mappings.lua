@@ -54,9 +54,6 @@ function! ExecuteMacroOverVisualRange()
 	execute ":'<,'>normal @".nr2char(getchar())
 endfunction ]]
 
-nnoremap("z]", "<cmd>silent! normal! zx<CR>zczjzozz", opts)
-nnoremap("z[", "<cmd>silent! normal! zx<CR>zczkzo[zzz", opts)
-
 nnoremap("<C-w>q", "<cmd>close<CR>", opts)
 -- Use alt + hjkl to resize windows
 nnoremap("<M-h>", "<cmd>vertical resize -2<CR>", opts)
