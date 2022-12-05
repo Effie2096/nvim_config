@@ -225,18 +225,42 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 
 vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25-blinkon10,r-cr-o:hor20,a:-TermCursor"
 
+local yank_group = vim.api.nvim_create_augroup('highlight_yank', { clear = true })
+vim.api.nvim_create_autocmd("TextYankPost", {
+	group = yank_group,
+	callback = function ()
+		vim.highlight.on_yank({higroup="YankFlash", timeout=40})
+	end
+})
+
 -- Only display colorcolumn on lines that exceed it
-vim.cmd [[au BufWinEnter,BufReadPost * call matchadd('ColorColumn', '\%81v', 100)]]
+local match_group = vim.api.nvim_create_augroup('match_group', { clear = true })
+vim.api.nvim_create_autocmd({ "BufWinEnter", "BufReadPost", "CursorHold" },
+	{
+		group = match_group,
+		callback = function ()
+			vim.fn.matchadd("ColorColumn", "\\%81v", 100)
+		end
+	}
+)
 
-vim.cmd [[
-		augroup highlight_yank
-		autocmd!
-		au TextYankPost * silent lua vim.highlight.on_yank({higroup="YankFlash", timeout=40})
-		augroup END
-]]
-
-vim.cmd [[2match ExtraWhitespace /\s\+$/]]
-vim.cmd [[autocmd BufWinEnter * 2match ExtraWhitespace /\s\+$/]]
-vim.cmd [[autocmd InsertEnter * 2match ExtraWhitespace /\s\+\%#\@<!$/]]
-vim.cmd [[autocmd InsertLeave * 2match ExtraWhitespace /\s\+$/]]
-vim.cmd [[autocmd BufWinLeave * call clearmatches()]]
+vim.api.nvim_create_autocmd({ "BufWinEnter", "InsertLeave" },
+	{
+		group = match_group,
+		command = [[2match ExtraWhitespace /\s\+$/]]
+	}
+)
+vim.api.nvim_create_autocmd({ "InsertEnter" },
+	{
+		group = match_group,
+		command = [[2match ExtraWhitespace /\s\+\%#\@<!$/]]
+	}
+)
+vim.api.nvim_create_autocmd({ "BufWinLeave" },
+	{
+		group = match_group,
+		callback = function ()
+			vim.fn.clearmatches()
+		end
+	}
+)
