@@ -27,7 +27,7 @@ null_ls.setup {
 		},
 		actions.eslint_d,
 		diagnostics.eslint_d,
-		actions.gitsigns,
+		-- actions.gitsigns,
 		-- formatting.google_java_format,
 	},
 }
