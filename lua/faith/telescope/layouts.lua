@@ -192,7 +192,7 @@ M.layout_configs = {
 	}
 }
 
-local file_ignore = {
+M.file_ignore = {
 	file_ignore_patterns = {
 		"^node_modules/",
 		"^target/", "^bin/",  "^build/",
@@ -204,7 +204,7 @@ local file_ignore = {
 		"^tmp/", "^.vs/", "^Library/", "^Logs/", "^obj/", "^Packages/", "^ProjectSettings/",
 	}
 }
-M.layout_configs.defaults = vim.tbl_extend('force', M.layout_configs.defaults, file_ignore)
+-- M.layout_configs.defaults = vim.tbl_extend('force', M.layout_configs.defaults, file_ignore)
 
 local function append_defaults()
 	local defaults = M.layout_configs['defaults']

@@ -29,10 +29,11 @@ end
 
 -- basic builtins
 map_tele("<leader>ff", "find_files")
-map_tele("<leader>fl", "live_grep")
+map_tele("<leader>fp", "project_files")
+map_tele("<leader>fL", "live_grep")
 map_tele("<leader>fb", "buffers")
 map_tele("<leader>fh", "help_tags")
-map_tele("<leader>fp", "current_buffer_fuzzy_find")
+map_tele("<leader>fl", "current_buffer_fuzzy_find")
 map_tele("<leader>fs", "treesitter")
 map_tele("<leader>fgc", "git_commits")
 map_tele("<leader>fgs", "git_status")
