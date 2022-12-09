@@ -98,7 +98,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 
 		vim.api.nvim_set_hl(0, "LspInlayHint", { fg = '#d8d8d8', bg = '#3a3a3a' })
 		vim.api.nvim_set_hl(0, "ZenBg", { fg = colors.base, bg = colors.base })
-		vim.api.nvim_set_hl(0, "MatchParen", { fg = colors.base, bg = colors.peach, bold = true })
+		vim.api.nvim_set_hl(0, "MatchParen", { special = colors.peach, underline = true, bold = true })
 		vim.api.nvim_set_hl(0, "NormalFloat", { bg = colors.surface0 })
 
 		local tabFill = colors.mantle
