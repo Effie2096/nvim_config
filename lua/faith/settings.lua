@@ -50,6 +50,13 @@ vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
 	end
 })
 
+vim.api.nvim_create_autocmd({"Filetype"}, {
+	pattern = { "gitcommit", "markdown" },
+	callback = function ()
+		vim.opt_local.spell = true
+	end
+})
+
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.numberwidth = 2

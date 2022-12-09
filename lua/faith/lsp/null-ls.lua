@@ -16,6 +16,7 @@ null_ls.setup {
 			extra_filetypes = { "toml", "solidity" },
 			extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote" },
 		}, ]]
+		diagnostics.commitlint,
 		formatting.clang_format.with {
 			extra_args = { "--style={UseTab: Always, IndentWidth: 4, TabWidth: 4, ContinuationIndentWidth: 8, BreakBeforeBraces: Allman, AlignAfterOpenBracket: AlwaysBreak, BreakAfterJavaFieldAnnotations: true, ColumnLimit: 80}" },
 		},
