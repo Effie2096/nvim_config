@@ -9,7 +9,7 @@ local cfg = {
 	verbose = false,
 
 	bind = true,
-	doc_lines = 0,
+	doc_lines = 1,
 
 	floating_window = true,
 
@@ -17,13 +17,13 @@ local cfg = {
 	fix_pos = true,
 	hint_enable = false,
 	hint_prefix = "🐼 ",
-	hint_scheme = "Comment",
+	hint_scheme = "Conceal",
 	use_lspsaga = false,
 	hi_parameter = "Search",
 	max_height = 12,
 	max_width = 120,
 	handler_opts = {
-		border = "single",
+		border = "none",
 	},
 
 	always_trigger = true,
@@ -48,4 +48,4 @@ signature.setup(cfg)                           --no need to specify bufnr if you
 -- You can also do this inside lsp on_attach
 -- note: on_attach deprecated
 -- require("lsp_signature").on_attach(cfg, bufnr) -- no need to specify bufnr if you don't use toggle_key
-signature.on_attach(cfg) -- no need to specify bufnr if you don't use toggle_key
+-- signature.on_attach(cfg) -- no need to specify bufnr if you don't use toggle_key
