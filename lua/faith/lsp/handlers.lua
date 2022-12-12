@@ -25,7 +25,7 @@ M.setup = function()
 
 	local config = {
 		virtual_text = {
-			source = 'if_many',
+			source = false,
 			format = function (diagnostic)
 				if vim.api.nvim_buf_get_option(0, 'filetype') == 'rust' then
 					return string.gsub(
@@ -47,11 +47,12 @@ M.setup = function()
 		severity_sort = true,
 		float = {
 			focusable = false,
-			style = "minimal",
-			border = "single",
-			source = "always",
+			border = "none",
+			source = "if_many",
 			header = "",
-			prefix = "",
+			prefix = function (_, i, _)
+				return string.format("%s: ", i)
+			end,
 			-- width = 40,
 		},
 	}
@@ -59,7 +60,7 @@ M.setup = function()
 	vim.diagnostic.config(config)
 
 	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-		border = "single",
+		border = "none",
 		width = 60,
 		-- height = 30,
 	})
