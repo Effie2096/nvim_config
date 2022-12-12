@@ -109,7 +109,7 @@ vim.diagnostic.handlers.signs = {
 
 local function refresh_codelens(bufnr)
 	local auto_refresh_codelens = vim.api.nvim_create_augroup("RefreshCodelens", { clear = false })
-	vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave" }, {
+	vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "BufWritePost" }, {
 		group = auto_refresh_codelens,
 		buffer = bufnr,
 		callback = function ()
