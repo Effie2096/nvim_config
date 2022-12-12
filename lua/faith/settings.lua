@@ -150,11 +150,3 @@ vim.opt.incsearch = true 											-- Highlights search matches AS it is typed
 vim.opt.hlsearch = true  											-- Maintains search highlights of previous search
 vim.api.nvim_set_keymap('n', '<esc>', "<cmd>noh<cr><esc>", {noremap = true, silent = true})
 -- } searching
-
-local winFocusGroup = vim.api.nvim_create_augroup("WindowFocusSets", { clear = true })
-vim.api.nvim_create_autocmd({"VimEnter", "WinEnter", "BufWinEnter"},{
-	callback = function() vim.opt_local.cursorline = true end, group = winFocusGroup
-})
-vim.api.nvim_create_autocmd("WinLeave",{
-	callback = function() vim.opt_local.cursorline = false end, group = winFocusGroup
-})
