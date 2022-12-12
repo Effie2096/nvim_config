@@ -469,7 +469,6 @@ function M.get_tabline(self)
 		if (fn.tabpagenr('$') > visible_tabs) then
 			tabline = tabline .. string.format('%s', fn.tabpagenr() == #tabs and '' or '%@NextTab@' .. icons.ui.ArrowNavRight .. '%X' .. fn.tabpagenr('$') - end_tab)
 		end
-		-- tabline = tabline .. string.format('%s/%s', #tabs - visible_tabs - 1, #tabs)
 	end
 
 	return tabline
