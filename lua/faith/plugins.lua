@@ -12,7 +12,7 @@ Plug ('kyazdani42/nvim-web-devicons', { ['commit'] = '9061e2d355ecaa2b588b71a35e
 
 -- LSP
 Plug ('neovim/nvim-lspconfig', { ['commit'] = 'af43c300d4134db3550089cd4df6c257e3734689' })
-Plug ('williamboman/mason.nvim', { ['commit'] = 'ac0bbad3d39adbc0a04ed2816c570a2f36874c3f' })
+Plug ('williamboman/mason.nvim')
 Plug ('williamboman/mason-lspconfig.nvim', { ['commit'] = 'ef41cd4ebccbf0981089bb06f5ed59e0dad549ca' })
 Plug ('jose-elias-alvarez/null-ls.nvim', { ['commit'] = 'c8624325198513411cf9dcacde76f14d2260220f' })
 Plug 'folke/neodev.nvim'
@@ -21,6 +21,7 @@ Plug ('lvimuser/lsp-inlayhints.nvim', { ['commit'] = '439b4811276a149e3fccb226cc
 Plug 'b0o/schemastore.nvim'
 Plug ('pedro757/emmet', { ['commit'] = 'bff967b1d91948a88104987b427842deb78bacf5' })
 Plug ('nvim-treesitter/nvim-treesitter-textobjects', { ['commit'] = '13739a5705d9592cbe7da372576363dc8ea5f723' })
+Plug 'simrat39/rust-tools.nvim'
 
 Plug ('ray-x/lsp_signature.nvim', { ['commit'] = 'e65a63858771db3f086c8d904ff5f80705fd962b' })
 -- Plug ('ThePrimeagen/refactoring.nvim', { ['commit'] = '' })

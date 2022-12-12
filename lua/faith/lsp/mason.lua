@@ -10,6 +10,8 @@ local servers = {
 	"cssls",
 	"cssmodules_ls",
 	"jsonls",
+	"rust_analyzer",
+	"taplo"
 }
 
 local icons = require('faith.icons')
@@ -108,6 +110,18 @@ for _, server in pairs(servers) do
 	end
 	-- special case: configured in ftplugin/java.lua
 	if server == "jdtls" then
+		goto continue
+	end
+
+	if server == "rust_analyzer" then
+		local rust_analyzer_opts = require "faith.lsp.settings.rust"
+		local rust_tools_opts = require("faith.lsp.settings.rust-tools")
+		opts = vim.tbl_deep_extend("force", rust_analyzer_opts, opts)
+		local rust_opts = {
+			server = opts,
+		}
+		rust_opts = vim.tbl_deep_extend("force", rust_opts, rust_tools_opts)
+		require('rust-tools').setup(rust_opts)
 		goto continue
 	end
 

@@ -24,8 +24,20 @@ M.setup = function()
 	end
 
 	local config = {
-		-- disable virtual text
-		virtual_text = true,
+		virtual_text = {
+			source = 'if_many',
+			format = function (diagnostic)
+				if vim.api.nvim_buf_get_option(0, 'filetype') == 'rust' then
+					return string.gsub(
+						diagnostic.message,
+						'`#%[.*%(.*%)%]` on by default[\n\r]',
+						'',
+						1
+					)
+				end
+				return diagnostic.message
+			end
+		},
 		-- show signs
 		signs = {
 			active = signs,
@@ -223,6 +235,12 @@ local function jdt_keymaps(bufnr)
 	vim.cmd "command! -buffer JdtJshell lua require('jdtls').jshell()"
 end
 
+local function rust_keymaps (bufnr)
+	local opts = { noremap = true, silent = true, buffer = bufnr }
+	vim.keymap.set("n", "<leader>rh", require'rust-tools.hover_actions'.hover_actions, opts)
+	vim.keymap.set("n", "<leader>rr", require'rust-tools'.runnables.runnables, opts)
+end
+
 M.on_attach = function(client, bufnr)
 	lsp_keymaps(bufnr)
 
@@ -255,6 +273,10 @@ M.on_attach = function(client, bufnr)
 		require("jdtls.dap").setup_dap_main_class_configs()
 		-- end
 		-- require("lsp-inlayhints").on_attach(client, bufnr)
+	end
+
+	if client.name == "rust_analyzer" then
+		rust_keymaps(bufnr)
 	end
 
 end
