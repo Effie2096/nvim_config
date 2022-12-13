@@ -53,6 +53,7 @@ vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
 vim.api.nvim_create_autocmd({"Filetype"}, {
 	pattern = { "gitcommit", "markdown" },
 	callback = function ()
+---@diagnostic disable-next-line: assign-type-mismatch
 		vim.opt_local.spell = true
 	end
 })
@@ -81,12 +82,12 @@ vim.api.nvim_create_autocmd({"BufLeave","FocusLost","InsertEnter","WinLeave"},{
 
 local function QuickFixDo(cmd)
 	local bufs = {}
-	local commands = vim.split(cmd, " ")
-	local qflist = vim.call('getqflist')
+	local commands = vim.split(cmd, " ", {})
+	local qflist = vim.fn['getqflist']()
 	for _, value in pairs(qflist) do
 		for k, v in pairs(value) do
 			if k == "bufnr" then
-				bufs[v] = vim.call('bufname', v)
+				bufs[v] = vim.fn['bufname']({v})
 			end
 		end
 	end

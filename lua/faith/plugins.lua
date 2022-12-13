@@ -1,6 +1,6 @@
 local Plug = vim.fn['plug#']
 
-vim.call('plug#begin')
+vim.fn['plug#begin']()
 Plug ('catppuccin/nvim', {['as'] = 'catppuccin', ['do'] = 'CatppucinCompile', ['commit'] = '0392739cfcc03d8ef9c8e667dd46ec7b89b4667f'})
 Plug ('lewis6991/impatient.nvim', { ['commit'] = 'b842e16ecc1a700f62adb9802f8355b99b52a5a6' })
 
@@ -91,4 +91,4 @@ Plug ('tversteeg/registers.nvim')
 Plug ('kevinhwang91/nvim-ufo', { ['commit'] = 'c1c0dd76f2298bd93ebd417360a2bfbeade37ac2' }) Plug ('kevinhwang91/promise-async', { ['commit'] = '70b09063cdf029079b25c7925e4494e7416ee995' })
 -- Plug ('folke/noice.nvim' Plug 'MunifTanjim/nui.nvim', { ['commit'] = '' })
 
-vim.call('plug#end')
+vim.fn['plug#end']()

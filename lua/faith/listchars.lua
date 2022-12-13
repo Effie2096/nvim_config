@@ -13,6 +13,7 @@ local listchars =
 	.. [[,trail:]] .. icons.characters.trail
 
 local cycle_list = function ()
+	---@diagnostic disable-next-line: undefined-field
 	if vim.opt.listchars._value == empty_chars then
 		vim.opt.listchars = listchars
 		vim.cmd('IndentBlanklineDisable')

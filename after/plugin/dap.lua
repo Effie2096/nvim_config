@@ -17,14 +17,14 @@ vim.keymap.set("n", "<F10>", require'dap'.step_over, opts)
 vim.keymap.set("n", "<F11>", require'dap'.step_into, opts)
 vim.keymap.set("n", "<F12>", require'dap'.step_out, opts)
 vim.keymap.set("n", "<Leader>db", require'dap'.toggle_breakpoint, opts)
-vim.keymap.set("n", "<Leader>dB", function () require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, opts)
-vim.keymap.set("n", "<Leader>dp", function () require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end, opts)
+vim.keymap.set("n", "<Leader>dB", function () require'dap'.set_breakpoint(vim.fn.input({prompt = 'Breakpoint condition: '})) end, opts)
+vim.keymap.set("n", "<Leader>dp", function () require'dap'.set_breakpoint(nil, nil, vim.fn.input({prompt = 'Log point message: '})) end, opts)
 -- vim.keymap.set("n", "<Leader>dr", require'dap'.repl.open, opts)
 
 -- vim.keymap.set("v", "<M-k", require('dapui').eval(), opts)
 
 function GotoWindow(id)
-	vim.call("win_gotoid", id)
+	vim.fn["win_gotoid"]({id})
 	vim.cmd("MaximizerToggle")
 end
 
@@ -40,7 +40,7 @@ dap.configurations.cpp = {
     type = "cppdbg",
     request = "launch",
     program = function()
-      return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+      return vim.fn.input({prompt = 'Path to executable: ', text = vim.fn.getcwd() .. '/', completion = 'file'})
     end,
     cwd = '${workspaceFolder}',
     stopAtEntry = true,
@@ -54,7 +54,7 @@ dap.configurations.cpp = {
     miDebuggerPath = '/usr/bin/gdb',
     cwd = '${workspaceFolder}',
     program = function()
-      return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+			return vim.fn.input({prompt = 'Path to executable: ', text = vim.fn.getcwd() .. '/', completion = 'file'})
     end,
   },
 }
@@ -62,12 +62,12 @@ dap.configurations.cpp = {
 vim.keymap.set("n", "<Leader>do", require("dapui").open, opts)
 vim.keymap.set("n", "<Leader>dc", require("dapui").close, opts)
 vim.keymap.set("n", "<Leader>m", ":MaximizerToggle!<CR>", opts)
-vim.keymap.set("n", "<Leader>dw", function() GotoWindow(vim.call("bufwinid", 'DAP Watches')) end, opts)
-vim.keymap.set("n", "<Leader>dS", function() GotoWindow(vim.call("bufwinid", 'DAP Stacks')) end, opts)
--- vim.keymap.set("n", "<Leader>db", function() GotoWindow(vim.call("bufwinid", 'DAP Breakpoints')) end, opts)
-vim.keymap.set("n", "<Leader>ds", function() GotoWindow(vim.call("bufwinid", 'DAP Scopes')) end, opts)
-vim.keymap.set("n", "<Leader>dr", function() GotoWindow(vim.call("bufwinid", 'dap-repl')) end, opts)
-vim.keymap.set("n", "<Leader>dt", function() GotoWindow(vim.call("bufwinid", 'dap-terminal')) end, opts)
+vim.keymap.set("n", "<Leader>dw", function() GotoWindow(vim.fn['bufwinid']({'DAP Watches'})) end, opts)
+vim.keymap.set("n", "<Leader>dS", function() GotoWindow(vim.fn['bufwinid']({'DAP Stacks'})) end, opts)
+-- vim.keymap.set("n", "<Leader>db", function() GotoWindow(vim.fn['bufwinid']('DAP Breakpoints')) end, opts)
+vim.keymap.set("n", "<Leader>ds", function() GotoWindow(vim.fn['bufwinid']({'DAP Scopes'})) end, opts)
+vim.keymap.set("n", "<Leader>dr", function() GotoWindow(vim.fn['bufwinid']({'dap-repl'})) end, opts)
+vim.keymap.set("n", "<Leader>dt", function() GotoWindow(vim.fn['bufwinid']({'dap-terminal'})) end, opts)
 
 dap.listeners.after.event_initialized["dapui_config"] = function()
   dapui.open()

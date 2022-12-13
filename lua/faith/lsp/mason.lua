@@ -48,7 +48,7 @@ for _, server in pairs(servers) do
 		capabilities = require("faith.lsp.handlers").capabilities,
 	}
 
-	server = vim.split(server, "@")[1]
+	server = vim.split(server, "@", {})[1]
 
 	if server == "sumneko_lua" then
 		local sumneko_opts = require "faith.lsp.settings.sumneko_lua"

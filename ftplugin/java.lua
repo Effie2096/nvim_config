@@ -48,10 +48,12 @@ local workspace_dir = WORKSPACE_PATH .. project_name
 
 local bundles = {
 }
+---@diagnostic disable-next-line: missing-parameter
 vim.list_extend(bundles,
-	---@diagnostic disable-next-line: missing-parameter
-	vim.split(vim.fn.glob(home .. "/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar")
-		, "\n"))
+	vim.split(
+		vim.fn.glob(home .. "/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar"),
+		"\n", {})
+)
 ---@diagnostic disable-next-line: missing-parameter
 vim.list_extend(bundles, vim.split(vim.fn.glob(home .. "/vscode-java-test/server/*.jar"), "\n"))
 

@@ -1,4 +1,4 @@
----@diagnostic disable: unused-local
+---@diagnostic disable: unused-local, param-type-mismatch
 
 local status_ok, notify = pcall(require, 'notify')
 if not status_ok then

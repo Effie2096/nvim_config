@@ -5,7 +5,7 @@ end
 
 local nnoremap = faith_keymap.nnoremap
 local vnoremap = faith_keymap.vnoremap
-local xnoremap = faith_keymap.xnoremap
+-- local xnoremap = faith_keymap.xnoremap
 local inoremap = faith_keymap.inoremap
 local tnoremap = faith_keymap.tnoremap
 

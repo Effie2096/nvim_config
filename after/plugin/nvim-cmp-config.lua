@@ -5,8 +5,7 @@ local status_ok_cmp, cmp = pcall(require, 'cmp')
 if not status_ok_cmp then
 	return
 end
-local status_ok_luasnip, luasnip = pcall(require, 'luasnip')
-if not status_ok_luasnip then
+if package.loaded.lualine == nil then
 	return
 end
 
@@ -53,37 +52,6 @@ cmp.setup {
 		["<C-f>"] = cmp.mapping.scroll_docs(4),
 		["<C-e>"] = cmp.mapping.abort(),
 		['<CR>'] = cmp.mapping.confirm({ select = false }),
-		--[[ ["<CR>"] = cmp.mapping(
-			cmp.mapping.confirm {
-				behavior = cmp.ConfirmBehavior.Insert,
-				select = true,
-			},
-			{ "i", "c" }
-		), ]]
-		--[[ ['<C-k>'] = cmp.mapping(function(fallback)
-			if luasnip.expand_or_jumpable(1) then
-				luasnip.expand_or_jump(1)
-			else
-				fallback()
-			end
-		end, { 'i', 's' }),
-
-		['<C-j>'] = cmp.mapping(function(fallback)
-			if luasnip.jumpable(-1) then
-				luasnip.jump(-1)
-			else
-				fallback()
-			end
-		end, { 'i', 's' }),
-
-		['<C-l>'] = cmp.mapping(function (fallback)
-			if luasnip.choice_active() then
-				luasnip.change_choice(1)
-			else
-				fallback()
-			end
-		end, { 'i' }), ]]
-
 		["<c-space>"] = cmp.mapping {
 			i = cmp.mapping.complete(),
 			c = function(
