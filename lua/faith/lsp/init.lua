@@ -22,8 +22,8 @@ M.server_capabilities = function()
   end)
 end
 
-require "faith.lsp.mason"
 require("faith.lsp.handlers").setup()
+require "faith.lsp.mason"
 require("faith.lsp.null-ls")
 
 return M
