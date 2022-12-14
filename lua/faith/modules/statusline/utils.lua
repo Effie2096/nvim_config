@@ -55,15 +55,4 @@ function M.stl_escape(str)
   return str:gsub('%%', '%%%%')
 end
 
--- TODO: Add container which user can scroll when truncated <17-11-22, Effie2096>
---[[ M.create_section = function (segments, seperator, max_length)
-	local section = table.concat(segments, seperator, 1, #segments)
-	local section_length = fn.strdisplaywidth(section)
-
-	if section_length > max_length then
-		return "too long lol"
-	end
-	return section
-end ]]
-
 return M
