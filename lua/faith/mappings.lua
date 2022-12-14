@@ -46,8 +46,8 @@ nnoremap("<M-O>", "O<Esc>", opts)
 
 -- Visual mode move lines {{
 -- using <cmd> instead of : breaks this for some reason
-vnoremap("<Down>", ":move '>+1<CR>gv=gv", opts)
-vnoremap("<Up>", ":move '<-2<CR>gv=gv", opts)
+vnoremap("<Down>", ":move '>+1<CR>:normal gv<CR>", opts)
+vnoremap("<Up>", ":move '<-2<CR>:normal gv<CR>", opts)
 
 -- Execute macro on visual range without stopping at non matching lines
 -- TODO: find out how to do this in lua
