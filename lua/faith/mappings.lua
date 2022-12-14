@@ -5,7 +5,7 @@ end
 
 local nnoremap = faith_keymap.nnoremap
 local vnoremap = faith_keymap.vnoremap
--- local xnoremap = faith_keymap.xnoremap
+local xnoremap = faith_keymap.xnoremap
 local inoremap = faith_keymap.inoremap
 local tnoremap = faith_keymap.tnoremap
 
@@ -50,13 +50,9 @@ vnoremap("<Down>", ":move '>+1<CR>:normal gv<CR>", opts)
 vnoremap("<Up>", ":move '<-2<CR>:normal gv<CR>", opts)
 
 -- Execute macro on visual range without stopping at non matching lines
--- TODO: find out how to do this in lua
---[[ xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
-
-function! ExecuteMacroOverVisualRange()
-	echo "@".getcmdline()
-	execute ":'<,'>normal @".nr2char(getchar())
-endfunction ]]
+xnoremap('@', function ()
+	return ':normal @'..vim.fn.getcharstr()..'<CR>'
+end, { expr = true })
 
 nnoremap("<C-w>q", "<cmd>close<CR>", opts)
 -- Use alt + hjkl to resize windows
