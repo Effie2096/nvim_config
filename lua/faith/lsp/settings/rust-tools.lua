@@ -1,4 +1,4 @@
-local extension_path = vim.env.XDG_DATA_HOME .. '/nvim/mason/packages/codelldb/extension/'
+local extension_path = vim.fn.stdpath('data') .. '/mason/packages/codelldb/extension/'
 local codelldb_path = extension_path .. 'adapter/codelldb'
 local liblldb_path = extension_path .. 'lldb/lib/liblldb.so'
 return {
