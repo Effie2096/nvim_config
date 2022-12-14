@@ -1,5 +1,7 @@
 require("faith")
 
-vim.notify = require("notify")
+if pcall(require, "notify") then
+	vim.notify = require("notify")
+end
 
 require("faith.catppuccin")

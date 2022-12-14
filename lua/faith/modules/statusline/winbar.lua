@@ -88,71 +88,73 @@ function M.get_filename(self, win)
 	local extension = fn.fnamemodify(api.nvim_buf_get_name(bufnr), ":e")
 	local filetype = api.nvim_buf_get_option(bufnr, 'filetype')
 
-	local file_icon, color
-	local hl_group
+	local file_icon, color = '', nil
+	local hl_group = "Normal"
 
-	-- Filetypes with no associated web-devicon hl
-	if filetype == "dapui_breakpoints" then
-		hl_group = "DapBreakpoint"
-		file_icon = icons.ui.Bug
-		goto continue
+	if pcall(require, 'nvim-web-devicons') then
+		-- Filetypes with no associated web-devicon hl
+		if filetype == "dapui_breakpoints" then
+			hl_group = "DapBreakpoint"
+			file_icon = icons.ui.Bug
+			goto continue
+		end
+
+		if filetype == "dapui_stacks" then
+			hl_group = "DAPUISource"
+			file_icon = icons.ui.Stacks
+			goto continue
+		end
+
+		if filetype == "dapui_scopes" then
+			hl_group = "DAPUIScope"
+			file_icon = icons.ui.Scopes
+			goto continue
+		end
+
+		if filetype == "dapui_watches" then
+			hl_group = "DAPUIWatchesValue"
+			file_icon = icons.ui.Watches
+			goto continue
+		end
+
+		-- Gets skipped by above conditions
+		file_icon, color = require('nvim-web-devicons').get_icon(filename, extension, {default = true})
+		hl_group = color
+
+		-- These come after devicon api call because they alter the filename
+		if filetype == "qf" then
+			filename = fn.getqflist({title = 1}).title
+			hl_group = 'healthError'
+			file_icon = icons.ui.List
+		end
+
+		if filetype == "toggleterm" then
+			filename = "ToggleTerm"
+			hl_group = "DevIconTerminal"
+			file_icon = require('nvim-web-devicons').get_icon_by_filetype("terminal", {})
+		end
+
+		if filetype == "java" and extension == "class" then
+			hl_group = "DevIconJava"
+			file_icon = require('nvim-web-devicons').get_icon_by_filetype(filetype, {})
+		end
+
+		if filetype == "fugitive" then
+			filename = "Fugitive"
+			hl_group = "DevIconGitLogo"
+			file_icon = require('nvim-web-devicons').get_icon_by_filetype('git', {})
+		end
+
+		-- ..get_icon('COMMIT_EDITMSG', 'gitcommit', ...) does return something
+		-- but I don't like the color + setting a nicer file name
+		if filename == "COMMIT_EDITMSG" then
+			filename = "Commit"
+			hl_group = "DevIconGitLogo"
+			file_icon = require('nvim-web-devicons').get_icon_by_filetype('git', {})
+		end
+
+		::continue::
 	end
-
-	if filetype == "dapui_stacks" then
-		hl_group = "DAPUISource"
-		file_icon = icons.ui.Stacks
-		goto continue
-	end
-
-	if filetype == "dapui_scopes" then
-		hl_group = "DAPUIScope"
-		file_icon = icons.ui.Scopes
-		goto continue
-	end
-
-	if filetype == "dapui_watches" then
-		hl_group = "DAPUIWatchesValue"
-		file_icon = icons.ui.Watches
-		goto continue
-	end
-
-	-- Gets skipped by above conditions
-	file_icon, color = require('nvim-web-devicons').get_icon(filename, extension, {default = true})
-	hl_group = color
-
-	-- These come after devicon api call because they alter the filename
-	if filetype == "qf" then
-		filename = fn.getqflist({title = 1}).title
-		hl_group = 'healthError'
-		file_icon = icons.ui.List
-	end
-
-	if filetype == "toggleterm" then
-		filename = "ToggleTerm"
-		hl_group = "DevIconTerminal"
-		file_icon = require('nvim-web-devicons').get_icon_by_filetype("terminal", {})
-	end
-
-	if filetype == "java" and extension == "class" then
-		hl_group = "DevIconJava"
-		file_icon = require('nvim-web-devicons').get_icon_by_filetype(filetype, {})
-	end
-
-	if filetype == "fugitive" then
-		filename = "Fugitive"
-		hl_group = "DevIconGitLogo"
-		file_icon = require('nvim-web-devicons').get_icon_by_filetype('git', {})
-	end
-
-	-- ..get_icon('COMMIT_EDITMSG', 'gitcommit', ...) does return something
-	-- but I don't like the color + setting a nicer file name
-	if filename == "COMMIT_EDITMSG" then
-		filename = "Commit"
-		hl_group = "DevIconGitLogo"
-		file_icon = require('nvim-web-devicons').get_icon_by_filetype('git', {})
-	end
-
-	::continue::
 
 	-- create custom hl for file icon
 	local winbar_icon_hl = 'Winbar' .. hl_group

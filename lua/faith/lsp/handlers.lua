@@ -1,15 +1,15 @@
 local M = {}
 
-local status_cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-if not status_cmp_ok then
-	return
-end
-
 local diagnostic_icons = require('faith.icons').diagnostic
 
 M.capabilities = vim.lsp.protocol.make_client_capabilities()
 M.capabilities.textDocument.completion.completionItem.snippetSupport = false
-M.capabilities = cmp_nvim_lsp.update_capabilities(M.capabilities)
+
+local status_cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+if status_cmp_ok then
+	M.capabilities = cmp_nvim_lsp.update_capabilities(M.capabilities)
+end
+
 
 M.setup = function()
 	local signs = {
@@ -238,8 +238,10 @@ end
 
 local function rust_keymaps (bufnr)
 	local opts = { noremap = true, silent = true, buffer = bufnr }
-	vim.keymap.set("n", "<leader>rh", require'rust-tools.hover_actions'.hover_actions, opts)
-	vim.keymap.set("n", "<leader>rr", require'rust-tools'.runnables.runnables, opts)
+	if pcall(require, "rust-tools") then
+		vim.keymap.set("n", "<leader>rh", require'rust-tools.hover_actions'.hover_actions, opts)
+		vim.keymap.set("n", "<leader>rr", require'rust-tools'.runnables.runnables, opts)
+	end
 end
 
 M.on_attach = function(client, bufnr)

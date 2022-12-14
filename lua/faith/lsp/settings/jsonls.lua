@@ -1,6 +1,7 @@
+local schemas = {}
 local status_ok, schemastore = pcall(require, "schemastore")
-if not status_ok then
-  return
+if status_ok then
+	schemas = schemastore.json.schemas()
 end
 
 return {
@@ -9,7 +10,7 @@ return {
   },
   settings = {
     json = {
-      schemas = schemastore.json.schemas(),
+      schemas = schemas,
 			validate = { enable = true }
     },
   },

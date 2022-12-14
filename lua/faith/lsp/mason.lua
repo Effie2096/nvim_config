@@ -115,14 +115,17 @@ for _, server in pairs(servers) do
 
 	if server == "rust_analyzer" then
 		local rust_analyzer_opts = require "faith.lsp.settings.rust"
-		local rust_tools_opts = require("faith.lsp.settings.rust-tools")
 		opts = vim.tbl_deep_extend("force", rust_analyzer_opts, opts)
-		local rust_opts = {
-			server = opts,
-		}
-		rust_opts = vim.tbl_deep_extend("force", rust_opts, rust_tools_opts)
-		require('rust-tools').setup(rust_opts)
-		goto continue
+
+		if pcall(require, "rust-tools") then
+			local rust_tools_opts = require("faith.lsp.settings.rust-tools")
+			local rust_opts = {
+				server = opts,
+			}
+			rust_opts = vim.tbl_deep_extend("force", rust_opts, rust_tools_opts)
+			require('rust-tools').setup(rust_opts)
+			goto continue
+		end
 	end
 
 	lspconfig[server].setup(opts)
