@@ -216,10 +216,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 
 		vim.api.nvim_set_hl(0, "TermCursor", { bg = colors.pink })
 
-		-- Color Column
-		vim.api.nvim_exec('hi ColorColumn guifg=' .. colors.red .. ' guibg=' .. colors.surface2, false)
-
-		vim.api.nvim_exec('hi YankFlash guifg=' .. colors.base .. ' guibg=' .. colors.lavender, false)
+		vim.api.nvim_set_hl(0, 'YankFlash', { fg = colors.base, bg= colors.lavender })
 
 	end
 })
@@ -234,16 +231,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end
 })
 
--- Only display colorcolumn on lines that exceed it
 local match_group = vim.api.nvim_create_augroup('match_group', { clear = true })
-vim.api.nvim_create_autocmd({ "BufWinEnter", "BufReadPost", "CursorHold" },
-	{
-		group = match_group,
-		callback = function ()
-			vim.fn.matchadd("ColorColumn", "\\%81v", 100)
-		end
-	}
-)
 
 vim.api.nvim_create_autocmd({ "BufWinEnter", "InsertLeave" },
 	{

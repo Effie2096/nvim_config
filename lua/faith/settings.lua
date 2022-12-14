@@ -10,6 +10,7 @@ vim.opt.splitright = true																								-- Vertical splits will automat
 vim.opt.laststatus=3																									-- Always display the status line
 -- vim.opt.winbar ="%=%{tabpagewinnr(tabpagenr())}%m %f%="
 -- vim.opt.cursorline = true																								-- Enable highlighting of the current line
+vim.opt.colorcolumn = "100"
 vim.opt.scrolloff=8
 vim.opt.winminheight = 0
 vim.opt.winminwidth = 4
