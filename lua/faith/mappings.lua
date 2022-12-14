@@ -17,6 +17,10 @@ nnoremap("<Space>", "", opts)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.api.nvim_exec([[cabbrev h vert h]], false)
+
+nnoremap("<C-d>", "<C-d>zz", opts)
+nnoremap("<C-u>", "<C-u>zz", opts)
+
 tnoremap("<ESC>", "<C-\\><C-n>", opts)
 inoremap("<C-w>k", "<Esc><C-w>k", opts)
 
