@@ -23,8 +23,8 @@ vim.opt.undofile = true
 vim.opt.history = 5000
 vim.opt.shortmess = vim.opt.shortmess + "c"															-- Don't pass messages to |ins-completion-menu|.
 vim.opt.signcolumn="yes:2"																							-- Always show the signcolumn, otherwise it would shift the text each time
-vim.opt.updatetime=100																									-- Faster completion
--- set timeoutlen=100																										-- By default timeoutlen is 1000 ms
+vim.opt.updatetime=50																									-- Faster completion
+--vim.opt.timeoutlen=100																										-- By default timeoutlen is 1000 ms
 vim.opt.hidden = true																										-- suppresses buffer warnings when switching buffers
 vim.opt.switchbuf="usetab"
 vim.opt.wrap = true																											-- Display long lines as just one line
@@ -152,6 +152,6 @@ vim.opt.autoindent = false      								-- Good auto indent
 vim.opt.ignorecase = true											-- Searches aren't case sensitive if lowercase
 vim.opt.smartcase = true 											-- Overrides 'ignorecase' if search contains uppsercase chars
 vim.opt.incsearch = true 											-- Highlights search matches AS it is typed
-vim.opt.hlsearch = true  											-- Maintains search highlights of previous search
+vim.opt.hlsearch = false  											-- Maintains search highlights of previous search
 vim.api.nvim_set_keymap('n', '<esc>', "<cmd>noh<cr><esc>", {noremap = true, silent = true})
 -- } searching
