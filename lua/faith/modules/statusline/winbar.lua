@@ -237,6 +237,7 @@ function M.get_navic(self, win)
 				self._navic_cache[win] = gps
 				return gps
 			else
+				self._navic_cache[win] = ""
 				return ""
 			end
 		else
