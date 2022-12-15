@@ -3,6 +3,9 @@ if not status_ok then
 	return
 end
 
+local fk = require('faith.keymap')
+local nnoremap = fk.nnoremap
+
 local icons = require('faith.icons')
 
 -- needs to be high for ufo
@@ -60,10 +63,10 @@ local handler = function(virtText, lnum, endLnum, width, truncate)
 end
 
 local opts = { noremap = true, silent = true }
-vim.keymap.set('n', 'zR', require('ufo').openAllFolds, opts)
-vim.keymap.set('n', 'zM', require('ufo').closeAllFolds, opts)
-vim.keymap.set('n', 'zr', require('ufo').openFoldsExceptKinds, opts)
-vim.keymap.set('n', 'zm', require('ufo').closeFoldsWith, opts) -- closeAllFolds == closeFoldsWith(0)
+nnoremap('zR', require('ufo').openAllFolds, opts)
+nnoremap('zM', require('ufo').closeAllFolds, opts)
+nnoremap('zr', require('ufo').openFoldsExceptKinds, opts)
+nnoremap('zm', require('ufo').closeFoldsWith, opts) -- closeAllFolds == closeFoldsWith(0)
 
 ufo.setup({
 	open_fold_hl_timeout = 0,

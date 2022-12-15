@@ -11,17 +11,20 @@ if not dap_virtual_text_status_ok then
 	return
 end
 
-local opts = { noremap = true, silent = true }
-vim.keymap.set("n", "<F5>", require'dap'.continue, opts)
-vim.keymap.set("n", "<F10>", require'dap'.step_over, opts)
-vim.keymap.set("n", "<F11>", require'dap'.step_into, opts)
-vim.keymap.set("n", "<F12>", require'dap'.step_out, opts)
-vim.keymap.set("n", "<Leader>db", require'dap'.toggle_breakpoint, opts)
-vim.keymap.set("n", "<Leader>dB", function () require'dap'.set_breakpoint(vim.fn.input({prompt = 'Breakpoint condition: '})) end, opts)
-vim.keymap.set("n", "<Leader>dp", function () require'dap'.set_breakpoint(nil, nil, vim.fn.input({prompt = 'Log point message: '})) end, opts)
--- vim.keymap.set("n", "<Leader>dr", require'dap'.repl.open, opts)
+local fk = require('faith.keymap')
+local nnoremap = fk.nnoremap
 
--- vim.keymap.set("v", "<M-k", require('dapui').eval(), opts)
+local opts = { noremap = true, silent = true }
+nnoremap("<F5>", require'dap'.continue, opts)
+nnoremap("<F10>", require'dap'.step_over, opts)
+nnoremap("<F11>", require'dap'.step_into, opts)
+nnoremap("<F12>", require'dap'.step_out, opts)
+nnoremap("<Leader>db", require'dap'.toggle_breakpoint, opts)
+nnoremap("<Leader>dB", function () require'dap'.set_breakpoint(vim.fn.input({prompt = 'Breakpoint condition: '})) end, opts)
+nnoremap("<Leader>dp", function () require'dap'.set_breakpoint(nil, nil, vim.fn.input({prompt = 'Log point message: '})) end, opts)
+-- nnoremap("<Leader>dr", require'dap'.repl.open, opts)
+
+-- vnoremap("<M-k", require('dapui').eval(), opts)
 
 function GotoWindow(id)
 	vim.fn["win_gotoid"]({id})
@@ -59,15 +62,15 @@ dap.configurations.cpp = {
   },
 }
 
-vim.keymap.set("n", "<Leader>do", require("dapui").open, opts)
-vim.keymap.set("n", "<Leader>dc", require("dapui").close, opts)
-vim.keymap.set("n", "<Leader>m", ":MaximizerToggle!<CR>", opts)
-vim.keymap.set("n", "<Leader>dw", function() GotoWindow(vim.fn['bufwinid']({'DAP Watches'})) end, opts)
-vim.keymap.set("n", "<Leader>dS", function() GotoWindow(vim.fn['bufwinid']({'DAP Stacks'})) end, opts)
--- vim.keymap.set("n", "<Leader>db", function() GotoWindow(vim.fn['bufwinid']('DAP Breakpoints')) end, opts)
-vim.keymap.set("n", "<Leader>ds", function() GotoWindow(vim.fn['bufwinid']({'DAP Scopes'})) end, opts)
-vim.keymap.set("n", "<Leader>dr", function() GotoWindow(vim.fn['bufwinid']({'dap-repl'})) end, opts)
-vim.keymap.set("n", "<Leader>dt", function() GotoWindow(vim.fn['bufwinid']({'dap-terminal'})) end, opts)
+nnoremap("<Leader>do", require("dapui").open, opts)
+nnoremap("<Leader>dc", require("dapui").close, opts)
+nnoremap("<Leader>m", ":MaximizerToggle!<CR>", opts)
+nnoremap("<Leader>dw", function() GotoWindow(vim.fn['bufwinid']({'DAP Watches'})) end, opts)
+nnoremap("<Leader>dS", function() GotoWindow(vim.fn['bufwinid']({'DAP Stacks'})) end, opts)
+-- nnoremap("<Leader>db", function() GotoWindow(vim.fn['bufwinid']('DAP Breakpoints')) end, opts)
+nnoremap("<Leader>ds", function() GotoWindow(vim.fn['bufwinid']({'DAP Scopes'})) end, opts)
+nnoremap("<Leader>dr", function() GotoWindow(vim.fn['bufwinid']({'dap-repl'})) end, opts)
+nnoremap("<Leader>dt", function() GotoWindow(vim.fn['bufwinid']({'dap-terminal'})) end, opts)
 
 dap.listeners.after.event_initialized["dapui_config"] = function()
   dapui.open()
