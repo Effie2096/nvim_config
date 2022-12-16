@@ -6,13 +6,14 @@ end
 zen_mode.setup {
 	window = {
 		backdrop = 0,
-		width = 100,
+		width = 80,
 		height = 1,
 		options = {
-			number = false,
-			relativenumber = false,
+			number = true,
+			relativenumber = true,
 			foldcolumn = "0",
 			winbar = "",
+			signcolumn = "no",
 		},
 	},
 	plugins = {
@@ -25,7 +26,7 @@ zen_mode.setup {
 		twighlight = { enabled = false },
 		tmux = { enabled = false },
 		kitty = {
-			enabled = true,
+			enabled = false,
 			font = "+6",
 		},
 	},
