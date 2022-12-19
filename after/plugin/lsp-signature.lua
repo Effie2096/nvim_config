@@ -5,7 +5,7 @@ end
 
 local cfg = {
 	debug = false,
-  log_path = vim.fn.stdpath("cache") .. "/lsp_signature.log",
+  log_path = vim.fn.glob(vim.fn.stdpath("cache") .. "/lsp_signature.log"),
 	verbose = false,
 
 	bind = true,

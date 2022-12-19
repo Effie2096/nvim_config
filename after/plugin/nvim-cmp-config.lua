@@ -18,7 +18,7 @@ lspkind.init({
 })
 
 local snippet_path = os.getenv("XDG_CONFIG_HOME") .. "/nvim/lua/faith/snippets"
-require("luasnip.loaders.from_lua").lazy_load({paths = snippet_path})
+require("luasnip.loaders.from_lua").lazy_load({paths = vim.fn.glob(snippet_path)})
 require("luasnip.loaders.from_vscode").lazy_load()
 
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')

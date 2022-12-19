@@ -8,7 +8,7 @@ end
 local session_path = vim.fn.stdpath("data") .. "/sessions"
 sessions.setup({
 	events = { "VimLeavePre" },
-	session_filepath = session_path .. "/" .. vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
+	session_filepath = vim.fn.glob(session_path .. "/" .. vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t"))
 })
 
 local status_work_ok, workspaces = pcall(require, "workspaces")
@@ -18,7 +18,7 @@ end
 
 local workspace_path = vim.fn.stdpath("data") .. "/workspaces"
 workspaces.setup({
-	path = workspace_path,
+	path = vim.fn.glob(workspace_path),
 	hooks = {
 		open_pre = {
 			"SessionsStop",
@@ -26,7 +26,7 @@ workspaces.setup({
 		},
 		open = {
 			function()
-				sessions.load(session_path .. "/" .. vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t"), { silent = true })
+				sessions.load(vim.fn.glob(session_path .. "/" .. vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")), { silent = true })
 			end,
 		}
 	}

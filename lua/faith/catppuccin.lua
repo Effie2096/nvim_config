@@ -5,7 +5,7 @@ end
 
 -- configure it
 catppuccin.setup({
-	compile_path = vim.fn.stdpath "cache" .. "/catppuccin",
+	compile_path = vim.fn.glob(vim.fn.stdpath("cache") .. "/catppuccin"),
 	transparent_background = true,
 	term_colors = false,
 	dim_inactive = {
@@ -72,7 +72,7 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 	pattern = { "catppuccin.lua" },
 	callback = function()
 		local path = vim.fn.stdpath("config")
-		vim.cmd("luafile" .. path .. "/lua/faith/catppuccin.lua")
+		vim.cmd("luafile " .. vim.fn.glob(path .. "/lua/faith/catppuccin.lua"))
 		require('catppuccin').compile()
 		return true
 	end

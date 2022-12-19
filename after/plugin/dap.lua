@@ -35,7 +35,7 @@ local home = os.getenv "HOME"
 dap.adapters.cppdbg = {
 	id = 'cppdbg',
 	type = 'executable',
-	command = home .. '/.local/share/nvim/mason/packages/cpptools/extension/debugAdapters/bin/OpenDebugAD7',
+	command = vim.fn.glob(home .. '/.local/share/nvim/mason/packages/cpptools/extension/debugAdapters/bin/OpenDebugAD7'),
 }
 dap.configurations.cpp = {
 	{
@@ -43,7 +43,7 @@ dap.configurations.cpp = {
     type = "cppdbg",
     request = "launch",
     program = function()
-      return vim.fn.input({prompt = 'Path to executable: ', text = vim.fn.getcwd() .. '/', completion = 'file'})
+      return vim.fn.input({prompt = 'Path to executable: ', text = vim.fn.glob(vim.fn.getcwd() .. '/'), completion = 'file'})
     end,
     cwd = '${workspaceFolder}',
     stopAtEntry = true,
@@ -57,7 +57,7 @@ dap.configurations.cpp = {
     miDebuggerPath = '/usr/bin/gdb',
     cwd = '${workspaceFolder}',
     program = function()
-			return vim.fn.input({prompt = 'Path to executable: ', text = vim.fn.getcwd() .. '/', completion = 'file'})
+			return vim.fn.input({prompt = 'Path to executable: ', text = vim.fn.glob(vim.fn.getcwd() .. '/'), completion = 'file'})
     end,
   },
 }

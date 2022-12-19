@@ -41,7 +41,7 @@ else
 	print("Unsupported system")
 end
 
-local jdtloc = home .. '/.local/share/nvim/mason/packages/jdtls'
+local jdtloc = vim.fn.stdpath("data") .. '/mason/packages/jdtls'
 
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
 local workspace_dir = WORKSPACE_PATH .. project_name
@@ -72,7 +72,7 @@ local config = {
 		'-Declipse.product=org.eclipse.jdt.ls.core.product',
 		'-Dlog.protocol=true',
 		'-Dlog.level=ALL',
-		'-javaagent:' .. jdtloc .. '/lombok.jar',
+		'-javaagent:' .. vim.fn.glob(jdtloc .. '/lombok.jar'),
 		'-Xms1g',
 		'--add-modules=ALL-SYSTEM',
 		'--add-opens',
@@ -90,7 +90,7 @@ local config = {
 
 
 		-- 💀
-		'-configuration', jdtloc .. '/config_' .. CONFIG,
+		'-configuration', vim.fn.glob(jdtloc .. '/config_' .. CONFIG),
 		-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^				^^^^^^
 		-- Must point to the											Change to one of `linux`, `win` or `mac`
 		-- eclipse.jdt.ls installation						Depending on your system.
@@ -98,7 +98,7 @@ local config = {
 
 		-- 💀
 		-- See `data directory configuration` section in the README
-		'-data', workspace_dir
+		'-data', vim.fn.glob(workspace_dir)
 	},
 
 	on_attach = require('faith.lsp.handlers').on_attach,
