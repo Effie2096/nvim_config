@@ -13,17 +13,17 @@ telescope.setup {
 	},
 	extensions = {
 		fzy_native = {
-      override_generic_sorter = true,
-      override_file_sorter = true,
-    },
+			override_generic_sorter = true,
+			override_file_sorter = true,
+		},
 		["ui-select"] = {
 			require("telescope.themes").get_cursor {}
 		}
 	}
 }
 
-require("telescope").load_extension("ui-select")
-require("telescope").load_extension("file_browser")
-require('telescope').load_extension('fzf')
-require('telescope').load_extension('workspaces')
+pcall(require("telescope").load_extension, "ui-select")
+pcall(require("telescope").load_extension, "file_browser")
+pcall(require('telescope').load_extension, 'fzf')
+pcall(require('telescope').load_extension, 'workspaces')
 -- require("telescope").load_extension("refactoring")

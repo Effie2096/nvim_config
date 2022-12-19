@@ -21,28 +21,31 @@ local snippet_path = os.getenv("XDG_CONFIG_HOME") .. "/nvim/lua/faith/snippets"
 require("luasnip.loaders.from_lua").lazy_load({paths = vim.fn.glob(snippet_path)})
 require("luasnip.loaders.from_vscode").lazy_load()
 
-local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-local handlers = require('nvim-autopairs.completion.handlers')
+local aup_ok, autopairs = pcall(require, 'nvim-autopairs')
+if aup_ok then
+	local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+	local handlers = require('nvim-autopairs.completion.handlers')
 
-cmp.event:on(
-	'confirm_done',
-	cmp_autopairs.on_confirm_done({
-		filetypes = {
-			-- "*" is a alias to all filetypes
-			["*"] = {
-				["("] = {
-					kind = {
-						cmp.lsp.CompletionItemKind.Function,
-						cmp.lsp.CompletionItemKind.Method,
-					},
-					handler = handlers["*"]
-				}
-			},
-			-- Disable for tex
-			tex = false
-		}
-	})
-)
+	cmp.event:on(
+		'confirm_done',
+		cmp_autopairs.on_confirm_done({
+			filetypes = {
+				-- "*" is a alias to all filetypes
+				["*"] = {
+					["("] = {
+						kind = {
+							cmp.lsp.CompletionItemKind.Function,
+							cmp.lsp.CompletionItemKind.Method,
+						},
+						handler = handlers["*"]
+					}
+				},
+				-- Disable for tex
+				tex = false
+			}
+		})
+	)
+end
 
 cmp.setup {
 	mapping = cmp.mapping.preset.insert {

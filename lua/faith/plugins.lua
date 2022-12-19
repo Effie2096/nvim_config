@@ -1,5 +1,13 @@
 local Plug = vim.fn['plug#']
 
+vim.cmd([[
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+]])
+
 vim.fn['plug#begin']()
 Plug ('catppuccin/nvim', {['as'] = 'catppuccin', ['do'] = 'CatppucinCompile', ['commit'] = '0392739cfcc03d8ef9c8e667dd46ec7b89b4667f'})
 Plug ('lewis6991/impatient.nvim', { ['commit'] = 'b842e16ecc1a700f62adb9802f8355b99b52a5a6' })

@@ -1,3 +1,6 @@
+if not pcall(require, "catppuccin") then
+	return
+end
 -- set catppuccin flavour based on time of day
 --[[ local hour = tonumber(os.date('%H'))
 local bg = (hour > 8 and hour < 19) and 'light' or 'dark'
