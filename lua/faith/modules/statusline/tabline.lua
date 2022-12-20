@@ -93,9 +93,9 @@ function M.get_tab_buffers(self, tabnr)
 		elseif fn.getbufvar(buffer, "&modifiable") then
 			local name = api.nvim_buf_get_name(buffer)
 			if not f.isempty(name) then
-				if string.match(name, "fugitive://(.*)%.git%/%/$") then
+				if string.match(name, fn.glob("fugitive://(.*)%.git%/%/$")) then
 					tab_buffers = tab_buffers .. '[Git]Status, '
-				elseif string.match(name, "fugitive://(.*)%.git%/%/[^\n]") then
+				elseif string.match(name, fn.glob("fugitive://(.*)%.git%/%/[^\n]")) then
 					tab_buffers = tab_buffers .. '[Git]Diff, '
 				else
 					tab_buffers = tab_buffers .. fn.fnamemodify(fn.bufname(buffer), ':t') .. ', '
@@ -179,9 +179,10 @@ end
 function M.file_path_is_too_long(self, path, trunc_width, seperator_padding)
 	local root_width = fn.strdisplaywidth(self.get_dir_root()) + 8
 	local file_path_width = fn.strdisplaywidth(path)
+	local system_path_seperator = fn.glob('/')
 	return root_width + file_path_width
 		-- also accounts for seperators because includes slashes which aren't removed yet
-		+ ((seperator_padding * 2) * fn.count(path, '/'))
+		+ ((seperator_padding * 2) * fn.count(path, system_path_seperator))
 		> trunc_width
 end
 
@@ -191,6 +192,7 @@ function M.get_file_path(self)
 
 	local path_from_root = fn.expand('%:h', false)
 	local path_breadcrumbs = ''
+	local system_path_seperator = fn.glob('/')
 
 	-- current window has a working dir that differs from nvim's global working dir
 	if fn.haslocaldir(0,0) == 1 then
@@ -200,7 +202,7 @@ function M.get_file_path(self)
 
 		if not f.isempty(window_directory_tail) then
 			window_directory_tail = utils.stl_escape(window_directory_tail)
-			path_from_root = string.insert(path_from_root, window_directory_tail .. '/', 0)
+			path_from_root = string.insert(path_from_root, window_directory_tail .. system_path_seperator, 0)
 		end
 	end
 
@@ -222,16 +224,16 @@ function M.get_file_path(self)
 		if
 			self.file_path_is_too_long(self, path_from_root, half_nvim_width, seperator_padding)
 		then
-			path_from_root = string.gsub(path_from_root, '/.*$', '')
-			.. '/' .. icons.ui.Ellipses
-			.. '/' .. fn.fnamemodify(path_from_root, ':t')
+			path_from_root = string.gsub(path_from_root, system_path_seperator .. '.*$', '')
+			.. system_path_seperator .. icons.ui.Ellipses
+			.. system_path_seperator .. fn.fnamemodify(path_from_root, ':t')
 		end
 	end
 
 	local home = os.getenv('HOME')
-	path_from_root = fn.substitute(path_from_root, home, '/' .. icons.ui.House, '')
+	path_from_root = fn.substitute(path_from_root, home, system_path_seperator .. icons.ui.House, '')
 
-	local folders = fn.split(path_from_root, '/', false)
+	local folders = fn.split(path_from_root, system_path_seperator, false)
 	if folders[#folders] == '.' then
 		table.remove(folders, #folders)
 	end
