@@ -15,8 +15,8 @@ M.options = {
 		equal_label_width = true, -- whether tab labels should all be the same width
 		max_label_width = 21, -- max length of tab labels. Ignored if `equal_label_width` is false
 		close_button = false,
-		tab_seperator = 'slant',
-		tab_spacer = true
+		tab_seperator = fn.has('win32') == 0 and 'slant' or 'blank',
+		tab_spacer = fn.has('win32') == 0
 	},
 }
 
