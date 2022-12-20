@@ -124,9 +124,10 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		vim.api.nvim_set_hl(0, "TabLineClose",		 { fg = colors.red, bg = tabBG })
 		vim.api.nvim_set_hl(0, "TabLineSelClose",		{ fg = colors.red, bg = tabSelBG })
 		vim.api.nvim_set_hl(0, "TabLinePath", { fg = tablinePathFG, bg = tablinePathBG })
-		vim.api.nvim_set_hl(0, "TabLinePathSep", { fg = tablinePathBG })
+		vim.api.nvim_set_hl(0, "TabLinePathSep", { fg = tablinePathBG, bg = tabFill })
 		vim.api.nvim_set_hl(0, "TabLineProject", { fg = colors.yellow, bg = tablinePathBG })
 
+		local winbarBG = package.loaded.transparent ~= 0 and "none" or colors.base
 		local numBG = colors.pink
 		local numFG = colors.crust
 		local fileBG = colors.surface2
@@ -145,13 +146,13 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		vim.api.nvim_set_hl(0, "WinBarDiffSep", { fg = diffBG, bg = colors.base, bold = true })
 
 		vim.api.nvim_set_hl(0, "WinBarWinNum", { fg = numFG, bg = numBG, bold = true })
-		vim.api.nvim_set_hl(0, "WinBarWinNumEnd", { fg = numBG,  bg = colors.base  })
+		vim.api.nvim_set_hl(0, "WinBarWinNumEnd", { fg = numBG, bg = winbarBG })
 		vim.api.nvim_set_hl(0, "WinBarFile", { fg = fileFG, bg = fileBG,  bold = true })
 		vim.api.nvim_set_hl(0, "WinBarFileModified", { fg = modified, bg = fileBG,  bold = true })
 		vim.api.nvim_set_hl(0, "WinBarNavic", { fg = fileFG, bg = navBG  })
 		vim.api.nvim_set_hl(0, "WinBarFileSep", { fg = fileBG, bg = navBG  })
-		vim.api.nvim_set_hl(0, "WinBarFileEnd", { fg = fileBG, bg = colors.base  })
-		vim.api.nvim_set_hl(0, "WinBarNavicEnd", { fg = navBG, bg = colors.base  })
+		vim.api.nvim_set_hl(0, "WinBarFileEnd", { fg = fileBG, bg = winbarBG })
+		vim.api.nvim_set_hl(0, "WinBarNavicEnd", { fg = navBG, bg = winbarBG})
 
 		local navicHLGroups = { "NavicIconsFile", "NavicIconsModule", "NavicIconsNamespace", "NavicIconsPackage",
 			"NavicIconsClass", "NavicIconsMethod", "NavicIconsProperty", "NavicIconsField", "NavicIconsConstructor",
