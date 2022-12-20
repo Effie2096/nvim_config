@@ -86,6 +86,23 @@ function M.treesitter()
 	require('telescope.builtin').treesitter(opts)
 end
 
+function M.lsp_document_symbols()
+	local opts = vim.deepcopy(layouts.default_vert) or {}
+	require('telescope.builtin').lsp_document_symbols(opts)
+end
+
+function M.lsp_workspace_symbols()
+	local opts = vim.deepcopy(layouts.default_vert) or {}
+	opts = vim.tbl_deep_extend(
+		"force",
+		opts,
+		{
+			path_display = { "tail" }
+		}
+	)
+	require('telescope.builtin').lsp_workspace_symbols(opts)
+end
+
 function M.help_tags()
 	local opts = vim.deepcopy(layouts.default_flex) or {}
 	opts = vim.tbl_deep_extend(
