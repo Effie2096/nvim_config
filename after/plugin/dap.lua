@@ -27,7 +27,7 @@ nnoremap("<Leader>dp", function () require'dap'.set_breakpoint(nil, nil, vim.fn.
 -- vnoremap("<M-k", require('dapui').eval(), opts)
 
 function GotoWindow(id)
-	vim.fn["win_gotoid"]({id})
+	vim.fn["win_gotoid"](id)
 	vim.cmd("MaximizerToggle")
 end
 
@@ -64,15 +64,16 @@ dap.configurations.cpp = {
 
 nnoremap("<Leader>do", require("dapui").open, opts)
 nnoremap("<Leader>dc", require("dapui").close, opts)
+nnoremap("<leader>dt", "<cmd>lua require('dapui').toggle({layout = 2})<CR>", opts)
 nnoremap("<Leader>m", ":MaximizerToggle!<CR>", opts)
-nnoremap("<Leader>dw", function() GotoWindow(vim.fn['bufwinid']({'DAP Watches'})) end, opts)
-nnoremap("<Leader>dS", function() GotoWindow(vim.fn['bufwinid']({'DAP Stacks'})) end, opts)
+--[[ nnoremap("<Leader>dw", function() GotoWindow(vim.fn['bufwinid']('DAP Watches')) end, opts)
+nnoremap("<Leader>dS", function() GotoWindow(vim.fn['bufwinid']('DAP Stacks')) end, opts)
 -- nnoremap("<Leader>db", function() GotoWindow(vim.fn['bufwinid']('DAP Breakpoints')) end, opts)
-nnoremap("<Leader>ds", function() GotoWindow(vim.fn['bufwinid']({'DAP Scopes'})) end, opts)
-nnoremap("<Leader>dr", function() GotoWindow(vim.fn['bufwinid']({'dap-repl'})) end, opts)
-nnoremap("<Leader>dt", function() GotoWindow(vim.fn['bufwinid']({'dap-terminal'})) end, opts)
+nnoremap("<Leader>ds", function() GotoWindow(vim.fn['bufwinid']('DAP Scopes')) end, opts)
+nnoremap("<Leader>dr", function() GotoWindow(vim.fn['bufwinid']('dap-repl')) end, opts)
+nnoremap("<Leader>dt", function() GotoWindow(vim.fn['bufwinid']('dap-terminal')) end, opts) ]]
 
-dap.listeners.after.event_initialized["dapui_config"] = function()
+--[[ dap.listeners.after.event_initialized["dapui_config"] = function()
   dapui.open()
 end
 dap.listeners.before.event_terminated["dapui_config"] = function()
@@ -80,7 +81,7 @@ dap.listeners.before.event_terminated["dapui_config"] = function()
 end
 dap.listeners.before.event_exited["dapui_config"] = function()
   dapui.close()
-end
+end ]]
 
 -- Catppuccin integration
 local sign = vim.fn.sign_define
