@@ -205,11 +205,9 @@ local language_server = {
 		local client_names_str_len = #client_names_str
 		if client_names_str_len ~= 0 then
 			language_servers =
-				" "
-				.. icons.seperators.rounded_bracket.left
-				.. client_names_str
-				.. icons.seperators.rounded_bracket.right
-				.. " "
+			" (" ..
+			client_names_str
+			.. ") "
 		end
 
 		if client_names_str_len == 0 then
