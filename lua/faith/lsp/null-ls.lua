@@ -18,7 +18,8 @@ null_ls.setup {
 		}, ]]
 		diagnostics.commitlint,
 		formatting.clang_format.with {
-			extra_args = { "--style={UseTab: Always, IndentWidth: 4, TabWidth: 4, ContinuationIndentWidth: 8, BreakBeforeBraces: Allman, AlignAfterOpenBracket: AlwaysBreak, BreakAfterJavaFieldAnnotations: true, ColumnLimit: 80}" },
+			extra_args = { "--style={UseTab: Always, IndentWidth: 4, TabWidth: 4, ContinuationIndentWidth: 4, BreakBeforeBraces: Allman, AlignAfterOpenBracket: AlwaysBreak, BreakAfterJavaFieldAnnotations: true, BinPackArguments: false, BinPackParameters: true, ColumnLimit: 0}" },
+			-- extra_args = { "--style={BasedOnStyle: Microsoft, BreakBeforeBraces: Allman, AlignAfterOpenBracket: DontAlign }" },
 		},
 		--, IndentAccessModifiers: true
 		formatting.prettierd.with {
