@@ -46,6 +46,7 @@ end, { silent = true })
 -- <c-l> is selecting within a list of options.
 vim.keymap.set({"i", "s"}, "<c-l>", function()
   if ls.choice_active() then
-    ls.change_choice(1)
+		ls.change_choice(1)
+		-- require("luasnip.extras.select_choice")()
   end
 end, { silent = true })
