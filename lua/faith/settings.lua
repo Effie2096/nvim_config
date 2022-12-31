@@ -36,6 +36,8 @@ vim.opt.fileencoding="utf-8"
 vim.opt.fileformat="unix"
 vim.opt.nrformats="alpha,hex,bin"
 
+vim.opt.guifont = "FiraCode NF"
+
 -- set format options for each window otherwise it just doens't work for some reason :c
 vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
 	pattern = "*",
