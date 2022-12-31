@@ -144,6 +144,22 @@ dapui.setup({
 			position = "left"
 		},
   },
+	controls = {
+		-- Requires Neovim nightly (or 0.8 when released)
+		enabled = true,
+		-- Display controls in this element
+		element = "repl",
+		icons = {
+			pause = icons.debug.Pause,
+			play = icons.debug.Play,
+			step_into = icons.debug.Step_into,
+			step_over = icons.debug.Step_over,
+			step_out = icons.debug.Step_out,
+			step_back = icons.debug.Step_back,
+			run_last = icons.debug.Run_last,
+			terminate = icons.debug.Terminate,
+		},
+	},
   floating = {
     max_height = nil, -- These can be integers or a float between 0 and 1.
     max_width = nil, -- Floats will be treated as percentage of your screen.

@@ -111,6 +111,16 @@ local icons = {
 		Tab = " ",
 		House = ' '
 	},
+	debug = {
+		Pause = "",
+		Play = "",
+		Step_into = "",
+		Step_over = "",
+		Step_out = "",
+		Step_back = "",
+		Run_last = "",
+		Terminate = "",
+	},
 	characters = {
 		eol = '﬋',
 		extends = '›',
