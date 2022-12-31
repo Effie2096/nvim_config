@@ -14,7 +14,7 @@ catppuccin.setup({
 		percentage = 0.15
 	},
 	styles = {
-		comments = { "italic" },
+		comments = vim.fn.has("win32") == 0 and { "italic" } or {} ,
 		conditionals = {},
 		loops = {},
 		functions = {},
