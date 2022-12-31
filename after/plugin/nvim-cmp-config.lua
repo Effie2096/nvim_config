@@ -83,9 +83,31 @@ cmp.setup {
 		end,
 	},
 	formatting = {
-		format = lspkind.cmp_format {
+		fields = { "kind", "abbr", "menu" },
+		format = function (entry, vim_item)
+			local kind = require("lspkind").cmp_format({
+				mode = "symbol",
+				maxwidth = 50,
+				menu = {
+					buffer = "[buf]",
+					nvim_lsp = "[LSP]",
+					nvim_lua = "[api]",
+					path = "[path]",
+					luasnip = "[snip]",
+					dap = "[dap]",
+					calc = "[maff]"
+				},
+			})(entry, vim_item)
+			local strings = vim.split(kind.kind, "%s", { trimempty = true })
+			kind.kind = " " .. strings[1] .. " "
+			-- kind.menu = "    (" .. strings[2] .. ")"
+
+			return kind
+		end
+		--[[ format = lspkind.cmp_format {
 			-- with_text = true,
 			mode = 'symbol_text',
+			maxwidth = 60,
 			menu = {
 				buffer = "[buf]",
 				nvim_lsp = "[LSP]",
@@ -94,7 +116,7 @@ cmp.setup {
 				luasnip = "[snip]",
 				calc = "[maff]"
 			},
-		},
+		}, ]]
 	},
 	confirm_opts = {
 		behavior = cmp.ConfirmBehavior.Replace,
@@ -104,7 +126,14 @@ cmp.setup {
 		native_menu = false,
 		ghost_text = true,
 	},
+	--[[ view = {
+		entries = {name = 'custom', selection_order = 'near_cursor' }
+	}, ]]
 	window = {
+		completion = {
+			col_offset = -3,
+			side_padding = 0,
+		},
 		-- completion = cmp.config.window.bordered(),
 		-- documentation = cmp.config.window.bordered(),
 	},
@@ -119,7 +148,32 @@ cmp.setup {
 	}
 }
 
-cmp.setup.filetype({ "dap-repl", "dapui_watches" }, {
+cmp.setup.cmdline('/', {
+	mapping = cmp.mapping.preset.cmdline(),
+	sources = {
+		{ name = 'buffer' }
+	},
+	view = {
+		entries = {name = 'wildmenu', separator = '|' }
+	},
+})
+
+-- `:` cmdline setup.
+cmp.setup.cmdline(':', {
+	mapping = cmp.mapping.preset.cmdline(),
+	sources = cmp.config.sources({
+		{ name = 'path' }
+	}, {
+			{
+				name = 'cmdline',
+				option = {
+					ignore_cmds = { 'Man', '!' }
+				}
+			}
+		})
+})
+
+cmp.setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
 	sources = {
 		{ name = "dap" },
 	},
