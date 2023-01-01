@@ -103,7 +103,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		vim.api.nvim_set_hl(0, "MatchParen", { special = colors.peach, underline = true, bold = true })
 		-- vim.api.nvim_set_hl(0, "NormalFloat", { bg = colors.surface0 })
 
-		local tabFill = colors.mantle
+		local tabFill = package.loaded.transparent ~= 0 and "none" or colors.mantle
 		local tabBG = colors.surface1
 		local tabFG = colors.subtext0
 		local tabSelBG = colors.pink

@@ -5,6 +5,11 @@ if not lualine_status_ok then
 	return
 end
 
+local catppuccin_status_ok, custom_catppuccin_theme = pcall(require, 'lualine.themes.catppuccin')
+if catppuccin_status_ok then
+	custom_catppuccin_theme.normal.c.bg = package.loaded.transparent and 'none' or custom_catppuccin_theme.normal.c.bg
+end
+
 local icons = require('faith.icons')
 
 local indent = {
@@ -248,7 +253,7 @@ local filetype = {
 lualine.setup {
 	options = {
 		icons_enabled = true,
-		theme = 'catppuccin',
+		theme = custom_catppuccin_theme,
 		-- component_separators = { left = '', right = ''},
 		-- section_separators = { left = '', right = ''},
 		component_separators = { left = icons.separators.straight.left, right = icons.separators.straight.right },
