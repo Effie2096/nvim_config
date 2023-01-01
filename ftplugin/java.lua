@@ -35,7 +35,8 @@ if vim.fn.has "unix" == 1 then
 	WORKSPACE_PATH = '/mnt/sdb2/dev/Java_Projects/workspace/'
 	CONFIG = "linux"
 elseif vim.fn.has "win32" == 1 then
-	WORKSPACE_PATH = home .. "/workspace/"
+	WORKSPACE_PATH = home .. "/Documents/dev/workspace/"
+	-- WORKSPACE_PATH = 'G:/dev/Java_Projects/workspace/'
 	CONFIG = "win"
 else
 	print("Unsupported system")
@@ -45,6 +46,13 @@ local jdtloc = vim.fn.stdpath("data") .. '/mason/packages/jdtls'
 
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
 local workspace_dir = WORKSPACE_PATH .. project_name
+
+if vim.fn.has "win32" == 1 and vim.fn.isdirectory(workspace_dir) == 0 then
+	local dir = string.gsub(workspace_dir, '\\', '/')
+	print("...making workspace directory " .. dir)
+	vim.cmd('call mkdir("' .. dir ..'", ["p"])')
+	print("Workspace directory created!")
+end
 
 local bundles = {
 }
