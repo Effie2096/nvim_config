@@ -191,15 +191,32 @@ M.rename = function()
 	end)
 end
 
-local function lsp_keymaps(bufnr)
-	local opts = { noremap = true, silent = true, buffer = bufnr }
-	nnoremap("K", function()
+local function ufo_hover(callback)
+	return function()
 		local winid = require('ufo').peekFoldedLinesUnderCursor()
 		if not winid then
-			-- nvimlsp
-			vim.lsp.buf.hover()
+			callback()
 		end
-	end, opts)
+	end
+end
+
+local function formatting_maps(bufnr)
+	local opts = { noremap = true, silent = true, buffer = bufnr }
+	vim.cmd [[ command! Format execute 'lua vim.lsp.buf.format({ async = true })' ]]
+	-- vim.cmd [[ command! Format execute 'lua Reset_Spaces(true)' ]]
+	nnoremap("<M-f>", vim.cmd.Format, opts)
+	vnoremap("<M-f>", vim.cmd.Format, opts)
+end
+
+local function lsp_keymaps(bufnr)
+	local opts = { noremap = true, silent = true, buffer = bufnr }
+	nnoremap("K", ufo_hover(
+		function ()
+				vim.lsp.buf.hover()
+		end
+		),
+		opts
+	)
 
 	nnoremap("<leader>ld", vim.lsp.buf.definition, opts)
 	nnoremap("<leader>lD", vim.lsp.buf.declaration, opts)
@@ -211,10 +228,6 @@ local function lsp_keymaps(bufnr)
 	nnoremap("<leader>dk", vim.diagnostic.goto_prev, opts)
 	nnoremap("<leader>dq", vim.diagnostic.setqflist, opts)
 	nnoremap("<leader>a", vim.lsp.buf.code_action, opts)
-	nnoremap("<leader>rn", require("faith.lsp.handlers").rename, opts)
-	-- vim.cmd [[ command! Format execute 'lua vim.lsp.buf.format({ async = true })' ]]
-	vim.cmd [[ command! Format execute 'lua Reset_Spaces(true)' ]]
-	-- nnoremap("<M-f>", "<cmd>Format<cr>", opts)
 end
 
 local function jdt_keymaps(bufnr)
@@ -246,6 +259,7 @@ end
 
 M.on_attach = function(client, bufnr)
 	lsp_keymaps(bufnr)
+	formatting_maps(bufnr)
 
 	if client.server_capabilities.documentSymbolProvider then
 		attach_navic(client, bufnr)
