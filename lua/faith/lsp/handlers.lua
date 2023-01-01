@@ -1,6 +1,7 @@
 local fk = require('faith.keymap')
 local nnoremap = fk.nnoremap
 local vnoremap = fk.vnoremap
+local desc = fk.desc
 
 local M = {}
 
@@ -211,8 +212,8 @@ local function formatting_maps(bufnr)
 	local opts = { noremap = true, silent = true, buffer = bufnr }
 	vim.cmd [[ command! Format execute 'lua vim.lsp.buf.format({ async = true })' ]]
 	-- vim.cmd [[ command! Format execute 'lua Reset_Spaces(true)' ]]
-	nnoremap("<M-f>", vim.cmd.Format, opts)
-	vnoremap("<M-f>", vim.cmd.Format, opts)
+	nnoremap("<M-f>", vim.cmd.Format, desc(opts, "[f]ormat: Run formatter (if there is one set up) for the current file."))
+	vnoremap("<M-f>", vim.cmd.Format, desc(opts, "[f]ormat: Run formatter (if there is one set up) for the selected range."))
 end
 
 local function lsp_keymaps(bufnr)
@@ -229,22 +230,26 @@ local function lsp_keymaps(bufnr)
 		opts
 	)
 
-	nnoremap("<leader>ld", vim.lsp.buf.definition, opts)
-	nnoremap("<leader>lD", vim.lsp.buf.declaration, opts)
-	nnoremap("<leader>li", vim.lsp.buf.implementation, opts)
-	nnoremap("<leader>lr", vim.lsp.buf.references, opts)
-	nnoremap("<leader>ls", vim.lsp.buf.signature_help, opts)
-	nnoremap("<leader>dq", vim.diagnostic.setqflist, opts)
-	nnoremap("<leader>a", vim.lsp.buf.code_action, opts)
-	vnoremap("<leader>a", vim.lsp.buf.code_action, opts)
+	nnoremap("<leader>ld", vim.lsp.buf.definition, desc(opts, "[l]sp [d]efinition: Jump to symbol definition."))
+	nnoremap("<leader>lD", vim.lsp.buf.declaration, desc(opts, "[l]sp [D]eclaration: Jump to symbol declaration."))
+	nnoremap("<leader>li", vim.lsp.buf.implementation, desc(opts, "[l]sp [i]mplementation: Jump to symbol implementation."))
+	nnoremap("<leader>lr", vim.lsp.buf.references, desc(opts, "[l]sp [r]eferences: List references of symbol under cursor."))
+	nnoremap("<leader>ls", vim.lsp.buf.signature_help, desc(opts, "[l]sp [s]ignature: Show function signature."))
+	nnoremap("<leader>dq", vim.diagnostic.setqflist, desc(opts, "[d]iagnostic [q]uickfix: Add workspace diagnostics to quickfix list."))
+	nnoremap("<leader>a", vim.lsp.buf.code_action, desc(opts, "code [a]ction: List code actions available at cursor's position."))
+	vnoremap("<leader>a", vim.lsp.buf.code_action, desc(opts, "code [a]ction: List code actions available for selection."))
 
 	if package.loaded.lspsaga then
-		nnoremap("<leader>lf", function () require('lspsaga.finder'):lsp_finder() end, opts)
+		nnoremap("<leader>lf", function () require('lspsaga.finder'):lsp_finder() end,
+			desc(opts, "[L]sp [F]inder: List all definitions and references of symbol under cursor"))
 
-		nnoremap("<leader>dl", require('lspsaga.diagnostic').show_line_diagnostics, opts)
+		nnoremap("<leader>dl", require('lspsaga.diagnostic').show_line_diagnostics,
+			desc(opts, "[d]iagnostic [l]ist: Open float listing all diagnostics on line."))
 		-- nnoremap("<leader>dl", require('lspsaga.diagnostic').show_cursor_diagnostics, opts)
-		nnoremap("<leader>dj", require('lspsaga.diagnostic').goto_next, opts)
-		nnoremap("<leader>dk", require('lspsaga.diagnostic').goto_prev, opts)
+		nnoremap("<leader>dj", require('lspsaga.diagnostic').goto_next,
+			desc(opts, "[d]iagnostic [down]: Jump to next diagnostic in file."))
+		nnoremap("<leader>dk", require('lspsaga.diagnostic').goto_prev,
+			desc(opts, "[d]iagnostic [up]: Jump to prev diagnostic in file."))
 
 		-- NOTE: these keep breaking with some actions. try these again later <31-12-22, Effie2096>
 		--[[ nnoremap("<leader>a",
@@ -259,32 +264,47 @@ local function lsp_keymaps(bufnr)
 			end,
 			opts
 		) ]]
-		nnoremap("<leader>rn", function () require('lspsaga.rename'):lsp_rename() end, opts)
+		nnoremap("<leader>rn", function () require('lspsaga.rename'):lsp_rename() end,
+			desc(opts, "[r]e[n]ame: Rename symbol under cursor."))
 	else
-		nnoremap("<leader>dl", vim.diagnostic.open_float, opts)
-		nnoremap("<leader>dj", vim.diagnostic.goto_next, opts)
-		nnoremap("<leader>dk", vim.diagnostic.goto_prev, opts)
-		nnoremap("<leader>rn", require("faith.lsp.handlers").rename, opts)
+		nnoremap("<leader>dl", vim.diagnostic.open_float,
+			desc(opts, "[d]iagnostic [l]ist: Open float listing all diagnostics on line."))
+		nnoremap("<leader>dj", vim.diagnostic.goto_next,
+			desc(opts, "[d]iagnostic [down]: Jump to next diagnostic in file."))
+		nnoremap("<leader>dk", vim.diagnostic.goto_prev,
+			desc(opts, "[d]iagnostic [up]: Jump to prev diagnostic in file."))
+		nnoremap("<leader>rn", require("faith.lsp.handlers").rename,
+			desc(opts, "[r]e[n]ame: Rename symbol under cursor."))
 	end
 end
 
 local function jdt_keymaps(bufnr)
 	local opts = { noremap = true, silent = true, buffer = bufnr }
-	nnoremap("<M-a>", require 'jdtls'.organize_imports, opts)
-	vnoremap("<leader>em", "<esc><cmd> lua require('jdtls').extract_method(true)<CR>", opts)
-	nnoremap("<leader>ev", require('jdtls').extract_variable, opts)
-	vnoremap("<leader>ev", "<cmd> lua require('jdtls').extract_variable(true)<CR>", opts)
-	nnoremap("<leader>ec", require('jdtls').extract_constant, opts)
-	vnoremap("<leader>ec", "<cmd> lua require('jdtls').extract_constant(true)<CR>", opts)
+	nnoremap("<M-a>", require 'jdtls'.organize_imports,
+		desc(opts, "Organize Java Imports."))
+	vnoremap("<leader>em", "<esc><cmd> lua require('jdtls').extract_method(true)<CR>",
+		desc(opts, "[e]xtract [m]ethod: Extract selection to new method."))
+	local ev_desc = "[e]xtract [v]ariable."
+	nnoremap("<leader>ev", require('jdtls').extract_variable,
+		desc(opts, ev_desc))
+	vnoremap("<leader>ev", "<cmd> lua require('jdtls').extract_variable(true)<CR>",
+		desc(opts, ev_desc))
+	local ec_desc = "[e]xtract [c]onstant."
+	nnoremap("<leader>ec", require('jdtls').extract_constant,
+		desc(opts, ec_desc))
+	vnoremap("<leader>ec", "<cmd> lua require('jdtls').extract_constant(true)<CR>",
+		desc(opts, ec_desc))
 
 	nnoremap("<leader>tm", function ()
 		require('jdtls').test_nearest_method()
 		require('dapui').open({layout = 2})
-	end, opts)
+	end,
+		desc(opts, "[t]est [m]ethod: Run java test under cursor.")
+	)
 	nnoremap("<leader>tc", function ()
 		require('jdtls').test_class()
 		require('dapui').open({layout = 2})
-	end, opts)
+	end, desc(opts, "[t]est [c]lass: Run java test class"))
 
 	vim.cmd "command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_compile JdtCompile lua require('jdtls').compile(<f-args>)"
 	vim.cmd "command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_set_runtime JdtSetRuntime lua require('jdtls').set_runtime(<f-args>)"
@@ -297,8 +317,10 @@ end
 local function rust_keymaps (bufnr)
 	local opts = { noremap = true, silent = true, buffer = bufnr }
 	if pcall(require, "rust-tools") then
-		nnoremap("<leader>rh", require'rust-tools.hover_actions'.hover_actions, opts)
-		nnoremap("<leader>rr", require'rust-tools'.runnables.runnables, opts)
+		nnoremap("<leader>rh", require'rust-tools.hover_actions'.hover_actions,
+		desc(opts, "[r]ust [h]over."))
+		nnoremap("<leader>rr", require'rust-tools'.runnables.runnables,
+		desc(opts, "[r]ust [r]unnables."))
 	end
 end
 

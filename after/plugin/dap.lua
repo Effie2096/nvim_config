@@ -13,15 +13,19 @@ end
 
 local fk = require('faith.keymap')
 local nnoremap = fk.nnoremap
+local desc = fk.desc
 
 local opts = { noremap = true, silent = true }
 nnoremap("<F5>", require'dap'.continue, opts)
 nnoremap("<F10>", require'dap'.step_over, opts)
 nnoremap("<F11>", require'dap'.step_into, opts)
 nnoremap("<F12>", require'dap'.step_out, opts)
-nnoremap("<Leader>db", require'dap'.toggle_breakpoint, opts)
-nnoremap("<Leader>dB", function () require'dap'.set_breakpoint(vim.fn.input({prompt = 'Breakpoint condition: '})) end, opts)
-nnoremap("<Leader>dp", function () require'dap'.set_breakpoint(nil, nil, vim.fn.input({prompt = 'Log point message: '})) end, opts)
+nnoremap("<Leader>db", require'dap'.toggle_breakpoint,
+	desc(opts, "[d]ebug [b]reakpoint: Toggle debugger breakpoint on current line."))
+nnoremap("<Leader>dB", function () require'dap'.set_breakpoint(vim.fn.input({prompt = 'Breakpoint condition: '})) end,
+	desc(opts, "[d]ebug [B]reakpoint conditional: Toggle conditional breakpoint on current line."))
+nnoremap("<Leader>dp", function () require'dap'.set_breakpoint(nil, nil, vim.fn.input({prompt = 'Log point message: '})) end,
+	desc(opts, "[d]ebug log [p]oint: Add logging breakpoint on current line."))
 -- nnoremap("<Leader>dr", require'dap'.repl.open, opts)
 
 -- vnoremap("<M-k", require('dapui').eval(), opts)
@@ -62,10 +66,12 @@ dap.configurations.cpp = {
   },
 }
 
-nnoremap("<Leader>do", require("dapui").open, opts)
-nnoremap("<Leader>dc", require("dapui").close, opts)
-nnoremap("<leader>dt", "<cmd>lua require('dapui').toggle({layout = 2})<CR>", opts)
-nnoremap("<Leader>m", ":MaximizerToggle!<CR>", opts)
+nnoremap("<Leader>do", require("dapui").toggle,
+	desc(opts, "[d]ebug ui [o]pen: Toggle debugger ui."))
+nnoremap("<leader>dt", "<cmd>lua require('dapui').toggle({layout = 2})<CR>",
+	desc(opts, "[d]ebug [t]est view: Open repl and console for test output."))
+nnoremap("<Leader>m", ":MaximizerToggle!<CR>",
+	desc(opts, "[m]aximize: Toggle fullscreen current window."))
 --[[ nnoremap("<Leader>dw", function() GotoWindow(vim.fn['bufwinid']('DAP Watches')) end, opts)
 nnoremap("<Leader>dS", function() GotoWindow(vim.fn['bufwinid']('DAP Stacks')) end, opts)
 -- nnoremap("<Leader>db", function() GotoWindow(vim.fn['bufwinid']('DAP Breakpoints')) end, opts)

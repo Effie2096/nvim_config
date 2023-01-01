@@ -1,7 +1,9 @@
 vim.opt.list = true
 
 local icons = require('faith.icons')
-local nnoremap = require('faith.keymap').nnoremap
+local fk = require('faith.keymap')
+local nnoremap = fk.nnoremap
+local desc = fk.desc
 
 local empty_chars = "eol: ,extends: ,nbsp: ,precedes: ,space: ,tab:  ,trail:" .. icons.characters.trail
 local listchars =
@@ -32,5 +34,7 @@ end
 
 vim.opt.listchars = empty_chars
 
+local opts = { noremap = true, silent = true }
 vim.api.nvim_create_user_command("ToggleListChars", cycle_list, {})
-nnoremap("<leader>lc", "<cmd>ToggleListChars<CR>", { noremap = true, silent = true })
+nnoremap("<leader>lc", "<cmd>ToggleListChars<CR>",
+	desc(opts, "[l]ist [c]hars: Toggle showing listchar indicators."))

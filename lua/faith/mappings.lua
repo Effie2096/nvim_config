@@ -1,13 +1,11 @@
-local status_ok, faith_keymap = pcall(require, 'faith.keymap')
-if not status_ok then
-	return
-end
+local fk = require('faith.keymap')
+local nnoremap = fk.nnoremap
+local vnoremap = fk.vnoremap
+local xnoremap = fk.xnoremap
+local inoremap = fk.inoremap
+local tnoremap = fk.tnoremap
 
-local nnoremap = faith_keymap.nnoremap
-local vnoremap = faith_keymap.vnoremap
-local xnoremap = faith_keymap.xnoremap
-local inoremap = faith_keymap.inoremap
-local tnoremap = faith_keymap.tnoremap
+local desc = fk.desc
 
 M = {}
 
@@ -38,7 +36,8 @@ nnoremap("[Q", "<cmd>cfirst<CR>zz", opts)
 nnoremap("]Q", "<cmd>clast<CR>zz", opts)
 
 -- Set working dir to dir of current buffer's file
-nnoremap("<leader>cd", "<cmd>cd %:p:h<CR>", opts)
+nnoremap("<leader>cd", "<cmd>cd %:p:h<CR>",
+	desc(opts, "[c]hange [d]irectory: Change Nvim's current working directory to the path of the current buffer."))
 
 -- add new line without entering insertmode
 nnoremap("<M-o>", "o<Esc>", opts)
@@ -94,4 +93,5 @@ vnoremap(">", ">gv", opts)
 inoremap("<M-o>", "<Space><Esc>r<CR>O", opts)
 
 -- Delete current buffer without closing split
-nnoremap("<leader>bc", "<cmd>bp |bd #<CR>", opts)
+nnoremap("<leader>bc", "<cmd>bp |bd #<CR>",
+	desc(opts, "[b]uffer [c]lose: Delete current buffer without closing window."))

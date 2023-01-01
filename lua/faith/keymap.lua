@@ -11,6 +11,13 @@ local function bind(op, outer_opts)
 	end
 end
 
+function M.desc(outer_opts, description)
+	return vim.tbl_extend("force",
+		outer_opts,
+		{ desc = description }
+	)
+end
+
 M.nmap = bind("n", { noremap = false })
 M.nnoremap = bind("n")
 M.vnoremap = bind("v")
