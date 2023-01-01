@@ -17,7 +17,9 @@ telescope.setup {
 			override_file_sorter = true,
 		},
 		["ui-select"] = {
-			require("telescope.themes").get_cursor {}
+			require("telescope.themes").get_cursor(
+				require('faith.telescope.layouts').layout_configs.default_cursor
+			)
 		}
 	}
 }

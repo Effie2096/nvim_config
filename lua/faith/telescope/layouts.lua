@@ -71,6 +71,39 @@ M.border_presets = {
 			icons.borders.square.bottom_left
 		},
 		preview = M.borders.Square_borders,
+	},
+	Square_borders_vert = {
+		M.borders.Square_borders,
+		prompt = {
+			icons.borders.square.top,
+			icons.borders.square.right,
+			icons.borders.square.bottom,
+			icons.borders.square.left,
+			icons.borders.square.top_left,
+			icons.borders.square.top_right,
+			icons.borders.square.inter_right,
+			icons.borders.square.inter_left,
+		},
+		results = {
+			' ',
+			icons.borders.square.right,
+			icons.borders.square.bottom,
+			icons.borders.square.left,
+			icons.borders.square.left,
+			icons.borders.square.right,
+			icons.borders.square.bottom_right,
+			icons.borders.square.bottom_left,
+		},
+		preview = {
+			icons.borders.square.top,
+			icons.borders.square.right,
+			icons.borders.square.bottom,
+			icons.borders.square.left,
+			icons.borders.square.top_left,
+			icons.borders.square.top_right,
+			icons.borders.square.bottom_right,
+			icons.borders.square.bottom_left,
+		}
 	}
 }
 
@@ -107,12 +140,7 @@ M.layout_configs = {
 		layout_strategy = 'horizontal',
 		previewer = false,
 		sorting_strategy = 'ascending',
-		borderchars = {
-			M.borders.Blank_borders,
-			prompt = M.borders.Blank_borders,
-			results = M.borders.Blank_borders,
-			preview = M.borders.Blank_borders
-		},
+		borderchars = M.borders.Square_borders,
 		layout_config = {
 			horizontal = {
 				prompt_position = 'top',
@@ -135,12 +163,25 @@ M.layout_configs = {
 		borderchars = M.borders.Blank_borders,
 		layout_config = {
 			prompt_position = 'top',
+			horizontal = {
+				preview_width = function (_, cols, _)
+					if cols > 250 then
+						return math.floor(cols * 0.4)
+					elseif cols > 200 then
+						return 100
+					elseif cols > 150 then
+						return 81
+					else
+						return math.floor(cols * 0.4)
+					end
+				end,
+			},
 		}
 	},
 	default_vert = {
 		layout_strategy = 'vertical',
 		sorting_strategy = 'ascending',
-		borderchars = M.borders.Blank_borders,
+		borderchars = M.border_presets.Square_borders_vert,
 		layout_config = {
 			vertical = {
 				prompt_position = 'top',
@@ -186,7 +227,7 @@ M.layout_configs = {
 		layout_strategy = 'cursor',
 		borderchars = M.border_presets.Square_borders_alt,
 		layout_config = {
-			width = 40,
+			width = 80,
 			height = 10
 		}
 	}

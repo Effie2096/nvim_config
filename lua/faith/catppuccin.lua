@@ -229,11 +229,11 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		local telescope_normal = colors.surface0
 		local telescope_prompt = colors.surface1
 
-		vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = telescope_normal })
-		vim.api.nvim_set_hl(0, "TelescopeSelection", { bg = telescope_prompt })
-		vim.api.nvim_set_hl(0, "TelescopePromptNormal", { bg = telescope_prompt })
-		vim.api.nvim_set_hl(0, "TelescopeBorder", { fg = colors.blue, bg = telescope_normal })
-		vim.api.nvim_set_hl(0, "TelescopePromptBorder", { fg = colors.blue, bg = telescope_prompt })
+		-- vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = telescope_normal })
+		-- vim.api.nvim_set_hl(0, "TelescopeSelection", { bg = telescope_prompt })
+		-- vim.api.nvim_set_hl(0, "TelescopePromptNormal", { bg = telescope_prompt })
+		vim.api.nvim_set_hl(0, "TelescopeBorder", { fg = colors.pink,--[[  bg = telescope_normal  ]]})
+		vim.api.nvim_set_hl(0, "TelescopePromptBorder", { fg = colors.pink--[[ , bg = telescope_prompt  ]]})
 		vim.api.nvim_set_hl(0, "TelescopePromptTitle", { fg = colors.crust, bg = colors.pink })
 		vim.api.nvim_set_hl(0, "TelescopePreviewTitle", { fg = colors.crust, bg = colors.green })
 

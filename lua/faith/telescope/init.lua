@@ -141,6 +141,16 @@ end
 
 function M.spell_suggest()
 	local opts = vim.deepcopy(layouts.default_cursor) or {}
+	opts = vim.tbl_deep_extend(
+		"force",
+		opts,
+		{
+			layout_config = {
+				width = 40,
+				height = 10
+			}
+		}
+	)
 	require('telescope.builtin').spell_suggest(opts)
 end
 
