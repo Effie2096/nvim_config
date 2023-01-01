@@ -149,6 +149,13 @@ local function attach_navic(client, bufnr)
 	navic.attach(client, bufnr)
 end
 
+local function attach_inlay(client, bufnr)
+	local status_ok, inlayhints = pcall(require, 'lsp-inlayhints')
+	if status_ok then
+		inlayhints.on_attach(client, bufnr)
+	end
+end
+
 M.rename = function()
 	---@diagnostic disable-next-line: missing-parameter
 	local position_params = vim.lsp.util.make_position_params()
@@ -313,10 +320,7 @@ M.on_attach = function(client, bufnr)
 	end
 
 	if client.server_capabilities.inlayHintProvider then
-		local status_ok, inlayhints = pcall(require, 'lsp-inlayhints')
-		if status_ok then
-			inlayhints.on_attach(client, bufnr)
-		end
+		attach_inlay(client, bufnr)
 	end
 
 	if client.name == "jdtls" then
@@ -327,7 +331,7 @@ M.on_attach = function(client, bufnr)
 		require("jdtls").setup_dap { hotcodereplace = "auto" }
 		require("jdtls.dap").setup_dap_main_class_configs()
 		-- end
-		require("lsp-inlayhints").on_attach(client, bufnr)
+		attach_inlay(client, bufnr)
 	end
 
 	if client.name == "rust_analyzer" then
