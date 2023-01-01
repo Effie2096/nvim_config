@@ -59,11 +59,11 @@ local bundles = {
 ---@diagnostic disable-next-line: missing-parameter
 vim.list_extend(bundles,
 	vim.split(
-		vim.fn.glob(home .. "/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar"),
+		vim.fn.glob(vim.fn.stdpath("data") .. "/mason/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar"),
 		"\n", {})
 )
 ---@diagnostic disable-next-line: missing-parameter
-vim.list_extend(bundles, vim.split(vim.fn.glob(home .. "/vscode-java-test/server/*.jar"), "\n"))
+vim.list_extend(bundles, vim.split(vim.fn.glob(vim.fn.stdpath("data") .. "/mason/packages/java-test/extension/server/*.jar"), "\n"))
 
 -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
 local config = {
@@ -92,17 +92,9 @@ local config = {
 		'-jar',
 		---@diagnostic disable-next-line: missing-parameter
 		vim.fn.glob(jdtloc .. "/plugins/org.eclipse.equinox.launcher_*.jar"),
-		-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^																			 ^^^^^^^^^^^^^^
-		-- Must point to the																										 Change this to
-		-- eclipse.jdt.ls installation																					 the actual version
-
 
 		-- 💀
 		'-configuration', vim.fn.glob(jdtloc .. '/config_' .. CONFIG),
-		-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^				^^^^^^
-		-- Must point to the											Change to one of `linux`, `win` or `mac`
-		-- eclipse.jdt.ls installation						Depending on your system.
-
 
 		-- 💀
 		-- See `data directory configuration` section in the README
