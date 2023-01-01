@@ -70,46 +70,6 @@ local trans_flag = {
 	{ '" "', color = { bg = '#5bcffa', --[[fg = '#1BB3FF',]] }, padding = 0, },
 }
 
-function WinBarGitStatus()
-	local git_dict = vim.api.nvim_eval("get(b:,'gitsigns_status_dict', '')")
-	-- local seperators = { '', '' }
-	local addSign = "+"
-	local changeSign = "~"
-	local removeSign = "-"
-
-	local diff_status = ""
-
-	if git_dict ~= "" then
-		local git_added = git_dict['added']
-		local git_changed = git_dict['changed']
-		local git_removed = git_dict['removed']
-
-		if (git_added ~= nil) or (git_changed ~= nil) or (git_removed ~= nil) then
-			if (git_added ~= 0) or (git_changed ~= 0) or (git_removed ~= 0) then
-
-				-- diff_status = diff_status .. '%#WinBarDiffSep#' .. seperators[1]
-				if git_added ~= 0 then
-					diff_status = diff_status .. '%#WinBarDiffAdd#'
-					diff_status = diff_status .. addSign
-					diff_status = diff_status .. vim.fn.string(git_dict['added'])
-				end
-				if git_changed ~= 0 then
-					diff_status = diff_status .. '%#WinBarDiffChange# '
-					diff_status = diff_status .. changeSign
-					diff_status = diff_status .. vim.fn.string(git_dict['changed'])
-				end
-				if git_removed ~= 0 then
-					diff_status = diff_status .. '%#WinBarDiffDelete# '
-					diff_status = diff_status .. removeSign
-					diff_status = diff_status .. vim.fn.string(git_dict['removed'])
-				end
-				-- diff_status = diff_status .. '%#WinBarDiffSep#' .. seperators[2]
-			end
-		end
-	end
-	return diff_status
-end
-
 -- check if value in table
 local function contains(t, value)
 	for _, v in pairs(t) do
