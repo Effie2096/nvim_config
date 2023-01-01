@@ -423,7 +423,12 @@ api.nvim_create_autocmd(
 					if require('faith.functions').isempty(winbar_content) then
 						goto continue
 					end
-					api.nvim_win_set_option(win, 'winbar', winbar_content)
+					-- FIX: catching errors in winbar output instead of handling them <31-12-22, Effie2096> 
+					-- I give up lol. if setting win bar still throws an error at this point then
+					-- I'm ignoring it.
+					pcall(function ()
+						api.nvim_win_set_option(win, 'winbar', winbar_content)
+					end)
 				end
 				::continue::
 			end
