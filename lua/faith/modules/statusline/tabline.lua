@@ -246,11 +246,13 @@ function M.get_file_path(self)
 		path_breadcrumbs = path_breadcrumbs .. seperator
 	end
 	path_breadcrumbs = path_breadcrumbs
-	..table.concat(
-		folders,
-		seperator,
-		1,
-		#folders
+	..utils.stl_escape(
+		table.concat(
+			folders,
+			seperator,
+			1,
+			#folders
+		)
 	)
 
 	return path_breadcrumbs .. ' ', window_has_different_root
