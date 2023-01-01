@@ -275,7 +275,7 @@ M.on_attach = function(client, bufnr)
 		require("jdtls").setup_dap { hotcodereplace = "auto" }
 		require("jdtls.dap").setup_dap_main_class_configs()
 		-- end
-		-- require("lsp-inlayhints").on_attach(client, bufnr)
+		require("lsp-inlayhints").on_attach(client, bufnr)
 	end
 
 	if client.name == "rust_analyzer" then

@@ -132,17 +132,17 @@ local config = {
 			references = {
 				includeDecompiledSources = true,
 			},
-			--[[ inlayHints = {
+			inlayHints = {
 				parameterNames = {
 					enabled = "all",
 				},
-			}, ]]
+			},
 			format = {
 				enabled = false,
-			}
+			},
+			signatureHelp = { enabled = true },
+			contentProvider = { preferred = 'fernflower' },
 		},
-		signatureHelp = { enabled = false },
-		contentProvider = { preferred = 'fernflower' },
 		extendedClientCapabilities = extendedClientCapabilities,
 		sources = {
 			organizeImports = {
@@ -156,12 +156,6 @@ local config = {
 			},
 			useBlocks = true,
 		},
-		--[[ on_init = function(client)
-			if client.config.settings then
-				client.notify('workspace/didChangeConfiguration',
-				{ settings = client.config.settings })
-			end
-		end ]]
 	},
 	flags = {
 		allow_incremental_sync = true,
