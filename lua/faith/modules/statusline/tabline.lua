@@ -213,7 +213,7 @@ function M.get_file_path(self)
 
 	local filetype = f.get_buf_option("filetype")
 	if filetype == "toggleterm" then
-		return path_seperator .. ' Terminal ', window_has_different_root
+		return ' ' .. path_seperator .. ' Terminal ', window_has_different_root
 	end
 
 	local half_nvim_width = math.floor(api.nvim_get_option('columns') * 0.5) - 8
