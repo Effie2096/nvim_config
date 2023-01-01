@@ -263,14 +263,21 @@ end
 
 local function jdt_keymaps(bufnr)
 	local opts = { noremap = true, silent = true, buffer = bufnr }
-	-- nnoremap("<M-a>", require 'jdtls'.organize_imports, opts)
-	vnoremap("<leader>em", "<cmd> lua require('jdtls').extract_method(true)<CR>", opts)
+	nnoremap("<M-a>", require 'jdtls'.organize_imports, opts)
+	vnoremap("<leader>em", "<esc><cmd> lua require('jdtls').extract_method(true)<CR>", opts)
 	nnoremap("<leader>ev", require('jdtls').extract_variable, opts)
 	vnoremap("<leader>ev", "<cmd> lua require('jdtls').extract_variable(true)<CR>", opts)
 	nnoremap("<leader>ec", require('jdtls').extract_constant, opts)
 	vnoremap("<leader>ec", "<cmd> lua require('jdtls').extract_constant(true)<CR>", opts)
-	nnoremap("<leader>tm", require 'jdtls'.test_nearest_method, opts)
-	nnoremap("<leader>tc", require 'jdtls'.test_class, opts)
+
+	nnoremap("<leader>tm", function ()
+		require('jdtls').test_nearest_method()
+		require('dapui').open({layout = 2})
+	end, opts)
+	nnoremap("<leader>tc", function ()
+		require('jdtls').test_class()
+		require('dapui').open({layout = 2})
+	end, opts)
 
 	vim.cmd "command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_compile JdtCompile lua require('jdtls').compile(<f-args>)"
 	vim.cmd "command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_set_runtime JdtSetRuntime lua require('jdtls').set_runtime(<f-args>)"
