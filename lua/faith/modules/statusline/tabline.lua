@@ -192,7 +192,7 @@ function M.get_file_path(self)
 
 	local path_from_root = fn.expand('%:h', false)
 	local path_breadcrumbs = ''
-	local system_path_seperator = fn.glob('/')
+	local system_path_seperator = fn.has('win32') == 0 and '/' or '\\\\'
 
 	-- current window has a working dir that differs from nvim's global working dir
 	if fn.haslocaldir(0,0) == 1 then
