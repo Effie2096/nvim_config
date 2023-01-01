@@ -18,12 +18,11 @@ local cfg = {
 	hint_enable = false,
 	hint_prefix = "🐼 ",
 	hint_scheme = "Conceal",
-	use_lspsaga = false,
 	hi_parameter = "Search",
 	max_height = 12,
 	max_width = 120,
 	handler_opts = {
-		border = "none",
+		border = "single",
 	},
 
 	always_trigger = true,

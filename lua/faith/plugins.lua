@@ -25,7 +25,7 @@ Plug ('williamboman/mason-lspconfig.nvim', { ['commit'] = 'ef41cd4ebccbf0981089b
 Plug ('jose-elias-alvarez/null-ls.nvim', { ['commit'] = 'c8624325198513411cf9dcacde76f14d2260220f' })
 Plug 'folke/neodev.nvim'
 Plug ('mfussenegger/nvim-jdtls', { ['commit'] = '75d27daa061458dd5735b5eb5bbc48d3baad1186' })
-Plug ('lvimuser/lsp-inlayhints.nvim', { ['commit'] = '439b4811276a149e3fccb226cc9a43ff2fb0e33b' })
+Plug ('lvimuser/lsp-inlayhints.nvim', { ['commit'] = 'a28c51a6362e3faa17f67749436cb5c8b55dcc6d' })
 Plug 'b0o/schemastore.nvim'
 Plug ('pedro757/emmet', { ['commit'] = 'bff967b1d91948a88104987b427842deb78bacf5' })
 Plug ('nvim-treesitter/nvim-treesitter-textobjects', { ['commit'] = '13739a5705d9592cbe7da372576363dc8ea5f723' })

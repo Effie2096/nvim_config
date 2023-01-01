@@ -28,26 +28,26 @@ M.setup = function()
 	end
 
 	local config = {
-		virtual_text = {
+		virtual_text = false --[[ {
 			source = false,
 			format = function (diagnostic)
 				if vim.api.nvim_buf_get_option(0, 'filetype') == 'rust' then
 					return string.gsub(
 						diagnostic.message,
-						'`#%[.*%(.*%)%]` on by default[\n\r]',
+						'`#%[.*%(.*%)%]` on by default',
 						'',
 						1
 					)
 				end
 				return diagnostic.message
 			end
-		},
+		} ]],
 		-- show signs
 		signs = {
 			active = signs,
 		},
 		update_in_insert = false,
-		underline = true,
+		underline = vim.fn.has('win32') == 0 and true or false,
 		severity_sort = true,
 		float = {
 			focusable = false,
@@ -64,8 +64,8 @@ M.setup = function()
 	vim.diagnostic.config(config)
 
 	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-		border = "none",
-		width = 60,
+		border = "single",
+		-- width = 60,
 		-- height = 30,
 	})
 
