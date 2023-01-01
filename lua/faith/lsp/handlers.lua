@@ -212,7 +212,11 @@ local function lsp_keymaps(bufnr)
 	local opts = { noremap = true, silent = true, buffer = bufnr }
 	nnoremap("K", ufo_hover(
 		function ()
+			if package.loaded.lspsaga then
+				require('lspsaga.hover'):render_hover_doc()
+			else
 				vim.lsp.buf.hover()
+			end
 		end
 		),
 		opts
@@ -223,11 +227,38 @@ local function lsp_keymaps(bufnr)
 	nnoremap("<leader>li", vim.lsp.buf.implementation, opts)
 	nnoremap("<leader>lr", vim.lsp.buf.references, opts)
 	nnoremap("<leader>ls", vim.lsp.buf.signature_help, opts)
-	nnoremap("<leader>dl", vim.diagnostic.open_float, opts)
-	nnoremap("<leader>dj", vim.diagnostic.goto_next, opts)
-	nnoremap("<leader>dk", vim.diagnostic.goto_prev, opts)
 	nnoremap("<leader>dq", vim.diagnostic.setqflist, opts)
 	nnoremap("<leader>a", vim.lsp.buf.code_action, opts)
+	vnoremap("<leader>a", vim.lsp.buf.code_action, opts)
+
+	if package.loaded.lspsaga then
+		nnoremap("<leader>lf", function () require('lspsaga.finder'):lsp_finder() end, opts)
+
+		nnoremap("<leader>dl", require('lspsaga.diagnostic').show_line_diagnostics, opts)
+		-- nnoremap("<leader>dl", require('lspsaga.diagnostic').show_cursor_diagnostics, opts)
+		nnoremap("<leader>dj", require('lspsaga.diagnostic').goto_next, opts)
+		nnoremap("<leader>dk", require('lspsaga.diagnostic').goto_prev, opts)
+
+		-- NOTE: these keep breaking with some actions. try these again later <31-12-22, Effie2096>
+		--[[ nnoremap("<leader>a",
+			function ()
+				require('lspsaga.codeaction'):code_action()
+			end,
+			opts
+		)
+		vnoremap("<leader>a",
+			function ()
+				require('lspsaga.codeaction'):code_action()
+			end,
+			opts
+		) ]]
+		nnoremap("<leader>rn", function () require('lspsaga.rename'):lsp_rename() end, opts)
+	else
+		nnoremap("<leader>dl", vim.diagnostic.open_float, opts)
+		nnoremap("<leader>dj", vim.diagnostic.goto_next, opts)
+		nnoremap("<leader>dk", vim.diagnostic.goto_prev, opts)
+		nnoremap("<leader>rn", require("faith.lsp.handlers").rename, opts)
+	end
 end
 
 local function jdt_keymaps(bufnr)

@@ -61,6 +61,7 @@ M.winbar_filetype_exclude = {
 	"dapui_console",
 	"lab",
 	"Markdown",
+	"sagarename",
 	"",
 }
 
@@ -114,6 +115,13 @@ function M.get_filename(self, win)
 		if filetype == "dapui_watches" then
 			hl_group = "DAPUIWatchesValue"
 			file_icon = icons.ui.Watches
+			goto continue
+		end
+
+		if filetype == "lspsagaoutline" then
+			filename = "Outline"
+			hl_group = "DevIconEnv"
+			file_icon = icons.ui.BulletList
 			goto continue
 		end
 
@@ -410,11 +418,11 @@ api.nvim_create_autocmd(
 			-- loop through all wins in tab, setting their winbar
 			for _, win in ipairs(tab_wins) do
 				-- ignore all floating windows
-				if api.nvim_win_get_config(win).zindex then
+				local bufnr = api.nvim_win_get_buf(win)
+				if api.nvim_win_get_config(win).zindex or fn.win_gettype(bufnr) == 'popup' then
 					goto continue
 				end
 
-				local bufnr = api.nvim_win_get_buf(win)
 				-- skip lsp floating windows
 				local status_ok, _ = pcall(api.nvim_buf_get_var, bufnr, 'lsp_floating_window')
 				if not status_ok then

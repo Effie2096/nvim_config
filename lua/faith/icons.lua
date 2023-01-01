@@ -92,6 +92,7 @@ local icons = {
 		Gear = " ",
 		Package = " ",
 		List = " ",
+		BulletList = " ",
 		SignIn = " ",
 		SignOut = " ",
 		Check = " ",
