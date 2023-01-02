@@ -33,7 +33,7 @@ Plug 'simrat39/rust-tools.nvim'
 Plug ('glepnir/lspsaga.nvim', { ['branch'] = 'main' , ['commit'] = 'b7b4777369b441341b2dcd45c738ea4167c11c9e' })
 
 Plug ('ray-x/lsp_signature.nvim', { ['commit'] = 'e65a63858771db3f086c8d904ff5f80705fd962b' })
--- Plug ('ThePrimeagen/refactoring.nvim', { ['commit'] = '' })
+Plug ('ThePrimeagen/refactoring.nvim')
 
 -- Debugging
 Plug ('mfussenegger/nvim-dap', { ['commit'] = '5d57c401cab25997a6d8202b2498ad5ac895f143' })
