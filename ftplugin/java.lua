@@ -138,7 +138,10 @@ local config = {
 				},
 			},
 			format = {
-				enabled = false,
+				settings = {
+					url = home .. "/.local/share/eclipse/mystyleuwuv1.xml",
+					profile = "GoogleStyle",
+				},
 			},
 			signatureHelp = { enabled = true },
 			contentProvider = { preferred = 'fernflower' },
