@@ -5,9 +5,7 @@ local status_ok_cmp, cmp = pcall(require, 'cmp')
 if not status_ok_cmp then
 	return
 end
-if package.loaded.lualine == nil then
-	return
-end
+local cmp_git_ok, cmp_git = pcall(require, 'cmp_git')
 
 local status_ok_kind, lspkind = pcall(require, 'lspkind')
 if not status_ok_kind then
@@ -95,7 +93,8 @@ cmp.setup {
 					path = "[path]",
 					luasnip = "[snip]",
 					dap = "[dap]",
-					calc = "[maff]"
+					calc = "[maff]",
+					git = "[git]",
 				},
 			})(entry, vim_item)
 			local strings = vim.split(kind.kind, "%s", { trimempty = true })
@@ -148,7 +147,18 @@ cmp.setup {
 	}
 }
 
-cmp.setup.cmdline('/', {
+cmp.setup.filetype({ 'gitcommit', 'octo' }, {
+	sources = cmp.config.sources({
+		cmp_git_ok and { name = "git" } or {},
+		}, {
+			{ name = 'luasnip' },
+			{ name = "buffer"},
+			{ name = 'path' },
+	})
+})
+cmp_git.setup()
+
+cmp.setup.cmdline({ '/', '?' }, {
 	mapping = cmp.mapping.preset.cmdline(),
 	sources = {
 		{ name = 'buffer' }
