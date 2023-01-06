@@ -250,6 +250,13 @@ local filetype = {
 	icon = { align = 'left' }
 }
 
+local format_on_save = {
+	function ()
+		return FORMAT_ON_SAVE and "Format: On" or ''
+	end,
+	padding = 1
+}
+
 lualine.setup {
 	options = {
 		icons_enabled = true,
@@ -271,7 +278,7 @@ lualine.setup {
 		lualine_b = { workspace_diagnostics },
 		lualine_c = { language_server, },
 		lualine_x = { location, spaces, indent, trailing_space, filetype, fileformat, encoding},
-		lualine_y = { },
+		lualine_y = { format_on_save },
 		lualine_z = trans_flag,
 	},
 	inactive_sections = {

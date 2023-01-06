@@ -210,7 +210,7 @@ end
 
 local function formatting_maps(bufnr)
 	local opts = { noremap = true, silent = true, buffer = bufnr }
-	vim.cmd [[ command! Format execute 'lua vim.lsp.buf.format({ async = true })' ]]
+	vim.cmd [[ command! Format execute 'lua Formatting({ async = true })' ]]
 	-- vim.cmd [[ command! Format execute 'lua Reset_Spaces(true)' ]]
 	nnoremap("<M-f>", vim.cmd.Format, desc(opts, "[f]ormat: Run formatter (if there is one set up) for the current file."))
 	vnoremap("<M-f>", vim.cmd.Format, desc(opts, "[f]ormat: Run formatter (if there is one set up) for the selected range."))
@@ -421,11 +421,17 @@ M.on_attach = function(client, bufnr)
 		rust_keymaps(bufnr)
 	end
 
+	if FORMAT_ON_SAVE then
+		M.enable_format_on_save()
+	end
+
 end
 
-function Reset_Spaces(async)
+FORMAT_ON_SAVE = true
+
+function Formatting(async)
 	vim.lsp.buf.format({ async = async })
-	-- vim.cmd('%retab!')
+	vim.cmd('%retab!')
 end
 
 function M.enable_format_on_save()
@@ -433,15 +439,20 @@ function M.enable_format_on_save()
 	vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 		group = format_on_save_group,
 		pattern = "*",
-		callback = function()
-			Reset_Spaces(false)
+		callback = function(data)
+			local next = next
+			if next(vim.lsp.get_active_clients({ bufnr = data.buf })) ~= nil then
+				Formatting(false)
+			end
 		end,
 	})
+	FORMAT_ON_SAVE = true
 	vim.notify "Enabled format on save"
 end
 
 function M.disable_format_on_save()
 	M.remove_augroup "format_on_save"
+	FORMAT_ON_SAVE = false
 	vim.notify "Disabled format on save"
 end
 
@@ -455,7 +466,7 @@ end
 
 function M.remove_augroup(name)
 	if vim.fn.exists("#" .. name) == 1 then
-		vim.cmd("au! " .. name)
+		vim.api.nvim_del_augroup_by_name(name)
 	end
 end
 
