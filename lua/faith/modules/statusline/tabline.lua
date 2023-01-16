@@ -93,9 +93,9 @@ function M.get_tab_buffers(self, tabnr)
 		elseif fn.getbufvar(buffer, "&modifiable") then
 			local name = api.nvim_buf_get_name(buffer)
 			if not f.isempty(name) then
-				if string.match(name, fn.glob("fugitive://(.*)%.git%/%/$")) then
+				if string.match(name, "fugitive://(.*)%.git%/%/$") then
 					tab_buffers = tab_buffers .. '[Git]Status, '
-				elseif string.match(name, fn.glob("fugitive://(.*)%.git%/%/[^\n]")) then
+				elseif string.match(name, "fugitive://(.*)%.git%/%/[^\n]") then
 					tab_buffers = tab_buffers .. '[Git]Diff, '
 				else
 					tab_buffers = tab_buffers .. fn.fnamemodify(fn.bufname(buffer), ':t') .. ', '
