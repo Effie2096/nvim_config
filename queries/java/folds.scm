@@ -1,6 +1,6 @@
 [
-(class_declaration
-  name: (identifier))
+; (class_declaration
+;   name: (identifier))
 (record_declaration
   name: (identifier))
 (enum_declaration
