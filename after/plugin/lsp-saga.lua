@@ -19,7 +19,7 @@ saga.init_lsp_saga({
 		enable = false,
 		enable_in_insert = false,
 		sign = false,
-		sigh_priority = 20,
+		sign_priority = 20,
 		virtual_text = false,
 		update_time = 50,
 	},

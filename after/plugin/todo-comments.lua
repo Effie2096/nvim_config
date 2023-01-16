@@ -3,4 +3,6 @@ if not status_ok then
 	return
 end
 
-todo_comments.setup()
+todo_comments.setup({
+	sign_priority = 15,
+})
