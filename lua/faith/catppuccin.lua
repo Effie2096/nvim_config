@@ -14,7 +14,7 @@ catppuccin.setup({
 		percentage = 0.15
 	},
 	styles = {
-		comments = vim.fn.has("win32") == 0 and { "italic" } or {} ,
+		comments = {},
 		conditionals = {},
 		loops = {},
 		functions = {},
@@ -97,9 +97,11 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		vim.api.nvim_set_hl(0, "GitSignsAddInline", { fg = colors.base, bg = colors.green })
 		vim.api.nvim_set_hl(0, "GitSignsDeleteInline", { fg = colors.base, bg = colors.red })
 		vim.api.nvim_set_hl(0, "GitSignsChangeInline", { fg = colors.base, bg = changeColor })
+		vim.api.nvim_set_hl(0, "DiffChange", { bg = '#3d4261' })
+		vim.api.nvim_set_hl(0, "DiffText", { bg = '#3d5a8a' , special = '#3d5a8a' , underline = true })
 
 		vim.api.nvim_set_hl(0, "LspInlayHint", { fg = '#d8d8d8', bg = '#3a3a3a' })
-		-- vim.api.nvim_set_hl(0, "ZenBg", { fg = colors.base, bg = colors.base })
+		vim.api.nvim_set_hl(0, "ZenBg", { link = "@none" })
 		vim.api.nvim_set_hl(0, "MatchParen", { special = colors.peach, underline = true, bold = true })
 		-- vim.api.nvim_set_hl(0, "NormalFloat", { bg = colors.surface0 })
 
