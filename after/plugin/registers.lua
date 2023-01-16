@@ -1,9 +1,9 @@
-local status_ok, registers = pcall(require, 'registers')
+local status_ok, registers = pcall(require, "registers")
 if not status_ok then
 	return
 end
 
-local icons = require('faith.icons').characters
+local icons = require("faith.icons").characters
 
 registers.setup({
 	symbols = {
@@ -21,9 +21,9 @@ registers.setup({
 		register_type_blockwise = "ᵇ",
 	},
 	window = {
-		transparency = 0
+		transparency = 0,
 	},
-	 -- Highlight the sign registers as regular Neovim highlights
+	-- Highlight the sign registers as regular Neovim highlights
 	sign_highlights = {
 		cursorline = "Visual",
 		selection = "Constant",
@@ -38,5 +38,5 @@ registers.setup({
 		yank = "Delimiter",
 		history = "Number",
 		named = "String",
-	}
+	},
 })

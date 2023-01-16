@@ -1,12 +1,12 @@
 ---@diagnostic disable: unused-local, param-type-mismatch
 
-local status_ok, notify = pcall(require, 'notify')
+local status_ok, notify = pcall(require, "notify")
 if not status_ok then
 	return
 end
 
 notify.setup({
-	background_colour = require('catppuccin.palettes').get_palette().base
+	background_colour = require("catppuccin.palettes").get_palette().base,
 })
 
 -- Utility functions shared between progress reports for LSP and DAP
@@ -85,8 +85,7 @@ vim.lsp.handlers["$/progress"] = function(_, result, ctx)
 			hide_from_history = false,
 		})
 	elseif val.kind == "end" and notif_data then
-		notif_data.notification =
-		vim.notify(val.message and format_message(val.message) or "Complete", "info", {
+		notif_data.notification = vim.notify(val.message and format_message(val.message) or "Complete", "info", {
 			icon = "",
 			replace = notif_data.notification,
 			timeout = 3000,
@@ -114,7 +113,7 @@ if not dap_status_ok then
 	return
 end
 
-dap.listeners.before['event_progressStart']['progress-notifications'] = function(session, body)
+dap.listeners.before["event_progressStart"]["progress-notifications"] = function(session, body)
 	local notif_data = get_notif_data("dap", body.progressId)
 
 	local message = format_message(body.message, body.percentage)
@@ -125,12 +124,13 @@ dap.listeners.before['event_progressStart']['progress-notifications'] = function
 		hide_from_history = false,
 	})
 
-	notif_data.notification.spinner = 1,
-			---@diagnostic disable-next-line: redundant-value
-			update_spinner("dap", body.progressId)
+	notif_data.notification.spinner =
+		1,
+				---@diagnostic disable-next-line: redundant-value
+update_spinner("dap", body.progressId)
 end
 
-dap.listeners.before['event_progressUpdate']['progress-notifications'] = function(session, body)
+dap.listeners.before["event_progressUpdate"]["progress-notifications"] = function(session, body)
 	local notif_data = get_notif_data("dap", body.progressId)
 	notif_data.notification = vim.notify(format_message(body.message, body.percentage), "info", {
 		replace = notif_data.notification,
@@ -138,12 +138,12 @@ dap.listeners.before['event_progressUpdate']['progress-notifications'] = functio
 	})
 end
 
-dap.listeners.before['event_progressEnd']['progress-notifications'] = function(session, body)
+dap.listeners.before["event_progressEnd"]["progress-notifications"] = function(session, body)
 	local notif_data = client_notifs["dap"][body.progressId]
 	notif_data.notification = vim.notify(body.message and format_message(body.message) or "Complete", "info", {
 		icon = "",
 		replace = notif_data.notification,
-		timeout = 3000
+		timeout = 3000,
 	})
 	notif_data.spinner = nil
 end

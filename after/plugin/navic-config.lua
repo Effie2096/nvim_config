@@ -1,15 +1,15 @@
-local status_ok, navic = pcall(require, 'nvim-navic')
+local status_ok, navic = pcall(require, "nvim-navic")
 if not status_ok then
 	return
 end
 
-local icons = require('faith.icons')
+local icons = require("faith.icons")
 
-navic.setup {
+navic.setup({
 	icons = icons.kind,
 	highlight = false,
 	separator = " " .. icons.ui.ChevronRight .. " ",
 	depth_limit = 0,
 	depth_limit_indicator = icons.ui.Ellipses,
-	safe_output = true
-}
+	safe_output = true,
+})

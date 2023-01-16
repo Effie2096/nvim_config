@@ -13,10 +13,10 @@ require("faith.settings")
 require("faith.session")
 
 require("faith.telescope.setup")
-require('faith.telescope.mappings')
+require("faith.telescope.mappings")
 
 require("faith.lsp")
 require("faith.snippets.comment_nvim")
 
 require("faith.listchars")
-require('faith.modules.statusline')
+require("faith.modules.statusline")

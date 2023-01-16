@@ -3,7 +3,7 @@ if not status_ok then
 	return
 end
 
-context.setup{
+context.setup({
 	enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
 	throttle = true, -- Throttles plugin updates (may improve performance)
 	max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
@@ -13,12 +13,12 @@ context.setup{
 		-- By setting the 'default' entry below, you can control which nodes you want to
 		-- appear in the context window.
 		default = {
-			'class',
-			'function',
-			'method',
-			'for', -- These won't appear in the context
-			'while',
-			'if',
+			"class",
+			"function",
+			"method",
+			"for", -- These won't appear in the context
+			"while",
+			"if",
 			-- 'switch',
 			-- 'case',
 		},
@@ -33,5 +33,5 @@ context.setup{
 		-- Treat patterns.rust as a Lua pattern (i.e "^impl_item$" will
 		-- exactly match "impl_item" only)
 		-- rust = true,
-	}
-}
+	},
+})

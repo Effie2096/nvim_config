@@ -9,7 +9,7 @@ local formatting = null_ls.builtins.formatting
 local diagnostics = null_ls.builtins.diagnostics
 local actions = null_ls.builtins.code_actions
 
-null_ls.setup {
+null_ls.setup({
 	debug = false,
 	sources = {
 		formatting.stylua,
@@ -18,19 +18,23 @@ null_ls.setup {
 			extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote" },
 		}, ]]
 		diagnostics.commitlint,
-		formatting.prettierd.with {
+		formatting.prettierd.with({
 			-- extra_filetypes = { "toml", "solidity" },
 			extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote", "--use-tabs" },
-		},
+		}),
 		actions.eslint_d,
 		diagnostics.eslint_d,
 		-- actions.gitsigns,
 		-- formatting.google_java_format,
 	},
-}
+})
 
 vim.notify = function(msg, ...)
-	if msg:match("error: method textDocument/documentHighlight is not supported by any of the servers registered for the current buffer") then
+	if
+		msg:match(
+			"error: method textDocument/documentHighlight is not supported by any of the servers registered for the current buffer"
+		)
+	then
 		return
 	end
 

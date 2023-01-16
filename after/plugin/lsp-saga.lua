@@ -1,19 +1,19 @@
-local status_ok, saga = pcall(require, 'lspsaga')
+local status_ok, saga = pcall(require, "lspsaga")
 if not status_ok then
 	return
 end
 
-local icons = require('faith.icons')
+local icons = require("faith.icons")
 
 saga.init_lsp_saga({
 	diagnostic_header = {
 		icons.diagnostic.error,
 		icons.diagnostic.warn,
 		icons.diagnostic.info,
-		icons.diagnostic.hint
+		icons.diagnostic.hint,
 	},
 	symbol_in_winbar = {
-		    enable = false,
+		enable = false,
 	},
 	code_action_lightbulb = {
 		enable = false,
@@ -24,7 +24,7 @@ saga.init_lsp_saga({
 		update_time = 50,
 	},
 	show_outline = {
-		win_position = 'right',
+		win_position = "right",
 		win_width = 40,
 		auto_enter = false,
 		auto_refresh = true,

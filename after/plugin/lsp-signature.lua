@@ -5,7 +5,7 @@ end
 
 local cfg = {
 	debug = false,
-  log_path = vim.fn.glob(vim.fn.stdpath("cache") .. "/lsp_signature.log"),
+	log_path = vim.fn.glob(vim.fn.stdpath("cache") .. "/lsp_signature.log"),
 	verbose = false,
 
 	bind = true,
@@ -28,7 +28,7 @@ local cfg = {
 	always_trigger = true,
 
 	auto_close_after = nil,
-	extra_trigger_chars = {"(",","},
+	extra_trigger_chars = { "(", "," },
 	zindex = 200,
 
 	padding = "",
@@ -38,11 +38,11 @@ local cfg = {
 	shadow_guibg = "Black",
 	timer_interval = 200,
 	toggle_key = nil,
-	select_signature_key = '<M-n>'
+	select_signature_key = "<M-n>",
 }
 
 --recommanded:
-signature.setup(cfg)                           --no need to specify bufnr if you don't use toggle_key
+signature.setup(cfg) --no need to specify bufnr if you don't use toggle_key
 
 -- You can also do this inside lsp on_attach
 -- note: on_attach deprecated

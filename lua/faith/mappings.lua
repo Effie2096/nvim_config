@@ -1,4 +1,4 @@
-local fk = require('faith.keymap')
+local fk = require("faith.keymap")
 local nnoremap = fk.nnoremap
 local vnoremap = fk.vnoremap
 local xnoremap = fk.xnoremap
@@ -36,8 +36,11 @@ nnoremap("[Q", "<cmd>cfirst<CR>zz", opts)
 nnoremap("]Q", "<cmd>clast<CR>zz", opts)
 
 -- Set working dir to dir of current buffer's file
-nnoremap("<leader>cd", "<cmd>cd %:p:h<CR>",
-	desc(opts, "[c]hange [d]irectory: Change Nvim's current working directory to the path of the current buffer."))
+nnoremap(
+	"<leader>cd",
+	"<cmd>cd %:p:h<CR>",
+	desc(opts, "[c]hange [d]irectory: Change Nvim's current working directory to the path of the current buffer.")
+)
 
 -- add new line without entering insertmode
 nnoremap("<M-o>", "o<Esc>", opts)
@@ -49,8 +52,8 @@ vnoremap("<Down>", ":move '>+1<CR>:normal gv<CR>", opts)
 vnoremap("<Up>", ":move '<-2<CR>:normal gv<CR>", opts)
 
 -- Execute macro on visual range without stopping at non matching lines
-xnoremap('@', function ()
-	return ':normal @'..vim.fn.getcharstr()..'<CR>'
+xnoremap("@", function()
+	return ":normal @" .. vim.fn.getcharstr() .. "<CR>"
 end, { expr = true })
 
 nnoremap("<C-w>q", "<cmd>close<CR>", opts)
@@ -93,5 +96,8 @@ vnoremap(">", ">gv", opts)
 inoremap("<M-o>", "<Space><Esc>r<CR>O", opts)
 
 -- Delete current buffer without closing split
-nnoremap("<leader>bc", "<cmd>bp |bd #<CR>",
-	desc(opts, "[b]uffer [c]lose: Delete current buffer without closing window."))
+nnoremap(
+	"<leader>bc",
+	"<cmd>bp |bd #<CR>",
+	desc(opts, "[b]uffer [c]lose: Delete current buffer without closing window.")
+)

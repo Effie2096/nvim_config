@@ -1,33 +1,33 @@
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 -- vim.opt.completeopt:append "c"
 
-local status_ok_cmp, cmp = pcall(require, 'cmp')
+local status_ok_cmp, cmp = pcall(require, "cmp")
 if not status_ok_cmp then
 	return
 end
 local dap_ok, _ = pcall(require, "dap")
 local dapui_ok, _ = pcall(require, "dapui")
-local cmp_git_ok, cmp_git = pcall(require, 'cmp_git')
+local cmp_git_ok, cmp_git = pcall(require, "cmp_git")
 
-local status_ok_kind, lspkind = pcall(require, 'lspkind')
+local status_ok_kind, lspkind = pcall(require, "lspkind")
 if not status_ok_kind then
 	return
 end
 lspkind.init({
-	preset = 'codicons'
+	preset = "codicons",
 })
 
-local snippet_path = vim.fn.stdpath('config') .. "/lua/faith/snippets"
-require("luasnip.loaders.from_lua").lazy_load({paths = vim.fn.glob(snippet_path)})
+local snippet_path = vim.fn.stdpath("config") .. "/lua/faith/snippets"
+require("luasnip.loaders.from_lua").lazy_load({ paths = vim.fn.glob(snippet_path) })
 require("luasnip.loaders.from_vscode").lazy_load()
 
-local aup_ok, _ = pcall(require, 'nvim-autopairs')
+local aup_ok, _ = pcall(require, "nvim-autopairs")
 if aup_ok then
-	local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-	local handlers = require('nvim-autopairs.completion.handlers')
+	local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+	local handlers = require("nvim-autopairs.completion.handlers")
 
 	cmp.event:on(
-		'confirm_done',
+		"confirm_done",
 		cmp_autopairs.on_confirm_done({
 			filetypes = {
 				-- "*" is a alias to all filetypes
@@ -37,59 +37,56 @@ if aup_ok then
 							cmp.lsp.CompletionItemKind.Function,
 							cmp.lsp.CompletionItemKind.Method,
 						},
-						handler = handlers["*"]
-					}
+						handler = handlers["*"],
+					},
 				},
 				-- Disable for tex
-				tex = false
-			}
+				tex = false,
+			},
 		})
 	)
 end
 
-cmp.setup {
-	mapping = cmp.mapping.preset.insert {
-		["<C-n>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
-		["<C-p>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
+cmp.setup({
+	mapping = cmp.mapping.preset.insert({
+		["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+		["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
 		["<C-d>"] = cmp.mapping.scroll_docs(-4),
 		["<C-f>"] = cmp.mapping.scroll_docs(4),
 		["<C-e>"] = cmp.mapping.abort(),
-		['<CR>'] = cmp.mapping.confirm( {
+		["<CR>"] = cmp.mapping.confirm({
 			behavior = cmp.ConfirmBehavior.Replace,
-			select = false
-		},
-		{ "i", "c" }
-		),
-		["<c-space>"] = cmp.mapping {
+			select = false,
+		}, { "i", "c" }),
+		["<c-space>"] = cmp.mapping({
 			i = cmp.mapping.complete(),
 			c = function(
 				_ --[[fallback]]
-				)
+			)
 				if cmp.visible() then
-					if not cmp.confirm { select = true } then
+					if not cmp.confirm({ select = true }) then
 						return
 					end
 				else
 					cmp.complete()
 				end
 			end,
-		},
+		}),
 
 		-- ["<tab>"] = false,
 		["<tab>"] = cmp.config.disable,
-	},
+	}),
 	enabled = function()
-		return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
-			or require("cmp_dap").is_dap_buffer()
+		return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt" or require("cmp_dap").is_dap_buffer()
 	end,
 	snippet = {
 		expand = function(args)
-			require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+			require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
 		end,
 	},
 	formatting = {
 		fields = { "kind", "abbr", "menu" },
-		format = function (entry, vim_item)
+		format = function(entry, vim_item)
 			local kind = require("lspkind").cmp_format({
 				mode = "symbol",
 				maxwidth = 100,
@@ -109,7 +106,7 @@ cmp.setup {
 			-- kind.menu = "    (" .. strings[2] .. ")"
 
 			return kind
-		end
+		end,
 		--[[ format = lspkind.cmp_format {
 			-- with_text = true,
 			mode = 'symbol_text',
@@ -157,50 +154,50 @@ cmp.setup {
 		-- documentation = cmp.config.window.bordered(),
 	},
 	sources = {
-		{ name = 'luasnip' }, -- For luasnip users.
-		{ name = 'nvim_lsp' },
+		{ name = "luasnip" }, -- For luasnip users.
+		{ name = "nvim_lsp" },
 		-- { name = 'nvim_lsp_signature_help' },
-		{ name = 'nvim_lua' },
-		{ name = 'path' },
-		{ name = 'buffer', keyword_length = 3 },
-		{ name = 'calc' },
-	}
-}
+		{ name = "nvim_lua" },
+		{ name = "path" },
+		{ name = "buffer", keyword_length = 3 },
+		{ name = "calc" },
+	},
+})
 
-cmp.setup.filetype({ 'gitcommit', 'octo' }, {
+cmp.setup.filetype({ "gitcommit", "octo" }, {
 	sources = cmp.config.sources({
 		cmp_git_ok and { name = "git" } or {},
-		}, {
-			{ name = 'luasnip' },
-			{ name = "buffer"},
-			{ name = 'path' },
-	})
+	}, {
+		{ name = "luasnip" },
+		{ name = "buffer" },
+		{ name = "path" },
+	}),
 })
 cmp_git.setup()
 
-cmp.setup.cmdline({ '/', '?' }, {
+cmp.setup.cmdline({ "/", "?" }, {
 	mapping = cmp.mapping.preset.cmdline(),
 	sources = {
-		{ name = 'buffer' }
+		{ name = "buffer" },
 	},
 	view = {
-		entries = {name = 'wildmenu', separator = '|' }
+		entries = { name = "wildmenu", separator = "|" },
 	},
 })
 
 -- `:` cmdline setup.
-cmp.setup.cmdline(':', {
+cmp.setup.cmdline(":", {
 	mapping = cmp.mapping.preset.cmdline(),
 	sources = cmp.config.sources({
-		{ name = 'path' }
+		{ name = "path" },
 	}, {
-			{
-				name = 'cmdline',
-				option = {
-					ignore_cmds = { 'Man', '!' }
-				}
-			}
-		})
+		{
+			name = "cmdline",
+			option = {
+				ignore_cmds = { "Man", "!" },
+			},
+		},
+	}),
 })
 
 if dap_ok and dapui_ok then
@@ -213,5 +210,5 @@ end
 
 -- disable suggestions in sagarename popup
 cmp.setup.filetype({ "sagarename" }, {
-	sources = {}
+	sources = {},
 })

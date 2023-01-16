@@ -1,9 +1,9 @@
-local status_ok, zen_mode = pcall(require, 'zen-mode')
+local status_ok, zen_mode = pcall(require, "zen-mode")
 if not status_ok then
 	return
 end
 
-zen_mode.setup {
+zen_mode.setup({
 	window = {
 		backdrop = 0,
 		width = 100,
@@ -30,6 +30,6 @@ zen_mode.setup {
 			font = "+6",
 		},
 	},
-}
+})
 
-vim.api.nvim_set_keymap('n', '<leader>z', '<cmd>ZenMode<CR>', { silent = true })
+vim.api.nvim_set_keymap("n", "<leader>z", "<cmd>ZenMode<CR>", { silent = true })

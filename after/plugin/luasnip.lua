@@ -1,11 +1,11 @@
 local status_ok, ls = pcall(require, "luasnip")
 if not status_ok then
-  return
+	return
 end
 
 local types = require("luasnip.util.types")
 
-ls.config.set_config {
+ls.config.set_config({
 	-- This tells LuaSnip to remember to keep around the last snippet.
 	-- You can jump back into it even if you move outside of the selection
 	history = true,
@@ -21,32 +21,32 @@ ls.config.set_config {
 	ext_opts = {
 		[types.choiceNode] = {
 			active = {
-				virt_text = { { "🦊", "Error" } }
+				virt_text = { { "🦊", "Error" } },
 			},
 		},
-	}
-}
+	},
+})
 
 -- <c-k> is my expansion key
 -- this will expand the current item or jump to the next item within the snippet.
 vim.keymap.set({ "i", "s" }, "<c-k>", function()
-  if ls.expand_or_jumpable() then
-    ls.expand_or_jump()
-  end
+	if ls.expand_or_jumpable() then
+		ls.expand_or_jump()
+	end
 end, { silent = true })
 
 -- <c-j> is my jump backwards key.
 -- this always moves to the previous item within the snippet
 vim.keymap.set({ "i", "s" }, "<c-j>", function()
-  if ls.jumpable(-1) then
-    ls.jump(-1)
-  end
+	if ls.jumpable(-1) then
+		ls.jump(-1)
+	end
 end, { silent = true })
 
 -- <c-l> is selecting within a list of options.
-vim.keymap.set({"i", "s"}, "<c-l>", function()
-  if ls.choice_active() then
+vim.keymap.set({ "i", "s" }, "<c-l>", function()
+	if ls.choice_active() then
 		ls.change_choice(1)
 		-- require("luasnip.extras.select_choice")()
-  end
+	end
 end, { silent = true })

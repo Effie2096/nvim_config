@@ -11,10 +11,10 @@ local servers = {
 	"cssmodules_ls",
 	"jsonls",
 	"rust_analyzer",
-	"taplo"
+	"taplo",
 }
 
-local icons = require('faith.icons')
+local icons = require("faith.icons")
 
 local settings = {
 	ui = {
@@ -30,10 +30,10 @@ local settings = {
 }
 
 require("mason").setup(settings)
-require("mason-lspconfig").setup {
+require("mason-lspconfig").setup({
 	ensure_installed = servers,
-	automatic_installation = false
-}
+	automatic_installation = false,
+})
 
 local lspconfig_status_ok, lspconfig = pcall(require, "lspconfig")
 if not lspconfig_status_ok then
@@ -51,13 +51,13 @@ for _, server in pairs(servers) do
 	server = vim.split(server, "@", {})[1]
 
 	if server == "sumneko_lua" then
-		local sumneko_opts = require "faith.lsp.settings.sumneko_lua"
+		local sumneko_opts = require("faith.lsp.settings.sumneko_lua")
 		opts = vim.tbl_deep_extend("force", sumneko_opts, opts)
 		local status_ok, neodev = pcall(require, "neodev")
 		if not status_ok then
 			return
 		end
-		neodev.setup {
+		neodev.setup({
 			-- add any options here, or leave empty to use the default settings
 			-- lspconfig = opts,
 			lspconfig = {
@@ -80,32 +80,32 @@ for _, server in pairs(servers) do
 				},
 				--   -- settings = opts.settings,
 			},
-		}
+		})
 		lspconfig.sumneko_lua.setup(opts)
 		goto continue
 	end
 
 	if server == "tsserver" then
-    local tsserver_opts = require "faith.lsp.settings.tsserver"
-    opts = vim.tbl_deep_extend("force", tsserver_opts, opts)
-  end
+		local tsserver_opts = require("faith.lsp.settings.tsserver")
+		opts = vim.tbl_deep_extend("force", tsserver_opts, opts)
+	end
 
 	if server == "jsonls" then
-    local jsonls_opts = require "faith.lsp.settings.jsonls"
-    opts = vim.tbl_deep_extend("force", jsonls_opts, opts)
-  end
+		local jsonls_opts = require("faith.lsp.settings.jsonls")
+		opts = vim.tbl_deep_extend("force", jsonls_opts, opts)
+	end
 
-  if server == "emmet_ls" then
-    local emmet_ls_opts = require "faith.lsp.settings.emmet_ls"
-    opts = vim.tbl_deep_extend("force", emmet_ls_opts, opts)
-  end
+	if server == "emmet_ls" then
+		local emmet_ls_opts = require("faith.lsp.settings.emmet_ls")
+		opts = vim.tbl_deep_extend("force", emmet_ls_opts, opts)
+	end
 
 	if server == "clangd" then
 		opts.capabilities.offsetEncoding = { "utf-16" }
 	end
 
 	if server == "lemminx" then
-		local lemminx_opts = require "faith.lsp.settings.lemminx"
+		local lemminx_opts = require("faith.lsp.settings.lemminx")
 		opts = vim.tbl_deep_extend("force", lemminx_opts, opts)
 	end
 	-- special case: configured in ftplugin/java.lua
@@ -114,7 +114,7 @@ for _, server in pairs(servers) do
 	end
 
 	if server == "rust_analyzer" then
-		local rust_analyzer_opts = require "faith.lsp.settings.rust"
+		local rust_analyzer_opts = require("faith.lsp.settings.rust")
 		opts = vim.tbl_deep_extend("force", rust_analyzer_opts, opts)
 
 		if pcall(require, "rust-tools") then
@@ -123,7 +123,7 @@ for _, server in pairs(servers) do
 				server = opts,
 			}
 			rust_opts = vim.tbl_deep_extend("force", rust_opts, rust_tools_opts)
-			require('rust-tools').setup(rust_opts)
+			require("rust-tools").setup(rust_opts)
 			goto continue
 		end
 	end

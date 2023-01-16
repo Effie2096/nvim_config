@@ -1,79 +1,112 @@
 M = {}
 
-local lualine_status_ok, lualine = pcall(require, 'lualine')
+local lualine_status_ok, lualine = pcall(require, "lualine")
 if not lualine_status_ok then
 	return
 end
 
-local colors = require 'catppuccin.palettes'.get_palette()
-local catppuccin_status_ok, custom_catppuccin_theme = pcall(require, 'lualine.themes.catppuccin')
+local colors = require("catppuccin.palettes").get_palette()
+local catppuccin_status_ok, custom_catppuccin_theme = pcall(require, "lualine.themes.catppuccin")
 if catppuccin_status_ok then
-	custom_catppuccin_theme.normal.c.bg = package.loaded.transparent and 'none' or custom_catppuccin_theme.normal.c.bg
+	custom_catppuccin_theme.normal.c.bg = package.loaded.transparent and "none" or custom_catppuccin_theme.normal.c.bg
 end
 
-local icons = require('faith.icons')
+local icons = require("faith.icons")
 
 local indent = {
 	function()
 		local space_pat = [[\v^ +]]
 		local tab_pat = [[\v^\t+]]
-		local space_indent = vim.fn.search(space_pat, 'nwc')
-		local tab_indent = vim.fn.search(tab_pat, 'nwc')
+		local space_indent = vim.fn.search(space_pat, "nwc")
+		local tab_indent = vim.fn.search(tab_pat, "nwc")
 		local mixed = (space_indent > 0 and tab_indent > 0)
 		local mixed_same_line
 		if not mixed then
-			mixed_same_line = vim.fn.search([[\v^(\t+ | +\t)]], 'nwc')
+			mixed_same_line = vim.fn.search([[\v^(\t+ | +\t)]], "nwc")
 			mixed = mixed_same_line > 0
 		end
-		if not mixed then return '' end
+		if not mixed then
+			return ""
+		end
 		if mixed_same_line ~= nil and mixed_same_line > 0 then
-			return 'mix@' .. mixed_same_line
+			return "mix@" .. mixed_same_line
 		end
 		local space_indent_cnt = vim.fn.searchcount({ pattern = space_pat, max_count = 1e3 }).total
 		local tab_indent_cnt = vim.fn.searchcount({ pattern = tab_pat, max_count = 1e3 }).total
 		if space_indent_cnt > tab_indent_cnt then
-			return 'tab@' .. tab_indent
+			return "tab@" .. tab_indent
 		else
-			return 'spc@' .. space_indent
+			return "spc@" .. space_indent
 		end
-	end
+	end,
 }
 
 local trailing_space = {
 	function()
-		local space = vim.fn.search([[\s\+$]], 'nwc')
+		local space = vim.fn.search([[\s\+$]], "nwc")
 		return space ~= 0 and "trailing: " .. space or ""
-	end
+	end,
 }
 
 local encoding = {
 	"fileformat",
 	padding = { left = 1, right = 2 },
 	fmt = function(str)
-		if str == '' then -- only show if *not* unix format
-			return ''
+		if str == "" then -- only show if *not* unix format
+			return ""
 		end
 		return str
-	end
+	end,
 }
 
 local fileformat = {
 	"encoding",
 	padding = { left = 0, right = 1 },
 	fmt = function(str)
-		if str == 'utf-8' then -- only show if *not* utf-8
-			return ''
+		if str == "utf-8" then -- only show if *not* utf-8
+			return ""
 		end
 		return str
-	end
+	end,
 }
 
 local trans_flag = {
-	{ '" "', color = { bg = '#5bcffa', --[[fg = '#FF1B8D',]] }, padding = 0, separator = { left = '', right = '' }, },
-	{ '" "', color = { bg = '#ffb5cd', --[[fg = '#FF1B8D',]] }, padding = 0, },
-	{ '" "', color = { bg = '#ffffff', --[[fg = '#FFDA00',]] }, padding = 0, },
-	{ '" "', color = { bg = '#ffb5cd', --[[fg = '#1BB3FF',]] }, padding = 0, },
-	{ '" "', color = { bg = '#5bcffa', --[[fg = '#1BB3FF',]] }, padding = 0, },
+	{
+		'" "',
+		color = {
+			bg = "#5bcffa", --[[fg = '#FF1B8D',]]
+		},
+		padding = 0,
+		separator = { left = "", right = "" },
+	},
+	{
+		'" "',
+		color = {
+			bg = "#ffb5cd", --[[fg = '#FF1B8D',]]
+		},
+		padding = 0,
+	},
+	{
+		'" "',
+		color = {
+			bg = "#ffffff", --[[fg = '#FFDA00',]]
+		},
+		padding = 0,
+	},
+	{
+		'" "',
+		color = {
+			bg = "#ffb5cd", --[[fg = '#1BB3FF',]]
+		},
+		padding = 0,
+	},
+	{
+		'" "',
+		color = {
+			bg = "#5bcffa", --[[fg = '#1BB3FF',]]
+		},
+		padding = 0,
+	},
 }
 
 -- check if value in table
@@ -127,7 +160,7 @@ local language_server = {
 		end
 
 		-- add formatter
-		local s = require "null-ls.sources"
+		local s = require("null-ls.sources")
 		local available_sources = s.get_available(buf_ft)
 		local registered = {}
 		for _, source in ipairs(available_sources) do
@@ -156,8 +189,8 @@ local language_server = {
 		local res = {}
 
 		for _, v in ipairs(client_names) do
-			if (not hash[v]) then
-				res[#res+1] = v
+			if not hash[v] then
+				res[#res + 1] = v
 				hash[v] = true
 			end
 		end
@@ -171,10 +204,7 @@ local language_server = {
 		local language_servers = ""
 		local client_names_str_len = #client_names_str
 		if client_names_str_len ~= 0 then
-			language_servers =
-			" (" ..
-			client_names_str
-			.. ") "
+			language_servers = " (" .. client_names_str .. ") "
 		end
 
 		if client_names_str_len == 0 then
@@ -215,9 +245,9 @@ local spaces = {
 			return ""
 		end
 
-		local indent_type = vim.api.nvim_buf_get_option(0, 'expandtab') and 'spaces' or 'tabs'
+		local indent_type = vim.api.nvim_buf_get_option(0, "expandtab") and "spaces" or "tabs"
 
-		return indent_type .. ': ' .. shiftwidth .. space
+		return indent_type .. ": " .. shiftwidth .. space
 	end,
 	padding = 1,
 	-- separator = "%#SLSeparator#" .. " │" .. "%*",
@@ -225,9 +255,9 @@ local spaces = {
 }
 
 local git = {
-	'b:gitsigns_head',
-	color = 'lualine_a_normal',
-	icon = { icons.git.Branch, align = 'left' },
+	"b:gitsigns_head",
+	color = "lualine_a_normal",
+	icon = { icons.git.Branch, align = "left" },
 }
 
 --[[ local mode = {
@@ -236,66 +266,66 @@ local git = {
 } ]]
 
 local workspace_diagnostics = {
-	'diagnostics',
-	sources = { 'nvim_workspace_diagnostic' },
+	"diagnostics",
+	sources = { "nvim_workspace_diagnostic" },
 	symbols = icons.diagnostic,
 	update_in_insert = false,
 }
 
 local location = {
-	"%11(%l/%L:%c%) " --'%l/%L:%c'
+	"%11(%l/%L:%c%) ", --'%l/%L:%c'
 }
 
 local filetype = {
-	'filetype',
+	"filetype",
 	colored = true,
-	icon = { align = 'left' }
+	icon = { align = "left" },
 }
 
 local format_on_save = {
-	function ()
-		return FORMAT_ON_SAVE and "Format: On" or ''
+	function()
+		return FORMAT_ON_SAVE and "Format: On" or ""
 	end,
-	padding = 1
+	padding = 1,
 }
 
 local obsession = {
-	function ()
+	function()
 		local record = "[Session]"
 		local stop = record
-		local indicator = vim.fn['ObsessionStatus'](record, stop)
+		local indicator = vim.fn["ObsessionStatus"](record, stop)
 		return indicator
 	end,
-	color = function ()
+	color = function()
 		return { fg = vim.fn.exists("g:this_obsession") == 1 and colors.green or colors.red }
 	end,
-	cond = function ()
+	cond = function()
 		return vim.fn.exists("g:loaded_obsession") == 1 -- plug installed and loaded
 			and vim.fn["ObsessionStatus"]() ~= "" -- session loaded
 	end,
 }
 
-lualine.setup {
+lualine.setup({
 	options = {
 		icons_enabled = true,
 		theme = custom_catppuccin_theme,
 		-- component_separators = { left = '', right = ''},
 		-- section_separators = { left = '', right = ''},
 		component_separators = { left = icons.separators.straight.left, right = icons.separators.straight.right },
-		section_separators = { left = '', right = '' },
+		section_separators = { left = "", right = "" },
 		always_divide_middle = true,
 		globalstatus = true,
 		refresh = {
 			statusline = 120,
 			tabline = 240,
-			winbar = 120
-		}
+			winbar = 120,
+		},
 	},
 	sections = {
 		lualine_a = { git },
 		lualine_b = { obsession, workspace_diagnostics },
-		lualine_c = { language_server, },
-		lualine_x = { location, spaces, indent, trailing_space, filetype, fileformat, encoding},
+		lualine_c = { language_server },
+		lualine_x = { location, spaces, indent, trailing_space, filetype, fileformat, encoding },
 		lualine_y = { format_on_save },
 		lualine_z = trans_flag,
 	},
@@ -305,14 +335,14 @@ lualine.setup {
 		lualine_c = {},
 		lualine_x = {},
 		lualine_y = {},
-		lualine_z = {}
+		lualine_z = {},
 	},
 	--[[ winbar = winbar,
 	inactive_winbar = winbar, ]]
 	tabline = {},
 	extensions = {
-		'fugitive',
-		'nvim-dap-ui',
-		'quickfix'
+		"fugitive",
+		"nvim-dap-ui",
+		"quickfix",
 	},
-}
+})

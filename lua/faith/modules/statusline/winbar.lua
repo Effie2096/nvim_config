@@ -1,9 +1,9 @@
 local fn = vim.fn
 local api = vim.api
 
-local utils = require('faith.modules.statusline.utils')
+local utils = require("faith.modules.statusline.utils")
 
-local icons = require('faith.icons')
+local icons = require("faith.icons")
 
 M = {}
 
@@ -11,27 +11,27 @@ M.colors = {
 	winbar = {
 		active = {
 			number = {
-				label = 'WinBarWinNum',
-				seperator = 'WinBarWinNumEnd'
+				label = "WinBarWinNum",
+				seperator = "WinBarWinNumEnd",
 			},
 			file = {
-				label = 'WinBarFile',
-				seperator = 'WinBarFileEnd',
-				file_to_navic = 'WinBarFileSep'
+				label = "WinBarFile",
+				seperator = "WinBarFileEnd",
+				file_to_navic = "WinBarFileSep",
 			},
 			navic = {
-				label = 'WinBarNavic',
-				seperator = 'WinBarNavicEnd'
+				label = "WinBarNavic",
+				seperator = "WinBarNavicEnd",
 			},
-			modified = 'WinBarFileModified',
+			modified = "WinBarFileModified",
 			diagnostic = {
-				error = 'DiagnosticError',
-				warn = 'DiagnosticWarn',
-				info = 'DiagnosticInfo',
-				hint = 'DiagnosticHint',
-			}
-		}
-	}
+				error = "DiagnosticError",
+				warn = "DiagnosticWarn",
+				info = "DiagnosticInfo",
+				hint = "DiagnosticHint",
+			},
+		},
+	},
 }
 
 M.winbar_filetype_exclude = {
@@ -67,7 +67,7 @@ M.winbar_filetype_exclude = {
 
 local function excludes(self, win)
 	local bufnr = api.nvim_win_get_buf(win)
-	local filetype = api.nvim_buf_get_option(bufnr, 'filetype')
+	local filetype = api.nvim_buf_get_option(bufnr, "filetype")
 	return vim.tbl_contains(self.winbar_filetype_exclude or {}, filetype)
 end
 
@@ -87,12 +87,12 @@ function M.get_filename(self, win)
 	local bufnr = api.nvim_win_get_buf(win)
 	local filename = fn.fnamemodify(api.nvim_buf_get_name(bufnr), ":t")
 	local extension = fn.fnamemodify(api.nvim_buf_get_name(bufnr), ":e")
-	local filetype = api.nvim_buf_get_option(bufnr, 'filetype')
+	local filetype = api.nvim_buf_get_option(bufnr, "filetype")
 
-	local file_icon, color = '', nil
+	local file_icon, color = "", nil
 	local hl_group = "Normal"
 
-	if pcall(require, 'nvim-web-devicons') then
+	if pcall(require, "nvim-web-devicons") then
 		-- Filetypes with no associated web-devicon hl
 		if filetype == "dapui_breakpoints" then
 			hl_group = "DapBreakpoint"
@@ -126,31 +126,31 @@ function M.get_filename(self, win)
 		end
 
 		-- Gets skipped by above conditions
-		file_icon, color = require('nvim-web-devicons').get_icon(filename, extension, {default = true})
+		file_icon, color = require("nvim-web-devicons").get_icon(filename, extension, { default = true })
 		hl_group = color
 
 		-- These come after devicon api call because they alter the filename
 		if filetype == "qf" then
-			filename = fn.getqflist({title = 1}).title
-			hl_group = 'healthError'
+			filename = fn.getqflist({ title = 1 }).title
+			hl_group = "healthError"
 			file_icon = icons.ui.List
 		end
 
 		if filetype == "toggleterm" then
 			filename = "ToggleTerm"
 			hl_group = "DevIconTerminal"
-			file_icon = require('nvim-web-devicons').get_icon_by_filetype("terminal", {})
+			file_icon = require("nvim-web-devicons").get_icon_by_filetype("terminal", {})
 		end
 
 		if filetype == "java" and extension == "class" then
 			hl_group = "DevIconJava"
-			file_icon = require('nvim-web-devicons').get_icon_by_filetype(filetype, {})
+			file_icon = require("nvim-web-devicons").get_icon_by_filetype(filetype, {})
 		end
 
 		if filetype == "fugitive" then
 			filename = "Fugitive"
 			hl_group = "DevIconGitLogo"
-			file_icon = require('nvim-web-devicons').get_icon_by_filetype('git', {})
+			file_icon = require("nvim-web-devicons").get_icon_by_filetype("git", {})
 		end
 
 		-- ..get_icon('COMMIT_EDITMSG', 'gitcommit', ...) does return something
@@ -158,14 +158,14 @@ function M.get_filename(self, win)
 		if filename == "COMMIT_EDITMSG" then
 			filename = "Commit"
 			hl_group = "DevIconGitLogo"
-			file_icon = require('nvim-web-devicons').get_icon_by_filetype('git', {})
+			file_icon = require("nvim-web-devicons").get_icon_by_filetype("git", {})
 		end
 
 		::continue::
 	end
 
 	-- create custom hl for file icon
-	local winbar_icon_hl = 'Winbar' .. hl_group
+	local winbar_icon_hl = "Winbar" .. hl_group
 	if fn.hlexists(winbar_icon_hl) == 0 then
 		local bg_hl = api.nvim_get_hl_by_name(self.colors.winbar.active.file.label, true)
 		local fg_hl = api.nvim_get_hl_by_name(hl_group, true)
@@ -176,26 +176,26 @@ function M.get_filename(self, win)
 
 	filename = utils.stl_escape(filename)
 
-	return utils.highlight_str(file_icon .. ' ', hl_group)
-		.. utils.highlight_str(filename .. ' ', self.colors.winbar.active.file.label)
+	return utils.highlight_str(file_icon .. " ", hl_group)
+		.. utils.highlight_str(filename .. " ", self.colors.winbar.active.file.label)
 end
 
 function M.get_file_modified(win)
 	local bufnr = api.nvim_win_get_buf(win)
-	if api.nvim_buf_get_option(bufnr, 'mod') then
+	if api.nvim_buf_get_option(bufnr, "mod") then
 		return icons.ui.Dot
 	end
-	return ''
+	return ""
 end
 
 function M.get_file_flags(win)
 	local bufnr = api.nvim_win_get_buf(win)
-	local buffer_flags = ''
-	if not api.nvim_buf_get_option(bufnr, 'modifiable') then
-		buffer_flags = buffer_flags .. '[-]'
+	local buffer_flags = ""
+	if not api.nvim_buf_get_option(bufnr, "modifiable") then
+		buffer_flags = buffer_flags .. "[-]"
 	end
-	if api.nvim_buf_get_option(bufnr, 'readonly') then
-		buffer_flags = buffer_flags .. '[RO]'
+	if api.nvim_buf_get_option(bufnr, "readonly") then
+		buffer_flags = buffer_flags .. "[RO]"
 	end
 	return buffer_flags
 end
@@ -207,12 +207,13 @@ function M.get_navic(self, win)
 	local f = require("faith.functions")
 
 	local client_active = self.is_client_attached(bufnr)
-	if not client_active then return "" end
+	if not client_active then
+		return ""
+	end
 
 	local current_win = api.nvim_get_current_win()
 	if current_win == win then
-
-		local status_navic_ok, navic = pcall(require, 'nvim-navic')
+		local status_navic_ok, navic = pcall(require, "nvim-navic")
 		if not status_navic_ok then
 			return ""
 		end
@@ -225,23 +226,25 @@ function M.get_navic(self, win)
 		local next = next
 		if not f.isempty(navic_data) then
 			if next(navic_data) ~= nil then
-				local gps = ''
+				local gps = ""
 				local i = 0
 				for _, value in pairs(navic_data) do
 					i = i + 1
-					gps = gps .. utils.highlight_str(value.icon, 'WinbarNavicIcons' .. value.type)
-					gps = gps .. utils.highlight_str(
-						vim.fn.substitute(value.name, '(.*)','',''),
-						self.colors.winbar.active.navic.label
-					)
-					if i ~= #navic_data then
-						gps = gps .. utils.highlight_str(
-							utils.apply_padding(icons.separators.arrow_bracket.left),
-							'WinbarNavicSeparator'
+					gps = gps .. utils.highlight_str(value.icon, "WinbarNavicIcons" .. value.type)
+					gps = gps
+						.. utils.highlight_str(
+							vim.fn.substitute(value.name, "(.*)", "", ""),
+							self.colors.winbar.active.navic.label
 						)
+					if i ~= #navic_data then
+						gps = gps
+							.. utils.highlight_str(
+								utils.apply_padding(icons.separators.arrow_bracket.left),
+								"WinbarNavicSeparator"
+							)
 					end
 				end
-				gps = gps .. utils.highlight_str(' ', self.colors.winbar.active.navic.label)
+				gps = gps .. utils.highlight_str(" ", self.colors.winbar.active.navic.label)
 				self._navic_cache[win] = gps
 				return gps
 			else
@@ -273,7 +276,7 @@ function M.is_client_attached(bufnr)
 end
 
 function M.get_buffer_diagnostics(self, win, levels)
-	local diagnostics = { error = '', warn = '', info = '', hint = '', }
+	local diagnostics = { error = "", warn = "", info = "", hint = "" }
 
 	local bufnr = api.nvim_win_get_buf(win)
 	local client_active = self.is_client_attached(bufnr)
@@ -283,23 +286,17 @@ function M.get_buffer_diagnostics(self, win, levels)
 		local colors = self.colors.winbar.active.diagnostic
 		local enabled_levels
 
-		if type(levels) == 'table' then
+		if type(levels) == "table" then
 			enabled_levels = levels
 		else
-			enabled_levels = { error = true, warn = true, info = true, hint = true, }
+			enabled_levels = { error = true, warn = true, info = true, hint = true }
 		end
 
 		for level, value in pairs(enabled_levels) do
 			if value then
-				local count = #vim.diagnostic.get(
-					bufnr,
-					{ severity = vim.diagnostic.severity[string.upper(level)] }
-				)
+				local count = #vim.diagnostic.get(bufnr, { severity = vim.diagnostic.severity[string.upper(level)] })
 				local part = utils.highlight_str(
-					utils.apply_padding(
-						diagnostic_icons[level] .. count,
-						{ left = 1 }
-					),
+					utils.apply_padding(diagnostic_icons[level] .. count, { left = 1 }),
 					colors[level]
 				)
 
@@ -308,10 +305,7 @@ function M.get_buffer_diagnostics(self, win, levels)
 		end
 	end
 
-	return diagnostics["error"]
-		.. diagnostics["warn"]
-		.. diagnostics["info"]
-		.. diagnostics["hint"]
+	return diagnostics["error"] .. diagnostics["warn"] .. diagnostics["info"] .. diagnostics["hint"]
 end
 
 function M.get_winbar(self, win)
@@ -319,75 +313,47 @@ function M.get_winbar(self, win)
 		return
 	end
 	local colors = self.colors.winbar.active
-	local f = require('faith.functions')
+	local f = require("faith.functions")
 	local winbar
 
 	local win_number = utils.apply_padding(self.win_number(self, win), 0)
-	local filename = utils.apply_padding(
-		self.get_filename(self, win),
-		0
-	)
-	local file_flags = utils.highlight_str(
-		utils.apply_padding(
-			self.get_file_flags(win),
-			{ right = 1 }
-		),
-		colors.modified
-	)
-	local file_modified = utils.highlight_str(
-		utils.apply_padding(
-			self.get_file_modified(win),
-			{ right = 1 }
-		),
-		colors.modified
-	)
+	local filename = utils.apply_padding(self.get_filename(self, win), 0)
+	local file_flags =
+		utils.highlight_str(utils.apply_padding(self.get_file_flags(win), { right = 1 }), colors.modified)
+	local file_modified =
+		utils.highlight_str(utils.apply_padding(self.get_file_modified(win), { right = 1 }), colors.modified)
 
-	local file_start = utils.highlight_str(
-		utils.apply_padding(
-			icons.separators.rounded.right,
-			{ left = 1 }
-		),
-		colors.file.seperator
-	)
+	local file_start =
+		utils.highlight_str(utils.apply_padding(icons.separators.rounded.right, { left = 1 }), colors.file.seperator)
 
-	local file_end = utils.highlight_str(
-		icons.separators.arrow.left,
-		colors.file.seperator
-	)
+	local file_end = utils.highlight_str(icons.separators.arrow.left, colors.file.seperator)
 
-	local diagnostics = utils.apply_padding(
-		self.get_buffer_diagnostics(self, win, { error = true, warn = true, info = true})
-	)
+	local diagnostics =
+		utils.apply_padding(self.get_buffer_diagnostics(self, win, { error = true, warn = true, info = true }))
 
-	local navic_sep = ''
+	local navic_sep = ""
 	local navic = self.get_navic(self, win)
 	if not f.isempty(navic) then
 		navic_sep = utils.highlight_str(
-			utils.apply_padding(
-			icons.separators.arrow.left,
-				{ right = 1 }
-			),
+			utils.apply_padding(icons.separators.arrow.left, { right = 1 }),
 			colors.file.file_to_navic
 		)
-		file_end = utils.highlight_str(
-			icons.separators.arrow.left,
-			colors.navic.seperator
-		)
+		file_end = utils.highlight_str(icons.separators.arrow.left, colors.navic.seperator)
 	end
 
 	if not f.isempty(filename) then
 		winbar = string.format(
-			'%s%s%s%s%s%s%s%s%s%s%s',
+			"%s%s%s%s%s%s%s%s%s%s%s",
 			win_number,
 			file_start,
 			file_modified,
 			filename,
 			file_flags,
 			navic_sep,
-			'%<',
+			"%<",
 			navic,
 			file_end,
-			'%=',
+			"%=",
 			diagnostics
 		)
 	end
@@ -396,50 +362,55 @@ function M.get_winbar(self, win)
 end
 
 Winbar = setmetatable(M, {
-	__call = function (winbar, winnr)
+	__call = function(winbar, winnr)
 		return winbar:get_winbar(winnr)
-	end
+	end,
 })
 
 local group = api.nvim_create_augroup("Winbar", { clear = true })
-api.nvim_create_autocmd(
-	{
-		"CursorMoved", "CursorMovedI", "CursorHold", "CursorHoldI", "InsertEnter", "InsertLeave",
-		"BufRead", "BufWritePost", "BufFilePost",
-		"BufWinEnter", "TabClosed"
-	},
-	{
-		group = group,
-		callback = function ()
-			-- we're only concerned with the current tab
-			local curtab = api.nvim_get_current_tabpage()
-			local tab_wins = api.nvim_tabpage_list_wins(curtab)
+api.nvim_create_autocmd({
+	"CursorMoved",
+	"CursorMovedI",
+	"CursorHold",
+	"CursorHoldI",
+	"InsertEnter",
+	"InsertLeave",
+	"BufRead",
+	"BufWritePost",
+	"BufFilePost",
+	"BufWinEnter",
+	"TabClosed",
+}, {
+	group = group,
+	callback = function()
+		-- we're only concerned with the current tab
+		local curtab = api.nvim_get_current_tabpage()
+		local tab_wins = api.nvim_tabpage_list_wins(curtab)
 
-			-- loop through all wins in tab, setting their winbar
-			for _, win in ipairs(tab_wins) do
-				-- ignore all floating windows
-				local bufnr = api.nvim_win_get_buf(win)
-				if api.nvim_win_get_config(win).zindex or fn.win_gettype(bufnr) == 'popup' then
+		-- loop through all wins in tab, setting their winbar
+		for _, win in ipairs(tab_wins) do
+			-- ignore all floating windows
+			local bufnr = api.nvim_win_get_buf(win)
+			if api.nvim_win_get_config(win).zindex or fn.win_gettype(bufnr) == "popup" then
+				goto continue
+			end
+
+			-- skip lsp floating windows
+			local status_ok, _ = pcall(api.nvim_buf_get_var, bufnr, "lsp_floating_window")
+			if not status_ok then
+				local winbar_content = Winbar(win)
+				-- check returned winbar isn't empty. (causes error in tostring())
+				if require("faith.functions").isempty(winbar_content) then
 					goto continue
 				end
-
-				-- skip lsp floating windows
-				local status_ok, _ = pcall(api.nvim_buf_get_var, bufnr, 'lsp_floating_window')
-				if not status_ok then
-					local winbar_content = Winbar(win)
-					-- check returned winbar isn't empty. (causes error in tostring())
-					if require('faith.functions').isempty(winbar_content) then
-						goto continue
-					end
-					-- FIX: catching errors in winbar output instead of handling them <31-12-22, Effie2096> 
-					-- I give up lol. if setting win bar still throws an error at this point then
-					-- I'm ignoring it.
-					pcall(function ()
-						api.nvim_win_set_option(win, 'winbar', winbar_content)
-					end)
-				end
-				::continue::
+				-- FIX: catching errors in winbar output instead of handling them <31-12-22, Effie2096>
+				-- I give up lol. if setting win bar still throws an error at this point then
+				-- I'm ignoring it.
+				pcall(function()
+					api.nvim_win_set_option(win, "winbar", winbar_content)
+				end)
 			end
+			::continue::
 		end
-	}
-)
+	end,
+})

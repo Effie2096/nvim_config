@@ -1,11 +1,11 @@
-local fk = require('faith.keymap')
+local fk = require("faith.keymap")
 local nnoremap = fk.nnoremap
 local vnoremap = fk.vnoremap
 local desc = fk.desc
 
 local M = {}
 
-local diagnostic_icons = require('faith.icons').diagnostic
+local diagnostic_icons = require("faith.icons").diagnostic
 
 M.capabilities = vim.lsp.protocol.make_client_capabilities()
 M.capabilities.textDocument.completion.completionItem.snippetSupport = false
@@ -14,7 +14,6 @@ local status_cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 if status_cmp_ok then
 	M.capabilities = cmp_nvim_lsp.update_capabilities(M.capabilities)
 end
-
 
 M.setup = function()
 	local signs = {
@@ -29,7 +28,7 @@ M.setup = function()
 	end
 
 	local config = {
-		virtual_text = false --[[ {
+		virtual_text = false,--[[ {
 			source = false,
 			format = function (diagnostic)
 				if vim.api.nvim_buf_get_option(0, 'filetype') == 'rust' then
@@ -42,20 +41,20 @@ M.setup = function()
 				end
 				return diagnostic.message
 			end
-		} ]],
+		} ]]
 		-- show signs
 		signs = {
 			active = signs,
 		},
 		update_in_insert = false,
-		underline = vim.fn.has('win32') == 0 and true or false,
+		underline = vim.fn.has("win32") == 0 and true or false,
 		severity_sort = true,
 		float = {
 			focusable = false,
 			border = "none",
 			source = "if_many",
 			header = "",
-			prefix = function (_, i, _)
+			prefix = function(_, i, _)
 				return string.format("%s: ", i)
 			end,
 			-- width = 40,
@@ -75,7 +74,6 @@ M.setup = function()
 		-- width = 60,
 		-- height = 30,
 	})
-
 end
 
 -- Create a custom namespace. This will aggregate signs from all other
@@ -117,9 +115,9 @@ local function refresh_codelens(bufnr)
 	vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "BufWritePost" }, {
 		group = auto_refresh_codelens,
 		buffer = bufnr,
-		callback = function ()
+		callback = function()
 			vim.lsp.codelens.refresh()
-		end
+		end,
 	})
 end
 
@@ -151,7 +149,7 @@ local function attach_navic(client, bufnr)
 end
 
 local function attach_inlay(client, bufnr)
-	local status_ok, inlayhints = pcall(require, 'lsp-inlayhints')
+	local status_ok, inlayhints = pcall(require, "lsp-inlayhints")
 	if status_ok then
 		inlayhints.on_attach(client, bufnr)
 	end
@@ -179,7 +177,7 @@ M.rename = function()
 					local start_line = edit.range.start.line + 1
 					local line = ""
 					if not vim.api.nvim_buf_is_loaded(bufnr) then
-						line = vim.fn.readfile(file_name, '', start_line)[start_line]
+						line = vim.fn.readfile(file_name, "", start_line)[start_line]
 					else
 						line = vim.api.nvim_buf_get_lines(bufnr, start_line - 1, start_line, false)[1]
 					end
@@ -195,13 +193,13 @@ M.rename = function()
 		end
 
 		-- vim.lsp.handlers["textDocument/rename"](err, result, ctx, ...)
-		vim.fn.setqflist(entries, 'r')
+		vim.fn.setqflist(entries, "r")
 	end)
 end
 
 local function ufo_hover(callback)
 	return function()
-		local winid = require('ufo').peekFoldedLinesUnderCursor()
+		local winid = require("ufo").peekFoldedLinesUnderCursor()
 		if not winid then
 			callback()
 		end
@@ -210,46 +208,88 @@ end
 
 local function formatting_maps(bufnr)
 	local opts = { noremap = true, silent = true, buffer = bufnr }
-	vim.cmd [[ command! Format execute 'lua Formatting({ async = true })' ]]
-	nnoremap("<M-f>", vim.cmd.Format, desc(opts, "[f]ormat: Run formatter (if there is one set up) for the current file."))
-	vnoremap("<M-f>", vim.cmd.Format, desc(opts, "[f]ormat: Run formatter (if there is one set up) for the selected range."))
+	vim.cmd([[ command! Format execute 'lua Formatting({ async = true })' ]])
+	nnoremap(
+		"<M-f>",
+		vim.cmd.Format,
+		desc(opts, "[f]ormat: Run formatter (if there is one set up) for the current file.")
+	)
+	vnoremap(
+		"<M-f>",
+		vim.cmd.Format,
+		desc(opts, "[f]ormat: Run formatter (if there is one set up) for the selected range.")
+	)
 end
 
 local function lsp_keymaps(bufnr)
 	local opts = { noremap = true, silent = true, buffer = bufnr }
-	nnoremap("K", ufo_hover(
-		function ()
+	nnoremap(
+		"K",
+		ufo_hover(function()
 			if package.loaded.lspsaga then
-				require('lspsaga.hover'):render_hover_doc()
+				require("lspsaga.hover"):render_hover_doc()
 			else
 				vim.lsp.buf.hover()
 			end
-		end
-		),
+		end),
 		opts
 	)
 
 	nnoremap("<leader>ld", vim.lsp.buf.definition, desc(opts, "[l]sp [d]efinition: Jump to symbol definition."))
-	nnoremap("<leader>lt", vim.lsp.buf.type_definition, desc(opts, "[l]sp [t]ype definition: Jump to symbol type definition."))
+	nnoremap(
+		"<leader>lt",
+		vim.lsp.buf.type_definition,
+		desc(opts, "[l]sp [t]ype definition: Jump to symbol type definition.")
+	)
 	nnoremap("<leader>lD", vim.lsp.buf.declaration, desc(opts, "[l]sp [D]eclaration: Jump to symbol declaration."))
-	nnoremap("<leader>li", vim.lsp.buf.implementation, desc(opts, "[l]sp [i]mplementation: Jump to symbol implementation."))
-	nnoremap("<leader>lr", vim.lsp.buf.references, desc(opts, "[l]sp [r]eferences: List references of symbol under cursor."))
+	nnoremap(
+		"<leader>li",
+		vim.lsp.buf.implementation,
+		desc(opts, "[l]sp [i]mplementation: Jump to symbol implementation.")
+	)
+	nnoremap(
+		"<leader>lr",
+		vim.lsp.buf.references,
+		desc(opts, "[l]sp [r]eferences: List references of symbol under cursor.")
+	)
 	nnoremap("<leader>ls", vim.lsp.buf.signature_help, desc(opts, "[l]sp [s]ignature: Show function signature."))
-	nnoremap("<leader>dq", vim.diagnostic.setqflist, desc(opts, "[d]iagnostic [q]uickfix: Add workspace diagnostics to quickfix list."))
-	nnoremap("<leader>a", vim.lsp.buf.code_action, desc(opts, "code [a]ction: List code actions available at cursor's position."))
-	vnoremap("<leader>a", vim.lsp.buf.code_action, desc(opts, "code [a]ction: List code actions available for selection."))
+	nnoremap(
+		"<leader>dq",
+		vim.diagnostic.setqflist,
+		desc(opts, "[d]iagnostic [q]uickfix: Add workspace diagnostics to quickfix list.")
+	)
+	nnoremap(
+		"<leader>a",
+		vim.lsp.buf.code_action,
+		desc(opts, "code [a]ction: List code actions available at cursor's position.")
+	)
+	vnoremap(
+		"<leader>a",
+		vim.lsp.buf.code_action,
+		desc(opts, "code [a]ction: List code actions available for selection.")
+	)
 
 	if package.loaded.lspsaga then
-		nnoremap("<leader>lf", function () require('lspsaga.finder'):lsp_finder() end,
-			desc(opts, "[L]sp [F]inder: List all definitions and references of symbol under cursor"))
+		nnoremap("<leader>lf", function()
+			require("lspsaga.finder"):lsp_finder()
+		end, desc(opts, "[L]sp [F]inder: List all definitions and references of symbol under cursor"))
 
-		nnoremap("<leader>dl", require('lspsaga.diagnostic').show_line_diagnostics,
-			desc(opts, "[d]iagnostic [l]ist: Open float listing all diagnostics on line."))
+		nnoremap(
+			"<leader>dl",
+			require("lspsaga.diagnostic").show_line_diagnostics,
+			desc(opts, "[d]iagnostic [l]ist: Open float listing all diagnostics on line.")
+		)
 		-- nnoremap("<leader>dl", require('lspsaga.diagnostic').show_cursor_diagnostics, opts)
-		nnoremap("<leader>dj", require('lspsaga.diagnostic').goto_next,
-			desc(opts, "[d]iagnostic [down]: Jump to next diagnostic in file."))
-		nnoremap("<leader>dk", require('lspsaga.diagnostic').goto_prev,
-			desc(opts, "[d]iagnostic [up]: Jump to prev diagnostic in file."))
+		nnoremap(
+			"<leader>dj",
+			require("lspsaga.diagnostic").goto_next,
+			desc(opts, "[d]iagnostic [down]: Jump to next diagnostic in file.")
+		)
+		nnoremap(
+			"<leader>dk",
+			require("lspsaga.diagnostic").goto_prev,
+			desc(opts, "[d]iagnostic [up]: Jump to prev diagnostic in file.")
+		)
 
 		-- NOTE: these keep breaking with some actions. try these again later <31-12-22, Effie2096>
 		--[[ nnoremap("<leader>a",
@@ -264,87 +304,115 @@ local function lsp_keymaps(bufnr)
 			end,
 			opts
 		) ]]
-		nnoremap("<leader>rn", function () require('lspsaga.rename'):lsp_rename() end,
-			desc(opts, "[r]e[n]ame: Rename symbol under cursor."))
+		nnoremap("<leader>rn", function()
+			require("lspsaga.rename"):lsp_rename()
+		end, desc(opts, "[r]e[n]ame: Rename symbol under cursor."))
 	else
-		nnoremap("<leader>dl", vim.diagnostic.open_float,
-			desc(opts, "[d]iagnostic [l]ist: Open float listing all diagnostics on line."))
-		nnoremap("<leader>dj", vim.diagnostic.goto_next,
-			desc(opts, "[d]iagnostic [down]: Jump to next diagnostic in file."))
-		nnoremap("<leader>dk", vim.diagnostic.goto_prev,
-			desc(opts, "[d]iagnostic [up]: Jump to prev diagnostic in file."))
-		nnoremap("<leader>rn", require("faith.lsp.handlers").rename,
-			desc(opts, "[r]e[n]ame: Rename symbol under cursor."))
+		nnoremap(
+			"<leader>dl",
+			vim.diagnostic.open_float,
+			desc(opts, "[d]iagnostic [l]ist: Open float listing all diagnostics on line.")
+		)
+		nnoremap(
+			"<leader>dj",
+			vim.diagnostic.goto_next,
+			desc(opts, "[d]iagnostic [down]: Jump to next diagnostic in file.")
+		)
+		nnoremap(
+			"<leader>dk",
+			vim.diagnostic.goto_prev,
+			desc(opts, "[d]iagnostic [up]: Jump to prev diagnostic in file.")
+		)
+		nnoremap(
+			"<leader>rn",
+			require("faith.lsp.handlers").rename,
+			desc(opts, "[r]e[n]ame: Rename symbol under cursor.")
+		)
 	end
 end
 
 local function jdt_keymaps(bufnr)
 	local opts = { noremap = true, silent = true, buffer = bufnr }
-	nnoremap("<M-a>", require 'jdtls'.organize_imports,
-		desc(opts, "Organize Java Imports."))
-	vnoremap("<leader>em", "<esc><cmd> lua require('jdtls').extract_method(true)<CR>",
-		desc(opts, "[e]xtract [m]ethod: Extract selection to new method."))
-	local ev_desc = "[e]xtract [v]ariable."
-	nnoremap("<leader>ev", require('jdtls').extract_variable,
-		desc(opts, ev_desc))
-	vnoremap("<leader>ev", "<cmd> lua require('jdtls').extract_variable(true)<CR>",
-		desc(opts, ev_desc))
-	local ec_desc = "[e]xtract [c]onstant."
-	nnoremap("<leader>ec", require('jdtls').extract_constant,
-		desc(opts, ec_desc))
-	vnoremap("<leader>ec", "<cmd> lua require('jdtls').extract_constant(true)<CR>",
-		desc(opts, ec_desc))
-
-	nnoremap("<leader>tm", function ()
-		require('jdtls').test_nearest_method()
-		require('dapui').open({layout = 2})
-	end,
-		desc(opts, "[t]est [m]ethod: Run java test under cursor.")
+	nnoremap("<M-a>", require("jdtls").organize_imports, desc(opts, "Organize Java Imports."))
+	vnoremap(
+		"<leader>em",
+		"<esc><cmd> lua require('jdtls').extract_method(true)<CR>",
+		desc(opts, "[e]xtract [m]ethod: Extract selection to new method.")
 	)
-	nnoremap("<leader>tc", function ()
-		require('jdtls').test_class()
-		require('dapui').open({layout = 2})
+	local ev_desc = "[e]xtract [v]ariable."
+	nnoremap("<leader>ev", require("jdtls").extract_variable, desc(opts, ev_desc))
+	vnoremap("<leader>ev", "<cmd> lua require('jdtls').extract_variable(true)<CR>", desc(opts, ev_desc))
+	local ec_desc = "[e]xtract [c]onstant."
+	nnoremap("<leader>ec", require("jdtls").extract_constant, desc(opts, ec_desc))
+	vnoremap("<leader>ec", "<cmd> lua require('jdtls').extract_constant(true)<CR>", desc(opts, ec_desc))
+
+	nnoremap("<leader>tm", function()
+		require("jdtls").test_nearest_method()
+		require("dapui").open({ layout = 2 })
+	end, desc(opts, "[t]est [m]ethod: Run java test under cursor."))
+	nnoremap("<leader>tc", function()
+		require("jdtls").test_class()
+		require("dapui").open({ layout = 2 })
 	end, desc(opts, "[t]est [c]lass: Run java test class"))
 
-	vim.cmd "command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_compile JdtCompile lua require('jdtls').compile(<f-args>)"
-	vim.cmd "command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_set_runtime JdtSetRuntime lua require('jdtls').set_runtime(<f-args>)"
-	vim.cmd "command! -buffer JdtUpdateConfig lua require('jdtls').update_project_config()"
-	vim.cmd "command! -buffer JdtBytecode lua require('jdtls').javap()"
+	vim.cmd("command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_compile JdtCompile lua require('jdtls').compile(<f-args>)")
+	vim.cmd("command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_set_runtime JdtSetRuntime lua require('jdtls').set_runtime(<f-args>)")
+	vim.cmd("command! -buffer JdtUpdateConfig lua require('jdtls').update_project_config()")
+	vim.cmd("command! -buffer JdtBytecode lua require('jdtls').javap()")
 	-- vim.cmd "command! -buffer JdtJol lua require('jdtls').jol()"
-	vim.cmd "command! -buffer JdtJshell lua require('jdtls').jshell()"
+	vim.cmd("command! -buffer JdtJshell lua require('jdtls').jshell()")
 end
 
-local function rust_keymaps (bufnr)
+local function rust_keymaps(bufnr)
 	local opts = { noremap = true, silent = true, buffer = bufnr }
 	if pcall(require, "rust-tools") then
-		nnoremap("<leader>rh", require'rust-tools.hover_actions'.hover_actions,
-		desc(opts, "[r]ust [h]over."))
-		nnoremap("<leader>rr", require'rust-tools'.runnables.runnables,
-		desc(opts, "[r]ust [r]unnables."))
+		nnoremap("<leader>rh", require("rust-tools.hover_actions").hover_actions, desc(opts, "[r]ust [h]over."))
+		nnoremap("<leader>rr", require("rust-tools").runnables.runnables, desc(opts, "[r]ust [r]unnables."))
 	end
 end
 
-local function refactor_keymaps (bufnr)
-	local opts = {buffer=bufnr,noremap=true,silent=true,expr=false}
+local function refactor_keymaps(bufnr)
+	local opts = { buffer = bufnr, noremap = true, silent = true, expr = false }
 	-- Remaps for the refactoring operations currently offered by the plugin
-	vnoremap("<leader>re", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>]],
-		desc(opts, "[r]efactor [e]xtract: Extract selection to new function."))
-	vnoremap("<leader>rf", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function To File')<CR>]],
-		desc(opts, "[r]efactor to [f]ile: Extract selection to new function in new file."))
-	vnoremap("<leader>rv", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Variable')<CR>]],
-		desc(opts, "[r]efactor [v]ariable: Extract selected variable."))
-	vnoremap("<leader>ri", [[ <Esc><Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
-		desc(opts, "[r]efactor [i]nline: Inline selected variable."))
+	vnoremap(
+		"<leader>re",
+		[[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>]],
+		desc(opts, "[r]efactor [e]xtract: Extract selection to new function.")
+	)
+	vnoremap(
+		"<leader>rf",
+		[[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function To File')<CR>]],
+		desc(opts, "[r]efactor to [f]ile: Extract selection to new function in new file.")
+	)
+	vnoremap(
+		"<leader>rv",
+		[[ <Esc><Cmd>lua require('refactoring').refactor('Extract Variable')<CR>]],
+		desc(opts, "[r]efactor [v]ariable: Extract selected variable.")
+	)
+	vnoremap(
+		"<leader>ri",
+		[[ <Esc><Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
+		desc(opts, "[r]efactor [i]nline: Inline selected variable.")
+	)
 
 	-- Extract block doesn't need visual mode
-	nnoremap("<leader>rb", [[ <Cmd>lua require('refactoring').refactor('Extract Block')<CR>]],
-		desc(opts, "[r]efactor [b]lock: Extract surrounding block to new function."))
-	nnoremap("<leader>rbf", [[ <Cmd>lua require('refactoring').refactor('Extract Block To File')<CR>]],
-		desc(opts, "[r]efactor [b]lock to [f]ile: Extract surrounding block to new function in new file."))
+	nnoremap(
+		"<leader>rb",
+		[[ <Cmd>lua require('refactoring').refactor('Extract Block')<CR>]],
+		desc(opts, "[r]efactor [b]lock: Extract surrounding block to new function.")
+	)
+	nnoremap(
+		"<leader>rbf",
+		[[ <Cmd>lua require('refactoring').refactor('Extract Block To File')<CR>]],
+		desc(opts, "[r]efactor [b]lock to [f]ile: Extract surrounding block to new function in new file.")
+	)
 
 	-- Inline variable can also pick up the identifier currently under the cursor without visual mode
-	nnoremap("<leader>ri", [[ <Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
-		desc(opts, "[r]efactor [i]nline: Inline variable under cursor."))
+	nnoremap(
+		"<leader>ri",
+		[[ <Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
+		desc(opts, "[r]efactor [i]nline: Inline variable under cursor.")
+	)
 	-- You can also use below = true here to to change the position of the printf
 	-- statement (or set two remaps for either one). This remap must be made in normal mode.
 	nnoremap(
@@ -356,33 +424,44 @@ local function refactor_keymaps (bufnr)
 	-- Print var
 
 	-- Remap in normal mode and passing { normal = true } will automatically find the variable under the cursor and print it
-	nnoremap("<leader>rpv", "<cmd>lua require('refactoring').debug.print_var({ normal = true })<CR>",
-		desc(opts, "[r]efactor [p]rint [v]ariable: Create print statement for variable under cursor."))
+	nnoremap(
+		"<leader>rpv",
+		"<cmd>lua require('refactoring').debug.print_var({ normal = true })<CR>",
+		desc(opts, "[r]efactor [p]rint [v]ariable: Create print statement for variable under cursor.")
+	)
 	-- Remap in visual mode will print whatever is in the visual selection
-	vnoremap("<leader>rpv", "<cmd>lua require('refactoring').debug.print_var({})<CR>",
-		desc(opts, "[r]efactor [p]rint [v]ariable: Create print statement for first variable/function in selection."))
+	vnoremap(
+		"<leader>rpv",
+		"<cmd>lua require('refactoring').debug.print_var({})<CR>",
+		desc(opts, "[r]efactor [p]rint [v]ariable: Create print statement for first variable/function in selection.")
+	)
 
 	-- Cleanup function: this remap should be made in normal mode
-	nnoremap("<leader>rpc", "<cmd>lua require('refactoring').debug.cleanup({})<CR>",
-		desc(opts, "[r]efactor [p]rint [c]leanup: Automated cleanup of all print statements generated by refactor binds."))
+	nnoremap(
+		"<leader>rpc",
+		"<cmd>lua require('refactoring').debug.cleanup({})<CR>",
+		desc(
+			opts,
+			"[r]efactor [p]rint [c]leanup: Automated cleanup of all print statements generated by refactor binds."
+		)
+	)
 end
 
 local function create_refactor_keymaps(bufnr)
-	local status_ok, _ = pcall(require, 'refactoring')
+	local status_ok, _ = pcall(require, "refactoring")
 	if not status_ok then
 		return
 	end
 	-- filetypes currently supported by refactor plugin
-	local refactor_filetypes = {"typescript", "javascript", "lua", "c", "cpp", "go", "py", "java", "php", "rb"}
+	local refactor_filetypes = { "typescript", "javascript", "lua", "c", "cpp", "go", "py", "java", "php", "rb" }
 	-- check the filetype of the buffer is supported by plugin
-	if vim.tbl_contains(refactor_filetypes, vim.api.nvim_buf_get_option(bufnr, 'filetype')) then
+	if vim.tbl_contains(refactor_filetypes, vim.api.nvim_buf_get_option(bufnr, "filetype")) then
 		-- don't need to check if filetype is in client.config.filetypes
 		-- because this is being called from on_attach which already
 		-- is only called if a ls can attach to buffer.
 		refactor_keymaps(bufnr)
 	end
 end
-
 
 M.on_attach = function(client, bufnr)
 	lsp_keymaps(bufnr)
@@ -411,7 +490,7 @@ M.on_attach = function(client, bufnr)
 		-- vim.lsp.codelens.refresh()
 		-- vim.cmd [[autocmd BufEnter,InsertLeave *.java lua vim.lsp.codelens.refresh()]]
 		-- if JAVA_DAP_ACTIVE then
-		require("jdtls").setup_dap { hotcodereplace = "auto" }
+		require("jdtls").setup_dap({ hotcodereplace = "auto" })
 		require("jdtls.dap").setup_dap_main_class_configs()
 		-- end
 		attach_inlay(client, bufnr)
@@ -424,14 +503,13 @@ M.on_attach = function(client, bufnr)
 	if FORMAT_ON_SAVE then
 		M.enable_format_on_save()
 	end
-
 end
 
 FORMAT_ON_SAVE = true
 
 function Formatting(async)
 	vim.lsp.buf.format({ async = async })
-	vim.cmd('%retab!')
+	vim.cmd("%retab!")
 end
 
 function M.enable_format_on_save()
@@ -450,12 +528,12 @@ function M.enable_format_on_save()
 end
 
 function M.disable_format_on_save()
-	M.remove_augroup "format_on_save"
+	M.remove_augroup("format_on_save")
 	FORMAT_ON_SAVE = false
 end
 
 function M.toggle_format_on_save()
-	if vim.fn.exists "#format_on_save#BufWritePre" == 0 then
+	if vim.fn.exists("#format_on_save#BufWritePre") == 0 then
 		M.enable_format_on_save()
 		vim.notify("Enabled format on save")
 	else
@@ -471,11 +549,8 @@ function M.remove_augroup(name)
 end
 
 -- vim.cmd [[ command! LspToggleAutoFormat execute 'lua require("faith.lsp.handlers").toggle_format_on_save()' ]]
-vim.api.nvim_create_user_command('LspToggleAutoFormat',
-	function()
-		require("faith.lsp.handlers").toggle_format_on_save()
-	end,
-	{}
-)
+vim.api.nvim_create_user_command("LspToggleAutoFormat", function()
+	require("faith.lsp.handlers").toggle_format_on_save()
+end, {})
 
 return M

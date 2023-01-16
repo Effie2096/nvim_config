@@ -1,20 +1,20 @@
 local ok, plenary_reload = pcall(require, "plenary.reload")
 if not ok then
-  Reloader = require
+	Reloader = require
 else
-  Reloader = plenary_reload.reload_module
+	Reloader = plenary_reload.reload_module
 end
 
 RELOAD = function(...)
-  return Reloader(...)
+	return Reloader(...)
 end
 
 R = function(name)
-  RELOAD(name)
-  return require(name)
+	RELOAD(name)
+	return require(name)
 end
 
 P = function(v)
-  print(vim.inspect(v))
-  return v
+	print(vim.inspect(v))
+	return v
 end

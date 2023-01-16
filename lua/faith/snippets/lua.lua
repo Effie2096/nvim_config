@@ -1,4 +1,4 @@
-local ls = require "luasnip"
+local ls = require("luasnip")
 if not pcall(require, "luasnip") then
 	return
 end
@@ -15,14 +15,14 @@ local rep = require("luasnip.extras").rep
 
 return {
 	s("req", fmt("local {} = require('{}')", { i(1), rep(1) })),
-	s("preq",
-		fmt(
-			"local {}, {} = pcall(require, '{}')\nif not {} then\n	return\nend{}",
-			{
-				i(1, 'status_ok'), i(2, t("")), rep(2),
-				rep(1),
-				i(0)
-			}
-		)
+	s(
+		"preq",
+		fmt("local {}, {} = pcall(require, '{}')\nif not {} then\n	return\nend{}", {
+			i(1, "status_ok"),
+			i(2, t("")),
+			rep(2),
+			rep(1),
+			i(0),
+		})
 	),
 }

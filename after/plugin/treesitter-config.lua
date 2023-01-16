@@ -1,13 +1,13 @@
 -- local colors = require'catppuccin.palettes'.get_palette()
-local status_ok, ts_conf = pcall(require, 'nvim-treesitter.configs')
+local status_ok, ts_conf = pcall(require, "nvim-treesitter.configs")
 if not status_ok then
 	return
 end
 
-ts_conf.setup {
+ts_conf.setup({
 	ensure_installed = { "lua", "vim" },
 	highlight = {
-		enable = true
+		enable = true,
 	},
 	indent = {
 		enable = true,
@@ -15,10 +15,10 @@ ts_conf.setup {
 	incremental_selection = {
 		enable = true,
 		keymaps = {
-			init_selection = '<CR>',
-			scope_incremental = '<CR>',
-			node_incremental = '<TAB>',
-			node_decremental = '<S-TAB>',
+			init_selection = "<CR>",
+			scope_incremental = "<CR>",
+			node_incremental = "<TAB>",
+			node_decremental = "<S-TAB>",
 		},
 	},
 	textobjects = {
@@ -45,10 +45,10 @@ ts_conf.setup {
 				["id"] = "@comment.inner",
 			},
 			selection_modes = {
-				['@parameter.outer'] = 'v',
-				['@function.outer'] = 'V',
-				['@class.outer'] = 'V',
-				['@loop.inner'] = 'V',
+				["@parameter.outer"] = "v",
+				["@function.outer"] = "V",
+				["@class.outer"] = "V",
+				["@loop.inner"] = "V",
 			},
 			include_surrounding_whitespace = true,
 		},
@@ -93,7 +93,7 @@ ts_conf.setup {
 		},
 		lsp_interop = {
 			enable = true,
-			border = 'single',
+			border = "single",
 			peek_definition_code = {
 				["<leader>pf"] = "@function.outer",
 				["<leader>pF"] = "@class.outer",
@@ -106,25 +106,25 @@ ts_conf.setup {
 		updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
 		persist_queries = false, -- Whether the query persists across vim sessions
 		keybindings = {
-			toggle_query_editor = 'o',
-			toggle_hl_groups = 'i',
-			toggle_injected_languages = 't',
-			toggle_anonymous_nodes = 'a',
-			toggle_language_display = 'I',
-			focus_language = 'f',
-			unfocus_language = 'F',
-			update = 'R',
-			goto_node = '<cr>',
-			show_help = '?',
+			toggle_query_editor = "o",
+			toggle_hl_groups = "i",
+			toggle_injected_languages = "t",
+			toggle_anonymous_nodes = "a",
+			toggle_language_display = "I",
+			focus_language = "f",
+			unfocus_language = "F",
+			update = "R",
+			goto_node = "<cr>",
+			show_help = "?",
 		},
 	},
 	query_linter = {
 		enable = true,
 		use_virtual_text = true,
-		lint_events = {"BufWrite", "CursorHold"},
+		lint_events = { "BufWrite", "CursorHold" },
 	},
 	context_commentstring = {
 		enable = true,
 		enable_autocmd = false,
 	},
-}
+})
