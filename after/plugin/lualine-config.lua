@@ -5,6 +5,7 @@ if not lualine_status_ok then
 	return
 end
 
+local colors = require 'catppuccin.palettes'.get_palette()
 local catppuccin_status_ok, custom_catppuccin_theme = pcall(require, 'lualine.themes.catppuccin')
 if catppuccin_status_ok then
 	custom_catppuccin_theme.normal.c.bg = package.loaded.transparent and 'none' or custom_catppuccin_theme.normal.c.bg
