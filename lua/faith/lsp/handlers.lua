@@ -211,7 +211,6 @@ end
 local function formatting_maps(bufnr)
 	local opts = { noremap = true, silent = true, buffer = bufnr }
 	vim.cmd [[ command! Format execute 'lua Formatting({ async = true })' ]]
-	-- vim.cmd [[ command! Format execute 'lua Reset_Spaces(true)' ]]
 	nnoremap("<M-f>", vim.cmd.Format, desc(opts, "[f]ormat: Run formatter (if there is one set up) for the current file."))
 	vnoremap("<M-f>", vim.cmd.Format, desc(opts, "[f]ormat: Run formatter (if there is one set up) for the selected range."))
 end
@@ -447,20 +446,20 @@ function M.enable_format_on_save()
 		end,
 	})
 	FORMAT_ON_SAVE = true
-	vim.notify "Enabled format on save"
 end
 
 function M.disable_format_on_save()
 	M.remove_augroup "format_on_save"
 	FORMAT_ON_SAVE = false
-	vim.notify "Disabled format on save"
 end
 
 function M.toggle_format_on_save()
 	if vim.fn.exists "#format_on_save#BufWritePre" == 0 then
 		M.enable_format_on_save()
+		vim.notify("Enabled format on save")
 	else
 		M.disable_format_on_save()
+		vim.notify("Disabled format on save")
 	end
 end
 
