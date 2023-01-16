@@ -5,6 +5,8 @@ local status_ok_cmp, cmp = pcall(require, 'cmp')
 if not status_ok_cmp then
 	return
 end
+local dap_ok, _ = pcall(require, "dap")
+local dapui_ok, _ = pcall(require, "dapui")
 local cmp_git_ok, cmp_git = pcall(require, 'cmp_git')
 
 local status_ok_kind, lspkind = pcall(require, 'lspkind')
@@ -15,11 +17,11 @@ lspkind.init({
 	preset = 'codicons'
 })
 
-local snippet_path = os.getenv("XDG_CONFIG_HOME") .. "/nvim/lua/faith/snippets"
+local snippet_path = vim.fn.stdpath('config') .. "/lua/faith/snippets"
 require("luasnip.loaders.from_lua").lazy_load({paths = vim.fn.glob(snippet_path)})
 require("luasnip.loaders.from_vscode").lazy_load()
 
-local aup_ok, autopairs = pcall(require, 'nvim-autopairs')
+local aup_ok, _ = pcall(require, 'nvim-autopairs')
 if aup_ok then
 	local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 	local handlers = require('nvim-autopairs.completion.handlers')
@@ -52,7 +54,12 @@ cmp.setup {
 		["<C-d>"] = cmp.mapping.scroll_docs(-4),
 		["<C-f>"] = cmp.mapping.scroll_docs(4),
 		["<C-e>"] = cmp.mapping.abort(),
-		['<CR>'] = cmp.mapping.confirm({ select = false }),
+		['<CR>'] = cmp.mapping.confirm( {
+			behavior = cmp.ConfirmBehavior.Replace,
+			select = false
+		},
+		{ "i", "c" }
+		),
 		["<c-space>"] = cmp.mapping {
 			i = cmp.mapping.complete(),
 			c = function(
@@ -85,7 +92,7 @@ cmp.setup {
 		format = function (entry, vim_item)
 			local kind = require("lspkind").cmp_format({
 				mode = "symbol",
-				maxwidth = 50,
+				maxwidth = 100,
 				menu = {
 					buffer = "[buf]",
 					nvim_lsp = "[LSP]",
@@ -117,10 +124,23 @@ cmp.setup {
 			},
 		}, ]]
 	},
-	confirm_opts = {
+	sorting = {
+		comparators = {
+			cmp.config.compare.offset,
+			cmp.config.compare.exact,
+			-- cmp.config.compare.sort_text,
+			-- cmp.config.compare.scopes,
+			cmp.config.compare.score,
+			cmp.config.compare.recently_used,
+			cmp.config.compare.kind,
+			cmp.config.compare.length,
+			cmp.config.compare.order,
+		},
+	},
+	--[[ confirm_opts = {
 		behavior = cmp.ConfirmBehavior.Replace,
 		select = false,
-	},
+	}, ]]
 	experimental = {
 		native_menu = false,
 		ghost_text = true,
@@ -142,7 +162,7 @@ cmp.setup {
 		-- { name = 'nvim_lsp_signature_help' },
 		{ name = 'nvim_lua' },
 		{ name = 'path' },
-		{ name = 'buffer' },
+		{ name = 'buffer', keyword_length = 3 },
 		{ name = 'calc' },
 	}
 }
@@ -183,11 +203,13 @@ cmp.setup.cmdline(':', {
 		})
 })
 
-cmp.setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
-	sources = {
-		{ name = "dap" },
-	},
-})
+if dap_ok and dapui_ok then
+	cmp.setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
+		sources = {
+			dap_ok and { name = "dap" } or {},
+		},
+	})
+end
 
 -- disable suggestions in sagarename popup
 cmp.setup.filetype({ "sagarename" }, {
