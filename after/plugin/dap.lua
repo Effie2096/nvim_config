@@ -93,9 +93,9 @@ end ]]
 local sign = vim.fn.sign_define
 local icons = require('faith.icons')
 
-sign("DapBreakpoint", { text = icons.ui.Bug, texthl = "DapBreakpoint", linehl = "", numhl = ""})
-sign("DapBreakpointCondition", { text = icons.ui.Question, texthl = "DapBreakpointCondition", linehl = "", numhl = ""})
-sign("DapLogPoint", { text = icons.ui.Diamond, texthl = "DapLogPoint", linehl = "", numhl = ""})
+sign("DapBreakpoint", { text = icons.debug.Breakpoint, texthl = "DapBreakpoint", linehl = "", numhl = ""})
+sign("DapBreakpointCondition", { text = icons.debug.BreakpointCond, texthl = "DapBreakpointCondition", linehl = "", numhl = ""})
+sign("DapLogPoint", { text = icons.debug.BreakpointLog, texthl = "DapLogPoint", linehl = "", numhl = ""})
 
 dap_vt.setup {
 	only_first_definition = true,          -- only show virtual text at first definition (if there are multiple)
