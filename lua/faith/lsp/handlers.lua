@@ -230,6 +230,7 @@ local function lsp_keymaps(bufnr)
 	)
 
 	nnoremap("<leader>ld", vim.lsp.buf.definition, desc(opts, "[l]sp [d]efinition: Jump to symbol definition."))
+	nnoremap("<leader>lt", vim.lsp.buf.type_definition, desc(opts, "[l]sp [t]ype definition: Jump to symbol type definition."))
 	nnoremap("<leader>lD", vim.lsp.buf.declaration, desc(opts, "[l]sp [D]eclaration: Jump to symbol declaration."))
 	nnoremap("<leader>li", vim.lsp.buf.implementation, desc(opts, "[l]sp [i]mplementation: Jump to symbol implementation."))
 	nnoremap("<leader>lr", vim.lsp.buf.references, desc(opts, "[l]sp [r]eferences: List references of symbol under cursor."))
