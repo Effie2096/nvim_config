@@ -6,14 +6,14 @@ end
 zen_mode.setup {
 	window = {
 		backdrop = 0,
-		width = 80,
+		width = 100,
 		height = 1,
 		options = {
 			number = true,
 			relativenumber = true,
 			foldcolumn = "0",
 			winbar = "",
-			signcolumn = "no",
+			signcolumn = "yes:3",
 		},
 	},
 	plugins = {

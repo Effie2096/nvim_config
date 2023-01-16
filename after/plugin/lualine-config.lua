@@ -104,6 +104,7 @@ local language_server = {
 			"TelescopePrompt",
 			"lspinfo",
 			"lsp-installer",
+			"mason",
 			"",
 		}
 
@@ -238,7 +239,7 @@ local workspace_diagnostics = {
 	'diagnostics',
 	sources = { 'nvim_workspace_diagnostic' },
 	symbols = icons.diagnostic,
-	update_in_insert = true,
+	update_in_insert = false,
 }
 
 local location = {

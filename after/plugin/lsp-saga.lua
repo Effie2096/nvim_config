@@ -29,5 +29,5 @@ saga.init_lsp_saga({
 		auto_enter = false,
 		auto_refresh = true,
 	},
-	custom_kind = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
+	-- custom_kind = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
 })
