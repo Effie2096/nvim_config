@@ -43,7 +43,6 @@ map_tele("<leader>fd", "diagnostics")
 
 -- extensions
 map_tele("<leader>fe", "file_browser")
-map_tele("<leader>fw", "workspaces")
 map_tele("<leader>ft", "todo")
 
 return map_tele

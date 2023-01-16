@@ -86,9 +86,7 @@ Plug ('nvim-telescope/telescope-file-browser.nvim', { ['commit'] = 'b1bc53e0da3d
 Plug ('nvim-telescope/telescope-fzf-native.nvim', { ['do'] = 'make', ['commit'] = '65c0ee3d4bb9cb696e262bca1ea5e9af3938fc90' })
 
 -- Projects
-Plug ('natecraddock/sessions.nvim', { ['commit'] = '1a5a1a9acc62897cb62af71d5d72c0a08021b2a9' })
-Plug ('natecraddock/workspaces.nvim', { ['commit'] = '5a3b96bf86faba123476027d8f9fb442e43dc631' })
-
+Plug ('tpope/vim-obsession')
 -- Visual/UI
 Plug ('lukas-reineke/indent-blankline.nvim', { ['commit'] = 'db7cbcb40cc00fc5d6074d7569fb37197705e7f6' })
 Plug ('norcalli/nvim-colorizer.lua', { ['commit'] = '36c610a9717cc9ec426a07c8e6bf3b3abcb139d6' })

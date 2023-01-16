@@ -257,6 +257,22 @@ local format_on_save = {
 	padding = 1
 }
 
+local obsession = {
+	function ()
+		local record = "[Session]"
+		local stop = record
+		local indicator = vim.fn['ObsessionStatus'](record, stop)
+		return indicator
+	end,
+	color = function ()
+		return { fg = vim.fn.exists("g:this_obsession") == 1 and colors.green or colors.red }
+	end,
+	cond = function ()
+		return vim.fn.exists("g:loaded_obsession") == 1 -- plug installed and loaded
+			and vim.fn["ObsessionStatus"]() ~= "" -- session loaded
+	end,
+}
+
 lualine.setup {
 	options = {
 		icons_enabled = true,
@@ -275,7 +291,7 @@ lualine.setup {
 	},
 	sections = {
 		lualine_a = { git },
-		lualine_b = { workspace_diagnostics },
+		lualine_b = { obsession, workspace_diagnostics },
 		lualine_c = { language_server, },
 		lualine_x = { location, spaces, indent, trailing_space, filetype, fileformat, encoding},
 		lualine_y = { format_on_save },

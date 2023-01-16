@@ -122,11 +122,6 @@ function M.file_browser()
 	require('telescope._extensions.file_browser').exports.file_browser(opts)
 end
 
-function M.workspaces()
-	local opts = vim.deepcopy(layouts.centered_compact) or {}
-	require('telescope._extensions.workspaces').exports.workspaces(opts)
-end
-
 function M.todo()
 	local opts = vim.deepcopy(layouts.default_vert) or {}
 	opts = vim.tbl_deep_extend(
