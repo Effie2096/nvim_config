@@ -6,6 +6,12 @@ vim.opt_local.shiftwidth = indentWidth -- Change the number of space characters 
 vim.opt_local.makeprg = "mvn clean compile -Dskiptests -q -f pom.xml"
 vim.opt_local.errorformat = "[ERROR] %f:[%l\\,%v] %m"
 
+local fk = require('faith.keymap')
+local nnoremap = fk.nnoremap
+local desc = fk.desc
+
+local bufnr = vim.api.nvim_get_current_buf()
+
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 local status_cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
@@ -64,6 +70,21 @@ vim.list_extend(bundles,
 )
 ---@diagnostic disable-next-line: missing-parameter
 vim.list_extend(bundles, vim.split(vim.fn.glob(vim.fn.stdpath("data") .. "/mason/packages/java-test/extension/server/*.jar"), "\n"))
+
+local opts = { noremap = true, buffer = bufnr }
+nnoremap("<leader>da",
+	function ()
+		vim.ui.input({ prompt = "Args>", default = "" },
+		function (input)
+				if not require('faith.functions').isempty(input) then
+					require"dap".run(vim.tbl_deep_extend("force", require"dap".configurations.java[1], {args = tostring(input)}))
+					else
+					require('dap').continue()
+					vim.notify("No args provided. Running debugger with defaults.")
+				end
+		end)
+	end,
+	desc(opts, "[d]ebug with [a]rgs: Run default java debugger launch profile with provided arguments."))
 
 -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
 local config = {
