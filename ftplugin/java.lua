@@ -38,7 +38,7 @@ end
 
 local home = os.getenv "HOME"
 if vim.fn.has "unix" == 1 then
-	WORKSPACE_PATH = '/mnt/sdb2/dev/Java_Projects/workspace/'
+	WORKSPACE_PATH = home .. '/Documents/dev/workspace/'
 	CONFIG = "linux"
 elseif vim.fn.has "win32" == 1 then
 	WORKSPACE_PATH = home .. "/Documents/dev/workspace/"
@@ -50,7 +50,7 @@ end
 
 local jdtloc = vim.fn.stdpath("data") .. '/mason/packages/jdtls'
 
-local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
+local project_name = vim.fn.fnamemodify(root_dir, ":p:h:t")
 local workspace_dir = WORKSPACE_PATH .. project_name
 
 if vim.fn.has "win32" == 1 and vim.fn.isdirectory(workspace_dir) == 0 then
