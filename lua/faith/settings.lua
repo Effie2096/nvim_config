@@ -24,8 +24,8 @@ vim.opt.updatetime = 50
 vim.opt.timeoutlen = 500
 vim.opt.hidden = true
 vim.opt.switchbuf = "usetab"
-vim.opt.wrap = true
-vim.opt.linebreak = true
+vim.opt.wrap = false
+vim.opt.linebreak = false
 vim.opt.breakat = " ^I!@;:,./?([{"
 vim.opt.breakindent = true
 vim.opt.breakindentopt = "shift:16"
@@ -111,16 +111,16 @@ augroup END
 -- vim.cmd[[
 -- " set all options passed for all open windows in all tabs as well :3
 -- function! s:set_all(option, val, ...) abort
--- 	let val = eval(a:val)
+--	let val = eval(a:val)
 
--- 	for t in range(1, tabpagenr('$'))
--- 		for w in range(1, tabpagewinnr(t, '$'))
--- 			if gettabwinvar(t, w, '&buftype') !=# ''
--- 				continue
--- 			endif
--- 			call settabwinvar(t, w, '&'.a:option, val)
--- 		endfor
--- 	endfor
+--	for t in range(1, tabpagenr('$'))
+--		for w in range(1, tabpagewinnr(t, '$'))
+--			if gettabwinvar(t, w, '&buftype') !=# ''
+--				continue
+--			endif
+--			call settabwinvar(t, w, '&'.a:option, val)
+--		endfor
+--	endfor
 -- endfunction
 
 -- command! -complete=option -nargs=+ SetAll call s:set_all(<f-args>)

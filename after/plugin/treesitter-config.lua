@@ -32,7 +32,7 @@ ts_conf.setup({
 				["aF"] = "@class.outer",
 				-- You can optionally set descriptions to the mappings (used in the desc parameter of
 				-- nvim_buf_set_keymap) which plugins like which-key display
-				["iF"] = { query = "@class.inner", desc = "Select inner part of a class region" },
+				["iF"] = "@class.inner",
 				["av"] = "@parameter.outer",
 				["iv"] = "@parameter.inner",
 				["al"] = "@loop.outer",
@@ -68,7 +68,7 @@ ts_conf.setup({
 			set_jumps = true, -- whether to set jumps in the jumplist
 			goto_next_start = {
 				["]m"] = "@function.outer",
-				["]["] = { query = "@class.outer", desc = "Next class start" },
+				["]["] = "@class.outer",
 				["]b"] = "@block.outer",
 				["]v"] = "@parameter.inner",
 			},

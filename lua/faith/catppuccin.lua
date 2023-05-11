@@ -6,7 +6,7 @@ end
 -- configure it
 catppuccin.setup({
 	compile_path = vim.fn.glob(vim.fn.stdpath("cache") .. "/catppuccin"),
-	transparent_background = true,
+	transparent_background = false,
 	term_colors = false,
 	dim_inactive = {
 		enable = false,
@@ -64,6 +64,7 @@ catppuccin.setup({
 			enable = false,
 			custom_bg = "NONE",
 		},
+		nvimtree = true,
 		-- mason = true
 	},
 })
@@ -334,14 +335,16 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		local telescope_normal = colors.surface0
 		local telescope_prompt = colors.surface1
 
-		-- vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = telescope_normal })
-		-- vim.api.nvim_set_hl(0, "TelescopeSelection", { bg = telescope_prompt })
-		-- vim.api.nvim_set_hl(0, "TelescopePromptNormal", { bg = telescope_prompt })
+		vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = telescope_normal })
+		vim.api.nvim_set_hl(0, "TelescopeSelection", { bg = telescope_prompt })
+		vim.api.nvim_set_hl(0, "TelescopePromptNormal", { bg = telescope_prompt })
 		vim.api.nvim_set_hl(0, "TelescopeBorder", {
-			fg = colors.pink,--[[  bg = telescope_normal  ]]
+			fg = telescope_normal, --colors.pink,
+			bg = telescope_normal,
 		})
 		vim.api.nvim_set_hl(0, "TelescopePromptBorder", {
-			fg = colors.pink,--[[ , bg = telescope_prompt  ]]
+			fg = telescope_prompt, --colors.pink,
+			bg = telescope_prompt,
 		})
 		vim.api.nvim_set_hl(0, "TelescopePromptTitle", { fg = colors.crust, bg = colors.pink })
 		vim.api.nvim_set_hl(0, "TelescopePreviewTitle", { fg = colors.crust, bg = colors.green })

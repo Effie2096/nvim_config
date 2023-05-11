@@ -5,7 +5,7 @@ end
 
 zen_mode.setup({
 	window = {
-		backdrop = 0,
+		backdrop = 1,
 		width = 100,
 		height = 1,
 		options = {
@@ -22,9 +22,9 @@ zen_mode.setup({
 			ruler = false,
 			showcmd = false,
 		},
-		gitsigns = { enabled = false },
+		gitsigns = { enabled = true },
 		twighlight = { enabled = false },
-		tmux = { enabled = false },
+		tmux = { enabled = true },
 		kitty = {
 			enabled = false,
 			font = "+6",

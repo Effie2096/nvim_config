@@ -24,12 +24,16 @@ null_ls.setup({
 		}),
 		actions.eslint_d,
 		diagnostics.eslint_d,
+		--[[ diagnostics.semgrep.with({
+			filetypes = { "java" },
+			extra_args = { "--config=auto" },
+		}), ]]
 		-- actions.gitsigns,
 		-- formatting.google_java_format,
 	},
 })
 
-vim.notify = function(msg, ...)
+--[[ vim.notify = function(msg, ...)
 	if
 		msg:match(
 			"error: method textDocument/documentHighlight is not supported by any of the servers registered for the current buffer"
@@ -39,4 +43,4 @@ vim.notify = function(msg, ...)
 	end
 
 	vim.notify(msg, ...)
-end
+end ]]

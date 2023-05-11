@@ -28,7 +28,7 @@ M.setup = function()
 	end
 
 	local config = {
-		virtual_text = false,--[[ {
+		virtual_text = true,--[[ {
 			source = false,
 			format = function (diagnostic)
 				if vim.api.nvim_buf_get_option(0, 'filetype') == 'rust' then
@@ -47,7 +47,7 @@ M.setup = function()
 			active = signs,
 		},
 		update_in_insert = false,
-		underline = vim.fn.has("win32") == 0 and true or false,
+		underline = false,
 		severity_sort = true,
 		float = {
 			focusable = false,
@@ -355,8 +355,12 @@ local function jdt_keymaps(bufnr)
 		require("dapui").open({ layout = 2 })
 	end, desc(opts, "[t]est [c]lass: Run java test class"))
 
-	vim.cmd("command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_compile JdtCompile lua require('jdtls').compile(<f-args>)")
-	vim.cmd("command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_set_runtime JdtSetRuntime lua require('jdtls').set_runtime(<f-args>)")
+	vim.cmd(
+		"command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_compile JdtCompile lua require('jdtls').compile(<f-args>)"
+	)
+	vim.cmd(
+		"command! -buffer -nargs=? -complete=custom,v:lua.require'jdtls'._complete_set_runtime JdtSetRuntime lua require('jdtls').set_runtime(<f-args>)"
+	)
 	vim.cmd("command! -buffer JdtUpdateConfig lua require('jdtls').update_project_config()")
 	vim.cmd("command! -buffer JdtBytecode lua require('jdtls').javap()")
 	-- vim.cmd "command! -buffer JdtJol lua require('jdtls').jol()"

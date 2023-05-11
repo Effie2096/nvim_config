@@ -128,7 +128,7 @@ local config = {
 		-- 💀
 		-- See `data directory configuration` section in the README
 		"-data",
-		vim.fn.glob(workspace_dir),
+		workspace_dir,
 	},
 
 	on_attach = require("faith.lsp.handlers").on_attach,
