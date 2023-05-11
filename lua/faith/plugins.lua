@@ -109,6 +109,7 @@ Plug("romgrk/nvim-treesitter-context", { ["commit"] = "8d0759eb798fee2e1201b26c3
 Plug("tversteeg/registers.nvim")
 Plug("kevinhwang91/nvim-ufo", { ["commit"] = "c1c0dd76f2298bd93ebd417360a2bfbeade37ac2" })
 Plug("kevinhwang91/promise-async", { ["commit"] = "70b09063cdf029079b25c7925e4494e7416ee995" })
+Plug("nvim-tree/nvim-tree.lua")
 Plug("mbbill/undotree")
 -- Plug ('folke/noice.nvim' Plug 'MunifTanjim/nui.nvim', { ['commit'] = '' })
 
