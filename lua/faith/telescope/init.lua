@@ -97,6 +97,11 @@ function M.help_tags()
 	require("telescope.builtin").help_tags(opts)
 end
 
+function M.keymaps()
+	local opts = vim.deepcopy(layouts.centered_compact) or {}
+	require("telescope.builtin").keymaps(opts)
+end
+
 function M.file_browser()
 	local opts = vim.deepcopy(layouts.default_flex) or {}
 	require("telescope._extensions.file_browser").exports.file_browser(opts)
