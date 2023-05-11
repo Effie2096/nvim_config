@@ -103,7 +103,6 @@ Plug("ziontee113/color-picker.nvim", { ["commit"] = "2b4a4a408278271909e3eb13fe0
 Plug("folke/zen-mode.nvim", { ["commit"] = "6f5702db4fd4a4c9a212f8de3b7b982f3d93b03c" })
 Plug("xiyaowong/nvim-transparent")
 -- Plug ('karb94/neoscroll.nvim', { ['commit'] = '54c5c419f6ee2b35557b3a6a7d631724234ba97a' })
-Plug("rcarriga/nvim-notify", { ["commit"] = "142069baf554c3d41c8de4a6f7472c618a58becc" })
 Plug("romgrk/nvim-treesitter-context", { ["commit"] = "8d0759eb798fee2e1201b26c3279713ac67c44c2" })
 Plug("tversteeg/registers.nvim")
 Plug("kevinhwang91/nvim-ufo", { ["commit"] = "c1c0dd76f2298bd93ebd417360a2bfbeade37ac2" })
