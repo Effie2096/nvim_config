@@ -37,6 +37,7 @@ Plug("glepnir/lspsaga.nvim", { ["branch"] = "main", ["commit"] = "b7b4777369b441
 
 Plug("ray-x/lsp_signature.nvim", { ["commit"] = "e65a63858771db3f086c8d904ff5f80705fd962b" })
 Plug("ThePrimeagen/refactoring.nvim")
+Plug("vim-test/vim-test")
 
 -- Debugging
 Plug("mfussenegger/nvim-dap", { ["commit"] = "5d57c401cab25997a6d8202b2498ad5ac895f143" })
