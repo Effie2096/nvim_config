@@ -111,5 +111,6 @@ Plug("kevinhwang91/promise-async", { ["commit"] = "70b09063cdf029079b25c7925e449
 Plug("nvim-tree/nvim-tree.lua")
 Plug("mbbill/undotree")
 -- Plug ('folke/noice.nvim' Plug 'MunifTanjim/nui.nvim', { ['commit'] = '' })
+Plug("j-hui/fidget.nvim")
 
 vim.fn["plug#end"]()
