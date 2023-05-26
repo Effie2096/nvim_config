@@ -14,7 +14,7 @@ catppuccin.setup({
 		percentage = 0.15,
 	},
 	styles = {
-		comments = {},
+		comments = { "italic" },
 		conditionals = {},
 		loops = {},
 		functions = {},

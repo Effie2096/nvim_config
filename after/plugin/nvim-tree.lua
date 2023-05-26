@@ -22,13 +22,10 @@ nvim_tree.setup({
 		indent_markers = {
 			enable = true,
 		},
+		root_folder_label = false,
 	},
 	view = {
-		hide_root_folder = true,
 		width = 49,
-	},
-	float = {
-		enable = true,
 	},
 	filters = {
 		dotfiles = false,

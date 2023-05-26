@@ -9,11 +9,12 @@ endif
 ]])
 
 vim.fn["plug#begin"]()
-Plug(
-	"catppuccin/nvim",
-	{ ["as"] = "catppuccin", ["do"] = "CatppucinCompile", ["commit"] = "0392739cfcc03d8ef9c8e667dd46ec7b89b4667f" }
-)
+Plug("catppuccin/nvim", {
+	["as"] = "catppuccin",
+	["commit"] = "0392739cfcc03d8ef9c8e667dd46ec7b89b4667f",
+})
 Plug("lewis6991/impatient.nvim", { ["commit"] = "b842e16ecc1a700f62adb9802f8355b99b52a5a6" })
+Plug("antoinemadec/FixCursorHold.nvim")
 
 Plug("nvim-lualine/lualine.nvim", { ["commit"] = "edca2b03c724f22bdc310eee1587b1523f31ec7c" })
 Plug("akinsho/toggleterm.nvim", { ["tag"] = "v2.*" })
@@ -31,6 +32,7 @@ Plug("mfussenegger/nvim-jdtls", { ["commit"] = "75d27daa061458dd5735b5eb5bbc48d3
 -- Plug("lvimuser/lsp-inlayhints.nvim", { ["commit"] = "a28c51a6362e3faa17f67749436cb5c8b55dcc6d" })
 Plug("b0o/schemastore.nvim")
 Plug("pedro757/emmet", { ["commit"] = "bff967b1d91948a88104987b427842deb78bacf5" })
+Plug("DasGandlaf/nvim-autohotkey")
 Plug("nvim-treesitter/nvim-treesitter-textobjects", { ["commit"] = "13739a5705d9592cbe7da372576363dc8ea5f723" })
 Plug("simrat39/rust-tools.nvim")
 Plug("glepnir/lspsaga.nvim", { ["branch"] = "main", ["commit"] = "b7b4777369b441341b2dcd45c738ea4167c11c9e" })
@@ -62,10 +64,10 @@ Plug("rafamadriz/friendly-snippets")
 Plug("L3MON4D3/LuaSnip", { ["commit"] = "8f8d493e7836f2697df878ef9c128337cbf2bb84" })
 Plug("onsails/lspkind.nvim", { ["commit"] = "c68b3a003483cf382428a43035079f78474cd11e" })
 
-Plug(
-	"nvim-treesitter/nvim-treesitter",
-	{ ["do"] = "TSUpdate", ["commit"] = "aebc6cf6bd4675ac86629f516d612ad5288f7868" }
-)
+-- Plug("Exafunction/codeium.vim")
+Plug("jcdickinson/codeium.nvim")
+
+Plug("nvim-treesitter/nvim-treesitter", { ["commit"] = "aebc6cf6bd4675ac86629f516d612ad5288f7868" })
 Plug("nvim-treesitter/playground", { ["commit"] = "e6a0bfaf9b5e36e3a327a1ae9a44a989eae472cf" })
 
 Plug("numToStr/Comment.nvim", { ["commit"] = "d9cfae1059b62f7eacc09dba181efe4894e3b086" })

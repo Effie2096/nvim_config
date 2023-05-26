@@ -13,6 +13,7 @@ null_ls.setup({
 	debug = false,
 	sources = {
 		formatting.stylua,
+		formatting.rustfmt,
 		--[[ formatting.prettier.with {
 			extra_filetypes = { "toml", "solidity" },
 			extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote" },

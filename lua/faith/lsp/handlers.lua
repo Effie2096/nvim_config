@@ -28,20 +28,16 @@ M.setup = function()
 	end
 
 	local config = {
-		virtual_text = true,--[[ {
+		virtual_text = {
 			source = false,
-			format = function (diagnostic)
-				if vim.api.nvim_buf_get_option(0, 'filetype') == 'rust' then
-					return string.gsub(
-						diagnostic.message,
-						'`#%[.*%(.*%)%]` on by default',
-						'',
-						1
-					)
+			format = function(diagnostic)
+				if vim.api.nvim_buf_get_option(0, "filetype") == "rust" then
+					diagnostic.message = string.gsub(diagnostic.message, "`#%[.*%(.*%)%]` on by default", "", 1)
+					diagnostic.message = string.gsub(diagnostic.message, "for further information visit.*", "", 1)
 				end
 				return diagnostic.message
-			end
-		} ]]
+			end,
+		},
 		-- show signs
 		signs = {
 			active = signs,
@@ -57,7 +53,11 @@ M.setup = function()
 			prefix = function(_, i, _)
 				return string.format("%s: ", i)
 			end,
-			-- width = 40,
+			width = 40,
+			--[[ width = function()
+				local vim_width = vim.api.nvim_get_option("columns")
+				return vim_width / 2 < 61 and vim_width / 2 or 100
+			end, ]]
 		},
 	}
 

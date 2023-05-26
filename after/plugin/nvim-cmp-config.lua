@@ -1,3 +1,5 @@
+local icons = require("faith.icons")
+
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 -- vim.opt.completeopt:append "c"
 
@@ -8,6 +10,7 @@ end
 local dap_ok, _ = pcall(require, "dap")
 local dapui_ok, _ = pcall(require, "dapui")
 local cmp_git_ok, cmp_git = pcall(require, "cmp_git")
+local has_cmpahk, cmk_ahk = pcall(require, "nvim-autohotkey")
 
 local status_ok_kind, lspkind = pcall(require, "lspkind")
 if not status_ok_kind then
@@ -89,7 +92,7 @@ cmp.setup({
 		format = function(entry, vim_item)
 			local kind = require("lspkind").cmp_format({
 				mode = "symbol",
-				maxwidth = 100,
+				maxwidth = 40,
 				menu = {
 					buffer = "[buf]",
 					nvim_lsp = "[LSP]",
@@ -99,27 +102,45 @@ cmp.setup({
 					dap = "[dap]",
 					calc = "[maff]",
 					git = "[git]",
+					codeium = "[ai]",
 				},
+				ellipsis_char = "...",
+			})(entry, vim_item)
+			if vim.tbl_contains({ "codeium" }, entry.source.name) then
+				local icon = "  "
+				vim_item.kind = icon
+				vim_item.kind_hl_group = "CmpItemKindSnippet"
+				return vim_item
+			end
+			local strings = vim.split(kind.kind, "%s", { trimempty = true })
+			kind.kind = " " .. strings[1] .. " "
+			return kind
+		end,
+		--[[ fields = { "kind", "abbr", "menu" },
+		format = function(entry, vim_item)
+			local kind = require("lspkind").cmp_format({
+				mode = "symbol",
+				maxwidth = 40,
+				menu = {
+					buffer = "[buf]",
+					nvim_lsp = "[LSP]",
+					nvim_lua = "[api]",
+					path = "[path]",
+					luasnip = "[snip]",
+					dap = "[dap]",
+					calc = "[maff]",
+					git = "[git]",
+					codeium = "[ai]",
+				},
+				ellipsis_char = "...",
+				symbol_map = { Codeium = "" },
 			})(entry, vim_item)
 			local strings = vim.split(kind.kind, "%s", { trimempty = true })
-			kind.kind = "" .. strings[1] .. " "
+			kind.kind = " " .. strings[1] .. " "
 			-- kind.menu = "	(" .. strings[2] .. ")"
 
 			return kind
-		end,
-		--[[ format = lspkind.cmp_format {
-			-- with_text = true,
-			mode = 'symbol_text',
-			maxwidth = 60,
-			menu = {
-				buffer = "[buf]",
-				nvim_lsp = "[LSP]",
-				-- nvim_lua = "[api]",
-				path = "[path]",
-				luasnip = "[snip]",
-				calc = "[maff]"
-			},
-		}, ]]
+		end, ]]
 	},
 	sorting = {
 		comparators = {
@@ -156,6 +177,7 @@ cmp.setup({
 	sources = {
 		{ name = "luasnip" }, -- For luasnip users.
 		{ name = "nvim_lsp" },
+		{ name = "codeium" },
 		-- { name = 'nvim_lsp_signature_help' },
 		{ name = "nvim_lua" },
 		{ name = "path" },
@@ -163,6 +185,12 @@ cmp.setup({
 		{ name = "calc" },
 	},
 })
+
+if has_cmpahk then
+	cmp.setup.filetype({ "autohotkey" }, {
+		sources = { { name = "autohotkey" } },
+	})
+end
 
 cmp.setup.filetype({ "gitcommit", "octo" }, {
 	sources = cmp.config.sources({

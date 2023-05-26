@@ -15,6 +15,6 @@ return {
 		},
 	},
 	dap = {
-		adapter = require("rust-tools.dap").get_codelldb_adapter(vim.fn.glob(codelldb_path), vim.fn.glob(liblldb_path)),
+		adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path),
 	},
 }

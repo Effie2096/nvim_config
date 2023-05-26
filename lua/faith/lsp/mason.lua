@@ -32,13 +32,32 @@ local settings = {
 require("mason").setup(settings)
 require("mason-lspconfig").setup({
 	ensure_installed = servers,
-	automatic_installation = false,
+	automatic_installation = true,
 })
 
 local lspconfig_status_ok, lspconfig = pcall(require, "lspconfig")
 if not lspconfig_status_ok then
 	return
 end
+
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
+	pattern = { "*.pory" },
+	callback = function(a)
+		local active_clients = vim.lsp.get_active_clients({ name = "poryscript_pls" })
+		if next(active_clients) == nil then
+			local client_id = vim.lsp.start_client({
+				name = "poryscript_pls",
+				cmd = { "poryscript-pls-linux" },
+				root_dir = vim.fs.dirname(vim.fs.find({ "porymap.project.cfg" }, { upward = true })[1]),
+				on_attach = require("faith.lsp.handlers").on_attach,
+				capabilities = require("faith.lsp.handlers").capabilities,
+			})
+			if next(vim.lsp.get_active_clients({ id = client_id, bufnr = a.buf })) == nil then
+				vim.lsp.buf_attach_client(a.buf, client_id)
+			end
+		end
+	end,
+})
 
 local opts = {}
 
@@ -78,7 +97,7 @@ for _, server in pairs(servers) do
 						},
 					},
 				},
-				--   -- settings = opts.settings,
+				--	 -- settings = opts.settings,
 			},
 		})
 		lspconfig.sumneko_lua.setup(opts)
