@@ -21,6 +21,8 @@ Plug("akinsho/toggleterm.nvim", { ["tag"] = "v2.*" })
 Plug("gcmt/taboo.vim", { ["commit"] = "caf948187694d3f1374913d36f947b3f9fa1c22f" })
 Plug("SmiteshP/nvim-navic", { ["commit"] = "132b273773768b36e9ecab2138b82234a9faf5ed" })
 Plug("kyazdani42/nvim-web-devicons", { ["commit"] = "9061e2d355ecaa2b588b71a35e7a11358a7e51e1" })
+Plug("tmux-plugins/vim-tmux")
+Plug("christoomey/vim-tmux-navigator")
 
 -- LSP
 Plug("neovim/nvim-lspconfig", { ["commit"] = "af43c300d4134db3550089cd4df6c257e3734689" })
