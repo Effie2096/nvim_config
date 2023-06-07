@@ -132,7 +132,7 @@ for _, server in pairs(servers) do
 		goto continue
 	end
 
-	if server == "rust_analyzer" then
+	if server == "rust_analyzer" or server == "rust_analyzer-standalone" then
 		local rust_analyzer_opts = require("faith.lsp.settings.rust")
 		opts = vim.tbl_deep_extend("force", rust_analyzer_opts, opts)
 
