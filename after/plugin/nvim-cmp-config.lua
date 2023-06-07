@@ -61,7 +61,7 @@ cmp.setup({
 			behavior = cmp.ConfirmBehavior.Replace,
 			select = false,
 		}, { "i", "c" }),
-		["<c-space>"] = cmp.mapping({
+		["<c-y>"] = cmp.mapping({
 			i = cmp.mapping.complete(),
 			c = function(
 				_ --[[fallback]]
