@@ -357,13 +357,15 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 
 		vim.cmd([[highlight ExtraWhitespace ctermfg=red guifg=red gui=nocombine]])
 
-		vim.api.nvim_set_hl(0, "TermCursor", { bg = colors.pink })
+		vim.api.nvim_set_hl(0, "TermCursor", { --[[ fg is ignored ]]
+			bg = colors.pink,
+		})
 
 		vim.api.nvim_set_hl(0, "YankFlash", { fg = colors.base, bg = colors.lavender })
 	end,
 })
 
-vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25-blinkon10,r-cr-o:hor20,a:-TermCursor"
+vim.opt.guicursor = "n-v-c-sm:block-TermCursor-blinkon10,i-ci-ve:ver25-blinkon10,r-cr-o:hor20,a:"
 
 local yank_group = vim.api.nvim_create_augroup("highlight_yank", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
