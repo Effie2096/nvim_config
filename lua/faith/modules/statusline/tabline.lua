@@ -15,8 +15,8 @@ M.options = {
 		equal_label_width = true, -- whether tab labels should all be the same width
 		max_label_width = 21, -- max length of tab labels. Ignored if `equal_label_width` is false
 		close_button = false,
-		tab_seperator = fn.has("win32") == 0 and "slant" or "blank",
-		tab_spacer = fn.has("win32") == 0,
+		tab_seperator = "slant",
+		tab_spacer = 2,
 	},
 }
 
@@ -410,7 +410,13 @@ function M.get_tabline(self)
 					fn.tabpagenr() == 1 and "" or start_tab - 1 .. " %@PreviousTab@" .. icons.ui.ArrowNavLeft .. "%X"
 				)
 		end
-		tabline = tabline .. table.concat(tabs, self.options.tabs.tab_spacer and " " or "", start_tab, end_tab)
+		tabline = tabline
+			.. table.concat(
+				tabs,
+				self.options.tabs.tab_spacer == 0 and "" or vim.fn["repeat"](" ", self.options.tabs.tab_spacer),
+				start_tab,
+				end_tab
+			)
 		if fn.tabpagenr("$") > visible_tabs then
 			tabline = tabline
 				.. string.format(
@@ -431,23 +437,20 @@ Tabline = setmetatable(M, {
 })
 
 local group = api.nvim_create_augroup("Tabline", { clear = true })
-api.nvim_create_autocmd(
-	{
-		"CursorMovedI",
-		"CursorHold",
-		"InsertEnter",
-		"BufWinEnter",
-		"BufFilePost",
-		"BufWritePost",
-		"TabEnter",
-		"TabClosed",
-		"VimResized",
-	},
-	{
-		group = group,
-		callback = function()
-			-- vim.cmd[[setlocal tabline=%!v:lua.Tabline()]]
-			api.nvim_set_option_value("tabline", Tabline(), { scope = "global" })
-		end,
-	}
-)
+api.nvim_create_autocmd({
+	"CursorMovedI",
+	"CursorHold",
+	"InsertEnter",
+	"BufWinEnter",
+	"BufFilePost",
+	"BufWritePost",
+	"TabEnter",
+	"TabClosed",
+	"VimResized",
+}, {
+	group = group,
+	callback = function()
+		-- vim.cmd[[setlocal tabline=%!v:lua.Tabline()]]
+		api.nvim_set_option_value("tabline", Tabline(), { scope = "global" })
+	end,
+})

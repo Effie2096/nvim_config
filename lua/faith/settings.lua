@@ -8,6 +8,8 @@ vim.opt.mouse = "n"
 vim.opt.splitright = true
 vim.opt.laststatus = 3
 vim.opt.colorcolumn = "100"
+vim.opt.cursorline = true
+vim.opt.cursorlineopt = "line,number"
 vim.opt.scrolloff = 8
 vim.opt.winminheight = 0
 vim.opt.winminwidth = 4
@@ -24,19 +26,18 @@ vim.opt.updatetime = 50
 vim.opt.timeoutlen = 500
 vim.opt.hidden = true
 vim.opt.switchbuf = "usetab"
-vim.opt.wrap = false
-vim.opt.linebreak = false
+vim.opt.wrap = true
+vim.opt.linebreak = true
+vim.opt.showbreak = "↪"
 vim.opt.breakat = " ^I!@;:,./?([{"
 vim.opt.breakindent = true
-vim.opt.breakindentopt = "shift:16"
+vim.opt.breakindentopt = "sbr,shift:8"
 vim.opt.showmode = false
 vim.opt.pumheight = 20
 vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8"
 vim.opt.fileformat = "unix"
 vim.opt.nrformats = "alpha,hex,bin"
-
-vim.opt.guifont = "FiraCode NF"
 
 -- set format options for each window otherwise it just doens't work for some reason :c
 vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
