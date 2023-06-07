@@ -37,6 +37,7 @@ Plug("pedro757/emmet", { ["commit"] = "bff967b1d91948a88104987b427842deb78bacf5"
 Plug("DasGandlaf/nvim-autohotkey")
 Plug("nvim-treesitter/nvim-treesitter-textobjects", { ["commit"] = "13739a5705d9592cbe7da372576363dc8ea5f723" })
 Plug("simrat39/rust-tools.nvim")
+Plug("cdelledonne/vim-cmake")
 Plug("glepnir/lspsaga.nvim", { ["branch"] = "main", ["commit"] = "b7b4777369b441341b2dcd45c738ea4167c11c9e" })
 
 Plug("ray-x/lsp_signature.nvim", { ["commit"] = "e65a63858771db3f086c8d904ff5f80705fd962b" })
