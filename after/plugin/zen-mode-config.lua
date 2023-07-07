@@ -30,6 +30,12 @@ zen_mode.setup({
 			font = "+6",
 		},
 	},
+	on_open = function(win)
+		vim.cmd("Barbecue hide")
+	end,
+	on_close = function()
+		vim.cmd("Barbecue show")
+	end,
 })
 
 vim.api.nvim_set_keymap("n", "<leader>z", "<cmd>ZenMode<CR>", { silent = true })

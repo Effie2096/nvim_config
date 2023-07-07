@@ -20,6 +20,7 @@ Plug("nvim-lualine/lualine.nvim", { ["commit"] = "edca2b03c724f22bdc310eee1587b1
 Plug("akinsho/toggleterm.nvim", { ["tag"] = "v2.*" })
 -- Plug("gcmt/taboo.vim", { ["commit"] = "caf948187694d3f1374913d36f947b3f9fa1c22f" }) -- doesn't play nice with bufferline.nvim
 Plug("SmiteshP/nvim-navic", { ["commit"] = "132b273773768b36e9ecab2138b82234a9faf5ed" })
+Plug("utilyre/barbecue.nvim", { ["as"] = "barbecue" })
 Plug("kyazdani42/nvim-web-devicons", { ["commit"] = "9061e2d355ecaa2b588b71a35e7a11358a7e51e1" })
 Plug("tmux-plugins/vim-tmux")
 Plug("christoomey/vim-tmux-navigator")
