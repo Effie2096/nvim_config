@@ -35,6 +35,15 @@ nnoremap("[q", "<cmd>cprevious<CR>zz", opts)
 nnoremap("[Q", "<cmd>cfirst<CR>zz", opts)
 nnoremap("]Q", "<cmd>clast<CR>zz", opts)
 
+xnoremap("<leader>p", '"_dP', opts)
+
+nnoremap("<leader>y", '"+y', opts)
+vnoremap("<leader>y", '"+y', opts)
+nnoremap("<leader>Y", '"+Y', opts)
+
+nnoremap("<leader>d", '"_d', opts)
+vnoremap("<leader>d", '"_d', opts)
+
 -- Set working dir to dir of current buffer's file
 nnoremap(
 	"<leader>cd",
