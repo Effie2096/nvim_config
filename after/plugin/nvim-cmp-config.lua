@@ -194,7 +194,7 @@ end
 
 cmp.setup.filetype({ "gitcommit", "octo" }, {
 	sources = cmp.config.sources({
-		cmp_git_ok and { name = "git" } or {},
+		{ name = "git" },
 	}, {
 		{ name = "luasnip" },
 		{ name = "buffer" },
