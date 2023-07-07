@@ -117,59 +117,6 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		vim.api.nvim_set_hl(0, "MatchParen", { special = colors.peach, underline = true, bold = true })
 		-- vim.api.nvim_set_hl(0, "NormalFloat", { bg = colors.surface0 })
 
-		local tabFill = package.loaded.transparent ~= nil and "none" or colors.mantle
-		local tabBG = colors.surface1
-		local tabFG = colors.subtext0
-		local tabSelBG = colors.pink
-		local tabSelFG = colors.crust
-		local tabSepBG = tabFill
-		local tabSepFG = tabBG
-		local tabSepSelFG = tabSelBG
-		local modified = colors.red
-		local tablinePathFG = colors.crust
-		local tablinePathBG = colors.lavender
-
-		vim.api.nvim_set_hl(0, "TabLineFill", { bg = tabFill })
-		vim.api.nvim_set_hl(0, "TabLineNum", { fg = colors.text, bg = tabBG })
-		vim.api.nvim_set_hl(0, "TabLine", { fg = tabFG, bg = tabBG })
-		vim.api.nvim_set_hl(0, "TabLineSel", { fg = tabSelFG, bg = tabSelBG, bold = true })
-		vim.api.nvim_set_hl(0, "TabModified", { fg = modified, bg = tabBG })
-		vim.api.nvim_set_hl(0, "TabModifiedSelected", { fg = modified, bg = tabSelBG })
-		vim.api.nvim_set_hl(0, "TabLineSep", { fg = tabSepFG, bg = tabSepBG })
-		vim.api.nvim_set_hl(0, "TabLineSelSep", { fg = tabSepSelFG, bg = tabSepBG })
-		vim.api.nvim_set_hl(0, "TabLineClose", { fg = colors.red, bg = tabBG })
-		vim.api.nvim_set_hl(0, "TabLineSelClose", { fg = colors.red, bg = tabSelBG })
-		vim.api.nvim_set_hl(0, "TabLinePath", { fg = tablinePathFG, bg = tablinePathBG })
-		vim.api.nvim_set_hl(0, "TabLinePathSep", { fg = tablinePathBG, bg = tabFill })
-		vim.api.nvim_set_hl(0, "TabLineProject", { fg = colors.yellow, bg = tablinePathBG })
-
-		local winbarBG = package.loaded.transparent ~= nil and "none" or colors.base
-		local numBG = colors.pink
-		local numFG = colors.crust
-		local fileBG = colors.surface2
-		local fileFG = colors.subtext1
-		local navBG = colors.surface1
-		-- local navFG = colors.rosewater
-		local diffBG = colors.surface1
-
-		local diff_add_col = vim.api.nvim_get_hl_by_name("GitSignsAdd", true)
-		local diff_change_col = vim.api.nvim_get_hl_by_name("GitSignsChange", true)
-		local diff_delete_col = vim.api.nvim_get_hl_by_name("GitSignsDelete", true)
-		vim.api.nvim_set_hl(0, "WinBar", { fg = colors.text, bold = true })
-		vim.api.nvim_set_hl(0, "WinBarDiffAdd", { fg = diff_add_col.foreground, bg = diffBG, bold = true })
-		vim.api.nvim_set_hl(0, "WinBarDiffChange", { fg = diff_change_col.foreground, bg = diffBG, bold = true })
-		vim.api.nvim_set_hl(0, "WinBarDiffDelete", { fg = diff_delete_col.foreground, bg = diffBG, bold = true })
-		vim.api.nvim_set_hl(0, "WinBarDiffSep", { fg = diffBG, bg = colors.base, bold = true })
-
-		vim.api.nvim_set_hl(0, "WinBarWinNum", { fg = numFG, bg = numBG, bold = true })
-		vim.api.nvim_set_hl(0, "WinBarWinNumEnd", { fg = numBG, bg = winbarBG })
-		vim.api.nvim_set_hl(0, "WinBarFile", { fg = fileFG, bg = fileBG, bold = true })
-		vim.api.nvim_set_hl(0, "WinBarFileModified", { fg = modified, bg = fileBG, bold = true })
-		vim.api.nvim_set_hl(0, "WinBarNavic", { fg = fileFG, bg = navBG })
-		vim.api.nvim_set_hl(0, "WinBarFileSep", { fg = fileBG, bg = navBG })
-		vim.api.nvim_set_hl(0, "WinBarFileEnd", { fg = fileBG, bg = winbarBG })
-		vim.api.nvim_set_hl(0, "WinBarNavicEnd", { fg = navBG, bg = winbarBG })
-
 		local navicHLGroups = {
 			"NavicIconsFile",
 			"NavicIconsModule",
@@ -201,39 +148,34 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 			"NavicSeparator",
 		}
 
-		vim.api.nvim_set_hl(0, "NavicIconsFile", { fg = colors.blue })
-		vim.api.nvim_set_hl(0, "NavicIconsMethod", { link = "@function" })
-		vim.api.nvim_set_hl(0, "NavicIconsFunction", { link = "@function" })
-		vim.api.nvim_set_hl(0, "NavicIconsConstructor", { link = "@function" })
-		vim.api.nvim_set_hl(0, "NavicIconsField", { link = "@field" })
-		vim.api.nvim_set_hl(0, "NavicIconsVariable", { link = "@variable" })
-		vim.api.nvim_set_hl(0, "NavicIconsClass", { link = "@storageclass" })
-		vim.api.nvim_set_hl(0, "NavicIconsInterface", { link = "@storageclass" })
-		vim.api.nvim_set_hl(0, "NavicIconsModule", { link = "@function" })
-		vim.api.nvim_set_hl(0, "NavicIconsProperty", { link = "@property" })
-		vim.api.nvim_set_hl(0, "NavicIconsEnum", { link = "@constant" })
-		vim.api.nvim_set_hl(0, "NavicIconsNamespace", { link = "@namespace" })
-		vim.api.nvim_set_hl(0, "NavicIconsPackage", { link = "@text" })
-		vim.api.nvim_set_hl(0, "NavicIconsConstant", { link = "@constant" })
-		vim.api.nvim_set_hl(0, "NavicText", { link = "@string" })
-		vim.api.nvim_set_hl(0, "NavicIconsString", { link = "@string" })
-		vim.api.nvim_set_hl(0, "NavicIconsNumber", { link = "@number" })
-		vim.api.nvim_set_hl(0, "NavicIconsBoolean", { link = "@boolean" })
-		vim.api.nvim_set_hl(0, "NavicIconsArray", { link = "@storageclass" })
-		vim.api.nvim_set_hl(0, "NavicIconsObject", { link = "@storageclass" })
-		vim.api.nvim_set_hl(0, "NavicIconsKey", { link = "@operator" })
-		vim.api.nvim_set_hl(0, "NavicIconsNull", { link = "@constant" })
-		vim.api.nvim_set_hl(0, "NavicIconsEnumMember", { link = "@constant" })
-		vim.api.nvim_set_hl(0, "NavicIconsStruct", { link = "@structure" })
-		vim.api.nvim_set_hl(0, "NavicIconsEvent", { fg = colors.yellow })
-		vim.api.nvim_set_hl(0, "NavicIconsOperator", { link = "@operator" })
-		vim.api.nvim_set_hl(0, "NavicIconsTypeParameter", { link = "@operator" })
-		vim.api.nvim_set_hl(0, "NavicSeparator", { fg = colors.subtext0 })
-
-		for _, value in pairs(navicHLGroups) do
-			local hl = vim.api.nvim_get_hl_by_name(value, true)
-			vim.api.nvim_set_hl(0, "Winbar" .. value, { fg = hl.foreground, bg = navBG })
-		end
+		-- vim.api.nvim_set_hl(0, "NavicIconsFile", { fg = colors.blue })
+		-- vim.api.nvim_set_hl(0, "NavicIconsMethod", { link = "@function" })
+		-- vim.api.nvim_set_hl(0, "NavicIconsFunction", { link = "@function" })
+		-- vim.api.nvim_set_hl(0, "NavicIconsConstructor", { link = "@function" })
+		-- vim.api.nvim_set_hl(0, "NavicIconsField", { link = "@field" })
+		-- vim.api.nvim_set_hl(0, "NavicIconsVariable", { link = "@variable" })
+		-- vim.api.nvim_set_hl(0, "NavicIconsClass", { link = "@storageclass" })
+		-- vim.api.nvim_set_hl(0, "NavicIconsInterface", { link = "@storageclass" })
+		-- vim.api.nvim_set_hl(0, "NavicIconsModule", { link = "@function" })
+		-- vim.api.nvim_set_hl(0, "NavicIconsProperty", { link = "@property" })
+		-- vim.api.nvim_set_hl(0, "NavicIconsEnum", { link = "@constant" })
+		-- vim.api.nvim_set_hl(0, "NavicIconsNamespace", { link = "@namespace" })
+		-- vim.api.nvim_set_hl(0, "NavicIconsPackage", { link = "@text" })
+		-- vim.api.nvim_set_hl(0, "NavicIconsConstant", { link = "@constant" })
+		-- vim.api.nvim_set_hl(0, "NavicText", { link = "@string" })
+		-- vim.api.nvim_set_hl(0, "NavicIconsString", { link = "@string" })
+		-- vim.api.nvim_set_hl(0, "NavicIconsNumber", { link = "@number" })
+		-- vim.api.nvim_set_hl(0, "NavicIconsBoolean", { link = "@boolean" })
+		-- vim.api.nvim_set_hl(0, "NavicIconsArray", { link = "@storageclass" })
+		-- vim.api.nvim_set_hl(0, "NavicIconsObject", { link = "@storageclass" })
+		-- vim.api.nvim_set_hl(0, "NavicIconsKey", { link = "@operator" })
+		-- vim.api.nvim_set_hl(0, "NavicIconsNull", { link = "@constant" })
+		-- vim.api.nvim_set_hl(0, "NavicIconsEnumMember", { link = "@constant" })
+		-- vim.api.nvim_set_hl(0, "NavicIconsStruct", { link = "@structure" })
+		-- vim.api.nvim_set_hl(0, "NavicIconsEvent", { fg = colors.yellow })
+		-- vim.api.nvim_set_hl(0, "NavicIconsOperator", { link = "@operator" })
+		-- vim.api.nvim_set_hl(0, "NavicIconsTypeParameter", { link = "@operator" })
+		-- vim.api.nvim_set_hl(0, "NavicSeparator", { fg = colors.subtext0 })
 
 		local kindFG = colors.base
 

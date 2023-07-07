@@ -314,8 +314,8 @@ lualine.setup({
 		lualine_y = {},
 		lualine_z = {},
 	},
-	--[[ winbar = winbar,
-	inactive_winbar = winbar, ]]
+	winbar = {},
+	-- inactive_winbar = winbar,
 	tabline = {},
 	extensions = {
 		"fugitive",

@@ -19,4 +19,3 @@ require("faith.lsp")
 require("faith.snippets.comment_nvim")
 
 require("faith.listchars")
-require("faith.modules.statusline")
