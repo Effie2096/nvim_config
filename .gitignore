@@ -15,6 +15,7 @@ jspm_packages/
 spell
 .nvim
 Session
+Session.vim
 *.session
 
 *.luarc.json
