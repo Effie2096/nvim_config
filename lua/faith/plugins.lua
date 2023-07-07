@@ -64,6 +64,7 @@ Plug("hrsh7th/cmp-nvim-lua", { ["commit"] = "44acf47b28ff77b4b18d69d5b51b03184c8
 Plug("hrsh7th/cmp-cmdline", { ["commit"] = "23c51b2a3c00f6abc4e922dbd7c3b9aca6992063" })
 Plug("saadparwaiz1/cmp_luasnip", { ["commit"] = "a9de941bcbda508d0a45d28ae366bb3f08db2e36" })
 Plug("petertriho/cmp-git", { ["commit"] = "fae6cdb407ad6c63a0b1928670bad1a67a55b887" })
+Plug("davidsierradz/cmp-conventionalcommits")
 
 Plug("rafamadriz/friendly-snippets")
 

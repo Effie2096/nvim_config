@@ -11,6 +11,7 @@ local dap_ok, _ = pcall(require, "dap")
 local dapui_ok, _ = pcall(require, "dapui")
 local cmp_git_ok, cmp_git = pcall(require, "cmp_git")
 local has_cmpahk, cmk_ahk = pcall(require, "nvim-autohotkey")
+local has_conventionalcommits, conventionalcommits = pcall(require, "conventionalcommits")
 
 local status_ok_kind, lspkind = pcall(require, "lspkind")
 if not status_ok_kind then
@@ -195,7 +196,7 @@ end
 cmp.setup.filetype({ "gitcommit", "octo" }, {
 	sources = cmp.config.sources({
 		{ name = "git" },
-	}, {
+		{ name = "conventionalcommits" },
 		{ name = "luasnip" },
 		{ name = "buffer" },
 		{ name = "path" },
