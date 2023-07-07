@@ -15,6 +15,30 @@ if status_cmp_ok then
 	M.capabilities = cmp_nvim_lsp.update_capabilities(M.capabilities)
 end
 
+local float_config = {
+	focusable = false,
+	border = "single",
+	source = false,
+	header = "",
+	prefix = function(_, i, _)
+		return string.format("%s: ", i)
+	end,
+	-- width = 40,
+	--[[ width = function()
+				local vim_width = vim.api.nvim_get_option("columns")
+				return vim_width / 2 < 61 and vim_width / 2 or 100
+	end, ]]
+}
+
+vim.api.nvim_create_augroup("diagnostics", { clear = true })
+
+vim.api.nvim_create_autocmd("DiagnosticChanged", {
+	group = "diagnostics",
+	callback = function()
+		vim.diagnostic.setloclist({ open = false })
+	end,
+})
+
 M.setup = function()
 	local signs = {
 		{ name = "DiagnosticSignError", text = diagnostic_icons.error },
@@ -28,7 +52,7 @@ M.setup = function()
 	end
 
 	local config = {
-		virtual_text = {
+		virtual_text = false, --[[ {
 			source = false,
 			format = function(diagnostic)
 				if vim.api.nvim_buf_get_option(0, "filetype") == "rust" then
@@ -37,28 +61,15 @@ M.setup = function()
 				end
 				return diagnostic.message
 			end,
-		},
+		},]]
 		-- show signs
 		signs = {
 			active = signs,
 		},
 		update_in_insert = false,
-		underline = false,
+		underline = true,
 		severity_sort = true,
-		float = {
-			focusable = false,
-			border = "none",
-			source = "if_many",
-			header = "",
-			prefix = function(_, i, _)
-				return string.format("%s: ", i)
-			end,
-			width = 40,
-			--[[ width = function()
-				local vim_width = vim.api.nvim_get_option("columns")
-				return vim_width / 2 < 61 and vim_width / 2 or 100
-			end, ]]
-		},
+		float = float_config,
 	}
 
 	vim.diagnostic.config(config)
