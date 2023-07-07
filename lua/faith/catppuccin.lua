@@ -362,6 +362,14 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		})
 
 		vim.api.nvim_set_hl(0, "YankFlash", { fg = colors.base, bg = colors.lavender })
+
+		if package.loaded.bufferline ~= nil then
+			vim.api.nvim_set_hl(0, "BufferLineOffsetSeparator", { link = "VertSplit" })
+		end
+
+		if package.loaded.fidget ~= nil then
+			vim.api.nvim_set_hl(0, "FidgetTitle", { fg = colors.pink, bold = true })
+		end
 	end,
 })
 
