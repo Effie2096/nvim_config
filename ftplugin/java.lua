@@ -243,7 +243,7 @@ local config = {
 			format = {
 				settings = {
 					url = home .. "/.local/share/eclipse/mystyleuwuv1.xml",
-					profile = "GoogleStyle",
+					profile = "mystyleuwu",
 				},
 			},
 			signatureHelp = { enabled = true },
