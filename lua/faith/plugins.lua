@@ -95,7 +95,7 @@ Plug("lewis6991/gitsigns.nvim", { ["commit"] = "f98c85e7c3d65a51f45863a34feb4849
 
 -- Telescope
 Plug("nvim-lua/popup.nvim", { ["commit"] = "b7404d35d5d3548a82149238289fa71f7f6de4ac" })
-Plug("nvim-lua/plenary.nvim")
+Plug("nvim-lua/plenary.nvim", { ["commit"] = "9cb74c7e236dd376c184432a41de0dbc0e796bb6" })
 Plug("nvim-telescope/telescope.nvim", { ["commit"] = "76ea9a898d3307244dce3573392dcf2cc38f340f" })
 Plug("nvim-telescope/telescope-ui-select.nvim", { ["commit"] = "62ea5e58c7bbe191297b983a9e7e89420f581369" })
 Plug("nvim-telescope/telescope-file-browser.nvim", { ["commit"] = "b1bc53e0da3d26f0003ffb9602115ce258411aa5" })
@@ -112,7 +112,7 @@ Plug("norcalli/nvim-colorizer.lua", { ["commit"] = "36c610a9717cc9ec426a07c8e6bf
 Plug("ziontee113/color-picker.nvim", { ["commit"] = "2b4a4a408278271909e3eb13fe0715f856c7b4d8" })
 Plug("folke/zen-mode.nvim", { ["commit"] = "6f5702db4fd4a4c9a212f8de3b7b982f3d93b03c" })
 Plug("xiyaowong/nvim-transparent")
--- Plug ('karb94/neoscroll.nvim', { ['commit'] = '54c5c419f6ee2b35557b3a6a7d631724234ba97a' })
+Plug("karb94/neoscroll.nvim", { ["commit"] = "54c5c419f6ee2b35557b3a6a7d631724234ba97a" })
 Plug("romgrk/nvim-treesitter-context", { ["commit"] = "8d0759eb798fee2e1201b26c3279713ac67c44c2" })
 Plug("tversteeg/registers.nvim")
 Plug("kevinhwang91/nvim-ufo", { ["commit"] = "c1c0dd76f2298bd93ebd417360a2bfbeade37ac2" })
