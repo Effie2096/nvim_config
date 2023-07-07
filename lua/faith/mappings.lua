@@ -18,6 +18,9 @@ vim.api.nvim_exec([[cabbrev h vert h]], false)
 
 nnoremap("<C-d>", "<C-d>zz", opts)
 nnoremap("<C-u>", "<C-u>zz", opts)
+-- keep search in middle of screen
+nnoremap("n", "nzzzv", opts)
+nnoremap("N", "Nzzzv", opts)
 
 tnoremap("<ESC>", "<C-\\><C-n>", opts)
 inoremap("<C-w>k", "<Esc><C-w>k", opts)
@@ -34,6 +37,9 @@ nnoremap("]q", "<cmd>cnext<CR>zz", opts)
 nnoremap("[q", "<cmd>cprevious<CR>zz", opts)
 nnoremap("[Q", "<cmd>cfirst<CR>zz", opts)
 nnoremap("]Q", "<cmd>clast<CR>zz", opts)
+
+-- keep cursor in same place when combining lines
+nnoremap("J", "mzJ`z", opts)
 
 xnoremap("<leader>p", '"_dP', opts)
 
