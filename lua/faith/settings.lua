@@ -82,7 +82,7 @@ local function QuickFixDo(cmd)
 	for _, value in pairs(qflist) do
 		for k, v in pairs(value) do
 			if k == "bufnr" then
-				bufs[v] = vim.fn["bufname"]({ v })
+				bufs[v] = vim.fn.bufname(v)
 			end
 		end
 	end

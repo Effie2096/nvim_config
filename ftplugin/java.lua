@@ -110,7 +110,7 @@ vim.list_extend(
 ---@diagnostic disable-next-line: missing-parameter
 vim.list_extend(
 	bundles,
-	vim.split(vim.fn.glob(vim.fn.stdpath("data") .. "/mason/packages/java-test/extension/server/*.jar"), "\n")
+	vim.split(vim.fn.glob(vim.fn.stdpath("data") .. "/mason/packages/java-test/extension/server/*.jar"), "\n", {})
 )
 
 local opts = { noremap = true, buffer = bufnr }
