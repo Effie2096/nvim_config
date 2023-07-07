@@ -1,1 +1,1 @@
-vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,globals"
+vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize"
