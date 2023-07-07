@@ -117,7 +117,7 @@ Plug("kevinhwang91/promise-async", { ["commit"] = "70b09063cdf029079b25c7925e449
 Plug("nvim-tree/nvim-tree.lua")
 Plug("mbbill/undotree")
 -- Plug ('folke/noice.nvim' Plug 'MunifTanjim/nui.nvim', { ['commit'] = '' })
-Plug("j-hui/fidget.nvim")
+Plug("j-hui/fidget.nvim", { ["tag"] = "legacy" })
 -- Plug("akinsho/bufferline.nvim", { ["tag"] = "v4.0.0" })
 
 vim.fn["plug#end"]()

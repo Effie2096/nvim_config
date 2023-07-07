@@ -28,6 +28,7 @@ end
 
 local extendedClientCapabilities = jdtls.extendedClientCapabilities
 extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
+extendedClientCapabilities.progressReportProvider = false
 
 -- Find root of project
 local root_markers = { ".git", "mvnw", "gradlew", "pom.xml", "build.gradle" }
@@ -93,6 +94,41 @@ nnoremap("<leader>da", function()
 	end)
 end, desc(opts, "[d]ebug with [a]rgs: Run default java debugger launch profile with provided arguments."))
 
+local function progress_report(_, result, ctx)
+	local lsp = vim.lsp
+	local info = {
+		client_id = ctx.client_id,
+	}
+
+	local kind = "report"
+	if result.complete then
+		kind = "end"
+	elseif result.workDone == 0 then
+		kind = "begin"
+	elseif result.workDone > 0 and result.workDone < result.totalWork then
+		kind = "report"
+	else
+		kind = "end"
+	end
+
+	local percentage = 0
+	if result.totalWork > 0 and result.workDone >= 0 then
+		percentage = result.workDone / result.totalWork * 100
+	end
+
+	local msg = {
+		token = result.id,
+		value = {
+			kind = kind,
+			percentage = percentage,
+			title = result.task,
+			message = result.subTask,
+		},
+	}
+	-- print(vim.inspect(result))
+	lsp.handlers["$/progress"](nil, msg, info)
+end
+
 -- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
 local config = {
 	-- The command that starts the language server
@@ -134,6 +170,10 @@ local config = {
 	on_attach = require("faith.lsp.handlers").on_attach,
 
 	capabilities = capabilities,
+
+	handlers = {
+		["language/progressReport"] = progress_report,
+	},
 	-- 💀
 	-- This is the default if not provided, you can remove it. Or adjust as needed.
 	-- One dedicated LSP server & client will be started per unique root_dir

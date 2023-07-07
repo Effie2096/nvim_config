@@ -3,4 +3,11 @@ if not has_fidget then
 	return
 end
 
-fidget.setup()
+fidget.setup({
+	window = {
+		blend = 0,
+	},
+	text = {
+		spinner = "dots",
+	},
+})
