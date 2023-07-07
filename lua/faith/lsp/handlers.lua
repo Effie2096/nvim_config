@@ -226,7 +226,7 @@ local function lsp_keymaps(bufnr)
 	nnoremap(
 		"K",
 		ufo_hover(function()
-			if package.loaded.lspsaga then
+			if package.loaded.lspsaga ~= nil then
 				require("lspsaga.hover"):render_hover_doc()
 			else
 				vim.lsp.buf.hover()
@@ -269,7 +269,7 @@ local function lsp_keymaps(bufnr)
 		desc(opts, "code [a]ction: List code actions available for selection.")
 	)
 
-	if package.loaded.lspsaga then
+	if package.loaded.lspsaga ~= nil then
 		nnoremap("<leader>lf", function()
 			require("lspsaga.finder"):lsp_finder()
 		end, desc(opts, "[L]sp [F]inder: List all definitions and references of symbol under cursor"))
