@@ -97,6 +97,11 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 	pattern = "*",
 	callback = function()
 		local colors = require("catppuccin.palettes").get_palette()
+
+		local accent = colors.pink
+		vim.api.nvim_set_hl(0, "CatAccent", { fg = colors.base, bg = accent, bold = true })
+		vim.api.nvim_set_hl(0, "CatAccentInverse", { fg = accent, bg = colors.base, bold = true })
+
 		local changeColor = colors.blue
 		vim.api.nvim_exec("highlight GitSignsChange guifg=" .. changeColor, false)
 		vim.api.nvim_exec("highlight GitSignsChangeNr guifg=" .. changeColor, false)

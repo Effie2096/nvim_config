@@ -19,9 +19,9 @@ barbecue.setup({
 	},
 	lead_custom_section = function(_, winnr)
 		return {
-			{ icons.separators.rounded.right, "WinBarWinNumEnd" },
-			{ string.format("%s", vim.api.nvim_win_get_number(winnr)), "WinBarWinNum" },
-			{ icons.separators.rounded.left, "WinBarWinNumEnd" },
+			{ icons.separators.rounded.right, "CatAccentInverse" },
+			{ string.format("%s", vim.api.nvim_win_get_number(winnr)), "CatAccent" },
+			{ icons.separators.rounded.left, "CatAccentInverse" },
 			{ " " },
 		}
 	end,
