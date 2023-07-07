@@ -217,6 +217,17 @@ local language_server = {
 	padding = 0,
 }
 
+local asyncrun_status = {
+	function()
+		return table.concat(vim.tbl_values(vim.tbl_map(function(job)
+			if job.status == "running" then
+				return "⏳"
+			end
+			return (job.status == "success" and "✅" or "❌")
+		end, vim.g.asyncrun_job_status or {})))
+	end,
+}
+
 local spaces = {
 	function()
 		local buf_ft = vim.bo.filetype
@@ -324,7 +335,7 @@ lualine.setup({
 	sections = {
 		lualine_a = { git },
 		lualine_b = { obsession, workspace_diagnostics },
-		lualine_c = { language_server },
+		lualine_c = { language_server, asyncrun_status },
 		lualine_x = { location, spaces, indent, trailing_space, filetype, fileformat, encoding },
 		lualine_y = { format_on_save },
 		lualine_z = trans_flag,

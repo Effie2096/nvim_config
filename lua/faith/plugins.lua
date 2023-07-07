@@ -23,6 +23,7 @@ Plug("SmiteshP/nvim-navic", { ["commit"] = "132b273773768b36e9ecab2138b82234a9fa
 Plug("utilyre/barbecue.nvim", { ["as"] = "barbecue" })
 Plug("kyazdani42/nvim-web-devicons", { ["commit"] = "9061e2d355ecaa2b588b71a35e7a11358a7e51e1" })
 Plug("tmux-plugins/vim-tmux")
+Plug("preservim/vimux")
 Plug("christoomey/vim-tmux-navigator")
 
 -- LSP
@@ -43,6 +44,7 @@ Plug("glepnir/lspsaga.nvim", { ["branch"] = "main", ["commit"] = "b7b4777369b441
 
 Plug("ray-x/lsp_signature.nvim", { ["commit"] = "e65a63858771db3f086c8d904ff5f80705fd962b" })
 Plug("ThePrimeagen/refactoring.nvim")
+Plug("skywind3000/asyncrun.vim")
 Plug("vim-test/vim-test")
 
 -- Debugging

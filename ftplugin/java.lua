@@ -3,14 +3,47 @@ vim.opt_local.tabstop = indentWidth
 -- vim.opt.softtabstop=indentWidth								-- Insert 4 spaces for a tab
 vim.opt_local.shiftwidth = indentWidth -- Change the number of space characters inserted for indentation
 -- vim.opt_local.foldcolumn = "auto:2"
-vim.opt_local.makeprg = "mvn clean compile -Dskiptests -q -f pom.xml"
-vim.opt_local.errorformat = "[ERROR] %f:[%l\\,%v] %m"
+local build_command = "mvn clean compile -Dmaven.test.skip=true"
+
+vim.opt_local.makeprg = build_command
+vim.cmd([[setlocal errorformat=[%tRROR]\ %f:[%l]\ %m,%-G%.%#]])
 
 local fk = require("faith.keymap")
 local nnoremap = fk.nnoremap
 local desc = fk.desc
 
 local bufnr = vim.api.nvim_get_current_buf()
+
+local function find_build_method(markers, bufname)
+	bufname = bufname or vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
+	local dirname = vim.fn.fnamemodify(bufname, ":p:h")
+	local getparent = function(p)
+		return vim.fn.fnamemodify(p, ":h")
+	end
+	while getparent(dirname) ~= dirname do
+		for _, marker in ipairs(markers) do
+			if vim.loop.fs_stat(require("jdtls.path").join(dirname, marker)) then
+				return marker
+			end
+		end
+		dirname = getparent(dirname)
+	end
+end
+
+local build_markers = { "mvnw", "pom.xml", "gradlew", "build.gradle" }
+local found_build = find_build_method(build_markers)
+
+if vim.fn.exists("*VimuxRunCommand") ~= 0 then
+	local opts = { noremap = true, silent = true, buffer = bufnr }
+	nnoremap(
+		"<F3>",
+		"<cmd>AsyncRun -mode=term -pos=tmux -cwd=<root> " .. build_command .. "<cr>",
+		desc(opts, "Compile Project")
+	)
+	if found_build == "mvnw" or found_build == "pom.xml" then
+		nnoremap("<F4>", "<cmd>AsyncRun -mode=term -pos=tmux -cwd=<root> mvn exec:java<cr>", desc(opts, "Run Project"))
+	end
+end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
