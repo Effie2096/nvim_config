@@ -22,7 +22,7 @@ Plug("akinsho/toggleterm.nvim", { ["tag"] = "v2.*" })
 Plug("SmiteshP/nvim-navic", { ["commit"] = "132b273773768b36e9ecab2138b82234a9faf5ed" })
 Plug("utilyre/barbecue.nvim", { ["as"] = "barbecue" })
 Plug("kyazdani42/nvim-web-devicons", { ["commit"] = "9061e2d355ecaa2b588b71a35e7a11358a7e51e1" })
-Plug("tmux-plugins/vim-tmux")
+Plug("tmux-plugins/vim-tmux") -- tmux.conf syntax hl n stuff
 Plug("preservim/vimux")
 Plug("christoomey/vim-tmux-navigator")
 
