@@ -16,6 +16,7 @@ Plug("catppuccin/nvim", {
 Plug("lewis6991/impatient.nvim", { ["commit"] = "b842e16ecc1a700f62adb9802f8355b99b52a5a6" })
 Plug("antoinemadec/FixCursorHold.nvim")
 
+--[[]]
 Plug("nvim-lualine/lualine.nvim", { ["commit"] = "edca2b03c724f22bdc310eee1587b1523f31ec7c" })
 Plug("akinsho/toggleterm.nvim", { ["tag"] = "v2.*" })
 -- Plug("gcmt/taboo.vim", { ["commit"] = "caf948187694d3f1374913d36f947b3f9fa1c22f" }) -- doesn't play nice with bufferline.nvim
@@ -25,8 +26,9 @@ Plug("kyazdani42/nvim-web-devicons", { ["commit"] = "9061e2d355ecaa2b588b71a35e7
 Plug("tmux-plugins/vim-tmux") -- tmux.conf syntax hl n stuff
 Plug("preservim/vimux")
 Plug("christoomey/vim-tmux-navigator")
+--[[]]
 
--- LSP
+--[[LSP ]]
 Plug("neovim/nvim-lspconfig", { ["commit"] = "af43c300d4134db3550089cd4df6c257e3734689" })
 Plug("williamboman/mason.nvim")
 Plug("williamboman/mason-lspconfig.nvim", { ["commit"] = "ef41cd4ebccbf0981089bb06f5ed59e0dad549ca" })
@@ -46,13 +48,15 @@ Plug("ray-x/lsp_signature.nvim", { ["commit"] = "e65a63858771db3f086c8d904ff5f80
 Plug("ThePrimeagen/refactoring.nvim")
 Plug("skywind3000/asyncrun.vim")
 Plug("vim-test/vim-test")
+--[[]]
 
--- Debugging
+--[[ Debugging ]]
 Plug("mfussenegger/nvim-dap", { ["commit"] = "5d57c401cab25997a6d8202b2498ad5ac895f143" })
 Plug("rcarriga/nvim-dap-ui", { ["commit"] = "8d0768a83f7b89bd8cb8811800bc121b9353f0b2" })
 Plug("theHamsta/nvim-dap-virtual-text", { ["commit"] = "2971ce3e89b1711cc26e27f73d3f854b559a77d4" })
+--[[]]
 
--- Snippets
+--[[ Completion ]]
 Plug("hrsh7th/nvim-cmp", { ["commit"] = "2427d06b6508489547cd30b6e86b1c75df363411" })
 Plug("hrsh7th/cmp-nvim-lsp", { ["commit"] = "affe808a5c56b71630f17aa7c38e15c59fd648a8" })
 Plug("hrsh7th/cmp-buffer", { ["commit"] = "3022dbc9166796b644a841a02de8dd1cc1d311fa" })
@@ -73,6 +77,7 @@ Plug("onsails/lspkind.nvim", { ["commit"] = "c68b3a003483cf382428a43035079f78474
 
 -- Plug("Exafunction/codeium.vim")
 Plug("jcdickinson/codeium.nvim")
+--[[]]
 
 Plug("nvim-treesitter/nvim-treesitter", { ["commit"] = "aebc6cf6bd4675ac86629f516d612ad5288f7868" })
 Plug("nvim-treesitter/playground", { ["commit"] = "e6a0bfaf9b5e36e3a327a1ae9a44a989eae472cf" })
@@ -89,11 +94,12 @@ Plug("tpope/vim-repeat")
 Plug("godlygeek/tabular")
 Plug("szw/vim-maximizer")
 
--- Git
+--[[ Git ]]
 Plug("tpope/vim-fugitive", { ["commit"] = "dd8107cabf5fe85df94d5eedcae52415e543f208" })
 Plug("lewis6991/gitsigns.nvim", { ["commit"] = "f98c85e7c3d65a51f45863a34feb4849c82f240f" })
+--[[]]
 
--- Telescope
+--[[ Telescope ]]
 Plug("nvim-lua/popup.nvim", { ["commit"] = "b7404d35d5d3548a82149238289fa71f7f6de4ac" })
 Plug("nvim-lua/plenary.nvim", { ["commit"] = "9cb74c7e236dd376c184432a41de0dbc0e796bb6" })
 Plug("nvim-telescope/telescope.nvim", { ["commit"] = "76ea9a898d3307244dce3573392dcf2cc38f340f" })
@@ -103,10 +109,13 @@ Plug(
 	"nvim-telescope/telescope-fzf-native.nvim",
 	{ ["do"] = "make", ["commit"] = "65c0ee3d4bb9cb696e262bca1ea5e9af3938fc90" }
 )
+--[[]]
 
--- Projects
+--[[ Projects ]]
 Plug("tpope/vim-obsession")
--- Visual/UI
+--[[]]
+
+--[[ Visual/UI ]]
 Plug("lukas-reineke/indent-blankline.nvim", { ["commit"] = "db7cbcb40cc00fc5d6074d7569fb37197705e7f6" })
 Plug("norcalli/nvim-colorizer.lua", { ["commit"] = "36c610a9717cc9ec426a07c8e6bf3b3abcb139d6" })
 Plug("ziontee113/color-picker.nvim", { ["commit"] = "2b4a4a408278271909e3eb13fe0715f856c7b4d8" })
@@ -123,5 +132,6 @@ Plug("mbbill/undotree")
 -- Plug ('folke/noice.nvim' Plug 'MunifTanjim/nui.nvim', { ['commit'] = '' })
 Plug("j-hui/fidget.nvim", { ["tag"] = "legacy" })
 -- Plug("akinsho/bufferline.nvim", { ["tag"] = "v4.0.0" })
+--[[]]
 
 vim.fn["plug#end"]()

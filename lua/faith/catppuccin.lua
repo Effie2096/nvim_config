@@ -61,7 +61,7 @@ catppuccin.setup({
 			colored_indent_levels = false,
 		},
 		navic = {
-			enable = false,
+			enable = true,
 			custom_bg = "NONE",
 		},
 		nvimtree = true,

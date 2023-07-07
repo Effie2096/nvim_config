@@ -16,7 +16,7 @@ saga.init_lsp_saga({
 		enable = false,
 	},
 	code_action_lightbulb = {
-		enable = true,
+		enable = false,
 		enable_in_insert = false,
 		sign = true,
 		sign_priority = 20,

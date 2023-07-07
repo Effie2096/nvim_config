@@ -8,13 +8,13 @@ vim.opt.mouse = "n"
 vim.opt.splitright = true
 vim.opt.laststatus = 3
 vim.opt.colorcolumn = "100"
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 vim.opt.cursorlineopt = "line,number"
 vim.opt.scrolloff = 8
 vim.opt.winminheight = 0
 vim.opt.winminwidth = 4
 vim.opt.backspace = "indent,eol,start"
-vim.opt.showtabline = 2
+vim.opt.showtabline = 1
 vim.opt.backup = false
 vim.opt.writebackup = false
 vim.opt.swapfile = false
@@ -22,7 +22,7 @@ vim.opt.undofile = true
 vim.opt.history = 5000
 vim.opt.shortmess = vim.opt.shortmess + "c"
 vim.opt.signcolumn = "yes:3"
-vim.opt.updatetime = 50
+vim.opt.updatetime = 300
 vim.opt.timeoutlen = 500
 vim.opt.hidden = true
 vim.opt.switchbuf = "usetab"
@@ -38,6 +38,7 @@ vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8"
 vim.opt.fileformat = "unix"
 vim.opt.nrformats = "alpha,hex,bin"
+vim.opt.fillchars:append({ vert = "│" })
 
 -- set format options for each window otherwise it just doens't work for some reason :c
 vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {

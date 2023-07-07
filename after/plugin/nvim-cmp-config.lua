@@ -209,9 +209,9 @@ cmp.setup.cmdline({ "/", "?" }, {
 	sources = {
 		{ name = "buffer" },
 	},
-	view = {
+	--[[ view = {
 		entries = { name = "wildmenu", separator = "|" },
-	},
+	}, ]]
 })
 
 -- `:` cmdline setup.
@@ -227,6 +227,9 @@ cmp.setup.cmdline(":", {
 			},
 		},
 	}),
+	--[[ view = {
+		entries = { name = "wildmenu", separator = "|" },
+	}, ]]
 })
 
 if dap_ok and dapui_ok then
