@@ -6,6 +6,7 @@ end
 
 ts_conf.setup({
 	ensure_installed = { "lua", "vim" },
+	auto_install = true,
 	highlight = {
 		enable = true,
 	},

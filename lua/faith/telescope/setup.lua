@@ -12,7 +12,7 @@ telescope.setup({
 		},
 	},
 	extensions = {
-		fzy_native = {
+		fzf = {
 			override_generic_sorter = true,
 			override_file_sorter = true,
 		},

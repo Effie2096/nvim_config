@@ -7,7 +7,7 @@ local icons = require("faith.icons")
 
 navic.setup({
 	icons = icons.kind,
-	highlight = false,
+	highlight = true,
 	separator = " " .. icons.ui.ChevronRight .. " ",
 	depth_limit = 0,
 	depth_limit_indicator = icons.ui.Ellipses,

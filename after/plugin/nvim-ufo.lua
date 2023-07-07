@@ -14,7 +14,7 @@ vim.opt.foldlevelstart = 99
 
 vim.opt.foldopen:remove("hor") -- don't open folds when moving on the line
 -- vim.opt.foldcolumn = '1'
-vim.opt.fillchars = "foldopen:" .. icons.ui.ArrowFillOpen .. ",foldsep: ,foldclose:" .. icons.ui.ArrowFillClosed
+vim.opt.fillchars:append({ foldopen = icons.ui.ArrowFillOpen, foldsep = " ", foldclose = icons.ui.ArrowFillClosed })
 vim.opt.foldnestmax = 1
 vim.opt.foldenable = true
 
@@ -62,14 +62,26 @@ local handler = function(virtText, lnum, endLnum, width, truncate)
 	return newVirtText
 end
 
+local function goPreviousClosedAndPeek()
+	require("ufo").goPreviousClosedFold()
+	require("ufo").peekFoldedLinesUnderCursor()
+end
+
+local function goNextClosedAndPeek()
+	require("ufo").goNextClosedFold()
+	require("ufo").peekFoldedLinesUnderCursor()
+end
+
 local opts = { noremap = true, silent = true }
 nnoremap("zR", require("ufo").openAllFolds, opts)
 nnoremap("zM", require("ufo").closeAllFolds, opts)
 nnoremap("zr", require("ufo").openFoldsExceptKinds, opts)
 nnoremap("zm", require("ufo").closeFoldsWith, opts) -- closeAllFolds == closeFoldsWith(0)
+nnoremap("zj", goNextClosedAndPeek, opts)
+nnoremap("zk", goPreviousClosedAndPeek, opts)
 
 ufo.setup({
-	open_fold_hl_timeout = 0,
+	open_fold_hl_timeout = 100,
 	preview = {
 		win_config = {
 			border = { "", icons.borders.square.top, "", "", "", icons.borders.square.bottom, "", "" },
@@ -84,5 +96,6 @@ ufo.setup({
 	provider_selector = function(--[[ bufnr, filetype, buftype ]])
 		return { "treesitter", "indent" }
 	end,
+	enable_get_fold_virt_text = true,
 	fold_virt_text_handler = handler,
 })
