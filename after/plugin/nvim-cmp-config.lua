@@ -176,9 +176,9 @@ cmp.setup({
 		-- documentation = cmp.config.window.bordered(),
 	},
 	sources = {
+		{ name = "codeium" },
 		{ name = "luasnip" }, -- For luasnip users.
 		{ name = "nvim_lsp" },
-		{ name = "codeium" },
 		-- { name = 'nvim_lsp_signature_help' },
 		{ name = "nvim_lua" },
 		{ name = "path" },
