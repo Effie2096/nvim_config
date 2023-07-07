@@ -19,9 +19,16 @@ null_ls.setup({
 			extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote" },
 		}, ]]
 		diagnostics.commitlint,
+		formatting.beautysh,
 		formatting.prettierd.with({
 			-- extra_filetypes = { "toml", "solidity" },
 			extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote", "--use-tabs" },
+		}),
+		formatting.clang_format.with({
+			filetypes = { "c", "cpp", "cs", "cuda", "proto" },
+			extra_args = {
+				"--style={UseTab: ForContinuationAndIndentation, IndentWidth: 4, TabWidth: 4, ContinuationIndentWidth: 4, BinPackArguments: false, BinPackParameters: true, ColumnLimit: 0}",
+			},
 		}),
 		actions.eslint_d,
 		diagnostics.eslint_d,
