@@ -6,7 +6,7 @@ end
 -- configure it
 catppuccin.setup({
 	compile_path = vim.fn.glob(vim.fn.stdpath("cache") .. "/catppuccin"),
-	transparent_background = false,
+	transparent_background = package.loaded.transparent ~= nil and true or false,
 	term_colors = false,
 	dim_inactive = {
 		enable = false,
@@ -112,7 +112,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		vim.api.nvim_set_hl(0, "MatchParen", { special = colors.peach, underline = true, bold = true })
 		-- vim.api.nvim_set_hl(0, "NormalFloat", { bg = colors.surface0 })
 
-		local tabFill = package.loaded.transparent ~= 0 and "none" or colors.mantle
+		local tabFill = package.loaded.transparent ~= nil and "none" or colors.mantle
 		local tabBG = colors.surface1
 		local tabFG = colors.subtext0
 		local tabSelBG = colors.pink
@@ -138,7 +138,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		vim.api.nvim_set_hl(0, "TabLinePathSep", { fg = tablinePathBG, bg = tabFill })
 		vim.api.nvim_set_hl(0, "TabLineProject", { fg = colors.yellow, bg = tablinePathBG })
 
-		local winbarBG = package.loaded.transparent ~= 0 and "none" or colors.base
+		local winbarBG = package.loaded.transparent ~= nil and "none" or colors.base
 		local numBG = colors.pink
 		local numFG = colors.crust
 		local fileBG = colors.surface2

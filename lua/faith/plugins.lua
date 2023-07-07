@@ -110,7 +110,7 @@ Plug("lukas-reineke/indent-blankline.nvim", { ["commit"] = "db7cbcb40cc00fc5d607
 Plug("norcalli/nvim-colorizer.lua", { ["commit"] = "36c610a9717cc9ec426a07c8e6bf3b3abcb139d6" })
 Plug("ziontee113/color-picker.nvim", { ["commit"] = "2b4a4a408278271909e3eb13fe0715f856c7b4d8" })
 Plug("folke/zen-mode.nvim", { ["commit"] = "6f5702db4fd4a4c9a212f8de3b7b982f3d93b03c" })
--- Plug("xiyaowong/nvim-transparent")
+Plug("xiyaowong/nvim-transparent")
 -- Plug ('karb94/neoscroll.nvim', { ['commit'] = '54c5c419f6ee2b35557b3a6a7d631724234ba97a' })
 Plug("romgrk/nvim-treesitter-context", { ["commit"] = "8d0759eb798fee2e1201b26c3279713ac67c44c2" })
 Plug("tversteeg/registers.nvim")
