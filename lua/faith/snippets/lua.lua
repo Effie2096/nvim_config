@@ -5,24 +5,45 @@ end
 
 local s = ls.s
 local i = ls.insert_node
-local t = ls.text_node
+-- local t = ls.text_node
 -- local c = ls.choice_node
--- local f = ls.function_node
+local f = ls.function_node
 
 local fmt = require("luasnip.extras.fmt").fmt
 
-local rep = require("luasnip.extras").rep
+-- local rep = require("luasnip.extras").rep
+
+local same = function(index)
+	return f(function(import_name)
+		local parts = vim.split(import_name[1][1], ".", { plain = true })
+		return string.gsub(parts[#parts], "-", "_") or ""
+	end, { index })
+end
 
 return {
-	s("req", fmt("local {} = require('{}')", { i(1), rep(1) })),
+	s(
+		"req",
+		fmt([[local {} = require("{}")]], {
+			same(1),
+			i(1),
+		})
+	),
 	s(
 		"preq",
-		fmt("local {}, {} = pcall(require, '{}')\nif not {} then\n	return\nend{}", {
-			i(1, "status_ok"),
-			i(2, t("")),
-			rep(2),
-			rep(1),
-			i(0),
-		})
+		fmt(
+			[[
+			local has_{}, {} = pcall(require, "{}")
+			if not has_{} then
+				return
+			end{}
+			]],
+			{
+				same(1),
+				same(1),
+				i(1),
+				same(1),
+				i(0),
+			}
+		)
 	),
 }
