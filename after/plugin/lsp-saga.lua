@@ -5,7 +5,7 @@ end
 
 local icons = require("faith.icons")
 
-saga.init_lsp_saga({
+saga.setup({
 	diagnostic_header = {
 		icons.diagnostic.error,
 		icons.diagnostic.warn,
@@ -15,7 +15,7 @@ saga.init_lsp_saga({
 	symbol_in_winbar = {
 		enable = false,
 	},
-	code_action_lightbulb = {
+	lightbulb = {
 		enable = false,
 		enable_in_insert = false,
 		sign = true,

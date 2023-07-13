@@ -238,10 +238,9 @@ local function lsp_keymaps(bufnr)
 		"K",
 		ufo_hover(function()
 			if package.loaded.lspsaga ~= nil then
-				require("lspsaga.hover"):render_hover_doc()
-			else
-				vim.lsp.buf.hover()
+				vim.cmd(":Lspsaga hover_doc")
 			end
+			vim.lsp.buf.hover()
 		end),
 		opts
 	)
@@ -281,13 +280,15 @@ local function lsp_keymaps(bufnr)
 	)
 
 	if package.loaded.lspsaga ~= nil then
-		nnoremap("<leader>lf", function()
-			require("lspsaga.finder"):lsp_finder()
-		end, desc(opts, "[L]sp [F]inder: List all definitions and references of symbol under cursor"))
+		nnoremap(
+			"<leader>lf",
+			"<cmd>Lspsaga finder<cr>",
+			desc(opts, "[L]sp [F]inder: List all definitions and references of symbol under cursor")
+		)
 
 		nnoremap(
 			"<leader>dl",
-			require("lspsaga.diagnostic").show_line_diagnostics,
+			"<cmd>Lspsaga show_line_diagnostics ++unfocus<cr>",
 			desc(opts, "[d]iagnostic [l]ist: Open float listing all diagnostics on line.")
 		)
 		-- nnoremap("<leader>dl", require('lspsaga.diagnostic').show_cursor_diagnostics, opts)
@@ -298,7 +299,7 @@ local function lsp_keymaps(bufnr)
 		)
 		nnoremap(
 			"<leader>dk",
-			require("lspsaga.diagnostic").goto_prev,
+			"<cmd>Lspsaga diagnostic_jump_prev<cr>",
 			desc(opts, "[d]iagnostic [up]: Jump to prev diagnostic in file.")
 		)
 
@@ -316,8 +317,7 @@ local function lsp_keymaps(bufnr)
 			opts
 		) ]]
 		nnoremap("<leader>rn", function()
-			require("lspsaga.rename"):lsp_rename()
-		end, desc(opts, "[r]e[n]ame: Rename symbol under cursor."))
+		nnoremap("<leader>rn", "<cmd>Lspsaga rename<cr>", desc(opts, "[r]e[n]ame: Rename symbol under cursor."))
 	else
 		nnoremap(
 			"<leader>dl",
