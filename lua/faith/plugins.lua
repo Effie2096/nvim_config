@@ -131,6 +131,7 @@ Plug("antosha417/nvim-lsp-file-operations")
 Plug("mbbill/undotree")
 -- Plug ('folke/noice.nvim' Plug 'MunifTanjim/nui.nvim', { ['commit'] = '' })
 Plug("j-hui/fidget.nvim", { ["tag"] = "legacy" })
+Plug("luukvbaal/statuscol.nvim")
 -- Plug("akinsho/bufferline.nvim", { ["tag"] = "v4.0.0" })
 --[[]]
 

@@ -18,17 +18,6 @@ vim.opt.fillchars:append({ foldopen = icons.ui.ArrowFillOpen, foldsep = " ", fol
 vim.opt.foldnestmax = 1
 vim.opt.foldenable = true
 
---[[ -- requires PR #17446
-vim.opt.foldoptions = "nodigits"
-local group = vim.api.nvim_create_augroup("fold_numbers", {})
-vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
-	pattern = "*",
-	callback = function()
-		vim.wo.foldoptions = "nodigits"
-	end,
-	group = group
-}) ]]
-
 local handler = function(virtText, lnum, endLnum, width, truncate)
 	local newVirtText = {}
 
