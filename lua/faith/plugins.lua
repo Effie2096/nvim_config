@@ -126,6 +126,7 @@ Plug("antosha417/nvim-lsp-file-operations")
 Plug("mbbill/undotree")
 Plug("j-hui/fidget.nvim", { ["tag"] = "legacy" })
 Plug("luukvbaal/statuscol.nvim")
+Plug("ThePrimeagen/harpoon")
 -- Plug("akinsho/bufferline.nvim", { ["tag"] = "v4.0.0" })
 --[[]]
 
