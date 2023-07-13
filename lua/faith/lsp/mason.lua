@@ -1,6 +1,6 @@
 local servers = {
 	"jdtls",
-	"sumneko_lua",
+	"lua_ls",
 	"lemminx",
 	"clangd",
 	"cmake",
@@ -69,9 +69,9 @@ for _, server in pairs(servers) do
 
 	server = vim.split(server, "@", {})[1]
 
-	if server == "sumneko_lua" then
-		local sumneko_opts = require("faith.lsp.settings.sumneko_lua")
-		opts = vim.tbl_deep_extend("force", sumneko_opts, opts)
+	if server == "lua_ls" then
+		local lua_opts = require("faith.lsp.settings.lua_ls")
+		opts = vim.tbl_deep_extend("force", lua_opts, opts)
 		local status_ok, neodev = pcall(require, "neodev")
 		if not status_ok then
 			return
@@ -100,7 +100,7 @@ for _, server in pairs(servers) do
 				--	 -- settings = opts.settings,
 			},
 		})
-		lspconfig.sumneko_lua.setup(opts)
+		lspconfig.lua_ls.setup(opts)
 		goto continue
 	end
 

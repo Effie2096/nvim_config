@@ -25,6 +25,11 @@ return {
 				semicolon = "Disable", -- "All", "SameLine", "Disable"
 				setType = true,
 			},
+			completion = {
+				callSnippet = "Replace",
+				keywordSnippet = "Both",
+				workspaceWord = true,
+			},
 			-- Do not send telemetry data containing a randomized but unique identifier
 			telemetry = {
 				enable = false,
