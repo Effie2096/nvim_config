@@ -142,107 +142,107 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		vim.api.nvim_set_hl(
 			0,
 			"CmpItemKindField",
-			{ fg = kindFG, bg = vim.api.nvim_get_hl_by_name("@field", true).foreground }
+			{ fg = kindFG, bg = vim.api.nvim_get_hl(0, { name = "@field" }).foreground }
 		)
 		vim.api.nvim_set_hl(
 			0,
 			"CmpItemKindProperty",
-			{ fg = kindFG, bg = vim.api.nvim_get_hl_by_name("@property", true).foreground }
+			{ fg = kindFG, bg = vim.api.nvim_get_hl(0, { name = "@property" }).foreground }
 		)
 		vim.api.nvim_set_hl(0, "CmpItemKindEvent", { fg = kindFG, bg = colors.yellow })
 		vim.api.nvim_set_hl(
 			0,
 			"CmpItemKindText",
-			{ fg = kindFG, bg = vim.api.nvim_get_hl_by_name("@string", true).foreground }
+			{ fg = kindFG, bg = vim.api.nvim_get_hl(0, { name = "@string" }).foreground }
 		)
 		vim.api.nvim_set_hl(
 			0,
 			"CmpItemKindEnum",
-			{ fg = kindFG, bg = vim.api.nvim_get_hl_by_name("@constant", true).foreground }
+			{ fg = kindFG, bg = vim.api.nvim_get_hl(0, { name = "@constant" }).foreground }
 		)
 		vim.api.nvim_set_hl(
 			0,
 			"CmpItemKindKeyword",
-			{ fg = kindFG, bg = vim.api.nvim_get_hl_by_name("@keyword", true).foreground }
+			{ fg = kindFG, bg = vim.api.nvim_get_hl(0, { name = "@keyword" }).foreground }
 		)
 		vim.api.nvim_set_hl(
 			0,
 			"CmpItemKindConstant",
-			{ fg = kindFG, bg = vim.api.nvim_get_hl_by_name("@constant", true).foreground }
+			{ fg = kindFG, bg = vim.api.nvim_get_hl(0, { name = "@constant" }).foreground }
 		)
 		vim.api.nvim_set_hl(
 			0,
 			"CmpItemKindConstructor",
-			{ fg = kindFG, bg = vim.api.nvim_get_hl_by_name("@function", true).foreground }
+			{ fg = kindFG, bg = vim.api.nvim_get_hl(0, { name = "@function" }).foreground }
 		)
 		vim.api.nvim_set_hl(
 			0,
 			"CmpItemKindReference",
-			{ fg = kindFG, bg = vim.api.nvim_get_hl_by_name("@function", true).foreground }
+			{ fg = kindFG, bg = vim.api.nvim_get_hl(0, { name = "@function" }).foreground }
 		)
 		vim.api.nvim_set_hl(
 			0,
 			"CmpItemKindFunction",
-			{ fg = kindFG, bg = vim.api.nvim_get_hl_by_name("@function", true).foreground }
+			{ fg = kindFG, bg = vim.api.nvim_get_hl(0, { name = "@function" }).foreground }
 		)
 		vim.api.nvim_set_hl(
 			0,
 			"CmpItemKindStruct",
-			{ fg = kindFG, bg = vim.api.nvim_get_hl_by_name("@structure", true).foreground }
+			{ fg = kindFG, bg = vim.api.nvim_get_hl(0, { name = "@structure" }).foreground }
 		)
 		vim.api.nvim_set_hl(
 			0,
 			"CmpItemKindClass",
-			{ fg = kindFG, bg = vim.api.nvim_get_hl_by_name("@storageclass", true).foreground }
+			{ fg = kindFG, bg = vim.api.nvim_get_hl(0, { name = "@storageclass" }).foreground }
 		)
 		vim.api.nvim_set_hl(
 			0,
 			"CmpItemKindModule",
-			{ fg = kindFG, bg = vim.api.nvim_get_hl_by_name("@storageclass", true).foreground }
+			{ fg = kindFG, bg = vim.api.nvim_get_hl(0, { name = "@storageclass" }).foreground }
 		)
 		vim.api.nvim_set_hl(
 			0,
 			"CmpItemKindOperator",
-			{ fg = kindFG, bg = vim.api.nvim_get_hl_by_name("@operator", true).foreground }
+			{ fg = kindFG, bg = vim.api.nvim_get_hl(0, { name = "@operator" }).foreground }
 		)
 		vim.api.nvim_set_hl(
 			0,
 			"CmpItemKindVariable",
-			{ fg = kindFG, bg = vim.api.nvim_get_hl_by_name("@variable", true).foreground }
+			{ fg = kindFG, bg = vim.api.nvim_get_hl(0, { name = "@variable" }).foreground }
 		)
 		vim.api.nvim_set_hl(0, "CmpItemKindFile", { fg = kindFG, bg = colors.blue })
 		vim.api.nvim_set_hl(
 			0,
 			"CmpItemKindUnit",
-			{ fg = kindFG, bg = vim.api.nvim_get_hl_by_name("@storageclass", true).foreground }
+			{ fg = kindFG, bg = vim.api.nvim_get_hl(0, { name = "@storageclass" }).foreground }
 		)
 		vim.api.nvim_set_hl(0, "CmpItemKindSnippet", { fg = kindFG, bg = colors.mauve })
 		vim.api.nvim_set_hl(0, "CmpItemKindFolder", { fg = kindFG, bg = colors.yellow })
 		vim.api.nvim_set_hl(
 			0,
 			"CmpItemKindMethod",
-			{ fg = kindFG, bg = vim.api.nvim_get_hl_by_name("@function", true).foreground }
+			{ fg = kindFG, bg = vim.api.nvim_get_hl(0, { name = "@function" }).foreground }
 		)
 		vim.api.nvim_set_hl(
 			0,
 			"CmpItemKindValue",
-			{ fg = kindFG, bg = vim.api.nvim_get_hl_by_name("@constant", true).foreground }
+			{ fg = kindFG, bg = vim.api.nvim_get_hl(0, { name = "@constant" }).foreground }
 		)
 		vim.api.nvim_set_hl(
 			0,
 			"CmpItemKindEnumMember",
-			{ fg = kindFG, bg = vim.api.nvim_get_hl_by_name("@constant", true).foreground }
+			{ fg = kindFG, bg = vim.api.nvim_get_hl(0, { name = "@constant" }).foreground }
 		)
 		vim.api.nvim_set_hl(
 			0,
 			"CmpItemKindInterface",
-			{ fg = kindFG, bg = vim.api.nvim_get_hl_by_name("@storageclass", true).foreground }
+			{ fg = kindFG, bg = vim.api.nvim_get_hl(0, { name = "@storageclass" }).foreground }
 		)
 		vim.api.nvim_set_hl(0, "CmpItemKindColor", { fg = kindFG, bg = colors.sky })
 		vim.api.nvim_set_hl(
 			0,
 			"CmpItemKindTypeParameter",
-			{ fg = kindFG, bg = vim.api.nvim_get_hl_by_name("@operator", true).foreground }
+			{ fg = kindFG, bg = vim.api.nvim_get_hl(0, { name = "@operator" }).foreground }
 		)
 
 		local telescope_normal = colors.surface0

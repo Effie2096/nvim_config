@@ -25,7 +25,7 @@ local float_config = {
 	end,
 	-- width = 40,
 	--[[ width = function()
-				local vim_width = vim.api.nvim_get_option("columns")
+				local vim_width = vim.api.nvim_get_option_value("columns", { scope = "global" })
 				return vim_width / 2 < 61 and vim_width / 2 or 100
 	end, ]]
 }
@@ -55,7 +55,7 @@ M.setup = function()
 		virtual_text = false, --[[ {
 	source = false,
 	format = function(diagnostic)
-		if vim.api.nvim_buf_get_option(0, "filetype") == "rust" then
+		if vim.api.nvim_get_option_value("filetype", { scope = "local" }) == "rust" then
 			diagnostic.message = string.gsub(diagnostic.message, "`#%[.*%(.*%)%]` on by default", "", 1)
 			diagnostic.message = string.gsub(diagnostic.message, "for further information visit.*", "", 1)
 		end
@@ -462,7 +462,12 @@ local function create_refactor_keymaps(bufnr)
 	-- filetypes currently supported by refactor plugin
 	local refactor_filetypes = { "typescript", "javascript", "lua", "c", "cpp", "go", "py", "java", "php", "rb" }
 	-- check the filetype of the buffer is supported by plugin
-	if vim.tbl_contains(refactor_filetypes, vim.api.nvim_buf_get_option(bufnr, "filetype")) then
+	if
+		vim.tbl_contains(
+			refactor_filetypes,
+			vim.api.nvim_get_option_value("filetype", { scope = "local", buf = bufnr })
+		)
+	then
 		-- don't need to check if filetype is in client.config.filetypes
 		-- because this is being called from on_attach which already
 		-- is only called if a ls can attach to buffer.

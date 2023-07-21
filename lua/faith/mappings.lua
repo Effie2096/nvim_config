@@ -14,7 +14,7 @@ local opts = { noremap = true, silent = true }
 nnoremap("<Space>", "", opts)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-vim.api.nvim_exec([[cabbrev h vert h]], false)
+vim.api.nvim_exec2([[cabbrev h vert h]], { output = false })
 
 nnoremap("<C-d>", "<C-d>zz", opts)
 nnoremap("<C-u>", "<C-u>zz", opts)

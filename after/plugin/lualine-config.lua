@@ -215,13 +215,13 @@ local spaces = {
 			space = " "
 		end
 
-		local shiftwidth = vim.api.nvim_buf_get_option(0, "shiftwidth")
+		local shiftwidth = vim.api.nvim_get_option_value("shiftwidth", { scope = "local" })
 
 		if shiftwidth == nil then
 			return ""
 		end
 
-		local indent_type = vim.api.nvim_buf_get_option(0, "expandtab") and "spaces" or "tabs"
+		local indent_type = vim.api.nvim_get_option_value("expandtab", { scope = "local" }) and "spaces" or "tabs"
 
 		return indent_type .. ": " .. shiftwidth .. space
 	end,

@@ -1,5 +1,3 @@
-local icons = require("faith.icons")
-
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 -- vim.opt.completeopt:append "c"
 
@@ -9,9 +7,8 @@ if not status_ok_cmp then
 end
 local dap_ok, _ = pcall(require, "dap")
 local dapui_ok, _ = pcall(require, "dapui")
-local cmp_git_ok, cmp_git = pcall(require, "cmp_git")
-local has_cmpahk, cmk_ahk = pcall(require, "nvim-autohotkey")
-local has_conventionalcommits, conventionalcommits = pcall(require, "conventionalcommits")
+local _, cmp_git = pcall(require, "cmp_git")
+local has_cmpahk, _ = pcall(require, "nvim-autohotkey")
 
 local status_ok_kind, lspkind = pcall(require, "lspkind")
 if not status_ok_kind then
@@ -81,7 +78,8 @@ cmp.setup({
 		["<tab>"] = cmp.config.disable,
 	}),
 	enabled = function()
-		return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt" or require("cmp_dap").is_dap_buffer()
+		return vim.api.nvim_get_option_value("buftype", { scope = "local" }) ~= "prompt"
+			or require("cmp_dap").is_dap_buffer()
 	end,
 	snippet = {
 		expand = function(args)
