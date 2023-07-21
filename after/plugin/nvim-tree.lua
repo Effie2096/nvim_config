@@ -10,7 +10,11 @@ local nnoremap = fk.nnoremap
 local desc = fk.desc
 
 local opts = { noremap = true, silent = true }
-nnoremap("<leader>ef", "<cmd>NvimTreeToggle<CR>", desc(opts, "[e]dit [f]iles: toggle file tree viewer."))
+nnoremap(
+	"<leader>ef",
+	"<cmd>lua require('nvim-tree.api').tree.toggle({find_file=true})<cr>",
+	desc(opts, "[e]dit [f]iles: toggle file tree viewer.")
+)
 
 -- disable netrw at the very start of your init.lua (strongly advised)
 vim.g.loaded_netrw = 1
@@ -83,7 +87,7 @@ nvim_tree.setup({
 		root_folder_label = false,
 	},
 	view = {
-		width = 30,
+		width = 40,
 	},
 	filters = {
 		custom = { "^.git$" },
@@ -104,6 +108,11 @@ nvim_tree.setup({
 			warning = icons.diagnostic.warn,
 			error = icons.diagnostic.error,
 		},
+	},
+	modified = {
+		enable = true,
+		show_on_dirs = true,
+		show_on_open_dirs = false,
 	},
 })
 

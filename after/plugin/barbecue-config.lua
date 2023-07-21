@@ -9,7 +9,7 @@ barbecue.setup({
 	theme = "catppuccin", -- catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
 	attach_navic = false, -- prevent barbecue from automatically attaching nvim-navic
 	create_autocmd = false,
-	show_dirname = false,
+	show_dirname = true,
 	show_modified = true,
 	-- context_follow_icon_color = true,
 	symbols = {
@@ -22,7 +22,7 @@ barbecue.setup({
 			{ icons.separators.rounded.right, "CatAccentInverse" },
 			{ string.format("%s", vim.api.nvim_win_get_number(winnr)), "CatAccent" },
 			{ icons.separators.rounded.left, "CatAccentInverse" },
-			{ " " },
+			{ " ", "Normal" },
 		}
 	end,
 	custom_section = function(bufnr, _)

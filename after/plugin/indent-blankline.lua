@@ -15,9 +15,9 @@ indent_blankline.setup({
 	--[[ char_list = {"│"},
 	context_char_list = {"┃"}, ]]
 	show_first_indent_level = true,
-	show_trailing_blankline = true,
+	show_trailing_blankline = false,
 	use_treesitter = true,
-	show_current_context = false,
+	show_current_context = true,
 	show_current_context_start = false,
 
 	buftype_exclude = { "terminal", "nofile", "startify", "help", "plugins", "NvimTree" },

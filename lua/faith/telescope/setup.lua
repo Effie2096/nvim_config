@@ -5,11 +5,11 @@ end
 
 telescope.setup({
 	defaults = {
-		mappings = {
+		--[[ mappings = {
 			i = {
 				["<M-p>"] = require("telescope.actions.layout").toggle_preview,
 			},
-		},
+		}, ]]
 	},
 	extensions = {
 		fzf = {

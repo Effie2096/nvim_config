@@ -29,7 +29,7 @@ inlayhints.setup({
 		-- padding from the left if max_len_align is true
 		max_len_align_padding = 1,
 		-- highlight group
-		highlight = "Conceal",
+		-- highlight = "Conceal",
 		priority = 0,
 	},
 	enabled_at_startup = true,

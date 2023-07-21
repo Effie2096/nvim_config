@@ -13,8 +13,8 @@ vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
 
 vim.opt.foldopen:remove("hor") -- don't open folds when moving on the line
--- vim.opt.foldcolumn = '1'
-vim.opt.fillchars:append({ foldopen = icons.ui.ArrowFillOpen, foldsep = " ", foldclose = icons.ui.ArrowFillClosed })
+vim.opt.foldcolumn = "1"
+vim.opt.fillchars:append({ foldopen = icons.ui.ArrowOpen, foldsep = " ", foldclose = icons.ui.ArrowClosed })
 vim.opt.foldnestmax = 1
 vim.opt.foldenable = true
 
