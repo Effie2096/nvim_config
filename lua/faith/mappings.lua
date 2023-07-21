@@ -38,6 +38,11 @@ nnoremap("[q", "<cmd>cprevious<CR>zz", opts)
 nnoremap("[Q", "<cmd>cfirst<CR>zz", opts)
 nnoremap("]Q", "<cmd>clast<CR>zz", opts)
 
+nnoremap("]l", "<cmd>lnext<CR>zz", opts)
+nnoremap("[l", "<cmd>lprevious<CR>zz", opts)
+nnoremap("[L", "<cmd>lfirst<CR>zz", opts)
+nnoremap("]L", "<cmd>llast<CR>zz", opts)
+
 -- keep cursor in same place when combining lines
 nnoremap("J", "mzJ`z", opts)
 
@@ -72,11 +77,6 @@ xnoremap("@", function()
 end, { expr = true })
 
 nnoremap("<C-w>q", "<cmd>close<CR>", opts)
--- Use alt + hjkl to resize windows
-nnoremap("<M-h>", "<cmd>vertical resize -2<CR>", opts)
-nnoremap("<M-j>", "<cmd>resize -2<CR>", opts)
-nnoremap("<M-k>", "<cmd>resize +2<CR>", opts)
-nnoremap("<M-l>", "<cmd>vertical resize +2<CR>", opts)
 
 -- index windows and add mappings for jumping directly to them
 local function winNumberKeys(index)
