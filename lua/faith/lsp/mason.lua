@@ -80,36 +80,10 @@ for _, server in pairs(servers) do
 	if server == "lua_ls" then
 		local lua_opts = require("faith.lsp.settings.lua_ls")
 		opts = vim.tbl_deep_extend("force", lua_opts, opts)
-		local status_ok, neodev = pcall(require, "neodev")
-		if not status_ok then
-			return
+		local has_neodev, neodev = pcall(require, "neodev")
+		if has_neodev then
+			neodev.setup()
 		end
-		neodev.setup({
-			-- add any options here, or leave empty to use the default settings
-			-- lspconfig = opts,
-			lspconfig = {
-				on_attach = opts.on_attach,
-				capabilities = opts.capabilities,
-				setting = {
-					Lua = {
-						runtime = {
-							hint = {
-								enable = true,
-								arrayIndex = "Enable", -- "Enable", "Auto", "Disable"
-								await = true,
-								paramName = "All", -- "All", "Literal", "Disable"
-								paramType = true,
-								semicolon = "Disable", -- "All", "SameLine", "Disable"
-								setType = true,
-							},
-						},
-					},
-				},
-				--	 -- settings = opts.settings,
-			},
-		})
-		lspconfig.lua_ls.setup(opts)
-		goto continue
 	end
 
 	if server == "tsserver" then
