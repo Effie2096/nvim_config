@@ -95,6 +95,7 @@ Plug("szw/vim-maximizer")
 --[[ Git ]]
 Plug("tpope/vim-fugitive")
 Plug("lewis6991/gitsigns.nvim")
+Plug("ThePrimeagen/git-worktree.nvim")
 --[[]]
 
 --[[ Telescope ]]

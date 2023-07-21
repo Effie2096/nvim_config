@@ -152,6 +152,10 @@ function M.git_worktrees()
 	require("telescope").extensions.git_worktree.git_worktrees()
 end
 
+function M.create_git_worktree()
+	require("telescope").extensions.git_worktree.create_git_worktree()
+end
+
 return setmetatable({}, {
 	__index = function(_, k)
 		reloader()
