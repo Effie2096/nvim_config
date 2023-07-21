@@ -58,23 +58,23 @@ local function split_preview(direction)
 end
 
 local function tree_on_attach(bufnr)
-	local function opts(desc)
-		return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+	local function tree_options(description)
+		return { desc = "nvim-tree: " .. description, buffer = bufnr, noremap = true, silent = true, nowait = true }
 	end
 
 	api.config.mappings.default_on_attach(bufnr)
 
-	vim.keymap.set("n", "<CR>", api.node.open.tab_drop, opts("Tab drop"))
+	vim.keymap.set("n", "<CR>", api.node.open.tab_drop, tree_options("Tab drop"))
 
-	vim.keymap.set("n", "l", edit_or_open, opts("Edit Or Open"))
+	vim.keymap.set("n", "l", edit_or_open, tree_options("Edit Or Open"))
 	vim.keymap.set("n", "J", function()
 		split_preview("h")
-	end, opts("Split Preview"))
+	end, tree_options("Split Preview"))
 	vim.keymap.set("n", "L", function()
 		split_preview("v")
-	end, opts("Vsplit Preview"))
-	vim.keymap.set("n", "h", api.node.navigate.parent_close, opts("Close"))
-	vim.keymap.set("n", "H", api.tree.collapse_all, opts("Collapse All"))
+	end, tree_options("Vsplit Preview"))
+	vim.keymap.set("n", "h", api.node.navigate.parent_close, tree_options("Close"))
+	vim.keymap.set("n", "H", api.tree.collapse_all, tree_options("Collapse All"))
 end
 
 nvim_tree.setup({
