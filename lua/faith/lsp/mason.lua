@@ -12,6 +12,7 @@ local servers = {
 	"jsonls",
 	"rust_analyzer",
 	"taplo",
+	"yamlls",
 	"bashls",
 }
 
