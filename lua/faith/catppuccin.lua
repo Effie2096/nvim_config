@@ -72,6 +72,7 @@ catppuccin.setup({
 			alt_background = false,
 		},
 		lsp_saga = true,
+		mason = true,
 	},
 })
 
@@ -100,7 +101,14 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 
 		local accent = colors.pink
 		local base = vim.g.transparent_enabled and "none" or colors.base
-		vim.api.nvim_set_hl(0, "CatAccentInverse", { fg = accent, bg = colors.base, bold = true })
+		vim.api.nvim_set_hl(0, "CatAccent", { fg = base, bg = accent, bold = true })
+		vim.api.nvim_set_hl(0, "CatAccentInverse", { fg = accent, bg = base, bold = true })
+
+		vim.api.nvim_exec2("highlight FoldColumn guifg=" .. accent, { output = false })
+
+		local signHl = vim.api.nvim_get_hl(0, { name = "SignColumn" })
+
+		vim.api.nvim_set_hl(0, "CursorLineNr", { fg = accent, bg = signHl.background })
 
 		local changeColor = colors.blue
 		vim.api.nvim_set_hl(0, "GitSignsAdd", { fg = colors.green, bg = signHl.background })
@@ -117,7 +125,6 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		vim.api.nvim_set_hl(0, "DiffChange", { bg = "#3d4261" })
 		vim.api.nvim_set_hl(0, "DiffText", { bg = "#3d5a8a", special = "#3d5a8a", underline = true })
 
-		vim.api.nvim_set_hl(0, "LspInlayHint", { fg = "#d8d8d8", bg = "#3a3a3a" })
 		vim.api.nvim_set_hl(0, "ZenBg", { link = "@none" })
 		-- vim.api.nvim_set_hl(0, "MatchParen", { special = colors.peach, underline = true, bold = true })
 		vim.api.nvim_exec2(
