@@ -12,6 +12,7 @@ local servers = {
 	"jsonls",
 	"rust_analyzer",
 	"taplo",
+	"bashls",
 }
 
 local icons = require("faith.icons")
@@ -57,6 +58,13 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
 			end
 		end
 	end,
+})
+
+-- treat zsh as bash so tools work with it
+vim.api.nvim_create_autocmd("BufWinEnter", {
+	group = vim.api.nvim_create_augroup("zshAsBash", {}),
+	pattern = { "*.sh", "*.zsh" },
+	command = "silent! set filetype=sh",
 })
 
 local opts = {}
@@ -127,6 +135,12 @@ for _, server in pairs(servers) do
 		local lemminx_opts = require("faith.lsp.settings.lemminx")
 		opts = vim.tbl_deep_extend("force", lemminx_opts, opts)
 	end
+
+	if server == "bashls" then
+		local bash_opts = require("faith.lsp.settings.bashls")
+		opts = vim.tbl_deep_extend("force", bash_opts, opts)
+	end
+
 	-- special case: configured in ftplugin/java.lua
 	if server == "jdtls" then
 		goto continue

@@ -20,6 +20,7 @@ null_ls.setup({
 		}, ]]
 		diagnostics.commitlint,
 		formatting.beautysh,
+		actions.shellcheck,
 		formatting.prettierd.with({
 			-- extra_filetypes = { "toml", "solidity" },
 			extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote", "--use-tabs" },
