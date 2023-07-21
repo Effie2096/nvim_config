@@ -71,7 +71,7 @@ catppuccin.setup({
 			dim_context = false,
 			alt_background = false,
 		},
-		-- mason = true
+		lsp_saga = true,
 	},
 })
 
