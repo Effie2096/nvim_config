@@ -8,8 +8,7 @@ end
 local colors = require("catppuccin.palettes").get_palette()
 local catppuccin_status_ok, custom_catppuccin_theme = pcall(require, "lualine.themes.catppuccin")
 if catppuccin_status_ok then
-	custom_catppuccin_theme.normal.c.bg = package.loaded.transparent ~= nil and "none"
-		or custom_catppuccin_theme.normal.c.bg
+	custom_catppuccin_theme.normal.c.bg = vim.g.transparent_enabled and "none" or custom_catppuccin_theme.normal.c.bg
 end
 
 local icons = require("faith.icons")

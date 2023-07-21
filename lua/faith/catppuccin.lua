@@ -6,7 +6,7 @@ end
 -- configure it
 catppuccin.setup({
 	compile_path = vim.fn.glob(vim.fn.stdpath("cache") .. "/catppuccin"),
-	transparent_background = package.loaded.transparent ~= nil and true or false,
+	transparent_background = vim.g.trasparent_enabled,
 	term_colors = false,
 	dim_inactive = {
 		enable = false,
@@ -99,7 +99,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		local colors = require("catppuccin.palettes").get_palette()
 
 		local accent = colors.pink
-		vim.api.nvim_set_hl(0, "CatAccent", { fg = colors.base, bg = accent, bold = true })
+		local base = vim.g.transparent_enabled and "none" or colors.base
 		vim.api.nvim_set_hl(0, "CatAccentInverse", { fg = accent, bg = colors.base, bold = true })
 
 		local changeColor = colors.blue
