@@ -114,7 +114,15 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 
 		vim.api.nvim_set_hl(0, "LspInlayHint", { fg = "#d8d8d8", bg = "#3a3a3a" })
 		vim.api.nvim_set_hl(0, "ZenBg", { link = "@none" })
-		vim.api.nvim_set_hl(0, "MatchParen", { special = colors.peach, underline = true, bold = true })
+		-- vim.api.nvim_set_hl(0, "MatchParen", { special = colors.peach, underline = true, bold = true })
+		vim.api.nvim_exec2(
+			"highlight MatchParen guifg="
+				.. colors.base
+				.. " guibg="
+				.. colors.lavender
+				.. " cterm=bold,underline gui=bold,underline",
+			{ output = false }
+		)
 		-- vim.api.nvim_set_hl(0, "NormalFloat", { bg = colors.surface0 })
 
 		local navicHLGroups = {
@@ -329,6 +337,16 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 			vim.api.nvim_set_hl(0, "HarpoonActive", { link = "TablineSel" })
 			vim.api.nvim_set_hl(0, "HarpoonNumberActive", { link = "TablineSel" })
 			vim.api.nvim_set_hl(0, "HarpoonNumberInactive", { link = "Tabline" })
+		end
+
+		if package.loaded["rainbow_delimiters"] ~= nil then
+			vim.api.nvim_set_hl(0, "RainbowDelimiterRed", { fg = colors.red })
+			vim.api.nvim_set_hl(0, "RainbowDelimiterYellow", { fg = colors.yellow })
+			vim.api.nvim_set_hl(0, "RainbowDelimiterBlue", { fg = colors.teal })
+			vim.api.nvim_set_hl(0, "RainbowDelimiterOrange", { fg = colors.peach })
+			vim.api.nvim_set_hl(0, "RainbowDelimiterGreen", { fg = colors.green })
+			vim.api.nvim_set_hl(0, "RainbowDelimiterViolet", { fg = colors.mauve })
+			vim.api.nvim_set_hl(0, "RainbowDelimiterCyan", { fg = colors.sky })
 		end
 	end,
 })

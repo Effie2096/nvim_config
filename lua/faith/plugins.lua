@@ -114,6 +114,7 @@ Plug("tpope/vim-obsession")
 --[[ Visual/UI ]]
 Plug("lukas-reineke/indent-blankline.nvim")
 Plug("norcalli/nvim-colorizer.lua")
+Plug("HiPhish/rainbow-delimiters.nvim")
 Plug("ziontee113/color-picker.nvim")
 Plug("folke/zen-mode.nvim")
 Plug("xiyaowong/nvim-transparent")
