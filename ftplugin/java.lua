@@ -45,14 +45,7 @@ if vim.fn.exists("*VimuxRunCommand") ~= 0 then
 	end
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-
-local status_cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-if not status_cmp_ok then
-	return
-end
-capabilities.textDocument.completion.completionItem.snippetSupport = false
-capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
+local capabilities = require("faith.lsp.handlers").capabilities
 
 local status, jdtls = pcall(require, "jdtls")
 if not status then
