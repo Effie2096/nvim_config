@@ -3,8 +3,6 @@ if not has_harpoon then
 	return
 end
 
-local icons = require("faith.icons")
-
 local fk = require("faith.keymap")
 local nnoremap = fk.nnoremap
 

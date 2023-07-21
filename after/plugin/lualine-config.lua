@@ -252,6 +252,7 @@ local location = {
 	"%11(%l/%L:%c%) ", --'%l/%L:%c'
 }
 
+---@diagnostic disable-next-line: unused-local
 local filetype = {
 	"filetype",
 	colored = true,
@@ -290,7 +291,7 @@ local root = {
 local tabs = {
 	"tabs",
 	mode = 2,
-	fmt = function(name, context)
+	fmt = function(_, context)
 		return string.format("%s", vim.fn.fnamemodify(vim.fn.getcwd(-1, context.tabnr), ":t"))
 	end,
 	cond = function()
