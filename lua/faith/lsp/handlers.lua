@@ -53,15 +53,15 @@ M.setup = function()
 
 	local config = {
 		virtual_text = false, --[[ {
-			source = false,
-			format = function(diagnostic)
-				if vim.api.nvim_buf_get_option(0, "filetype") == "rust" then
-					diagnostic.message = string.gsub(diagnostic.message, "`#%[.*%(.*%)%]` on by default", "", 1)
-					diagnostic.message = string.gsub(diagnostic.message, "for further information visit.*", "", 1)
-				end
-				return diagnostic.message
-			end,
-		},]]
+	source = false,
+	format = function(diagnostic)
+		if vim.api.nvim_buf_get_option(0, "filetype") == "rust" then
+			diagnostic.message = string.gsub(diagnostic.message, "`#%[.*%(.*%)%]` on by default", "", 1)
+			diagnostic.message = string.gsub(diagnostic.message, "for further information visit.*", "", 1)
+		end
+		return diagnostic.message
+	end,
+},]]
 		-- show signs
 		signs = {
 			active = signs,
