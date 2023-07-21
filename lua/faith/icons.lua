@@ -149,6 +149,14 @@ local icons = {
 		Remove = "-",
 		Octoface = " ",
 		Branch = "",
+		signs = {
+			add = "▎",
+			mod = "▎",
+			delete = "▁",
+			top_delete = "▔",
+			change_delete = "~",
+			untracked = "┊",
+		},
 	},
 }
 

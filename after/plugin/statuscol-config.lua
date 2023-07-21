@@ -35,6 +35,11 @@ statuscol.setup({
 			click = "v:lua.ScSa",
 		},
 		{
+			text = { builtin.lnumfunc, " " },
+			condition = { true, builtin.not_empty },
+			click = "v:lua.ScLa",
+		},
+		{
 			sign = {
 				name = { "GitSign" },
 				maxwidth = 1,
@@ -42,11 +47,6 @@ statuscol.setup({
 				auto = true,
 				fillchar = icons.git.signs.add,
 			},
-		},
-		{
-			text = { builtin.lnumfunc, " " },
-			condition = { true, builtin.not_empty },
-			click = "v:lua.ScLa",
 		},
 		{
 			sign = { name = { "Dap" }, maxwidth = 1, colwidth = 1, auto = true },

@@ -3,14 +3,41 @@ if not status_ok then
 	return
 end
 
+local icons = require("faith.icons")
+
 gitsign.setup({
 	signs = {
-		add = { hl = "GitSignsAdd", text = "┃", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
-		change = { hl = "GitSignsChange", text = "┃", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
-		delete = { hl = "GitSignsDelete", text = "_", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
-		topdelete = { hl = "GitSignsDelete", text = "‾", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
-		changedelete = { hl = "GitSignsChange", text = "~", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
-		untracked = { hl = "GitSignsAdd", text = "┆", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
+		add = { hl = "GitSignsAdd", text = icons.git.signs.add, numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
+		change = {
+			hl = "GitSignsChange",
+			text = icons.git.signs.mod,
+			numhl = "GitSignsChangeNr",
+			linehl = "GitSignsChangeLn",
+		},
+		delete = {
+			hl = "GitSignsDelete",
+			text = icons.git.signs.delete,
+			numhl = "GitSignsDeleteNr",
+			linehl = "GitSignsDeleteLn",
+		},
+		topdelete = {
+			hl = "GitSignsDelete",
+			text = icons.git.signs.top_delete,
+			numhl = "GitSignsDeleteNr",
+			linehl = "GitSignsDeleteLn",
+		},
+		changedelete = {
+			hl = "GitSignsChange",
+			text = icons.git.signs.change_delete,
+			numhl = "GitSignsChangeNr",
+			linehl = "GitSignsChangeLn",
+		},
+		untracked = {
+			hl = "GitSignsAdd",
+			text = icons.git.signs.untracked,
+			numhl = "GitSignsAddNr",
+			linehl = "GitSignsAddLn",
+		},
 	},
 	signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
 	numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
@@ -21,7 +48,7 @@ gitsign.setup({
 		follow_files = true,
 	},
 	attach_to_untracked = true,
-	current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
+	current_line_blame = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
 	current_line_blame_opts = {
 		virt_text = true,
 		virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
@@ -96,11 +123,9 @@ vim.api.nvim_create_user_command("GitSignsToggleAll", function()
 	-- gitsign.toggle_linehl()
 	gitsign.toggle_deleted()
 	-- vim.wait(200, function () end)
-	---@diagnostic disable-next-line: param-type-mismatch
 	vim.defer_fn(function()
 		-- gitsign.toggle_numhl()
 		gitsign.toggle_word_diff()
-		gitsign.toggle_current_line_blame()
-		---@diagnostic disable-next-line: param-type-mismatch
+		-- gitsign.toggle_current_line_blame()
 	end, 100)
 end, {})

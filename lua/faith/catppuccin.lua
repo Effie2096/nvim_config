@@ -103,9 +103,14 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		vim.api.nvim_set_hl(0, "CatAccentInverse", { fg = accent, bg = colors.base, bold = true })
 
 		local changeColor = colors.blue
-		vim.api.nvim_exec("highlight GitSignsChange guifg=" .. changeColor, false)
-		vim.api.nvim_exec("highlight GitSignsChangeNr guifg=" .. changeColor, false)
-		vim.api.nvim_exec("highlight GitSignsChangeLn guifg=" .. colors.yellow .. " guibg=" .. colors.base, false)
+		vim.api.nvim_set_hl(0, "GitSignsAdd", { fg = colors.green, bg = signHl.background })
+		vim.api.nvim_set_hl(0, "GitSignsChange", { fg = changeColor, bg = signHl.background })
+		vim.api.nvim_set_hl(0, "GitSignsDelete", { fg = colors.red, bg = signHl.background })
+		vim.api.nvim_exec2("highlight GitSignsChangeNr guifg=" .. changeColor, { output = false })
+		vim.api.nvim_exec2(
+			"highlight GitSignsChangeLn guifg=" .. colors.yellow .. " guibg=" .. colors.base,
+			{ output = false }
+		)
 		vim.api.nvim_set_hl(0, "GitSignsAddInline", { fg = colors.base, bg = colors.green })
 		vim.api.nvim_set_hl(0, "GitSignsDeleteInline", { fg = colors.base, bg = colors.red })
 		vim.api.nvim_set_hl(0, "GitSignsChangeInline", { fg = colors.base, bg = changeColor })
