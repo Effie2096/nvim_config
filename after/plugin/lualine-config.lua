@@ -282,6 +282,23 @@ local obsession = {
 	end,
 }
 
+local root = {
+	function()
+		return string.format("%s %s", icons.ui.Project, vim.fn.fnamemodify(vim.fn.getcwd(-1, -1), ":t"))
+	end,
+}
+
+local tabs = {
+	"tabs",
+	mode = 2,
+	fmt = function(name, context)
+		return string.format("%s", vim.fn.fnamemodify(vim.fn.getcwd(-1, context.tabnr), ":t"))
+	end,
+	cond = function()
+		return vim.fn.tabpagenr("$") > 1
+	end,
+}
+
 local harpoon = {
 	function()
 		local marks = require("harpoon").get_mark_config().marks or {}
@@ -345,7 +362,7 @@ lualine.setup({
 		lualine_a = { git },
 		lualine_b = { obsession, workspace_diagnostics },
 		lualine_c = { language_server, asyncrun_status },
-		lualine_x = { location, spaces, filetype, fileformat, encoding },
+		lualine_x = { location, spaces, fileformat, encoding },
 		lualine_y = { format_on_save },
 		lualine_z = trans_flag,
 	},
@@ -360,6 +377,8 @@ lualine.setup({
 	winbar = {},
 	-- inactive_winbar = winbar,
 	tabline = {
+		lualine_a = { root },
+		lualine_b = { tabs },
 		lualine_z = { harpoon },
 	},
 	extensions = {
