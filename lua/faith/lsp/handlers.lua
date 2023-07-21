@@ -505,6 +505,7 @@ M.on_attach = function(client, bufnr)
 
 	if client.name == "rust_analyzer" or client.name == "rust_analyzer-standalone" then
 		rust_keymaps(bufnr)
+		attach_inlay(client, bufnr)
 	end
 
 	if FORMAT_ON_SAVE then
