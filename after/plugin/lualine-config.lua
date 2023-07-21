@@ -282,6 +282,49 @@ local obsession = {
 	end,
 }
 
+local harpoon = {
+	function()
+		local marks = require("harpoon").get_mark_config().marks or {}
+		local index = require("harpoon.mark").get_index_of(vim.fn.bufname())
+
+		local prefix = " " .. require("faith.icons").ui.BookMark
+		local suffix = " "
+
+		local tabline = ""
+
+		local next = next
+		if next(marks) ~= nil then
+			for i, mark in ipairs(marks) do
+				local is_current = i == index
+
+				local label
+				if mark.filename == "" or mark.filename == "(empty)" then
+					label = "(empty)"
+					is_current = false
+				else
+					label = string.format("%s", vim.fn.fnamemodify(mark.filename, ":t"))
+				end
+
+				if is_current then
+					tabline = tabline .. "%#HarpoonNumberActive#" .. prefix .. i .. " %*" .. "%#HarpoonActive#"
+				else
+					tabline = tabline .. "%#HarpoonNumberInactive#" .. prefix .. i .. " %*" .. "%#HarpoonInactive#"
+				end
+
+				tabline = tabline .. label .. suffix .. "%*"
+				if i < #marks then
+					tabline = tabline .. "%T"
+				end
+			end
+		end
+
+		return tabline
+	end,
+	cond = function()
+		return package.loaded.harpoon ~= nil and next(require("harpoon").get_mark_config().marks) ~= nil
+	end,
+}
+
 lualine.setup({
 	options = {
 		icons_enabled = true,
@@ -316,7 +359,9 @@ lualine.setup({
 	},
 	winbar = {},
 	-- inactive_winbar = winbar,
-	tabline = {},
+	tabline = {
+		lualine_z = { harpoon },
+	},
 	extensions = {
 		"fugitive",
 		"nvim-dap-ui",

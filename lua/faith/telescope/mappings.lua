@@ -38,6 +38,7 @@ map_tele("<leader>fgc", "git_commits")
 map_tele("<leader>fgs", "git_status")
 map_tele("<leader>fi", "spell_suggest")
 map_tele("<leader>fd", "diagnostics")
+map_tele("<leader>fm", "harpoon")
 
 -- extensions
 map_tele("<leader>fe", "file_browser")

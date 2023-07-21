@@ -135,6 +135,23 @@ function M.diagnostics()
 	require("telescope.builtin").diagnostics(opts)
 end
 
+function M.harpoon()
+	local opts = vim.deepcopy(layouts.centered_compact) or {}
+	opts = vim.tbl_deep_extend("force", opts, {
+		path_display = "tail",
+		layout_config = {
+			horizontal = {
+				height = 0.3,
+			},
+		},
+	})
+	require("telescope._extensions.harpoon").exports.marks(opts)
+end
+
+function M.git_worktrees()
+	require("telescope").extensions.git_worktree.git_worktrees()
+end
+
 return setmetatable({}, {
 	__index = function(_, k)
 		reloader()

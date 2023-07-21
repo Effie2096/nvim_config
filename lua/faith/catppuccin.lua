@@ -323,6 +323,13 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		if package.loaded.fidget ~= nil then
 			vim.api.nvim_set_hl(0, "FidgetTitle", { fg = colors.pink, bold = true })
 		end
+
+		if package.loaded.harpoon ~= nil then
+			vim.api.nvim_set_hl(0, "HarpoonInactive", { link = "Tabline" })
+			vim.api.nvim_set_hl(0, "HarpoonActive", { link = "TablineSel" })
+			vim.api.nvim_set_hl(0, "HarpoonNumberActive", { link = "TablineSel" })
+			vim.api.nvim_set_hl(0, "HarpoonNumberInactive", { link = "Tabline" })
+		end
 	end,
 })
 
