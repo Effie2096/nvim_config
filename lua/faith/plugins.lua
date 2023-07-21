@@ -125,6 +125,9 @@ Plug("kevinhwang91/promise-async")
 Plug("nvim-tree/nvim-tree.lua")
 Plug("antosha417/nvim-lsp-file-operations")
 Plug("mbbill/undotree")
+
+Plug("rcarriga/nvim-notify")
+
 Plug("j-hui/fidget.nvim", { ["tag"] = "legacy" })
 Plug("luukvbaal/statuscol.nvim")
 Plug("ThePrimeagen/harpoon")
