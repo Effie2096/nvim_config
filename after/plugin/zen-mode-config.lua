@@ -30,7 +30,7 @@ zen_mode.setup({
 			font = "+6",
 		},
 	},
-	on_open = function(win)
+	on_open = function(_)
 		vim.cmd("Barbecue hide")
 	end,
 	on_close = function()
