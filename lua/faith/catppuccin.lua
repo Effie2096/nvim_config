@@ -285,9 +285,10 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		end
 
 		if package.loaded.harpoon ~= nil then
+			local active = { fg = colors.base, bg = accent, bold = true }
 			vim.api.nvim_set_hl(0, "HarpoonInactive", { link = "Tabline" })
-			vim.api.nvim_set_hl(0, "HarpoonActive", { link = "TablineSel" })
-			vim.api.nvim_set_hl(0, "HarpoonNumberActive", { link = "TablineSel" })
+			vim.api.nvim_set_hl(0, "HarpoonActive", active)
+			vim.api.nvim_set_hl(0, "HarpoonNumberActive", active)
 			vim.api.nvim_set_hl(0, "HarpoonNumberInactive", { link = "Tabline" })
 		end
 
