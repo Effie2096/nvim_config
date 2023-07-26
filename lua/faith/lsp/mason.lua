@@ -47,6 +47,8 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
 	callback = function(a)
 		local active_clients = vim.lsp.get_clients({ name = "poryscript_pls" })
 		if next(active_clients) == nil then
+			-- only `cmd` is mandatory. lua ls tweakin
+			---@diagnostic disable-next-line: missing-fields
 			local client_id = vim.lsp.start_client({
 				name = "poryscript_pls",
 				cmd = { "poryscript-pls-linux" },
