@@ -532,7 +532,7 @@ function M.enable_format_on_save()
 		pattern = "*",
 		callback = function(data)
 			local next = next
-			if next(vim.lsp.get_active_clients({ bufnr = data.buf })) ~= nil then
+			if next(vim.lsp.get_clients({ bufnr = data.buf })) ~= nil then
 				Formatting(false)
 			end
 		end,

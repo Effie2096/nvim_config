@@ -45,7 +45,7 @@ end
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
 	pattern = { "*.pory" },
 	callback = function(a)
-		local active_clients = vim.lsp.get_active_clients({ name = "poryscript_pls" })
+		local active_clients = vim.lsp.get_clients({ name = "poryscript_pls" })
 		if next(active_clients) == nil then
 			local client_id = vim.lsp.start_client({
 				name = "poryscript_pls",
@@ -54,7 +54,7 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
 				on_attach = require("faith.lsp.handlers").on_attach,
 				capabilities = require("faith.lsp.handlers").capabilities,
 			})
-			if next(vim.lsp.get_active_clients({ id = client_id, bufnr = a.buf })) == nil then
+			if next(vim.lsp.get_clients({ id = client_id, bufnr = a.buf })) == nil then
 				vim.lsp.buf_attach_client(a.buf, client_id)
 			end
 		end
