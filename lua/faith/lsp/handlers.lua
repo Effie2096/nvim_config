@@ -308,8 +308,8 @@ local function lsp_keymaps(bufnr)
 		end, opts)
 		vnoremap("<leader>a", function()
 			require("lspsaga.codeaction"):code_action()
-		end, opts)
-		nnoremap("<leader>rn", "<cmd>Lspsaga rename<cr>", desc(opts, "[r]e[n]ame: Rename symbol under cursor.")) ]]
+		end, opts) ]]
+		nnoremap("<leader>rn", "<cmd>Lspsaga rename<cr>", desc(opts, "[r]e[n]ame: Rename symbol under cursor."))
 	else
 		nnoremap(
 			"<leader>dl",
