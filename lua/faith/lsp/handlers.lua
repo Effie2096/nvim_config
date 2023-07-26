@@ -268,6 +268,16 @@ local function lsp_keymaps(bufnr)
 		vim.diagnostic.setqflist,
 		desc(opts, "[d]iagnostic [q]uickfix: Add workspace diagnostics to quickfix list.")
 	)
+	nnoremap(
+		"<leader>a",
+		vim.lsp.buf.code_action,
+		desc(opts, "code [a]ction: List code actions available at cursor's position.")
+	)
+	vnoremap(
+		"<leader>a",
+		vim.lsp.buf.code_action,
+		desc(opts, "code [a]ction: List code actions available for selection.")
+	)
 
 	if package.loaded.lspsaga ~= nil then
 		nnoremap(
@@ -293,13 +303,13 @@ local function lsp_keymaps(bufnr)
 			desc(opts, "[d]iagnostic [up]: Jump to prev diagnostic in file.")
 		)
 
-		nnoremap("<leader>a", function()
+		--[[ nnoremap("<leader>a", function()
 			require("lspsaga.codeaction"):code_action()
 		end, opts)
 		vnoremap("<leader>a", function()
 			require("lspsaga.codeaction"):code_action()
 		end, opts)
-		nnoremap("<leader>rn", "<cmd>Lspsaga rename<cr>", desc(opts, "[r]e[n]ame: Rename symbol under cursor."))
+		nnoremap("<leader>rn", "<cmd>Lspsaga rename<cr>", desc(opts, "[r]e[n]ame: Rename symbol under cursor.")) ]]
 	else
 		nnoremap(
 			"<leader>dl",
@@ -315,16 +325,6 @@ local function lsp_keymaps(bufnr)
 			"<leader>dk",
 			vim.diagnostic.goto_prev,
 			desc(opts, "[d]iagnostic [up]: Jump to prev diagnostic in file.")
-		)
-		nnoremap(
-			"<leader>a",
-			vim.lsp.buf.code_action,
-			desc(opts, "code [a]ction: List code actions available at cursor's position.")
-		)
-		vnoremap(
-			"<leader>a",
-			vim.lsp.buf.code_action,
-			desc(opts, "code [a]ction: List code actions available for selection.")
 		)
 		nnoremap(
 			"<leader>rn",
