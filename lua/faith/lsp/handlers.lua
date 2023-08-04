@@ -159,13 +159,6 @@ local function attach_navic(client, bufnr)
 	navic.attach(client, bufnr)
 end
 
-local function attach_inlay(client, bufnr)
-	local status_ok, inlayhints = pcall(require, "lsp-inlayhints")
-	if status_ok then
-		inlayhints.on_attach(client, bufnr)
-	end
-end
-
 M.rename = function()
 	---@diagnostic disable-next-line: missing-parameter
 	local position_params = vim.lsp.util.make_position_params()
@@ -494,7 +487,7 @@ M.on_attach = function(client, bufnr)
 	end
 
 	if client.server_capabilities.inlayHintProvider then
-		attach_inlay(client, bufnr)
+		vim.lsp.inlay_hint(bufnr, true)
 	end
 
 	if client.name == "jdtls" then
@@ -505,12 +498,10 @@ M.on_attach = function(client, bufnr)
 		require("jdtls").setup_dap({ hotcodereplace = "auto" })
 		require("jdtls.dap").setup_dap_main_class_configs()
 		-- end
-		attach_inlay(client, bufnr)
 	end
 
 	if client.name == "rust_analyzer" or client.name == "rust_analyzer-standalone" then
 		rust_keymaps(bufnr)
-		attach_inlay(client, bufnr)
 	end
 
 	if FORMAT_ON_SAVE then

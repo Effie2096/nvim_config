@@ -18,14 +18,6 @@ comment.setup({
 	},
 	ignore = "^$",
 	pre_hook = function(ctx)
-		local has_inlayhints, _ = pcall(require, "lsp-inlayhints")
-		if has_inlayhints then
-			-- For inlay hints
-			local line_start = (ctx.srow or ctx.range.srow) - 1
-			local line_end = ctx.erow or ctx.range.erow
-			require("lsp-inlayhints.core").clear(0, line_start, line_end)
-		end
-
 		require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook()
 
 		if vim.bo.filetype == "javascript" or vim.bo.filetype == "typescript" then
