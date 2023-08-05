@@ -291,8 +291,10 @@ local root = {
 local tabs = {
 	"tabs",
 	mode = 2,
-	fmt = function(_, context)
-		return string.format("%s", vim.fn.fnamemodify(vim.fn.getcwd(-1, context.tabnr), ":t"))
+	fmt = function(name, context)
+		local tab_dir = vim.fn.fnamemodify(vim.fn.getcwd(-1, context.tabnr), ":t")
+		local show_dir = not (tab_dir == vim.fn.fnamemodify(vim.fn.getcwd(-1, -1), ":t"))
+		return string.format("%s%s", show_dir and tab_dir .. ": " or "", name)
 	end,
 	cond = function()
 		return vim.fn.tabpagenr("$") > 1
