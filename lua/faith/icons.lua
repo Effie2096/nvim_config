@@ -158,6 +158,12 @@ local icons = {
 			untracked = "┊",
 		},
 	},
+	arrows = {
+		left = " ",
+		down = " ",
+		up = " ",
+		right = " ",
+	},
 }
 
 if vim.g.use_codicons then

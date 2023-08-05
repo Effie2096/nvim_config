@@ -322,10 +322,22 @@ local harpoon = {
 					label = string.format("%s", vim.fn.fnamemodify(mark.filename, ":t"))
 				end
 
+				local keys = {
+					[1] = "h",
+					[2] = "j",
+					[3] = "k",
+					[4] = "l",
+					[5] = icons.arrows.left,
+					[6] = icons.arrows.down,
+					[7] = icons.arrows.up,
+					[8] = icons.arrows.right,
+				}
+				local key = keys[i]
+
 				if is_current then
-					tabline = tabline .. "%#HarpoonNumberActive#" .. prefix .. i .. " %*" .. "%#HarpoonActive#"
+					tabline = tabline .. "%#HarpoonNumberActive#" .. prefix .. key .. " %*" .. "%#HarpoonActive#"
 				else
-					tabline = tabline .. "%#HarpoonNumberInactive#" .. prefix .. i .. " %*" .. "%#HarpoonInactive#"
+					tabline = tabline .. "%#HarpoonNumberInactive#" .. prefix .. key .. " %*" .. "%#HarpoonInactive#"
 				end
 
 				tabline = tabline .. label .. suffix .. "%*"

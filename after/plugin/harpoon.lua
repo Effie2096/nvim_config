@@ -10,14 +10,14 @@ local opts = { noremap = true, silent = true }
 
 nnoremap("<leader>ma", require("harpoon.mark").add_file, opts)
 
-nnoremap("<M-j>", "<cmd>lua require('harpoon.ui').nav_file(1)<cr>", opts)
-nnoremap("<M-k>", "<cmd>lua require('harpoon.ui').nav_file(2)<cr>", opts)
-nnoremap("<M-l>", "<cmd>lua require('harpoon.ui').nav_file(3)<cr>", opts)
-nnoremap("<M-;>", "<cmd>lua require('harpoon.ui').nav_file(4)<cr>", opts)
-nnoremap("<M-J>", "<cmd>lua require('harpoon.ui').nav_file(5)<cr>", opts)
-nnoremap("<M-K>", "<cmd>lua require('harpoon.ui').nav_file(6)<cr>", opts)
-nnoremap("<M-L>", "<cmd>lua require('harpoon.ui').nav_file(7)<cr>", opts)
-nnoremap("<M-:>", "<cmd>lua require('harpoon.ui').nav_file(8)<cr>", opts)
+nnoremap("<C-h>", "<cmd>lua require('harpoon.ui').nav_file(1)<cr>", opts)
+nnoremap("<C-j>", "<cmd>lua require('harpoon.ui').nav_file(2)<cr>", opts)
+nnoremap("<C-k>", "<cmd>lua require('harpoon.ui').nav_file(3)<cr>", opts)
+nnoremap("<C-l>", "<cmd>lua require('harpoon.ui').nav_file(4)<cr>", opts)
+nnoremap("<Left>", "<cmd>lua require('harpoon.ui').nav_file(5)<cr>", opts)
+nnoremap("<Down>", "<cmd>lua require('harpoon.ui').nav_file(6)<cr>", opts)
+nnoremap("<Up>", "<cmd>lua require('harpoon.ui').nav_file(7)<cr>", opts)
+nnoremap("<Right>", "<cmd>lua require('harpoon.ui').nav_file(8)<cr>", opts)
 
 harpoon.setup({
 	tabline = false,
