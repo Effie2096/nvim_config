@@ -88,22 +88,20 @@ if vim.fn.has("win32") == 1 and vim.fn.isdirectory(workspace_dir) == 0 then
 end
 
 local bundles = {}
----@diagnostic disable-next-line: missing-parameter
+
 vim.list_extend(
 	bundles,
 	vim.split(
-		vim.fn.glob(
-			vim.fn.stdpath("data")
-				.. "/mason/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar"
-		),
+		vim.fn.stdpath("data")
+			.. "/mason/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar",
 		"\n",
 		{}
 	)
 )
----@diagnostic disable-next-line: missing-parameter
+
 vim.list_extend(
 	bundles,
-	vim.split(vim.fn.glob(vim.fn.stdpath("data") .. "/mason/packages/java-test/extension/server/*.jar"), "\n", {})
+	vim.split(vim.fn.stdpath("data") .. "/mason/packages/java-test/extension/server/*.jar", "\n", {})
 )
 
 local opts = { noremap = true, buffer = bufnr }

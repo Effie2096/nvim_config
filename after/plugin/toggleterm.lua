@@ -12,7 +12,7 @@ toggleterm.setup({
 			return term_win_width > 81 and term_win_width or 81
 		end
 	end,
-	open_mapping = [[<c-\>]],
+	open_mapping = [[<c-t>]],
 	insert_mappings = true,
 	terminal_mappings = true,
 })

@@ -16,10 +16,6 @@ nnoremap(
 	desc(opts, "[e]dit [f]iles: toggle file tree viewer.")
 )
 
--- disable netrw at the very start of your init.lua (strongly advised)
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-
 local api = require("nvim-tree.api")
 
 local function edit_or_open()
@@ -79,6 +75,7 @@ end
 
 nvim_tree.setup({
 	on_attach = tree_on_attach,
+	disable_netrw = false,
 	renderer = {
 		group_empty = true,
 		indent_markers = {

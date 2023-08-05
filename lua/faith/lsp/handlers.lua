@@ -458,12 +458,9 @@ local function create_refactor_keymaps(bufnr)
 	-- filetypes currently supported by refactor plugin
 	local refactor_filetypes = { "typescript", "javascript", "lua", "c", "cpp", "go", "py", "java", "php", "rb" }
 	-- check the filetype of the buffer is supported by plugin
-	if
-		vim.tbl_contains(
-			refactor_filetypes,
-			vim.api.nvim_get_option_value("filetype", { scope = "local", buf = bufnr })
-		)
-	then
+	local file_match =
+		vim.tbl_contains(refactor_filetypes, vim.api.nvim_get_option_value("filetype", { scope = "local" }))
+	if file_match then
 		-- don't need to check if filetype is in client.config.filetypes
 		-- because this is being called from on_attach which already
 		-- is only called if a ls can attach to buffer.
