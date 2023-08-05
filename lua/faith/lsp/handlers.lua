@@ -295,6 +295,7 @@ local function lsp_keymaps(bufnr)
 			"<cmd>Lspsaga diagnostic_jump_prev<cr>",
 			desc(opts, "[d]iagnostic [up]: Jump to prev diagnostic in file.")
 		)
+		nnoremap("<leader>lo", "<cmd>Lspsaga outline<cr>", desc(opts, "[l]sp [o]utline: Open outline."))
 
 		--[[ nnoremap("<leader>a", function()
 			require("lspsaga.codeaction"):code_action()

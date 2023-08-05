@@ -198,3 +198,21 @@ dapui.setup({
 		max_type_length = nil, -- Can be integer or nil.
 	},
 })
+
+vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
+	group = vim.api.nvim_create_augroup("dap_ui_winbars", { clear = true }),
+	pattern = "*",
+	callback = function(_)
+		local filetype = vim.api.nvim_get_option_value("filetype", { scope = "local" })
+		if string.match(filetype, "dapui") ~= nil then
+			local winid = vim.api.nvim_get_current_win()
+			local win_bar = string.format(
+				"%s%s%s",
+				"%#CatAccentInverse#" .. icons.separators.rounded.right .. "%*",
+				"%#CatAccent#" .. string.gsub(filetype:gsub("dapui_", ""), "^%l", string.upper) .. "%*",
+				"%#CatAccentInverse#" .. icons.separators.rounded.left .. "%*"
+			)
+			vim.wo[winid].winbar = win_bar
+		end
+	end,
+})

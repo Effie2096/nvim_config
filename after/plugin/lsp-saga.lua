@@ -28,7 +28,7 @@ saga.setup({
 	},
 	show_outline = {
 		win_position = "right",
-		win_width = 40,
+		win_width = 60,
 		auto_enter = false,
 		auto_refresh = true,
 	},
