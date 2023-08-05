@@ -245,7 +245,7 @@ local workspace_diagnostics = {
 	"diagnostics",
 	sources = { "nvim_workspace_diagnostic" },
 	symbols = icons.diagnostic,
-	update_in_insert = false,
+	update_in_insert = true,
 }
 
 local location = {

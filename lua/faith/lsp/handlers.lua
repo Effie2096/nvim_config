@@ -52,21 +52,23 @@ M.setup = function()
 	end
 
 	local config = {
-		virtual_text = false, --[[ {
-	source = false,
-	format = function(diagnostic)
-		if vim.api.nvim_get_option_value("filetype", { scope = "local" }) == "rust" then
-			diagnostic.message = string.gsub(diagnostic.message, "`#%[.*%(.*%)%]` on by default", "", 1)
-			diagnostic.message = string.gsub(diagnostic.message, "for further information visit.*", "", 1)
-		end
-		return diagnostic.message
-	end,
-},]]
+		virtual_text = {
+			source = false,
+			prefix = "",
+			spacing = 1,
+			format = function(diagnostic)
+				if vim.api.nvim_get_option_value("filetype", { scope = "local" }) == "rust" then
+					diagnostic.message = string.gsub(diagnostic.message, "`#%[.*%(.*%)%]` on by default", "", 1)
+					diagnostic.message = string.gsub(diagnostic.message, "for further information visit.*", "", 1)
+				end
+				return diagnostic.message
+			end,
+		},
 		-- show signs
 		signs = {
 			active = signs,
 		},
-		update_in_insert = false,
+		update_in_insert = true,
 		underline = true,
 		severity_sort = true,
 		float = float_config,
