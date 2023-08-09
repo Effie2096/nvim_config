@@ -6,7 +6,7 @@ end
 -- configure it
 catppuccin.setup({
 	compile_path = vim.fn.glob(vim.fn.stdpath("cache") .. "/catppuccin"),
-	transparent_background = vim.g.trasparent_enabled,
+	transparent_background = vim.g.transparent_enabled,
 	term_colors = false,
 	dim_inactive = {
 		enable = false,

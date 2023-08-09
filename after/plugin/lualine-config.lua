@@ -6,10 +6,6 @@ if not lualine_status_ok then
 end
 
 local colors = require("catppuccin.palettes").get_palette()
-local catppuccin_status_ok, custom_catppuccin_theme = pcall(require, "lualine.themes.catppuccin")
-if catppuccin_status_ok then
-	custom_catppuccin_theme.normal.c.bg = vim.g.transparent_enabled and "none" or custom_catppuccin_theme.normal.c.bg
-end
 
 local icons = require("faith.icons")
 
@@ -359,7 +355,7 @@ local harpoon = {
 lualine.setup({
 	options = {
 		icons_enabled = true,
-		theme = custom_catppuccin_theme,
+		theme = "catppuccin",
 		-- component_separators = { left = '', right = ''},
 		-- section_separators = { left = '', right = ''},
 		component_separators = { left = icons.separators.straight.left, right = icons.separators.straight.right },
