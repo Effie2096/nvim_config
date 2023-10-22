@@ -81,6 +81,17 @@ dap.configurations.cpp = {
 	},
 }
 
+dap.configurations.rust = {
+	{
+		name = "Launch",
+		type = "rt_lldb",
+		request = "launch",
+		cwd = "${workspaceFolder}",
+		program = "${workspaceFolder}/target/debug/${workspaceFolderBasename}",
+		stopAtEntry = true,
+	},
+}
+
 nnoremap("<Leader>do", require("dapui").toggle, desc(opts, "[d]ebug ui [o]pen: Toggle debugger ui."))
 nnoremap(
 	"<leader>dt",

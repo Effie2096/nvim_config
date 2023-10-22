@@ -1,8 +1,9 @@
 vim.opt.title = true
-vim.opt.titlestring = '%t%( %M%)%( (%{expand("%:p:h")})%)%( %a%) - %{v:servername}'
+vim.opt.titlestring = "Nvim: %t%( %M%)%( %a%)"
 vim.opt.iskeyword = vim.opt.iskeyword + { "-" }
 vim.opt.termguicolors = true
 vim.opt.cmdheight = 1
+vim.opt.conceallevel = 2
 vim.opt.mouse = "n"
 -- vim.opt.splitbelow = true
 vim.opt.splitright = true

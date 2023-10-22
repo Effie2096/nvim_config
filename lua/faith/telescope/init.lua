@@ -32,7 +32,7 @@ function M.project_files()
 	opts = vim.tbl_deep_extend("force", opts, {
 		prompt_title = "Project Files",
 		cwd = require("lspconfig.util").root_pattern(".git")(vim.fn.expand("%:p")),
-		file_ignore_patterns = require("faith.telescope.layouts").file_ignore.file_ignore_patterns,
+		-- file_ignore_patterns = require("faith.telescope.layouts").file_ignore.file_ignore_patterns,
 	})
 	require("telescope.builtin").find_files(opts)
 end
@@ -54,7 +54,7 @@ function M.live_grep(options)
 	end
 	opts = vim.tbl_deep_extend("force", opts, {
 		cwd = require("lspconfig.util").root_pattern(".git")(vim.fn.expand("%:p")),
-		file_ignore_patterns = require("faith.telescope.layouts").file_ignore.file_ignore_patterns,
+		-- file_ignore_patterns = require("faith.telescope.layouts").file_ignore.file_ignore_patterns,
 	})
 	require("telescope.builtin").live_grep(opts)
 end
@@ -149,7 +149,8 @@ function M.harpoon()
 end
 
 function M.git_worktrees()
-	require("telescope").extensions.git_worktree.git_worktrees()
+	local opts = vim.deepcopy(layouts.centered_compact) or {}
+	require("telescope").extensions.git_worktree.git_worktrees(opts)
 end
 
 function M.create_git_worktree()

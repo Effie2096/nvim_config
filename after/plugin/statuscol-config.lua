@@ -21,6 +21,10 @@ statuscol.setup({
 	-- Default segments (fold -> sign -> line number + separator), explained below
 	segments = {
 		{
+			text = { builtin.foldfunc },
+			click = "v:lua.ScFa",
+		},
+		{
 			sign = {
 				name = { ".*" },
 				maxwidth = 4,
@@ -45,15 +49,11 @@ statuscol.setup({
 				maxwidth = 1,
 				colwidth = 1,
 				auto = true,
-				fillchar = icons.git.signs.add,
+				-- fillchar = icons.git.signs.add,
 			},
 		},
 		{
 			sign = { name = { "Dap" }, maxwidth = 1, colwidth = 1, auto = true },
-		},
-		{
-			text = { builtin.foldfunc },
-			click = "v:lua.ScFa",
 		},
 	},
 	clickmod = "c", -- modifier used for certain actions in the builtin clickhandlers:

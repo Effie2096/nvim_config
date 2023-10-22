@@ -1,19 +1,27 @@
 local servers = {
-	"jdtls",
-	"lua_ls",
-	"lemminx",
+	"angularls",
+	"bashls",
 	"clangd",
 	"cmake",
-	"tsserver",
-	"html",
-	"emmet_ls",
 	"cssls",
 	"cssmodules_ls",
+	"omnisharp",
+	"docker_compose_language_service",
+	"dockerls",
+	"eslint",
+	"emmet_ls",
+	"gopls",
+	"html",
+	"jdtls",
 	"jsonls",
+	"lemminx",
+	"lua_ls",
+	"marksman",
+	"powershell_es",
 	"rust_analyzer",
 	"taplo",
+	"tsserver",
 	"yamlls",
-	"bashls",
 }
 
 local icons = require("faith.icons")
@@ -66,7 +74,7 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
 -- treat zsh as bash so tools work with it
 vim.api.nvim_create_autocmd("BufWinEnter", {
 	group = vim.api.nvim_create_augroup("zshAsBash", {}),
-	pattern = { "*.sh", "*.zsh" },
+	pattern = { "*.sh" },
 	command = "silent! set filetype=sh",
 })
 

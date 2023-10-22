@@ -18,21 +18,18 @@ null_ls.setup({
 			extra_filetypes = { "toml", "solidity" },
 			extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote" },
 		}, ]]
-		diagnostics.commitlint,
+		diagnostics.gitlint,
 		formatting.beautysh,
 		actions.shellcheck,
 		formatting.prettierd.with({
 			-- extra_filetypes = { "toml", "solidity" },
 			extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote", "--use-tabs" },
 		}),
-		formatting.clang_format.with({
-			filetypes = { "c", "cpp", "cs", "cuda", "proto" },
-			extra_args = {
-				"--style={UseTab: ForContinuationAndIndentation, IndentWidth: 4, TabWidth: 4, ContinuationIndentWidth: 4, BinPackArguments: false, BinPackParameters: true, ColumnLimit: 0}",
-			},
-		}),
-		actions.eslint_d,
-		diagnostics.eslint_d,
+		diagnostics.clang_check,
+		diagnostics.cmake_lint,
+		formatting.csharpier,
+		-- actions.eslint,
+		-- diagnostics.eslint,
 		--[[ diagnostics.semgrep.with({
 			filetypes = { "java" },
 			extra_args = { "--config=auto" },

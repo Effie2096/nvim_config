@@ -1,13 +1,23 @@
--- ['│','|','¦','┆','┊','']
-
-local status_ok, indent_blankline = pcall(require, "indent_blankline")
-if not status_ok then
+local has_indent_blankline, indent_blankline = pcall(require, "indent_blankline")
+if not has_indent_blankline then
 	return
 end
 
 local icons = require("faith.icons")
 
 indent_blankline.setup({
+	--[[ enabled = true,
+	indent = {
+		char = icons.characters.indent,
+		smart_indent_cap = true,
+		highlight = { "Function" },
+	},
+	scope = {
+		enabled = true,
+		show_start = false,
+		show_end = false,
+		char = icons.characters.indent_focus,
+	}, ]]
 	-- char = "│",
 	-- context_char = "│",
 	char_list = { icons.characters.indent },

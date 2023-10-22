@@ -7,14 +7,14 @@ end
 catppuccin.setup({
 	compile_path = vim.fn.glob(vim.fn.stdpath("cache") .. "/catppuccin"),
 	transparent_background = vim.g.transparent_enabled,
-	term_colors = false,
+	term_colors = true,
 	dim_inactive = {
-		enable = false,
+		enable = true,
 		shade = "dark",
 		percentage = 0.15,
 	},
 	styles = {
-		comments = { "italic" },
+		comments = {},
 		conditionals = {},
 		loops = {},
 		functions = {},
@@ -58,6 +58,7 @@ catppuccin.setup({
 		},
 		indent_blankline = {
 			enabled = true,
+			scope_color = "pink",
 			colored_indent_levels = false,
 		},
 		navic = {
@@ -263,6 +264,8 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		vim.api.nvim_set_hl(0, "TelescopePreviewTitle", { fg = colors.crust, bg = colors.green })
 
 		local white_space_colors = vim.api.nvim_get_hl(0, { name = "Whitespace" })
+		vim.api.nvim_set_hl(0, "IndentBlankLineChar", { fg = white_space_colors.foreground })
+		vim.api.nvim_set_hl(0, "IndentBlankLineContextChar", { fg = accent })
 		vim.api.nvim_set_hl(0, "IndentBlanklineSpaceChar", { fg = white_space_colors.foreground })
 		vim.api.nvim_set_hl(0, "IndentBlanklineSpaceCharBlankline", { fg = white_space_colors.foreground })
 

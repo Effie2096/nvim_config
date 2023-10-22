@@ -42,9 +42,11 @@ Plug("cdelledonne/vim-cmake")
 Plug("nvimdev/lspsaga.nvim", { ["branch"] = "main" })
 
 Plug("ray-x/lsp_signature.nvim")
+-- Plug("https://git.sr.ht/~whynothugo/lsp_lines.nvim")
 Plug("ThePrimeagen/refactoring.nvim")
 Plug("skywind3000/asyncrun.vim")
 Plug("vim-test/vim-test")
+Plug("andythigpen/nvim-coverage")
 --[[]]
 
 --[[ Debugging ]]
@@ -93,7 +95,7 @@ Plug("szw/vim-maximizer")
 
 --[[ Git ]]
 Plug("tpope/vim-fugitive")
-Plug("lewis6991/gitsigns.nvim")
+Plug("lewis6991/gitsigns.nvim", { ["commit"] = "11b80e7eea249affc8776483272bcfc627b5552a" })
 Plug("ThePrimeagen/git-worktree.nvim")
 --[[]]
 
@@ -111,7 +113,7 @@ Plug("tpope/vim-obsession")
 --[[]]
 
 --[[ Visual/UI ]]
-Plug("lukas-reineke/indent-blankline.nvim")
+Plug("lukas-reineke/indent-blankline.nvim", { ["tag"] = "v2.*" })
 Plug("norcalli/nvim-colorizer.lua")
 Plug("HiPhish/rainbow-delimiters.nvim")
 Plug("ziontee113/color-picker.nvim")
@@ -125,11 +127,16 @@ Plug("kevinhwang91/promise-async")
 Plug("nvim-tree/nvim-tree.lua")
 Plug("antosha417/nvim-lsp-file-operations")
 Plug("mbbill/undotree")
+Plug("kevinhwang91/nvim-bqf")
+Plug("tpope/vim-dadbod")
+Plug("kristijanhusak/vim-dadbod-ui")
+Plug("mechatroner/rainbow_csv")
+Plug("chrisbra/csv.vim")
 
 Plug("rcarriga/nvim-notify")
 
 Plug("j-hui/fidget.nvim", { ["tag"] = "legacy" })
-Plug("luukvbaal/statuscol.nvim")
+Plug("luukvbaal/statuscol.nvim", { ["commit"] = "9f1ff2dcf614544c5022e876d83b4894c1944e87" })
 Plug("ThePrimeagen/harpoon")
 -- Plug("akinsho/bufferline.nvim", { ["tag"] = "v4.0.0" })
 --[[]]

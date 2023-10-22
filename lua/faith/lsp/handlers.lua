@@ -8,7 +8,7 @@ local M = {}
 local diagnostic_icons = require("faith.icons").diagnostic
 
 M.capabilities = vim.lsp.protocol.make_client_capabilities()
-M.capabilities.textDocument.completion.completionItem.snippetSupport = false
+M.capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 local status_cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 if status_cmp_ok then
@@ -64,11 +64,14 @@ M.setup = function()
 				return diagnostic.message
 			end,
 		},
+		--[[ virtual_lines = {
+			highlight_whole_line = false,
+		}, ]]
 		-- show signs
 		signs = {
 			active = signs,
 		},
-		update_in_insert = true,
+		update_in_insert = false,
 		underline = true,
 		severity_sort = true,
 		float = float_config,

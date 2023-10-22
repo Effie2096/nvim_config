@@ -236,6 +236,7 @@ M.layout_configs = {
 M.file_ignore = {
 	file_ignore_patterns = {
 		"^node_modules/",
+		"package%.json", "package%-lock%.json",
 		"^target/", "^bin/",  "^build/",
 		"%.class", "%.jar",
 		"%.swp", "%.zip", "%.exe", "%.mid", "%.jar", "%.class", "%.mm", "%.o", "%.obj",
@@ -243,6 +244,7 @@ M.file_ignore = {
 		"%.bmp", "%.gif", "%.ico", "%.jpg", "%.png", "%.ico",
 		"%.pdf",
 		"^tmp/", "^.vs/", "^Library/", "^Logs/", "^obj/", "^Packages/", "^ProjectSettings/",
+		"^%.venv/"
 	}
 }
 -- M.layout_configs.defaults = vim.tbl_extend('force', M.layout_configs.defaults, file_ignore)

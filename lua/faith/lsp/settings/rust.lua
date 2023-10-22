@@ -10,6 +10,20 @@ return {
 					'--all-targets', '--all-features'
 				} ]]
 			},
+			hover = {
+				actions = {
+					refereneces = true,
+				},
+			},
+			lens = {
+				enable = true,
+				references = {
+					adt = true,
+					enumVariant = true,
+					method = true,
+					trait = true,
+				},
+			},
 		},
 	},
 }
