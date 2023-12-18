@@ -22,7 +22,7 @@ Plug("SmiteshP/nvim-navic")
 Plug("utilyre/barbecue.nvim", { ["as"] = "barbecue" })
 Plug("kyazdani42/nvim-web-devicons")
 Plug("tmux-plugins/vim-tmux") -- tmux.conf syntax hl n stuff
-Plug("preservim/vimux")
+if not vim.fn.has("win32") then Plug("preservim/vimux") end
 Plug("christoomey/vim-tmux-navigator")
 --[[]]
 
