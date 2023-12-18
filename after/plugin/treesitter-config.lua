@@ -124,8 +124,4 @@ ts_conf.setup({
 		use_virtual_text = true,
 		lint_events = { "BufWrite", "CursorHold" },
 	},
-	context_commentstring = {
-		enable = true,
-		enable_autocmd = false,
-	},
 })
