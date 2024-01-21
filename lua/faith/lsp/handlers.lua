@@ -560,4 +560,6 @@ vim.api.nvim_create_user_command("LspToggleAutoFormat", function()
 	require("faith.lsp.handlers").toggle_format_on_save()
 end, {})
 
+M.enable_format_on_save()
+
 return M
