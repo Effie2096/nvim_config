@@ -10,6 +10,7 @@ require("faith.globals")
 require("faith.keymap")
 require("faith.mappings")
 require("faith.settings")
+require("faith.filewatcher")
 
 require("faith.telescope.setup")
 require("faith.telescope.mappings")
