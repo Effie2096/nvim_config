@@ -111,6 +111,10 @@ cmp.setup({
 				vim_item.kind = icon
 				vim_item.kind_hl_group = "CmpItemKindSnippet"
 				return vim_item
+			if entry.source.name == "calc" then
+				vim_item.kind = require("faith.icons").ui.Calc
+				vim_item.kind_hl_group = "CmpItemKindFunction"
+			end
 			if entry.source.name == "tags" then
 				vim_item.kind = require("faith.icons").ui.Tag
 				vim_item.kind_hl_group = "CmpItemKindFunction"
