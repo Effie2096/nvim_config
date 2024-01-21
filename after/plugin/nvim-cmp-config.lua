@@ -106,11 +106,11 @@ cmp.setup({
 				},
 				ellipsis_char = "...",
 			})(entry, vim_item)
-			if vim.tbl_contains({ "codeium" }, entry.source.name) then
-				local icon = "  "
+			if entry.source.name == "codeium" then
+				local icon = require("faith.icons").ui.Wand
 				vim_item.kind = icon
 				vim_item.kind_hl_group = "CmpItemKindSnippet"
-				return vim_item
+			end
 			if entry.source.name == "calc" then
 				vim_item.kind = require("faith.icons").ui.Calc
 				vim_item.kind_hl_group = "CmpItemKindFunction"
