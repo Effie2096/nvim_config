@@ -3,6 +3,8 @@ if not has_noice then
 	return
 end
 
+vim.opt.cmdheight = 0
+
 noice.setup({
 	lsp = {
 		progress = {

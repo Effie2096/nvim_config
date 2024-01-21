@@ -135,6 +135,8 @@ Plug("tpope/vim-dadbod")
 Plug("kristijanhusak/vim-dadbod-ui")
 Plug("mechatroner/rainbow_csv")
 Plug("chrisbra/csv.vim")
+Plug("folke/noice.nvim")
+Plug("MunifTanjim/nui.nvim")
 
 Plug("rcarriga/nvim-notify")
 

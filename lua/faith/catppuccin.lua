@@ -74,6 +74,7 @@ catppuccin.setup({
 		},
 		lsp_saga = true,
 		mason = true,
+		noice = true,
 	},
 })
 
