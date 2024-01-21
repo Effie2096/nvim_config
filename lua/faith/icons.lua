@@ -121,6 +121,7 @@ local icons = {
 		Tab = "󰌒 ",
 		House = " ",
 		Wand = " ",
+		Tag = " ",
 	},
 	debug = {
 		Pause = "",

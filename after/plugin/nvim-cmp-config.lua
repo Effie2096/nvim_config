@@ -102,6 +102,7 @@ cmp.setup({
 					calc = "[maff]",
 					git = "[git]",
 					codeium = "[ai]",
+					tags = "[tag]",
 				},
 				ellipsis_char = "...",
 			})(entry, vim_item)
@@ -110,6 +111,9 @@ cmp.setup({
 				vim_item.kind = icon
 				vim_item.kind_hl_group = "CmpItemKindSnippet"
 				return vim_item
+			if entry.source.name == "tags" then
+				vim_item.kind = require("faith.icons").ui.Tag
+				vim_item.kind_hl_group = "CmpItemKindFunction"
 			end
 			local strings = vim.split(kind.kind, "%s", { trimempty = true })
 			kind.kind = " " .. strings[1] .. " "
@@ -176,6 +180,7 @@ cmp.setup({
 	sources = {
 		{ name = "codeium" },
 		{ name = "luasnip" }, -- For luasnip users.
+		{ name = "tags" },
 		{ name = "nvim_lsp" },
 		-- { name = 'nvim_lsp_signature_help' },
 		{ name = "nvim_lua" },

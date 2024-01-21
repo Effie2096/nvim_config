@@ -24,6 +24,8 @@ Plug("kyazdani42/nvim-web-devicons")
 Plug("tmux-plugins/vim-tmux") -- tmux.conf syntax hl n stuff
 if not vim.fn.has("win32") then Plug("preservim/vimux") end
 Plug("christoomey/vim-tmux-navigator")
+Plug("davidgranstrom/scnvim")
+Plug("davidgranstrom/telescope-scdoc.nvim")
 --[[]]
 
 --[[LSP ]]
@@ -67,6 +69,7 @@ Plug("hrsh7th/cmp-nvim-lua")
 Plug("hrsh7th/cmp-cmdline")
 Plug("saadparwaiz1/cmp_luasnip")
 Plug("petertriho/cmp-git")
+Plug("quangnguyen30192/cmp-nvim-tags")
 Plug("davidsierradz/cmp-conventionalcommits")
 
 Plug("rafamadriz/friendly-snippets")
