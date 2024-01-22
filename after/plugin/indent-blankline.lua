@@ -6,24 +6,8 @@ end
 local icons = require("faith.icons")
 
 indent_blankline.setup({
-	--[[ enabled = true,
-	indent = {
-		char = icons.characters.indent,
-		smart_indent_cap = true,
-		highlight = { "Function" },
-	},
-	scope = {
-		enabled = true,
-		show_start = false,
-		show_end = false,
-		char = icons.characters.indent_focus,
-	}, ]]
-	-- char = "│",
-	-- context_char = "│",
 	char_list = { icons.characters.indent },
 	context_char_list = { icons.characters.indent_focus },
-	--[[ char_list = {"│"},
-	context_char_list = {"┃"}, ]]
 	show_first_indent_level = true,
 	show_trailing_blankline = false,
 	use_treesitter = true,
