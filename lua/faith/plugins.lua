@@ -14,6 +14,7 @@ Plug("catppuccin/nvim", {
 })
 Plug("lewis6991/impatient.nvim")
 Plug("antoinemadec/FixCursorHold.nvim")
+Plug("qpkorr/vim-renamer")
 
 --[[]]
 Plug("nvim-lualine/lualine.nvim")
