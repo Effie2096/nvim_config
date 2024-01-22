@@ -123,6 +123,7 @@ local icons = {
 		Wand = " ",
 		Calc = "󰃬 ",
 		Tag = " ",
+		FoldSuffix = "󰁂 ",
 	},
 	debug = {
 		Pause = "",
