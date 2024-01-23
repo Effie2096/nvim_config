@@ -352,6 +352,43 @@ local harpoon = {
 	end,
 }
 
+local show_macro_recording = {
+	function()
+		local recording_register = vim.fn.reg_recording()
+		if recording_register == "" then
+			return ""
+		else
+			return "Recording @" .. recording_register
+		end
+	end,
+}
+
+vim.api.nvim_create_augroup("MacroStatusLine", { clear = true })
+vim.api.nvim_create_autocmd("RecordingEnter", {
+	group = "MacroStatusLine",
+	callback = function()
+		lualine.refresh({
+			place = { "statusline" },
+		})
+	end,
+})
+
+vim.api.nvim_create_autocmd("RecordingLeave", {
+	group = "MacroStatusLine",
+	callback = function()
+		local timer = vim.loop.new_timer()
+		timer:start(
+			50,
+			0,
+			vim.schedule_wrap(function()
+				lualine.refresh({
+					place = { "statusline" },
+				})
+			end)
+		)
+	end,
+})
+
 lualine.setup({
 	options = {
 		icons_enabled = true,
@@ -372,7 +409,7 @@ lualine.setup({
 		lualine_a = { git },
 		lualine_b = { obsession, workspace_diagnostics },
 		lualine_c = { language_server, asyncrun_status },
-		lualine_x = { location, spaces, fileformat, encoding },
+		lualine_x = { show_macro_recording, location, spaces, fileformat, encoding },
 		lualine_y = { format_on_save },
 		lualine_z = trans_flag,
 	},
