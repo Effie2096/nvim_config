@@ -237,8 +237,9 @@ local function lsp_keymaps(bufnr)
 		ufo_hover(function()
 			if package.loaded.lspsaga ~= nil then
 				vim.cmd(":Lspsaga hover_doc")
+			else
+				vim.lsp.buf.hover()
 			end
-			vim.lsp.buf.hover()
 		end),
 		opts
 	)
