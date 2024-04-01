@@ -232,6 +232,8 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 			vim.api.nvim_set_hl(0, "RainbowDelimiterViolet", { fg = colors.mauve })
 			vim.api.nvim_set_hl(0, "RainbowDelimiterCyan", { fg = colors.sky })
 		end
+
+		vim.api.nvim_set_hl(0, "TreesitterContextBottom", { bg = colors.mantle, special = "none" })
 	end,
 })
 

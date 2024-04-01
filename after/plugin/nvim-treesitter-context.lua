@@ -24,9 +24,9 @@ context.setup({
 		},
 		-- Example for a specific filetype.
 		-- If a pattern is missing, *open a PR* so everyone can benefit.
-		--   rust = {
-		--       'impl_item',
-		--   },
+		--	 rust = {
+		--		 'impl_item',
+		--	 },
 	},
 	exact_patterns = {
 		-- Example for a specific filetype with Lua patterns
