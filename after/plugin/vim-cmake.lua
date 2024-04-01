@@ -3,3 +3,14 @@ if not vim.fn.exists("g:cmake_command") == 1 then
 end
 
 vim.cmd([[let g:cmake_link_compile_commands = 1]])
+
+vim.api.nvim_create_augroup("cmake_maps", { clear = true })
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
+	group = "cmake_maps",
+	pattern = { "*.c", "*.cpp", "*.h", "*.hpp" },
+	callback = function(args)
+		local opts = { buffer = args.buf, noremap = true, silent = true }
+		vim.keymap.set({ "i", "n" }, "<F3>", "<CMD>CMakeGenerate<CR>", opts)
+		vim.keymap.set({ "i", "n" }, "<F4>", "<CMD>CMakeBuild<CR>", opts)
+	end,
+})

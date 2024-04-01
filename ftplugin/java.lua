@@ -92,8 +92,10 @@ local bundles = {}
 vim.list_extend(
 	bundles,
 	vim.split(
-		vim.fn.stdpath("data")
-			.. "/mason/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar",
+		vim.fn.glob(
+			vim.fn.stdpath("data")
+				.. "/mason/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar"
+		),
 		"\n",
 		{}
 	)
@@ -101,7 +103,7 @@ vim.list_extend(
 
 vim.list_extend(
 	bundles,
-	vim.split(vim.fn.stdpath("data") .. "/mason/packages/java-test/extension/server/*.jar", "\n", {})
+	vim.split(vim.fn.glob(vim.fn.stdpath("data") .. "/mason/packages/java-test/extension/server/*.jar"), "\n", {})
 )
 
 local opts = { noremap = true, buffer = bufnr }

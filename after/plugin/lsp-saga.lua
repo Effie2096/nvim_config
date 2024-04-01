@@ -32,5 +32,8 @@ saga.setup({
 		auto_enter = false,
 		auto_refresh = true,
 	},
+	implement = {
+		enable = true,
+	},
 	-- custom_kind = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
 })

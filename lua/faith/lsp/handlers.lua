@@ -12,7 +12,7 @@ M.capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 local status_cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 if status_cmp_ok then
-	M.capabilities = cmp_nvim_lsp.default_capabilities(M.capabilities)
+	M.capabilities = vim.tbl_deep_extend("force", M.capabilities, cmp_nvim_lsp.default_capabilities())
 end
 
 local float_config = {
