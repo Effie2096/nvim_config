@@ -27,6 +27,7 @@ if not vim.fn.has("win32") then Plug("preservim/vimux") end
 Plug("christoomey/vim-tmux-navigator")
 Plug("davidgranstrom/scnvim")
 Plug("davidgranstrom/telescope-scdoc.nvim")
+Plug("m4xshen/hardtime.nvim")
 --[[]]
 
 --[[LSP ]]
