@@ -157,6 +157,12 @@ function M.create_git_worktree()
 	require("telescope").extensions.git_worktree.create_git_worktree()
 end
 
+function M.commands()
+	local opts = vim.deepcopy(layouts.centered_compact) or {}
+	-- opts = vim.tbl_deep_extend("force", opts, {})
+	require("telescope.builtin").commands(opts)
+end
+
 return setmetatable({}, {
 	__index = function(_, k)
 		reloader()

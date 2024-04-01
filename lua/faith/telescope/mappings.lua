@@ -41,6 +41,7 @@ map_tele("<leader>fd", "diagnostics")
 map_tele("<leader>fm", "harpoon")
 map_tele("<leader>fwt", "git_worktrees")
 map_tele("<leader>fwc", "create_git_worktree")
+map_tele("<leader>;", "commands")
 
 -- extensions
 map_tele("<leader>fe", "file_browser")
