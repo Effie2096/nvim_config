@@ -25,14 +25,14 @@ local cycle_list = function()
 	---@diagnostic disable-next-line: undefined-field
 	if vim.opt_local.listchars._value == empty_chars or vim.opt_local.listchars._value == "" then
 		vim.opt_local.listchars = listchars
-		if package.loaded.ibl ~= nil then
-			vim.cmd("IBLDisable")
+		if package.loaded.indent_blankline ~= nil then
+			vim.cmd("IndentBlanklineDisable")
 		end
 		vim.notify("List characters set.")
 	else
 		vim.opt_local.listchars = empty_chars
-		if package.loaded.ibl ~= nil then
-			vim.cmd("IBLEnable")
+		if package.loaded.indent_blankline ~= nil then
+			vim.cmd("IndentBlanklineEnable")
 		end
 		vim.notify("List characters cleared.")
 	end
