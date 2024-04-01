@@ -216,8 +216,16 @@ local function ufo_hover(callback)
 end
 
 local function formatting_maps(bufnr)
-	local opts = { noremap = true, silent = true, buffer = bufnr }
-	vim.cmd([[ command! Format execute 'lua Formatting({ async = true })' ]])
+	local buf = bufnr or 0
+	-- TODO: only set up command for buffers there's a formatter for <Effie2096>
+	local opts = { noremap = true, silent = true, buffer = buf }
+	vim.api.nvim_buf_create_user_command(buf, "Format", function(data)
+		if package.loaded.conform then
+			require("conform").format({ bufnr = data.bufnr, async = true })
+		else
+			vim.lsp.buf.format({ async = true })
+		end
+	end, {})
 	nnoremap(
 		"<M-f>",
 		vim.cmd.Format,
@@ -507,60 +515,6 @@ M.on_attach = function(client, bufnr)
 	if client.name == "rust_analyzer" or client.name == "rust_analyzer-standalone" then
 		rust_keymaps(bufnr)
 	end
-
-	if FORMAT_ON_SAVE then
-		M.enable_format_on_save()
-	end
 end
-
-FORMAT_ON_SAVE = true
-
-function Formatting(async)
-	vim.lsp.buf.format({ async = async })
-	vim.cmd("%retab!")
-end
-
-function M.enable_format_on_save()
-	local format_on_save_group = vim.api.nvim_create_augroup("format_on_save", { clear = true })
-	vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-		group = format_on_save_group,
-		pattern = "*",
-		callback = function(data)
-			local next = next
-			if next(vim.lsp.get_clients({ bufnr = data.buf })) ~= nil then
-				Formatting(false)
-			end
-		end,
-	})
-	FORMAT_ON_SAVE = true
-end
-
-function M.disable_format_on_save()
-	M.remove_augroup("format_on_save")
-	FORMAT_ON_SAVE = false
-end
-
-function M.toggle_format_on_save()
-	if vim.fn.exists("#format_on_save#BufWritePre") == 0 then
-		M.enable_format_on_save()
-		vim.notify("Enabled format on save")
-	else
-		M.disable_format_on_save()
-		vim.notify("Disabled format on save")
-	end
-end
-
-function M.remove_augroup(name)
-	if vim.fn.exists("#" .. name) == 1 then
-		vim.api.nvim_del_augroup_by_name(name)
-	end
-end
-
--- vim.cmd [[ command! LspToggleAutoFormat execute 'lua require("faith.lsp.handlers").toggle_format_on_save()' ]]
-vim.api.nvim_create_user_command("LspToggleAutoFormat", function()
-	require("faith.lsp.handlers").toggle_format_on_save()
-end, {})
-
-M.enable_format_on_save()
 
 return M

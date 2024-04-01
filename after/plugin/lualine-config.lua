@@ -142,6 +142,15 @@ local language_server = {
 			vim.list_extend(client_names, linter)
 		end
 
+		if package.loaded.conform ~= nil then
+			local conform_formatters = require("conform").list_formatters()
+			for _, f in pairs(conform_formatters) do
+				if f.available then
+					table.insert(client_names, f.name)
+				end
+			end
+		end
+
 		table.sort(client_names)
 
 		--remove duplicate entries
