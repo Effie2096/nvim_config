@@ -28,7 +28,6 @@ Plug("preservim/vimux")
 Plug("christoomey/vim-tmux-navigator")
 Plug("davidgranstrom/scnvim")
 Plug("davidgranstrom/telescope-scdoc.nvim")
-Plug("m4xshen/hardtime.nvim")
 Plug("bfredl/nvim-luadev")
 --[[]]
 
