@@ -105,6 +105,14 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		local base = vim.g.transparent_enabled and "none" or colors.base
 		vim.api.nvim_set_hl(0, "CatAccent", { fg = base, bg = accent, bold = true })
 		vim.api.nvim_set_hl(0, "CatAccentInverse", { fg = accent, bg = base, bold = true })
+		vim.api.nvim_set_hl(0, "DiagnosticCheck", { fg = colors.green, bg = mantle })
+
+		for _, level in pairs({ "Error", "Warn", "Info", "Hint" }) do
+			vim.api.nvim_set_hl(0, "BarDiag" .. level, {
+				fg = vim.api.nvim_get_hl(0, { name = "Diagnostic" .. level }).fg,
+				bg = mantle,
+			})
+		end
 
 		vim.api.nvim_exec2("highlight FoldColumn guifg=" .. accent, { output = false })
 

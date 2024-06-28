@@ -41,11 +41,11 @@ barbecue.setup({
 			::continue::
 		end
 
-		return total == 0 and { { icons.ui.Check, "healthSuccess" } } or {
-			{ diagnostics["error"], "DiagnosticError" },
-			{ diagnostics["warn"], "DiagnosticWarn" },
-			{ diagnostics["info"], "DiagnosticInfo" },
-			{ diagnostics["hint"], "DiagnosticHint" },
+		return total == 0 and { { icons.ui.Check, "DiagnosticCheck" } } or {
+			{ diagnostics["error"], "BarDiagError" },
+			{ diagnostics["warn"], "BarDiagWarn" },
+			{ diagnostics["info"], "BarDiagInfo" },
+			{ diagnostics["hint"], "BarDiagHint" },
 		}
 	end,
 	kinds = {
