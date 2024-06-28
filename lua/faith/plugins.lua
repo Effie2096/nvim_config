@@ -14,6 +14,7 @@ Plug("catppuccin/nvim", {
 })
 Plug("lewis6991/impatient.nvim")
 Plug("antoinemadec/FixCursorHold.nvim")
+Plug("vhyrro/luarocks.nvim", { ["do"] = ":source ./build.lua" })
 Plug("qpkorr/vim-renamer")
 
 --[[]]
@@ -151,4 +152,10 @@ Plug("ThePrimeagen/harpoon")
 -- Plug("akinsho/bufferline.nvim", { ["tag"] = "v4.0.0" })
 --[[]]
 
+--{{{ Notes
+Plug("epwalsh/obsidian.nvim")
+Plug("lukas-reineke/headlines.nvim")
+Plug("3rd/image.nvim")
+Plug("jmbuhr/otter.nvim")
+--}}}
 vim.fn["plug#end"]()
