@@ -8,6 +8,16 @@ return {
 					reload = "require",
 				},
 			},
+			diagnostics = {
+				globals = {
+					"awesome",
+				},
+			},
+			workspace = {
+				library = {
+					["/usr/share/awesome/lib"] = true,
+				},
+			},
 			type = {
 				weakUnionCheck = true,
 				weakNilCheck = true,
