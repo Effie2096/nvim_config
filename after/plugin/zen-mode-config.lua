@@ -26,7 +26,11 @@ zen_mode.setup({
 		twighlight = { enabled = true },
 		tmux = { enabled = true },
 		kitty = {
-			enabled = false,
+			enabled = true,
+			font = "+6",
+		},
+		wezterm = {
+			enabled = true,
 			font = "+6",
 		},
 	},
