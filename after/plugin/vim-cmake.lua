@@ -12,5 +12,14 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
 		local opts = { buffer = args.buf, noremap = true, silent = true }
 		vim.keymap.set({ "i", "n" }, "<F3>", "<CMD>CMakeGenerate<CR>", opts)
 		vim.keymap.set({ "i", "n" }, "<F4>", "<CMD>CMakeBuild<CR>", opts)
+		local directory = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+		local run_command = "./Debug/" .. directory
+		if vim.fn.exists("*VimuxRunCommand") ~= 0 then
+			vim.keymap.set({ "i", "n" }, "<F5>", function()
+				local run_args = vim.fn.input("Args: ") or ""
+				local c_args = string.len(run_args) > 0 and " " .. run_args or ""
+				vim.cmd("AsyncRun -mode=term -pos=tmux -cwd=<root> " .. run_command .. c_args)
+			end, vim.tbl_deep_extend("force", opts, { desc = "Run Project" }))
+		end
 	end,
 })

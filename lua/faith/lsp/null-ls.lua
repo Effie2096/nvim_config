@@ -13,7 +13,9 @@ null_ls.setup({
 		diagnostics.gitlint,
 		actions.shellcheck,
 		diagnostics.clang_check,
-		diagnostics.cmake_lint,
+		diagnostics.cmake_lint.with({
+			command = "cmakelint",
+		}),
 	},
 })
 

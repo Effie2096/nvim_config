@@ -59,20 +59,64 @@ dap.adapters.cppdbg = {
 		home .. "/.local/share/nvim/mason/packages/cpptools/extension/debugAdapters/bin/OpenDebugAD7"
 	),
 }
+local function cxx_executable_path()
+	local user_input = vim.fn.input({
+		prompt = "Path to executable: ",
+		completion = "file",
+	})
+	return user_input ~= "" and user_input or "${workspaceFolder}/Debug/${workspaceFolderBasename}"
+end
+
+local function cxx_find_exe()
+	return coroutine.create(function(coro)
+		local picker_opts = {
+			sorting_strategy = "ascending",
+			default_text = "Debug/" .. vim.fn.fnamemodify(vim.fn.getcwd(), ":t"),
+		}
+		require("telescope.pickers")
+			.new(picker_opts, {
+				prompt_title = "Path to executable",
+				prompt_prefix = icons.ui.Search .. " ",
+				selection_caret = icons.ui.Caret_Arrow,
+				finder = require("telescope.finders").new_oneshot_job(
+					{ "fd", "--hidden", "--no-ignore", "--type", "x" },
+					{}
+				),
+				sorter = require("telescope.config").values.generic_sorter(picker_opts),
+				attach_mappings = function(buffer_number)
+					local actions = require("telescope.actions")
+					actions.select_default:replace(function()
+						actions.close(buffer_number)
+						coroutine.resume(coro, require("telescope.actions.state").get_selected_entry()[1])
+					end)
+					return true
+				end,
+				layout_config = require("faith.telescope.layouts").layout_configs.centered_compact.layout_config,
+				borderchars = require("faith.telescope.layouts").layout_configs.centered_compact.borderchars,
+			})
+			:find()
+	end)
+end
+
 dap.configurations.cpp = {
 	{
 		name = "Launch file",
 		type = "cppdbg",
 		request = "launch",
-		program = function()
-			return vim.fn.input({
-				prompt = "Path to executable: ",
-				text = vim.fn.glob(vim.fn.getcwd() .. "/"),
-				completion = "file",
-			})
+		program = cxx_find_exe,
+		args = function()
+			local args_string = vim.fn.input("Args: ")
+			return vim.split(args_string, " ")
 		end,
 		cwd = "${workspaceFolder}",
 		stopAtEntry = true,
+		setupCommands = {
+			{
+				text = "-enable-pretty-printing",
+				description = "enable pretty printing",
+				ignoreFailures = false,
+			},
+		},
 	},
 	{
 		name = "Attach to gdbserver :1234",
@@ -82,15 +126,21 @@ dap.configurations.cpp = {
 		miDebuggerServerAddress = "localhost:1234",
 		miDebuggerPath = "/usr/bin/gdb",
 		cwd = "${workspaceFolder}",
-		program = function()
-			return vim.fn.input({
-				prompt = "Path to executable: ",
-				text = vim.fn.glob(vim.fn.getcwd() .. "/"),
-				completion = "file",
-			})
+		program = cxx_find_exe,
+		args = function()
+			local args_string = vim.fn.input("Args: ")
+			return vim.split(args_string, " ")
 		end,
+		setupCommands = {
+			{
+				text = "-enable-pretty-printing",
+				description = "enable pretty printing",
+				ignoreFailures = false,
+			},
+		},
 	},
 }
+dap.configurations.c = dap.configurations.cpp
 
 dap.configurations.rust = {
 	{
