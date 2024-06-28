@@ -4,7 +4,9 @@ if not has_neotest then
 end
 
 neotest.setup({
-	require("neotest-vim-test")({
-		ignore_file_types = { "rust", "haskell" },
-	}),
+	adapters = {
+		require("neotest-vim-test")({
+			allow_file_types = { "c" },
+		}),
+	},
 })

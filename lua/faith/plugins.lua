@@ -53,11 +53,14 @@ Plug("ray-x/lsp_signature.nvim")
 Plug("ThePrimeagen/refactoring.nvim")
 Plug("skywind3000/asyncrun.vim")
 Plug("vim-test/vim-test")
+Plug("nvim-neotest/neotest-vim-test")
+Plug("nvim-neotest/neotest")
 Plug("andythigpen/nvim-coverage")
 --[[]]
 
 --[[ Debugging ]]
 Plug("mfussenegger/nvim-dap")
+Plug("nvim-neotest/nvim-nio")
 Plug("rcarriga/nvim-dap-ui")
 Plug("theHamsta/nvim-dap-virtual-text")
 --[[]]
