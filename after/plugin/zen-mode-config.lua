@@ -36,9 +36,11 @@ zen_mode.setup({
 	},
 	on_open = function(_)
 		vim.cmd("Barbecue hide")
+		vim.diagnostic.hide(nil, 0)
 	end,
 	on_close = function()
 		vim.cmd("Barbecue show")
+		vim.diagnostic.show(nil, 0)
 	end,
 })
 

@@ -1,10 +1,10 @@
 vim.opt.title = true
 vim.opt.titlestring = "Nvim: %t%( %M%)%( %a%)"
-vim.opt.iskeyword = vim.opt.iskeyword + { "-" }
+vim.opt.iskeyword:remove({ "-" })
 vim.opt.termguicolors = true
 vim.opt.cmdheight = 1
 vim.opt.conceallevel = 2
-vim.opt.mouse = "n"
+vim.opt.mouse = "nvi"
 -- vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.laststatus = 3
@@ -26,6 +26,7 @@ vim.opt.signcolumn = "yes:3"
 vim.opt.updatetime = 300
 vim.opt.timeoutlen = 500
 vim.opt.hidden = true
+vim.opt.textwidth = 100
 vim.opt.wrap = true
 vim.opt.linebreak = true
 vim.opt.showbreak = "↪"

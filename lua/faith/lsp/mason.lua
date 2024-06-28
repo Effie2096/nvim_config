@@ -93,7 +93,14 @@ for _, server in pairs(servers) do
 		opts = vim.tbl_deep_extend("force", lua_opts, opts)
 		local has_neodev, neodev = pcall(require, "neodev")
 		if has_neodev then
-			neodev.setup()
+			local neodev_opts = {}
+			local has_nvim_dap_ui, _ = pcall(require, "nvim-dap-ui")
+			if has_nvim_dap_ui then
+				neodev_opts = {
+					library = { plugins = { "nvim-dap-ui" }, types = true },
+				}
+			end
+			neodev.setup(neodev_opts)
 		end
 	end
 

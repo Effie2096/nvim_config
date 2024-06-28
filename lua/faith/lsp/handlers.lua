@@ -275,6 +275,15 @@ local function lsp_keymaps(bufnr)
 		vim.diagnostic.setqflist,
 		desc(opts, "[d]iagnostic [q]uickfix: Add workspace diagnostics to quickfix list.")
 	)
+	nnoremap("<leader>dd", function()
+		if vim.g.diagnostics_active or vim.fn.exists("diagnostics_active") == 0 then
+			vim.g.diagnostics_active = false
+			vim.diagnostic.hide()
+		else
+			vim.g.diagnostics_active = true
+			vim.diagnostic.show()
+		end
+	end)
 	nnoremap(
 		"<leader>a",
 		vim.lsp.buf.code_action,
@@ -499,7 +508,7 @@ M.on_attach = function(client, bufnr)
 	end
 
 	if client.server_capabilities.inlayHintProvider then
-		vim.lsp.inlay_hint(bufnr, true)
+		vim.lsp.inlay_hint.enable(bufnr, true)
 	end
 
 	if client.name == "jdtls" then

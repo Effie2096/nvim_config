@@ -70,7 +70,7 @@ catppuccin.setup({
 			dim_dirname = true, -- directory name is dimmed by default
 			bold_basename = true,
 			dim_context = false,
-			alt_background = false,
+			alt_background = true,
 		},
 		lsp_saga = true,
 		mason = true,
@@ -103,6 +103,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 
 		local accent = colors.pink
 		local base = vim.g.transparent_enabled and "none" or colors.base
+		local mantle = vim.g.transparent_enabled and "none" or colors.mantle
 		vim.api.nvim_set_hl(0, "CatAccent", { fg = base, bg = accent, bold = true })
 		vim.api.nvim_set_hl(0, "CatAccentInverse", { fg = accent, bg = base, bold = true })
 		vim.api.nvim_set_hl(0, "DiagnosticCheck", { fg = colors.green, bg = mantle })
@@ -205,7 +206,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 		vim.api.nvim_set_hl(0, "IndentBlanklineSpaceChar", { fg = white_space_colors.fg })
 		vim.api.nvim_set_hl(0, "IndentBlanklineSpaceCharBlankline", { fg = white_space_colors.fg })
 
-		vim.api.nvim_set_hl(0, "IndentBlanklineContextStart", { sp = colors.text, underline = true })
+		vim.api.nvim_set_hl(0, "IndentBlanklineContextStart", { sp = accent, underline = true })
 
 		vim.cmd([[highlight ExtraWhitespace ctermfg=red guifg=red gui=nocombine]])
 

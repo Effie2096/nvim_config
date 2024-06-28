@@ -19,8 +19,10 @@ local fk = require("faith.keymap")
 local nnoremap = fk.nnoremap
 local desc = fk.desc
 
+local icons = require("faith.icons")
+
 local opts = { noremap = true, silent = true }
-nnoremap("<F5>", require("dap").continue, opts)
+nnoremap("<F6>", require("dap").continue, opts)
 nnoremap("<F10>", require("dap").step_over, opts)
 nnoremap("<F11>", require("dap").step_into, opts)
 nnoremap("<F12>", require("dap").step_out, opts)
@@ -37,7 +39,12 @@ nnoremap("<Leader>dp", function()
 end, desc(opts, "[d]ebug log [p]oint: Add logging breakpoint on current line."))
 -- nnoremap("<Leader>dr", require'dap'.repl.open, opts)
 
--- vnoremap("<M-k", require('dapui').eval(), opts)
+vim.keymap.set(
+	{ "n", "v" },
+	"<leader>de",
+	require("dapui").eval,
+	vim.tbl_extend("force", opts, { desc = "[d]ebug [e]valuate: Evaluate <word> under cursor or selection." })
+)
 
 function GotoWindow(id)
 	vim.fn["win_gotoid"](id)
@@ -96,7 +103,10 @@ dap.configurations.rust = {
 	},
 }
 
-nnoremap("<Leader>do", require("dapui").toggle, desc(opts, "[d]ebug ui [o]pen: Toggle debugger ui."))
+nnoremap("<Leader>do", function()
+	require("dapui").toggle({ reset = true })
+	vim.cmd("DapVirtualTextForceRefresh")
+end, desc(opts, "[d]ebug ui [o]pen: Toggle debugger ui."))
 nnoremap(
 	"<leader>dt",
 	"<cmd>lua require('dapui').toggle({layout = 2})<CR>",
@@ -122,7 +132,6 @@ end ]]
 
 -- Catppuccin integration
 local sign = vim.fn.sign_define
-local icons = require("faith.icons")
 
 sign("DapBreakpoint", { text = icons.debug.Breakpoint, texthl = "DapBreakpoint", linehl = "", numhl = "" })
 sign(
@@ -132,8 +141,10 @@ sign(
 sign("DapLogPoint", { text = icons.debug.BreakpointLog, texthl = "DapLogPoint", linehl = "", numhl = "" })
 
 dap_vt.setup({
-	only_first_definition = true, -- only show virtual text at first definition (if there are multiple)
-	all_references = true, -- show virtual text on all all references of the variable (not only definitions)
+	enable_commands = true,
+	only_first_definition = false, -- only show virtual text at first definition (if there are multiple)
+	all_references = false, -- show virtual text on all all references of the variable (not only definitions)
+	highlight_changed_variables = true,
 })
 
 dapui.setup({

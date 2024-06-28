@@ -1,13 +1,5 @@
 local Plug = vim.fn["plug#"]
 
-vim.cmd([[
-let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-if empty(glob(data_dir . '/autoload/plug.vim'))
-  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-]])
-
 vim.fn["plug#begin"]()
 Plug("catppuccin/nvim", {
 	["as"] = "catppuccin",
@@ -16,6 +8,7 @@ Plug("lewis6991/impatient.nvim")
 Plug("antoinemadec/FixCursorHold.nvim")
 Plug("vhyrro/luarocks.nvim", { ["do"] = ":source ./build.lua" })
 Plug("qpkorr/vim-renamer")
+Plug("tpope/vim-sleuth")
 
 --[[]]
 Plug("nvim-lualine/lualine.nvim")

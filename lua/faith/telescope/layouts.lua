@@ -237,17 +237,17 @@ M.file_ignore = {
 	file_ignore_patterns = {
 		"^node_modules/",
 		"package%.json", "package%-lock%.json",
-		"^target/", "^bin/",  "^build/",
+		"^target/", "^bin/", "^build/", "^Build/", "^Debug/", "^debug/", "^Release/", "^release/",
 		"%.class", "%.jar",
 		"%.swp", "%.zip", "%.exe", "%.mid", "%.jar", "%.class", "%.mm", "%.o", "%.obj",
 		"%.csproj", "%.sln", "%.cache", "%.asset", "%.prefs", "%.dwlt", "%.db", "%.catalog", "%.graph", "%.meta",
-		"%.bmp", "%.gif", "%.ico", "%.jpg", "%.png", "%.ico",
+		"%.bmp", "%.gif", "%.ico", "%.jpg", "%.png", "%.ico", "%.webp",
 		"%.pdf",
 		"^tmp/", "^.vs/", "^Library/", "^Logs/", "^obj/", "^Packages/", "^ProjectSettings/",
 		"^%.venv/"
 	}
 }
--- M.layout_configs.defaults = vim.tbl_extend('force', M.layout_configs.defaults, file_ignore)
+M.layout_configs.defaults = vim.tbl_extend('force', M.layout_configs.defaults, M.file_ignore)
 
 local function append_defaults()
 	local defaults = M.layout_configs['defaults']
