@@ -60,6 +60,7 @@ Plug("andythigpen/nvim-coverage")
 
 --[[ Debugging ]]
 Plug("mfussenegger/nvim-dap")
+Plug("LiadOz/nvim-dap-repl-highlights")
 Plug("nvim-neotest/nvim-nio")
 Plug("rcarriga/nvim-dap-ui")
 Plug("theHamsta/nvim-dap-virtual-text")

@@ -10,6 +10,10 @@ local dap_virtual_text_status_ok, dap_vt = pcall(require, "nvim-dap-virtual-text
 if not dap_virtual_text_status_ok then
 	return
 end
+local has_nvim_dap_repl_highlights, nvim_dap_repl_highlights = pcall(require, "nvim-dap-repl-highlights")
+if not has_nvim_dap_repl_highlights then
+	return
+end
 
 local fk = require("faith.keymap")
 local nnoremap = fk.nnoremap
@@ -209,6 +213,8 @@ dapui.setup({
 		max_type_length = nil, -- Can be integer or nil.
 	},
 })
+
+nvim_dap_repl_highlights.setup()
 
 vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
 	group = vim.api.nvim_create_augroup("dap_ui_winbars", { clear = true }),
