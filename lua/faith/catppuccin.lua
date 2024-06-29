@@ -136,18 +136,6 @@ catppuccin.setup({
 	end,
 })
 
-vim.api.nvim_create_augroup("catppuccin_auto_compile", { clear = true })
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-	pattern = { "catppuccin.lua" },
-	callback = function()
-		local path = vim.fn.stdpath("config")
-		vim.cmd("luafile " .. vim.fn.glob(path .. "/lua/faith/catppuccin.lua"))
-		require("catppuccin").compile()
-		return true
-	end,
-	group = "catppuccin_auto_compile",
-})
-
 vim.api.nvim_create_autocmd("ColorScheme", {
 	pattern = "*",
 	callback = function()
