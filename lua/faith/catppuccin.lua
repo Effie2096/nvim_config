@@ -37,6 +37,8 @@ catppuccin.setup({
 		lsp_trouble = true,
 		ts_rainbow = false,
 		telescope = true,
+		harpoon = true,
+		rainbow_delimiters = true,
 		native_lsp = {
 			enabled = true,
 			virtual_text = {
@@ -79,10 +81,55 @@ catppuccin.setup({
 	custom_highlights = function(colors)
 		local change_color = colors.blue
 
+		local telescope_normal = colors.surface0
+		local telescope_prompt = colors.surface1
+
+		local harpoon_active = { fg = colors.base, bg = colors.pink, bold = true }
+
 		local hightlight_overrides = {
 			GitSignsChange = { fg = change_color, bg = colors.base },
 			GitSignsChangeNr = { fg = change_color, bg = colors.base },
 			GitSignsChangeInline = { fg = colors.base, bg = change_color },
+
+			TelescopeNormal = { bg = telescope_normal },
+			TelescopeSelection = { bg = telescope_prompt },
+			TelescopePromptNormal = { bg = telescope_prompt },
+			TelescopeBorder = { fg = telescope_normal, bg = telescope_normal },
+			TelescopePromptBorder = { fg = telescope_prompt, bg = telescope_prompt },
+			TelescopePromptTitle = { fg = colors.crust, bg = colors.pink },
+			TelescopePreviewTitle = { fg = colors.crust, bg = colors.green },
+
+			HarpoonInactive = { link = "Tabline" },
+			HarpoonActive = harpoon_active,
+			HarpoonNumberActive = harpoon_active,
+			HarpoonNumberInactive = { link = "Tabline" },
+
+			CmpItemKindSnippet = { fg = colors.base, bg = colors.mauve },
+			CmpItemKindKeyword = { fg = colors.base, bg = colors.red },
+			CmpItemKindText = { fg = colors.base, bg = colors.teal },
+			CmpItemKindMethod = { fg = colors.base, bg = colors.blue },
+			CmpItemKindConstructor = { fg = colors.base, bg = colors.blue },
+			CmpItemKindFunction = { fg = colors.base, bg = colors.blue },
+			CmpItemKindFolder = { fg = colors.base, bg = colors.blue },
+			CmpItemKindModule = { fg = colors.base, bg = colors.blue },
+			CmpItemKindConstant = { fg = colors.base, bg = colors.peach },
+			CmpItemKindField = { fg = colors.base, bg = colors.green },
+			CmpItemKindProperty = { fg = colors.base, bg = colors.green },
+			CmpItemKindEnum = { fg = colors.base, bg = colors.green },
+			CmpItemKindUnit = { fg = colors.base, bg = colors.green },
+			CmpItemKindClass = { fg = colors.base, bg = colors.yellow },
+			CmpItemKindVariable = { fg = colors.base, bg = colors.flamingo },
+			CmpItemKindFile = { fg = colors.base, bg = colors.blue },
+			CmpItemKindInterface = { fg = colors.base, bg = colors.yellow },
+			CmpItemKindColor = { fg = colors.base, bg = colors.red },
+			CmpItemKindReference = { fg = colors.base, bg = colors.red },
+			CmpItemKindEnumMember = { fg = colors.base, bg = colors.red },
+			CmpItemKindStruct = { fg = colors.base, bg = colors.blue },
+			CmpItemKindValue = { fg = colors.base, bg = colors.peach },
+			CmpItemKindEvent = { fg = colors.base, bg = colors.blue },
+			CmpItemKindOperator = { fg = colors.base, bg = colors.blue },
+			CmpItemKindTypeParameter = { fg = colors.base, bg = colors.blue },
+			CmpItemKindCopilot = { fg = colors.base, bg = colors.teal },
 		}
 
 		return hightlight_overrides
@@ -100,12 +147,6 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 	end,
 	group = "catppuccin_auto_compile",
 })
-
---[[ vim.api.nvim_create_autocmd("ColorSchemePre", {
-	pattern = "*",
-	callback = function ()
-	end,
-}) ]]
 
 vim.api.nvim_create_autocmd("ColorScheme", {
 	pattern = "*",
@@ -145,59 +186,6 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 				.. " cterm=bold,underline gui=bold,underline",
 			{ output = false }
 		)
-		-- vim.api.nvim_set_hl(0, "NormalFloat", { bg = colors.surface0 })
-
-		local kindFG = colors.base
-
-		local cmp_items = {
-			"CmpItemKindField",
-			"CmpItemKindProperty",
-			"CmpItemKindEvent",
-			"CmpItemKindText",
-			"CmpItemKindEnum",
-			"CmpItemKindKeyword",
-			"CmpItemKindConstant",
-			"CmpItemKindConstructor",
-			"CmpItemKindReference",
-			"CmpItemKindFunction",
-			"CmpItemKindStruct",
-			"CmpItemKindClass",
-			"CmpItemKindModule",
-			"CmpItemKindOperator",
-			"CmpItemKindVariable",
-			"CmpItemKindFile",
-			"CmpItemKindUnit",
-			"CmpItemKindSnippet",
-			"CmpItemKindFolder",
-			"CmpItemKindMethod",
-			"CmpItemKindValue",
-			"CmpItemKindEnumMember",
-			"CmpItemKindInterface",
-			"CmpItemKindColor",
-			"CmpItemKindTypeParameter",
-		}
-
-		for _, v in pairs(cmp_items) do
-			local color = vim.api.nvim_get_hl(0, { name = v })
-			vim.api.nvim_set_hl(0, v, { fg = kindFG, bg = color.fg })
-		end
-
-		local telescope_normal = colors.surface0
-		local telescope_prompt = colors.surface1
-
-		vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = telescope_normal })
-		vim.api.nvim_set_hl(0, "TelescopeSelection", { bg = telescope_prompt })
-		vim.api.nvim_set_hl(0, "TelescopePromptNormal", { bg = telescope_prompt })
-		vim.api.nvim_set_hl(0, "TelescopeBorder", {
-			fg = telescope_normal, --colors.pink,
-			bg = telescope_normal,
-		})
-		vim.api.nvim_set_hl(0, "TelescopePromptBorder", {
-			fg = telescope_prompt, --colors.pink,
-			bg = telescope_prompt,
-		})
-		vim.api.nvim_set_hl(0, "TelescopePromptTitle", { fg = colors.crust, bg = colors.pink })
-		vim.api.nvim_set_hl(0, "TelescopePreviewTitle", { fg = colors.crust, bg = colors.green })
 
 		local white_space_colors = vim.api.nvim_get_hl(0, { name = "Whitespace" })
 		vim.api.nvim_set_hl(0, "IndentBlankLineChar", { fg = white_space_colors.fg })
@@ -221,24 +209,6 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 
 		if package.loaded.fidget ~= nil then
 			vim.api.nvim_set_hl(0, "FidgetTitle", { fg = colors.pink, bold = true })
-		end
-
-		if package.loaded.harpoon ~= nil then
-			local active = { fg = colors.base, bg = accent, bold = true }
-			vim.api.nvim_set_hl(0, "HarpoonInactive", { link = "Tabline" })
-			vim.api.nvim_set_hl(0, "HarpoonActive", active)
-			vim.api.nvim_set_hl(0, "HarpoonNumberActive", active)
-			vim.api.nvim_set_hl(0, "HarpoonNumberInactive", { link = "Tabline" })
-		end
-
-		if package.loaded["rainbow_delimiters"] ~= nil then
-			vim.api.nvim_set_hl(0, "RainbowDelimiterRed", { fg = colors.red })
-			vim.api.nvim_set_hl(0, "RainbowDelimiterYellow", { fg = colors.yellow })
-			vim.api.nvim_set_hl(0, "RainbowDelimiterBlue", { fg = colors.teal })
-			vim.api.nvim_set_hl(0, "RainbowDelimiterOrange", { fg = colors.peach })
-			vim.api.nvim_set_hl(0, "RainbowDelimiterGreen", { fg = colors.green })
-			vim.api.nvim_set_hl(0, "RainbowDelimiterViolet", { fg = colors.mauve })
-			vim.api.nvim_set_hl(0, "RainbowDelimiterCyan", { fg = colors.sky })
 		end
 
 		vim.api.nvim_set_hl(0, "TreesitterContextBottom", { bg = colors.mantle, special = "none" })
