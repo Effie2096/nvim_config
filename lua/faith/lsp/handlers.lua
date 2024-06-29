@@ -508,7 +508,7 @@ M.on_attach = function(client, bufnr)
 	end
 
 	if client.server_capabilities.inlayHintProvider then
-		vim.lsp.inlay_hint.enable(bufnr, true)
+		vim.lsp.inlay_hint.enable(true)
 	end
 
 	if client.name == "jdtls" then
