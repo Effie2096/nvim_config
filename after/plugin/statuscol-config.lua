@@ -3,8 +3,6 @@ if not has_statuscol then
 	return
 end
 
-local icons = require("faith.icons")
-
 local builtin = require("statuscol.builtin")
 
 statuscol.setup({
@@ -16,8 +14,6 @@ statuscol.setup({
 	thousands = false, -- or line number thousands separator string ("." / ",")
 	relculright = true, -- whether to right-align the cursor line number with 'relativenumber' set
 	-- Builtin 'statuscolumn' options
-	ft_ignore = nil, -- lua table with filetypes for which 'statuscolumn' will be unset
-	bt_ignore = nil, -- lua table with 'buftype' values for which 'statuscolumn' will be unset
 	-- Default segments (fold -> sign -> line number + separator), explained below
 	segments = {
 		{
@@ -35,7 +31,7 @@ statuscol.setup({
 			click = "v:lua.ScSa",
 		},
 		{
-			sign = { name = { "Diagnostic" }, maxwidth = 2, auto = false },
+			sign = { namespace = { "diagnostic/signs" }, maxwidth = 2, auto = false },
 			click = "v:lua.ScSa",
 		},
 		{
@@ -45,11 +41,10 @@ statuscol.setup({
 		},
 		{
 			sign = {
-				name = { "GitSign" },
+				namespace = { "gitsigns" },
 				maxwidth = 1,
 				colwidth = 1,
 				auto = true,
-				-- fillchar = icons.git.signs.add,
 			},
 		},
 		{
@@ -66,10 +61,7 @@ statuscol.setup({
 		DapBreakpointRejected = builtin.toggle_breakpoint,
 		DapBreakpoint = builtin.toggle_breakpoint,
 		DapBreakpointCondition = builtin.toggle_breakpoint,
-		DiagnosticSignError = builtin.diagnostic_click,
-		DiagnosticSignHint = builtin.diagnostic_click,
-		DiagnosticSignInfo = builtin.diagnostic_click,
-		DiagnosticSignWarn = builtin.diagnostic_click,
+		["diagnostic/signs"] = builtin.diagnostic_click,
 		GitSignsTopdelete = builtin.gitsigns_click,
 		GitSignsUntracked = builtin.gitsigns_click,
 		GitSignsAdd = builtin.gitsigns_click,
