@@ -7,36 +7,21 @@ local icons = require("faith.icons")
 
 gitsign.setup({
 	signs = {
-		add = { hl = "GitSignsAdd", text = icons.git.signs.add, numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
+		add = { text = icons.git.signs.add },
 		change = {
-			hl = "GitSignsChange",
 			text = icons.git.signs.mod,
-			numhl = "GitSignsChangeNr",
-			linehl = "GitSignsChangeLn",
 		},
 		delete = {
-			hl = "GitSignsDelete",
 			text = icons.git.signs.delete,
-			numhl = "GitSignsDeleteNr",
-			linehl = "GitSignsDeleteLn",
 		},
 		topdelete = {
-			hl = "GitSignsDelete",
 			text = icons.git.signs.top_delete,
-			numhl = "GitSignsDeleteNr",
-			linehl = "GitSignsDeleteLn",
 		},
 		changedelete = {
-			hl = "GitSignsChange",
 			text = icons.git.signs.change_delete,
-			numhl = "GitSignsChangeNr",
-			linehl = "GitSignsChangeLn",
 		},
 		untracked = {
-			hl = "GitSignsAdd",
 			text = icons.git.signs.untracked,
-			numhl = "GitSignsAddNr",
-			linehl = "GitSignsAddLn",
 		},
 	},
 	signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
@@ -67,9 +52,6 @@ gitsign.setup({
 		relative = "cursor",
 		row = 0,
 		col = 1,
-	},
-	yadm = {
-		enable = false,
 	},
 	on_attach = function(bufnr)
 		local gs = package.loaded.gitsigns

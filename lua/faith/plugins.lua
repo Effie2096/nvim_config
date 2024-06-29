@@ -99,7 +99,7 @@ Plug("szw/vim-maximizer")
 
 --[[ Git ]]
 Plug("tpope/vim-fugitive")
-Plug("lewis6991/gitsigns.nvim", { ["commit"] = "11b80e7eea249affc8776483272bcfc627b5552a" })
+Plug("lewis6991/gitsigns.nvim")
 Plug("ThePrimeagen/git-worktree.nvim")
 --[[]]
 

@@ -76,6 +76,17 @@ catppuccin.setup({
 		mason = true,
 		noice = true,
 	},
+	custom_highlights = function(colors)
+		local change_color = colors.blue
+
+		local hightlight_overrides = {
+			GitSignsChange = { fg = change_color, bg = colors.base },
+			GitSignsChangeNr = { fg = change_color, bg = colors.base },
+			GitSignsChangeInline = { fg = colors.base, bg = change_color },
+		}
+
+		return hightlight_overrides
+	end,
 })
 
 vim.api.nvim_create_augroup("catppuccin_auto_compile", { clear = true })
@@ -121,18 +132,6 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 
 		vim.api.nvim_set_hl(0, "CursorLineNr", { fg = accent, bg = signHl.bg })
 
-		local changeColor = colors.blue
-		vim.api.nvim_set_hl(0, "GitSignsAdd", { fg = colors.green, bg = signHl.bg })
-		vim.api.nvim_set_hl(0, "GitSignsChange", { fg = changeColor, bg = signHl.bg })
-		vim.api.nvim_set_hl(0, "GitSignsDelete", { fg = colors.red, bg = signHl.bg })
-		vim.api.nvim_exec2("highlight GitSignsChangeNr guifg=" .. changeColor, { output = false })
-		vim.api.nvim_exec2(
-			"highlight GitSignsChangeLn guifg=" .. colors.yellow .. " guibg=" .. colors.base,
-			{ output = false }
-		)
-		vim.api.nvim_set_hl(0, "GitSignsAddInline", { fg = colors.base, bg = colors.green })
-		vim.api.nvim_set_hl(0, "GitSignsDeleteInline", { fg = colors.base, bg = colors.red })
-		vim.api.nvim_set_hl(0, "GitSignsChangeInline", { fg = colors.base, bg = changeColor })
 		vim.api.nvim_set_hl(0, "DiffChange", { bg = "#3d4261" })
 		vim.api.nvim_set_hl(0, "DiffText", { bg = "#3d5a8a", special = "#3d5a8a", underline = true })
 
