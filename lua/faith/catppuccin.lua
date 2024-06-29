@@ -187,14 +187,6 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 			{ output = false }
 		)
 
-		local white_space_colors = vim.api.nvim_get_hl(0, { name = "Whitespace" })
-		vim.api.nvim_set_hl(0, "IndentBlankLineChar", { fg = white_space_colors.fg })
-		vim.api.nvim_set_hl(0, "IndentBlankLineContextChar", { fg = accent })
-		vim.api.nvim_set_hl(0, "IndentBlanklineSpaceChar", { fg = white_space_colors.fg })
-		vim.api.nvim_set_hl(0, "IndentBlanklineSpaceCharBlankline", { fg = white_space_colors.fg })
-
-		vim.api.nvim_set_hl(0, "IndentBlanklineContextStart", { sp = accent, underline = true })
-
 		vim.cmd([[highlight ExtraWhitespace ctermfg=red guifg=red gui=nocombine]])
 
 		vim.api.nvim_set_hl(0, "TermCursor", { --[[ fg is ignored ]]

@@ -17,5 +17,3 @@ require("faith.telescope.mappings")
 
 require("faith.lsp")
 require("faith.snippets.comment_nvim")
-
-require("faith.listchars")

@@ -117,7 +117,7 @@ Plug("tpope/vim-obsession")
 --[[]]
 
 --[[ Visual/UI ]]
-Plug("lukas-reineke/indent-blankline.nvim", { ["tag"] = "v2.*" })
+Plug("lukas-reineke/indent-blankline.nvim", { ["as"] = "ibl" })
 Plug("norcalli/nvim-colorizer.lua")
 Plug("HiPhish/rainbow-delimiters.nvim")
 Plug("ziontee113/color-picker.nvim")

@@ -1,12 +1,19 @@
-local has_indent_blankline, indent_blankline = pcall(require, "indent_blankline")
-if not has_indent_blankline then
+local has_ibl, ibl = pcall(require, "ibl")
+if not has_ibl then
 	return
 end
 
 local icons = require("faith.icons")
 
-indent_blankline.setup({
-	char_list = { icons.characters.indent },
+ibl.setup({
+	indent = {
+		char = icons.characters.indent,
+		smart_indent_cap = true,
+	},
+	scope = {
+		char = icons.characters.indent_focus,
+	},
+	--[[ char_list = { icons.characters.indent },
 	context_char_list = { icons.characters.indent_focus },
 	show_first_indent_level = true,
 	show_trailing_blankline = false,
@@ -24,5 +31,5 @@ indent_blankline.setup({
 		"NvimTree",
 		"Trouble",
 		"text",
-	},
+	}, ]]
 })
