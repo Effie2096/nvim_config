@@ -72,6 +72,7 @@ Plug("saadparwaiz1/cmp_luasnip")
 Plug("petertriho/cmp-git")
 Plug("quangnguyen30192/cmp-nvim-tags")
 Plug("davidsierradz/cmp-conventionalcommits")
+Plug("justinsgithub/wezterm-types")
 
 Plug("rafamadriz/friendly-snippets")
 

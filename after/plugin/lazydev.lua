@@ -3,4 +3,8 @@ if not has_lazydev then
 	return
 end
 
-lazydev.setup()
+lazydev.setup({
+	library = {
+		{ path = "wezterm-types", mods = { "wezterm" } },
+	},
+})
