@@ -12,7 +12,7 @@ Plug("tpope/vim-sleuth")
 
 --[[]]
 Plug("nvim-lualine/lualine.nvim")
-Plug("akinsho/toggleterm.nvim", { ["tag"] = "v2.*" })
+Plug("akinsho/toggleterm.nvim", { ["tag"] = "*" })
 Plug("SmiteshP/nvim-navic")
 Plug("utilyre/barbecue.nvim", { ["as"] = "barbecue" })
 Plug("kyazdani42/nvim-web-devicons")
