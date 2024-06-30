@@ -187,7 +187,7 @@ cmp.setup({
 		{ name = "tags" },
 		{ name = "nvim_lsp" },
 		-- { name = 'nvim_lsp_signature_help' },
-		{ name = "nvim_lua" },
+		{ name = "lazydev", group_index = 0 },
 		{ name = "path" },
 		{ name = "buffer", keyword_length = 3 },
 		{ name = "calc" },

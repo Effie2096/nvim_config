@@ -10,6 +10,7 @@ return {
 			},
 			diagnostics = {
 				globals = {
+					"vim",
 					"awesome",
 				},
 			},
