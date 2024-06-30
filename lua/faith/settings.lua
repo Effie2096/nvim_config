@@ -39,7 +39,15 @@ vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8"
 vim.opt.fileformat = "unix"
 vim.opt.nrformats = "alpha,hex,bin"
-vim.opt.fillchars:append({ vert = "│" })
+vim.opt.fillchars:append({
+	horiz = " ", -- "─",
+	horizup = "│", -- "┴",
+	horizdown = " ", -- "┬",
+	vert = "│",
+	vertleft = "│", -- "┤",
+	vertright = "│", -- "├",
+	verthoriz = "│", -- "┼",
+})
 
 -- set format options for each window otherwise it just doens't work for some reason :c
 vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {

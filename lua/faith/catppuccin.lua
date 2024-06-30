@@ -71,7 +71,7 @@ catppuccin.setup({
 		barbecue = {
 			dim_dirname = true, -- directory name is dimmed by default
 			bold_basename = true,
-			dim_context = false,
+			dim_context = true,
 			alt_background = true,
 		},
 		lsp_saga = true,
