@@ -1,5 +1,4 @@
 require("faith.plugins")
-pcall(require, "impatient")
 
 if vim.fn.has("win32") ~= 0 then
 	require("faith.shell")
