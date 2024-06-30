@@ -4,7 +4,6 @@ vim.fn["plug#begin"]()
 Plug("catppuccin/nvim", {
 	["as"] = "catppuccin",
 })
-Plug("antoinemadec/FixCursorHold.nvim")
 Plug("vhyrro/luarocks.nvim", { ["do"] = ":source ./build.lua" })
 Plug("qpkorr/vim-renamer")
 Plug("tpope/vim-sleuth")
