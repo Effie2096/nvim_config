@@ -34,7 +34,6 @@ Plug("b0o/schemastore.nvim")
 Plug("pedro757/emmet")
 Plug("DasGandlaf/nvim-autohotkey")
 Plug("nvim-treesitter/nvim-treesitter-textobjects")
-Plug("simrat39/rust-tools.nvim")
 Plug("cdelledonne/vim-cmake")
 Plug("nvimdev/lspsaga.nvim", { ["branch"] = "main" })
 
@@ -46,6 +45,7 @@ Plug("vim-test/vim-test")
 Plug("nvim-neotest/neotest-vim-test")
 Plug("nvim-neotest/neotest")
 Plug("andythigpen/nvim-coverage")
+Plug("mrcjkb/rustaceanvim", { ["tag"] = "4.*" })
 --[[]]
 
 --[[ Debugging ]]

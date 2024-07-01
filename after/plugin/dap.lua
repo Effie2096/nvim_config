@@ -59,6 +59,15 @@ dap.adapters.cppdbg = {
 		home .. "/.local/share/nvim/mason/packages/cpptools/extension/debugAdapters/bin/OpenDebugAD7"
 	),
 }
+dap.adapters.codelldb = {
+	type = "server",
+	port = "1234",
+	executable = {
+		command = require("mason-registry").get_package("codelldb"):get_install_path() .. "/extension/adapter/codelldb",
+		args = { "--port", "1234" },
+		detached = vim.uv.os_uname().sysname:find("Windows"),
+	},
+}
 local function cxx_executable_path()
 	local user_input = vim.fn.input({
 		prompt = "Path to executable: ",
@@ -145,11 +154,30 @@ dap.configurations.c = dap.configurations.cpp
 dap.configurations.rust = {
 	{
 		name = "Launch",
-		type = "rt_lldb",
+		type = "codelldb",
 		request = "launch",
 		cwd = "${workspaceFolder}",
 		program = "${workspaceFolder}/target/debug/${workspaceFolderBasename}",
 		stopAtEntry = true,
+		initCommands = function()
+			-- Find out where to look for the pretty printer Python module
+			local rustc_sysroot = vim.fn.trim(vim.fn.system("rustc --print sysroot"))
+
+			local script_import = 'command script import "' .. rustc_sysroot .. '/lib/rustlib/etc/lldb_lookup.py"'
+			local commands_file = rustc_sysroot .. "/lib/rustlib/etc/lldb_commands"
+
+			local commands = {}
+			local file = io.open(commands_file, "r")
+			if file then
+				for line in file:lines() do
+					table.insert(commands, line)
+				end
+				file:close()
+			end
+			table.insert(commands, 1, script_import)
+
+			return commands
+		end,
 	},
 }
 

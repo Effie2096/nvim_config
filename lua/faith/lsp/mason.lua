@@ -128,18 +128,8 @@ for _, server in pairs(servers) do
 	end
 
 	if server == "rust_analyzer" or server == "rust_analyzer-standalone" then
-		local rust_analyzer_opts = require("faith.lsp.settings.rust")
-		opts = vim.tbl_deep_extend("force", rust_analyzer_opts, opts)
-
-		if pcall(require, "rust-tools") then
-			local rust_tools_opts = require("faith.lsp.settings.rust-tools")
-			local rust_opts = {
-				server = opts,
-			}
-			rust_opts = vim.tbl_deep_extend("force", rust_opts, rust_tools_opts)
-			require("rust-tools").setup(rust_opts)
-			goto continue
-		end
+		-- rustaceanvim explicitly says not to call lspconfig.rust_analyzer.setup
+		goto continue
 	end
 
 	lspconfig[server].setup(opts)
