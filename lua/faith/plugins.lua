@@ -5,8 +5,8 @@ Plug("catppuccin/nvim", {
 	["as"] = "catppuccin",
 })
 Plug("vhyrro/luarocks.nvim", { ["do"] = ":source ./build.lua" })
-Plug("qpkorr/vim-renamer")
 Plug("tpope/vim-sleuth")
+Plug("stevearc/oil.nvim")
 
 --[[]]
 Plug("nvim-lualine/lualine.nvim")
