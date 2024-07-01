@@ -3,24 +3,32 @@ if not has_harpoon then
 	return
 end
 
-local fk = require("faith.keymap")
-local nnoremap = fk.nnoremap
+vim.keymap.set("n", "<leader>ma", function()
+	harpoon:list():add()
+end)
+vim.keymap.set("n", "<leader>me", function()
+	harpoon.ui:toggle_quick_menu(harpoon:list())
+end)
 
-local opts = { noremap = true, silent = true }
+vim.keymap.set("n", "<C-h>", function()
+	harpoon:list():select(1)
+end)
+vim.keymap.set("n", "<C-j>", function()
+	harpoon:list():select(2)
+end)
+vim.keymap.set("n", "<C-k>", function()
+	harpoon:list():select(3)
+end)
+vim.keymap.set("n", "<C-l>", function()
+	harpoon:list():select(4)
+end)
 
-nnoremap("<leader>ma", require("harpoon.mark").add_file, opts)
+-- Toggle previous & next buffers stored within Harpoon list
+vim.keymap.set("n", "<leader>p", function()
+	harpoon:list():prev()
+end)
+vim.keymap.set("n", "<leader>n", function()
+	harpoon:list():next()
+end)
 
-nnoremap("<C-h>", "<cmd>lua require('harpoon.ui').nav_file(1)<cr>", opts)
-nnoremap("<C-j>", "<cmd>lua require('harpoon.ui').nav_file(2)<cr>", opts)
-nnoremap("<C-k>", "<cmd>lua require('harpoon.ui').nav_file(3)<cr>", opts)
-nnoremap("<C-l>", "<cmd>lua require('harpoon.ui').nav_file(4)<cr>", opts)
-nnoremap("<Left>", "<cmd>lua require('harpoon.ui').nav_file(5)<cr>", opts)
-nnoremap("<Down>", "<cmd>lua require('harpoon.ui').nav_file(6)<cr>", opts)
-nnoremap("<Up>", "<cmd>lua require('harpoon.ui').nav_file(7)<cr>", opts)
-nnoremap("<Right>", "<cmd>lua require('harpoon.ui').nav_file(8)<cr>", opts)
-
-harpoon.setup({
-	tabline = false,
-	-- tabline_prefix = " " .. icons.ui.BookMark .. " ",
-	-- tabline_suffix = "	  ",
-})
+harpoon:setup()

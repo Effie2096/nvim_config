@@ -308,8 +308,8 @@ local tabs = {
 
 local harpoon = {
 	function()
-		local marks = require("harpoon").get_mark_config().marks or {}
-		local index = require("harpoon.mark").get_index_of(vim.fn.bufname())
+		local harpoon = require("harpoon")
+		local marks = harpoon:list().items or {}
 
 		local prefix = " " .. require("faith.icons").ui.BookMark
 		local suffix = " "
@@ -319,14 +319,14 @@ local harpoon = {
 		local next = next
 		if next(marks) ~= nil then
 			for i, mark in ipairs(marks) do
-				local is_current = i == index
+				local is_current = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":p:.") == mark.value
 
 				local label
-				if mark.filename == "" or mark.filename == "(empty)" then
+				if mark.value == "" or mark.value == "(empty)" then
 					label = "(empty)"
 					is_current = false
 				else
-					label = string.format("%s", vim.fn.fnamemodify(mark.filename, ":t"))
+					label = string.format("%s", vim.fn.fnamemodify(mark.value, ":t"))
 				end
 
 				local keys = {
@@ -334,10 +334,6 @@ local harpoon = {
 					[2] = "j",
 					[3] = "k",
 					[4] = "l",
-					[5] = icons.arrows.left,
-					[6] = icons.arrows.down,
-					[7] = icons.arrows.up,
-					[8] = icons.arrows.right,
 				}
 				local key = keys[i]
 
@@ -357,7 +353,7 @@ local harpoon = {
 		return tabline
 	end,
 	cond = function()
-		return package.loaded.harpoon ~= nil and next(require("harpoon").get_mark_config().marks) ~= nil
+		return package.loaded.harpoon ~= nil and next(require("harpoon"):list().items) ~= nil
 	end,
 }
 
