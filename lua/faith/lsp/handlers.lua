@@ -15,6 +15,11 @@ if status_cmp_ok then
 	M.capabilities = vim.tbl_deep_extend("force", M.capabilities, cmp_nvim_lsp.default_capabilities())
 end
 
+local has_lsp_file_operations, lsp_file_operations = pcall(require, "lsp-file-operations")
+if has_lsp_file_operations then
+	M.capabilities = vim.tbl_deep_extend("force", M.capabilities, lsp_file_operations.default_capabilities())
+end
+
 local float_config = {
 	focusable = false,
 	border = "single",

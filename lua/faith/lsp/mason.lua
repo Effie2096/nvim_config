@@ -49,6 +49,9 @@ local lspconfig_status_ok, lspconfig = pcall(require, "lspconfig")
 if not lspconfig_status_ok then
 	return
 end
+lspconfig.util.default_config = vim.tbl_extend("force", lspconfig.util.default_config, {
+	capabilities = require("faith.lsp.handlers").capabilities,
+})
 
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
 	pattern = { "*.pory" },
@@ -83,7 +86,7 @@ local opts = {}
 for _, server in pairs(servers) do
 	opts = {
 		on_attach = require("faith.lsp.handlers").on_attach,
-		capabilities = require("faith.lsp.handlers").capabilities,
+		capabilities = lspconfig.util.default_config.capabilities,
 	}
 
 	server = vim.split(server, "@", {})[1]
