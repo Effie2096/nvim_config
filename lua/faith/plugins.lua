@@ -54,6 +54,7 @@ Plug("LiadOz/nvim-dap-repl-highlights")
 Plug("nvim-neotest/nvim-nio")
 Plug("rcarriga/nvim-dap-ui")
 Plug("theHamsta/nvim-dap-virtual-text")
+Plug("mfussenegger/nvim-dap-python", { ["commit"] = "d777c2b32ed39f61209c09bede28d7491621a631" })
 --[[]]
 
 --[[ Completion ]]

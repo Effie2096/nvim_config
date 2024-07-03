@@ -16,6 +16,7 @@ null_ls.setup({
 		diagnostics.cmake_lint.with({
 			command = "cmakelint",
 		}),
+		diagnostics.flake8,
 	},
 })
 

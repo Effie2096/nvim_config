@@ -22,6 +22,7 @@ local servers = {
 	"taplo",
 	"tsserver",
 	"yamlls",
+	"basedpyright",
 }
 
 local icons = require("faith.icons")
@@ -133,6 +134,17 @@ for _, server in pairs(servers) do
 	if server == "rust_analyzer" or server == "rust_analyzer-standalone" then
 		-- rustaceanvim explicitly says not to call lspconfig.rust_analyzer.setup
 		goto continue
+	end
+
+	if server == "pyright" then
+		local pyright_opts = require("faith.lsp.settings.pyright")
+		opts = vim.tbl_deep_extend("force", pyright_opts, opts)
+	end
+
+	if server == "basedpyright" then
+		local pyright_opts = require("faith.lsp.settings.pyright")
+		local basedpyright_opts = { basedpyright = pyright_opts.python }
+		opts = vim.tbl_deep_extend("force", basedpyright_opts, opts)
 	end
 
 	lspconfig[server].setup(opts)
