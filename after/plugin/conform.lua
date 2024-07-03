@@ -13,7 +13,7 @@ conform.setup({
 		sh = { "beautysh" },
 		lua = { "stylua" },
 		rust = { "rustfmt" },
-		javascript = { { "prettierd", "prettier" } },
+		javascript = { { "prettierd" } },
 		python = { "black" },
 		--[[ formatting.prettierd.with({
 			-- extra_filetypes = { "toml", "solidity" },

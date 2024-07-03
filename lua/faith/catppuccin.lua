@@ -191,7 +191,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 			vim.api.nvim_set_hl(0, "FidgetTitle", { fg = colors.pink, bold = true })
 		end
 
-		vim.api.nvim_set_hl(0, "TreesitterContextBottom", { bg = colors.mantle, special = "none" })
+		-- vim.api.nvim_set_hl(0, "TreesitterContextBottom", { bg = colors.mantle, special = "none" })
 	end,
 })
 
