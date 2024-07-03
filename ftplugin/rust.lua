@@ -1,5 +1,5 @@
 vim.opt_local.expandtab = false
-vim.lsp.inlay_hint(0)
+vim.lsp.inlay_hint.enable(true)
 
 local has_rustaceanvim, rustaceanvim = pcall(require, "rustaceanvim")
 if has_rustaceanvim then
@@ -21,6 +21,11 @@ if has_rustaceanvim then
 		local cfg = require("rustaceanvim.config")
 
 		return {
+			tools = {
+				code_actions = {
+					ui_select_fallback = true,
+				},
+			},
 			server = {
 				on_attach = require("faith.lsp.handlers").on_attach,
 				default_settings = require("faith.lsp.settings.rust").settings,

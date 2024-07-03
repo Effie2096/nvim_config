@@ -307,11 +307,13 @@ local function lsp_keymaps(bufnr)
 			desc(opts, "[L]sp [F]inder: List all definitions and references of symbol under cursor")
 		)
 
-		nnoremap(
-			"<leader>dl",
-			"<cmd>Lspsaga show_line_diagnostics ++unfocus<cr>",
-			desc(opts, "[d]iagnostic [l]ist: Open float listing all diagnostics on line.")
-		)
+		nnoremap("<leader>dl", function()
+			vim.cmd.Lspsaga({ "show_line_diagnostics", "++unfocus" })
+
+			if package.loaded.rustaceanvim ~= nil then
+				vim.cmd.RustLsp({ "explainError", "current" })
+			end
+		end, desc(opts, "[d]iagnostic [l]ist: Open float listing all diagnostics on line."))
 		-- nnoremap("<leader>dl", require('lspsaga.diagnostic').show_cursor_diagnostics, opts)
 		nnoremap(
 			"<leader>dj",
@@ -333,11 +335,12 @@ local function lsp_keymaps(bufnr)
 		end, opts) ]]
 		nnoremap("<leader>rn", "<cmd>Lspsaga rename<cr>", desc(opts, "[r]e[n]ame: Rename symbol under cursor."))
 	else
-		nnoremap(
-			"<leader>dl",
-			vim.diagnostic.open_float,
-			desc(opts, "[d]iagnostic [l]ist: Open float listing all diagnostics on line.")
-		)
+		nnoremap("<leader>dl", function()
+			vim.diagnostic.open_float()
+			if package.loaded.rustaceanvim ~= nil then
+				vim.cmd.RustLsp({ "explainError", "current" })
+			end
+		end, desc(opts, "[d]iagnostic [l]ist: Open float listing all diagnostics on line."))
 		nnoremap(
 			"<leader>dj",
 			vim.diagnostic.goto_next,
@@ -394,9 +397,13 @@ end
 
 local function rust_keymaps(bufnr)
 	local opts = { noremap = true, silent = true, buffer = bufnr }
-	if pcall(require, "rust-tools") then
-		nnoremap("<leader>rh", require("rust-tools.hover_actions").hover_actions, desc(opts, "[r]ust [h]over."))
-		nnoremap("<leader>rr", require("rust-tools").runnables.runnables, desc(opts, "[r]ust [r]unnables."))
+	if pcall(require, "rustaceanvim") then
+		nnoremap("<leader>rr", function()
+			vim.cmd.RustLsp("runnables")
+		end, desc(opts, "[r]ust [r]unnables."))
+		nnoremap("<leader>ra", function()
+			vim.cmd.RUstLsp("codeAction")
+		end, desc(opts, "[r]ust code[a]ction."))
 	end
 end
 
@@ -526,7 +533,7 @@ M.on_attach = function(client, bufnr)
 		-- end
 	end
 
-	if client.name == "rust_analyzer" or client.name == "rust_analyzer-standalone" then
+	if client.name == "rust-analyzer" or client.name == "rust_analyzer-standalone" then
 		rust_keymaps(bufnr)
 	end
 end
