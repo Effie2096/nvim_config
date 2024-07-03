@@ -4,10 +4,14 @@ if not has_fidget then
 end
 
 fidget.setup({
-	window = {
-		blend = 0,
+	notification = {
+		window = {
+			winblend = 0,
+		},
 	},
-	text = {
-		spinner = "dots",
+	integration = {
+		["nvim-tree"] = {
+			enable = true,
+		},
 	},
 })

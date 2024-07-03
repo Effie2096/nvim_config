@@ -144,6 +144,7 @@ Plug("rcarriga/nvim-notify")
 
 Plug("j-hui/fidget.nvim", { ["tag"] = "legacy" })
 Plug("luukvbaal/statuscol.nvim")
+Plug("j-hui/fidget.nvim", { ["commit"] = "ef99df04a1c53a453602421bc0f756997edc8289" })
 Plug("ThePrimeagen/harpoon", { ["branch"] = "harpoon2" })
 -- Plug("akinsho/bufferline.nvim", { ["tag"] = "v4.0.0" })
 --[[]]
