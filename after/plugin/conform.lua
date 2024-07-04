@@ -17,7 +17,7 @@ conform.setup({
 		lua = { "stylua" },
 		rust = { "rustfmt" },
 		javascript = { { "prettierd" } },
-		python = { "black" },
+		python = { "black", "isort" },
 		--[[ formatting.prettierd.with({
 			-- extra_filetypes = { "toml", "solidity" },
 			extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote", "--use-tabs" },
@@ -29,6 +29,18 @@ conform.setup({
 conform.formatters.prettierd = {
 	prepend_args = function()
 		return { "--no-semi", "--single-quote", "--jsx-single-quote", "--use-tabs" }
+	end,
+}
+
+conform.formatters.black = {
+	prepend_args = function()
+		return { "--line-length", "79" }
+	end,
+}
+
+conform.formatters.isort = {
+	prepend_args = function()
+		return { "--line-length", "79" }
 	end,
 }
 
