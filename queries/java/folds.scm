@@ -1,12 +1,9 @@
 [
-; (class_declaration
-;   name: (identifier))
-(record_declaration
-  name: (identifier))
-(enum_declaration
-  name: (identifier))
-(method_declaration
-  name: (identifier))
-(constructor_declaration
-  name: (identifier))
+
+  (block)
+  ; (class_body)
+  (constructor_declaration)
+  (argument_list)
+  (annotation_argument_list)
+  (import_declaration)+
 ] @fold
