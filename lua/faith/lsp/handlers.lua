@@ -222,25 +222,30 @@ end
 
 local function formatting_maps(bufnr)
 	local buf = bufnr or 0
-	-- TODO: only set up command for buffers there's a formatter for <Effie2096>
-	local opts = { noremap = true, silent = true, buffer = buf }
-	vim.api.nvim_buf_create_user_command(buf, "Format", function(data)
-		if package.loaded.conform then
-			require("conform").format({ bufnr = data.bufnr, async = true })
-		else
-			vim.lsp.buf.format({ async = true })
-		end
-	end, {})
-	nnoremap(
-		"<M-f>",
-		vim.cmd.Format,
-		desc(opts, "[f]ormat: Run formatter (if there is one set up) for the current file.")
-	)
-	vnoremap(
-		"<M-f>",
-		vim.cmd.Format,
-		desc(opts, "[f]ormat: Run formatter (if there is one set up) for the selected range.")
-	)
+	local next = next
+	if next(require("conform").list_formatters(buf)) then
+		local opts = { noremap = true, silent = true, buffer = buf }
+		local conform_opts = { bufnr = buf, async = true, lsp_format = "fallback", timeout_ms = 500 }
+		vim.api.nvim_buf_create_user_command(buf, "Format", function(_)
+			if package.loaded.conform then
+				require("conform").format(conform_opts)
+			else
+				vim.lsp.buf.format({ async = true })
+			end
+		end, {})
+		vim.keymap.set(
+			{ "n", "v" },
+			"<M-f>",
+			function()
+				require("conform").format(conform_opts)
+			end,
+			vim.tbl_extend(
+				"force",
+				opts,
+				{ desc = "[f]ormat: Run formatter (if there is one set up) for the current file." }
+			)
+		)
+	end
 end
 
 local function lsp_keymaps(bufnr)

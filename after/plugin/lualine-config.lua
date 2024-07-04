@@ -266,7 +266,7 @@ local filetype = {
 
 local format_on_save = {
 	function()
-		return FORMAT_ON_SAVE and "Format: On" or ""
+		return not (vim.g.disable_autoformat or vim.b.disable_autoformat) and "Format: On" or "Format: Off"
 	end,
 	padding = 1,
 }
