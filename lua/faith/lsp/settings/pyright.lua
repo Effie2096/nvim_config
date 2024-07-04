@@ -1,9 +1,12 @@
 return {
-	python = {
-		analysis = {
-			diagnosticMode = "workspace",
-			useLibraryCodeForTypes = true,
-			autoImportCompletions = true,
+	settings = {
+		basedpyright = {
+			analysis = {
+				typeCheckingMode = "standard",
+				diagnosticMode = "workspace",
+				useLibraryCodeForTypes = true,
+				autoImportCompletions = true,
+			},
 		},
 	},
 }

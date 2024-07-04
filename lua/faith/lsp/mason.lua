@@ -147,14 +147,8 @@ for _, server in pairs(servers) do
 		goto continue
 	end
 
-	if server == "pyright" then
-		local pyright_opts = require("faith.lsp.settings.pyright")
-		opts = vim.tbl_deep_extend("force", pyright_opts, opts)
-	end
-
 	if server == "basedpyright" then
-		local pyright_opts = require("faith.lsp.settings.pyright")
-		local basedpyright_opts = { basedpyright = pyright_opts.python }
+		local basedpyright_opts = require("faith.lsp.settings.pyright")
 		opts = vim.tbl_deep_extend("force", basedpyright_opts, opts)
 	end
 
