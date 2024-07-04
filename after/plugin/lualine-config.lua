@@ -329,23 +329,37 @@ local harpoon = {
 					label = string.format("%s", vim.fn.fnamemodify(mark.value, ":t"))
 				end
 
+				local extra_marks = 0
+
 				local keys = {
 					[1] = "h",
 					[2] = "j",
 					[3] = "k",
 					[4] = "l",
+					[5] = require("faith.icons").arrows.left,
+					[6] = require("faith.icons").arrows.down,
+					[7] = require("faith.icons").arrows.up,
+					[8] = require("faith.icons").arrows.right,
 				}
-				local key = keys[i]
 
-				if is_current then
-					tabline = tabline .. "%#HarpoonNumberActive#" .. prefix .. key .. " %*" .. "%#HarpoonActive#"
+				if i <= #keys then
+					local key = keys[i]
+
+					if is_current then
+						tabline = tabline .. "%#HarpoonNumberActive#" .. prefix .. key .. " %*" .. "%#HarpoonActive#"
+					else
+						tabline = tabline
+							.. "%#HarpoonNumberInactive#"
+							.. prefix
+							.. key
+							.. " %*"
+							.. "%#HarpoonInactive#"
+					end
+
+					tabline = tabline .. label .. suffix .. "%*"
 				else
-					tabline = tabline .. "%#HarpoonNumberInactive#" .. prefix .. key .. " %*" .. "%#HarpoonInactive#"
-				end
-
-				tabline = tabline .. label .. suffix .. "%*"
-				if i < #marks then
-					tabline = tabline .. "%T"
+					extra_marks = extra_marks + 1
+					tabline = tabline .. "%#HarpoonNumberActive#" .. " +" .. extra_marks .. "%*" .. "%#HarpoonActive#"
 				end
 			end
 		end
