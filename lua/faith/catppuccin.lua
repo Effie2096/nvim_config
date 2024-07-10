@@ -79,7 +79,12 @@ catppuccin.setup({
 		noice = true,
 	},
 	custom_highlights = function(colors)
-		local change_color = colors.blue
+		local git_change_color = colors.blue
+		local git_add_color = colors.green
+		local git_delete_color = colors.red
+		local git_change = { fg = git_change_color, bg = colors.base }
+		local git_add = { fg = git_add_color, bg = colors.base }
+		local git_delete = { fg = git_delete_color, bg = colors.base }
 
 		local telescope_normal = colors.surface0
 		local telescope_prompt = colors.surface1
@@ -87,9 +92,14 @@ catppuccin.setup({
 		local harpoon_active = { fg = colors.base, bg = colors.pink, bold = true }
 
 		local hightlight_overrides = {
-			GitSignsChange = { fg = change_color, bg = colors.base },
-			GitSignsChangeNr = { fg = change_color, bg = colors.base },
-			GitSignsChangeInline = { fg = colors.base, bg = change_color },
+			GitSignsAddInline = { fg = colors.base, bg = git_add_color },
+			GitSignsAddLnInline = { fg = colors.base, bg = git_add_color },
+			GitSignsChangeInline = { fg = colors.base, bg = git_change_color },
+			GitSignsChangeLnInline = { fg = colors.base, bg = git_change_color },
+			GitSignsDeleteInline = { fg = colors.base, bg = git_delete_color },
+			GitSignsDeleteLnInline = { fg = colors.base, bg = git_delete_color },
+			GitSignsChange = git_change,
+			GitSignsChangeNr = git_change,
 
 			TelescopeNormal = { bg = telescope_normal },
 			TelescopeSelection = { bg = telescope_prompt },

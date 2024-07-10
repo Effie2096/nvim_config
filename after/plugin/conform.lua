@@ -34,13 +34,13 @@ conform.formatters.prettierd = {
 
 conform.formatters.black = {
 	prepend_args = function()
-		return { "--line-length", "79" }
+		return { "--line-length", "99" }
 	end,
 }
 
 conform.formatters.isort = {
 	prepend_args = function()
-		return { "--line-length", "79" }
+		return { "--line-length", "99" }
 	end,
 }
 
