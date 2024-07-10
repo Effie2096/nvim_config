@@ -15,6 +15,8 @@ if not has_nvim_dap_repl_highlights then
 	return
 end
 
+require("dap.ext.vscode").load_launchjs()
+
 local fk = require("faith.keymap")
 local nnoremap = fk.nnoremap
 local desc = fk.desc
