@@ -76,6 +76,7 @@ Plug("petertriho/cmp-git", { ["commit"] = "8dfbc33fb32c33e5c0be9dcc8176a4f4d395f
 Plug("quangnguyen30192/cmp-nvim-tags", { ["commit"] = "e126a09ef49f0611c127dea851fa0052aa223f15" })
 Plug("davidsierradz/cmp-conventionalcommits", { ["commit"] = "a4dfacf0601130b7f8afa7c948d735c27802fb7f" })
 Plug("justinsgithub/wezterm-types", { ["commit"] = "1518752906ba3fac0060d9efab6e4d3ec15d4b5a" })
+Plug("danymat/neogen", { ["commit"] = "6de0add4805165317ab7d3d36b5cef48b1b865f3" })
 
 Plug("rafamadriz/friendly-snippets")
 
