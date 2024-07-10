@@ -115,8 +115,12 @@ local language_server = {
 
 		-- add client
 		for _, client in pairs(clients) do
-			if client.name ~= "null-ls" then
-				table.insert(client_names, client.name)
+			local name = client.name
+			if name ~= "null-ls" then
+				if client.name.match(client.name, "otter") then
+					name = client.name:gsub("%[%d+%]", "")
+				end
+				table.insert(client_names, name)
 			end
 		end
 
@@ -408,6 +412,15 @@ vim.api.nvim_create_autocmd("RecordingLeave", {
 	end,
 })
 
+local git_conflict = {
+	function()
+		return "%#lualine_b_diagnostics_error_normal#" .. "Conflicts: " .. require("git-conflict").conflict_count()
+	end,
+	cond = function()
+		return require("git-conflict").conflict_count() > 0
+	end,
+}
+
 lualine.setup({
 	options = {
 		icons_enabled = true,
@@ -426,7 +439,7 @@ lualine.setup({
 	},
 	sections = {
 		lualine_a = { git },
-		lualine_b = { obsession, workspace_diagnostics },
+		lualine_b = { obsession, workspace_diagnostics, git_conflict },
 		lualine_c = { language_server, asyncrun_status },
 		lualine_x = { show_macro_recording, location, spaces, fileformat, encoding },
 		lualine_y = { format_on_save },
