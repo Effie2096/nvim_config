@@ -104,6 +104,7 @@ Plug("szw/vim-maximizer", { ["commit"] = "2e54952fe91e140a2e69f35f22131219fcd9c5
 --[[ Git ]]
 Plug("tpope/vim-fugitive")
 Plug("lewis6991/gitsigns.nvim", { ["commit"] = "6b1a14eabcebbcca1b9e9163a26b2f8371364cb7" })
+Plug("akinsho/git-conflict.nvim", { ["tag"] = "*" })
 -- Plug("ThePrimeagen/git-worktree.nvim") -- hasn't had update in months and has a lot of nasty
 -- sounding open issues
 --[[]]
