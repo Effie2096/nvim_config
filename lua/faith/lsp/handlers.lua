@@ -137,7 +137,7 @@ local function refresh_codelens(bufnr)
 		group = auto_refresh_codelens,
 		buffer = bufnr,
 		callback = function()
-			vim.lsp.codelens.refresh()
+			vim.lsp.codelens.refresh({ bufnr = bufnr })
 		end,
 	})
 end
@@ -520,7 +520,7 @@ M.on_attach = function(client, bufnr)
 	end
 
 	if client.server_capabilities.codeLensProvider then
-		vim.lsp.codelens.refresh()
+		vim.lsp.codelens.refresh({ bufnr = bufnr })
 		refresh_codelens(bufnr)
 	end
 
