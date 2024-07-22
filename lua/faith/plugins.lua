@@ -1,31 +1,34 @@
 local Plug = vim.fn["plug#"]
 
 vim.fn["plug#begin"]()
+--[[ Colorschemes ]]
 Plug("catppuccin/nvim", {
 	["as"] = "catppuccin",
 	["tag"] = "v1.*",
 })
+--[[]]
+--
 Plug("andweeb/presence.nvim")
 Plug(
 	"vhyrro/luarocks.nvim",
 	{ ["do"] = ":source ./build.lua", ["commit"] = "1db9093915eb16ba2473cfb8d343ace5ee04130a" }
 )
-Plug("stevearc/oil.nvim", { ["tag"] = "v2.11.*" })
 Plug("tpope/vim-sleuth", { ["commit"] = "1cc4557420f215d02c4d2645a748a816c220e99b" })
 Plug("antoinemadec/FixCursorHold.nvim")
+Plug("kevinhwang91/promise-async", { ["commit"] = "28c1d5a295eb5310afa2523d4ae9aa41ec5a9de2" })
+Plug("skywind3000/asyncrun.vim", { ["tag"] = "2.12.*" })
+Plug("szw/vim-maximizer", { ["commit"] = "2e54952fe91e140a2e69f35f22131219fcd9c5f1" })
+Plug("tpope/vim-abolish", { ["commit"] = "dcbfe065297d31823561ba787f51056c147aa682" })
+
+if not vim.fn.has("win32") then
+	Plug("tmux-plugins/vim-tmux", { ["tag"] = "v3.*" }) -- tmux.conf syntax hl n stuff
+	Plug("preservim/vimux", { ["tag"] = "1.*" })
+	Plug("christoomey/vim-tmux-navigator", { ["tag"] = "v1.*" })
+end
 
 --[[]]
-Plug("nvim-lualine/lualine.nvim", { ["commit"] = "0a5a66803c7407767b799067986b4dc3036e1983" })
-Plug("akinsho/toggleterm.nvim", { ["tag"] = "v2.*" })
-Plug("SmiteshP/nvim-navic", { ["commit"] = "8649f694d3e76ee10c19255dece6411c29206a54" })
-Plug("utilyre/barbecue.nvim", { ["as"] = "barbecue", ["tag"] = "v1.2.*" })
-Plug("kyazdani42/nvim-web-devicons", { ["tag"] = "v0.*" })
-Plug("tmux-plugins/vim-tmux", { ["tag"] = "v3.*" }) -- tmux.conf syntax hl n stuff
-Plug("preservim/vimux", { ["tag"] = "1.*" })
-Plug("christoomey/vim-tmux-navigator", { ["tag"] = "v1.*" })
 Plug("davidgranstrom/scnvim")
 Plug("davidgranstrom/telescope-scdoc.nvim")
-Plug("bfredl/nvim-luadev", { ["commit"] = "3ba0c02c378503739f1fdb95cff3ea2aad48db3e" })
 --[[]]
 
 --[[LSP ]]
@@ -39,30 +42,29 @@ Plug("mfussenegger/nvim-jdtls", { ["commit"] = "40e8494e04c1bcd5dd6c0d0bc187d2d1
 Plug("b0o/schemastore.nvim")
 Plug("pedro757/emmet", { ["commit"] = "bff967b1d91948a88104987b427842deb78bacf5" })
 Plug("DasGandlaf/nvim-autohotkey")
-Plug("nvim-treesitter/nvim-treesitter-textobjects", { ["commit"] = "34867c69838078df7d6919b130c0541c0b400c47" })
 Plug("mrcjkb/rustaceanvim", { ["tag"] = "4.*" })
 -- Plug("cdelledonne/vim-cmake", { ["commit"] = "4e155794686811c0fc381a8dc82260a2e388c2a6" })
-Plug("nvimdev/lspsaga.nvim", { ["commit"] = "6f920cfabddb9b7de5a3a4d0b7cd4f0774ae23e2" })
-Plug("udalov/kotlin-vim", { ["commit"] = "53fe045906df8eeb07cb77b078fc93acda6c90b8" })
 
 Plug("ray-x/lsp_signature.nvim", { ["tag"] = "v0.3.*" })
 Plug("ThePrimeagen/refactoring.nvim", { ["commit"] = "c9c1a0995b7d9a534f3b9a4df7fd55240127eeb4" })
-Plug("skywind3000/asyncrun.vim", { ["tag"] = "2.12.*" })
+
+--[[ Testing ]]
 Plug("vim-test/vim-test", { ["commit"] = "34aab77f7a63f20a623df45684156915f6182a55" })
+Plug("nvim-neotest/nvim-nio", { ["tag"] = "v1.*" })
+Plug("nvim-neotest/neotest", { ["tag"] = "v5.*" })
 Plug("nvim-neotest/neotest-vim-test", { ["commit"] = "75c4228882ae4883b11bfce9b8383e637eb44192" })
 Plug("nvim-neotest/neotest-python", { ["commit"] = "2e83d2bc00acbcc1fd529dbf0a0e677cabfe6b50" })
-Plug("nvim-neotest/neotest", { ["tag"] = "v5.*" })
 Plug("andythigpen/nvim-coverage", { ["commit"] = "aa4b4400588e2259e87e372b1e4e90ae13cf5a39" })
 --[[]]
 
 --[[ Debugging ]]
 Plug("mfussenegger/nvim-dap", { ["tag"] = "0.8.*" })
-Plug("LiadOz/nvim-dap-repl-highlights", { ["commit"] = "a7512fc0a0de0c0be8d58983939856dda6f72451" })
-Plug("nvim-neotest/nvim-nio", { ["tag"] = "v1.*" })
 Plug("rcarriga/nvim-dap-ui", { ["commit"] = "b7267003ba4dd860350be86f75b9d9ea287cedca" })
 Plug("theHamsta/nvim-dap-virtual-text", { ["commit"] = "d7c695ea39542f6da94ee4d66176f5d660ab0a77" })
+Plug("LiadOz/nvim-dap-repl-highlights", { ["commit"] = "a7512fc0a0de0c0be8d58983939856dda6f72451" })
 Plug("mfussenegger/nvim-dap-python", { ["commit"] = "d777c2b32ed39f61209c09bede28d7491621a631" })
 Plug("leoluz/nvim-dap-go", { ["commit"] = "3999f0744e80d2dba5775189fc7c7a5e9846053e" })
+Plug("bfredl/nvim-luadev", { ["commit"] = "3ba0c02c378503739f1fdb95cff3ea2aad48db3e" })
 Plug("ofirgall/goto-breakpoints.nvim", { ["commit"] = "d14776899eda4023667b246e5c53c14a7c41f88e" })
 Plug("Weissle/persistent-breakpoints.nvim", { ["commit"] = "01e43512ef8d137f2b9e5c1c74fd35c37e787b59" })
 --[[]]
@@ -99,11 +101,8 @@ Plug("folke/todo-comments.nvim", { ["commit"] = "51e10f838e84b4756c16311d0b1ef09
 Plug("JoosepAlviste/nvim-ts-context-commentstring", { ["commit"] = "cb064386e667def1d241317deed9fd1b38f0dc2e" })
 Plug("kylechui/nvim-surround", { ["tag"] = "v2.3.*" })
 Plug("windwp/nvim-autopairs", { ["commit"] = "c15de7e7981f1111642e7e53799e1211d4606cb9" })
-Plug("ggandor/lightspeed.nvim", { ["commit"] = "fcc72d8a4d5f4ebba62d8a3a0660f88f1b5c3b05" })
 Plug("nat-418/boole.nvim", { ["commit"] = "7b4a3dae28e3b2497747aa840439e9493cabdc49" })
-Plug("tpope/vim-abolish", { ["commit"] = "dcbfe065297d31823561ba787f51056c147aa682" })
 Plug("tpope/vim-repeat", { ["commit"] = "24afe922e6a05891756ecf331f39a1f6743d3d5a" })
-Plug("szw/vim-maximizer", { ["commit"] = "2e54952fe91e140a2e69f35f22131219fcd9c5f1" })
 
 --[[ Git ]]
 Plug("tpope/vim-fugitive")
@@ -113,7 +112,7 @@ Plug("akinsho/git-conflict.nvim", { ["tag"] = "*" })
 -- sounding open issues
 --[[]]
 
---[[ Telescope ]]
+--[[ Navigation and Finders ]]
 Plug("nvim-lua/plenary.nvim", { ["tag"] = "v0.1.4" })
 Plug("nvim-telescope/telescope.nvim", { ["commit"] = "7bd2f9b72f8449780b79bcf351534e2cd36ec43a" })
 Plug("nvim-telescope/telescope-ui-select.nvim", { ["commit"] = "6e51d7da30bd139a6950adf2a47fda6df9fa06d2" })
@@ -122,6 +121,10 @@ Plug(
 	"nvim-telescope/telescope-fzf-native.nvim",
 	{ ["do"] = "make", ["commit"] = "9ef21b2e6bb6ebeaf349a0781745549bbb870d27" }
 )
+
+Plug("ThePrimeagen/harpoon", { ["branch"] = "harpoon2" })
+
+Plug("ggandor/lightspeed.nvim", { ["commit"] = "fcc72d8a4d5f4ebba62d8a3a0660f88f1b5c3b05" })
 --[[]]
 
 --[[ Projects ]]
@@ -140,7 +143,6 @@ Plug("karb94/neoscroll.nvim", { ["commit"] = "a731f66f1d39ec6175fd201c5bf849e54a
 Plug("romgrk/nvim-treesitter-context", { ["commit"] = "1b9c756c0cad415f0a2661c858448189dd120c15" })
 Plug("tversteeg/registers.nvim", { ["tag"] = "v2.3.*" }) -- not actively maintained (just pr's)
 Plug("kevinhwang91/nvim-ufo", { ["commit"] = "aa2e676af592b4e99c105d80d6eafd1afc215d99" })
-Plug("kevinhwang91/promise-async", { ["commit"] = "28c1d5a295eb5310afa2523d4ae9aa41ec5a9de2" })
 Plug("nvim-tree/nvim-tree.lua", { ["commit"] = "8b2c5c678be4b49dff6a2df794877000113fd77b" })
 Plug("antosha417/nvim-lsp-file-operations", { ["commit"] = "92a673de7ecaa157dd230d0128def10beb56d103" })
 Plug("mbbill/undotree", { ["commit"] = "56c684a805fe948936cda0d1b19505b84ad7e065" })
@@ -148,9 +150,9 @@ Plug("kevinhwang91/nvim-bqf", { ["commit"] = "1b24dc6050c34e8cd377b6b4cd6abe4050
 Plug("tpope/vim-dadbod", { ["commit"] = "7888cb7164d69783d3dce4e0283decd26b82538b" })
 Plug("kristijanhusak/vim-dadbod-ui", { ["commit"] = "2527310098e7458488e61a528614da142aa2dc42" })
 Plug("mechatroner/rainbow_csv", { ["commit"] = "9997a58bca39c961c3a1ba5bf1e3a180fb17146f" })
-Plug("chrisbra/csv.vim", { ["commit"] = "4d5255829afe3b6badb0c8a040116704c0d3213c" })
 Plug("folke/noice.nvim", { ["commit"] = "03c6a75661e68012e30b0ed81f050358b1e2233c" })
 Plug("MunifTanjim/nui.nvim", { ["commit"] = "61574ce6e60c815b0a0c4b5655b8486ba58089a1" })
+Plug("nvimdev/lspsaga.nvim", { ["commit"] = "6f920cfabddb9b7de5a3a4d0b7cd4f0774ae23e2" })
 
 Plug("rcarriga/nvim-notify", { ["commit"] = "d333b6f167900f6d9d42a59005d82919830626bf" })
 
@@ -158,8 +160,18 @@ Plug("j-hui/fidget.nvim", { ["commit"] = "ef99df04a1c53a453602421bc0f756997edc82
 Plug("luukvbaal/statuscol.nvim", { ["commit"] = "d6f7f5437c5404d958b88bb73e0721b1c0e09223" })
 Plug("m4xshen/smartcolumn.nvim")
 Plug("mcauley-penney/visual-whitespace.nvim")
-Plug("ThePrimeagen/harpoon", { ["branch"] = "harpoon2" })
--- Plug("akinsho/bufferline.nvim", { ["tag"] = "v4.0.0" })
+
+Plug("nvim-lualine/lualine.nvim", { ["commit"] = "0a5a66803c7407767b799067986b4dc3036e1983" })
+Plug("akinsho/toggleterm.nvim", { ["tag"] = "v2.*" })
+Plug("SmiteshP/nvim-navic", { ["commit"] = "8649f694d3e76ee10c19255dece6411c29206a54" })
+Plug("utilyre/barbecue.nvim", { ["as"] = "barbecue", ["tag"] = "v1.2.*" })
+Plug("kyazdani42/nvim-web-devicons", { ["tag"] = "v0.*" })
+Plug("stevearc/oil.nvim", { ["tag"] = "v2.11.*" })
+--[[]]
+--
+--[[ Better Filetype support]]
+Plug("chrisbra/csv.vim", { ["commit"] = "4d5255829afe3b6badb0c8a040116704c0d3213c" })
+Plug("udalov/kotlin-vim", { ["commit"] = "53fe045906df8eeb07cb77b078fc93acda6c90b8" })
 --[[]]
 
 --{{{ Notes
