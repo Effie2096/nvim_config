@@ -41,14 +41,16 @@ Plug("pedro757/emmet", { ["commit"] = "bff967b1d91948a88104987b427842deb78bacf5"
 Plug("DasGandlaf/nvim-autohotkey")
 Plug("nvim-treesitter/nvim-treesitter-textobjects", { ["commit"] = "34867c69838078df7d6919b130c0541c0b400c47" })
 Plug("mrcjkb/rustaceanvim", { ["tag"] = "4.*" })
-Plug("cdelledonne/vim-cmake", { ["commit"] = "9ab902ab5db7a3924d24542653e495ffda25e5ca" })
+-- Plug("cdelledonne/vim-cmake", { ["commit"] = "4e155794686811c0fc381a8dc82260a2e388c2a6" })
 Plug("nvimdev/lspsaga.nvim", { ["commit"] = "6f920cfabddb9b7de5a3a4d0b7cd4f0774ae23e2" })
+Plug("udalov/kotlin-vim", { ["commit"] = "53fe045906df8eeb07cb77b078fc93acda6c90b8" })
 
 Plug("ray-x/lsp_signature.nvim", { ["tag"] = "v0.3.*" })
 Plug("ThePrimeagen/refactoring.nvim", { ["commit"] = "c9c1a0995b7d9a534f3b9a4df7fd55240127eeb4" })
 Plug("skywind3000/asyncrun.vim", { ["tag"] = "2.12.*" })
 Plug("vim-test/vim-test", { ["commit"] = "34aab77f7a63f20a623df45684156915f6182a55" })
 Plug("nvim-neotest/neotest-vim-test", { ["commit"] = "75c4228882ae4883b11bfce9b8383e637eb44192" })
+Plug("nvim-neotest/neotest-python", { ["commit"] = "2e83d2bc00acbcc1fd529dbf0a0e677cabfe6b50" })
 Plug("nvim-neotest/neotest", { ["tag"] = "v5.*" })
 Plug("andythigpen/nvim-coverage", { ["commit"] = "aa4b4400588e2259e87e372b1e4e90ae13cf5a39" })
 --[[]]
