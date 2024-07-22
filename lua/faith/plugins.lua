@@ -159,6 +159,7 @@ Plug("rcarriga/nvim-notify", { ["commit"] = "d333b6f167900f6d9d42a59005d82919830
 Plug("j-hui/fidget.nvim", { ["commit"] = "ef99df04a1c53a453602421bc0f756997edc8289" })
 Plug("luukvbaal/statuscol.nvim", { ["commit"] = "d6f7f5437c5404d958b88bb73e0721b1c0e09223" })
 Plug("m4xshen/smartcolumn.nvim")
+Plug("mcauley-penney/visual-whitespace.nvim")
 Plug("ThePrimeagen/harpoon", { ["branch"] = "harpoon2" })
 -- Plug("akinsho/bufferline.nvim", { ["tag"] = "v4.0.0" })
 --[[]]
