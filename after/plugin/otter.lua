@@ -3,7 +3,7 @@ if not has_otter then
 	return
 end
 
-vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
+vim.api.nvim_create_autocmd({ "BufWinEnter", "BufWritePost" }, {
 	group = vim.api.nvim_create_augroup("attach_otter", { clear = true }),
 	pattern = { "*.md" },
 	callback = function()
@@ -26,5 +26,8 @@ otter.setup({
 				border.left,
 			},
 		},
+	},
+	verbose = {
+		no_code_found = false,
 	},
 })

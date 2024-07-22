@@ -17,6 +17,7 @@ conform.setup({
 		lua = { "stylua" },
 		rust = { "rustfmt" },
 		javascript = { { "prettierd" } },
+		markdown = { "prettierd" },
 		python = { "black", "isort" },
 		--[[ formatting.prettierd.with({
 			-- extra_filetypes = { "toml", "solidity" },

@@ -91,6 +91,8 @@ catppuccin.setup({
 
 		local harpoon_active = { fg = colors.base, bg = colors.pink, bold = true }
 
+		local markdown_heading = colors.surface0
+
 		local hightlight_overrides = {
 			GitSignsAddInline = { fg = colors.base, bg = git_add_color },
 			GitSignsAddLnInline = { fg = colors.base, bg = git_add_color },
@@ -140,6 +142,15 @@ catppuccin.setup({
 			CmpItemKindOperator = { fg = colors.base, bg = colors.blue },
 			CmpItemKindTypeParameter = { fg = colors.base, bg = colors.blue },
 			CmpItemKindCopilot = { fg = colors.base, bg = colors.teal },
+
+			Heading1 = { fg = markdown_heading, bg = colors.red },
+			Heading2 = { fg = markdown_heading, bg = colors.peach },
+			Heading3 = { fg = markdown_heading, bg = colors.yellow },
+			Heading4 = { fg = markdown_heading, bg = colors.green },
+			Heading5 = { fg = markdown_heading, bg = colors.sapphire },
+			Heading6 = { fg = markdown_heading, bg = colors.mauve },
+			CodeBlock = { bg = colors.crust },
+			HeadingBullet = { fg = markdown_heading },
 		}
 
 		return hightlight_overrides

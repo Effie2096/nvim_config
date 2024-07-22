@@ -104,7 +104,6 @@ Plug("ggandor/lightspeed.nvim", { ["commit"] = "fcc72d8a4d5f4ebba62d8a3a0660f88f
 Plug("nat-418/boole.nvim", { ["commit"] = "7b4a3dae28e3b2497747aa840439e9493cabdc49" })
 Plug("tpope/vim-abolish", { ["commit"] = "dcbfe065297d31823561ba787f51056c147aa682" })
 Plug("tpope/vim-repeat", { ["commit"] = "24afe922e6a05891756ecf331f39a1f6743d3d5a" })
-Plug("godlygeek/tabular", { ["commit"] = "339091ac4dd1f17e225fe7d57b48aff55f99b23a" })
 Plug("szw/vim-maximizer", { ["commit"] = "2e54952fe91e140a2e69f35f22131219fcd9c5f1" })
 
 --[[ Git ]]
@@ -169,5 +168,8 @@ Plug("epwalsh/obsidian.nvim")
 Plug("lukas-reineke/headlines.nvim")
 Plug("3rd/image.nvim")
 Plug("jmbuhr/otter.nvim")
+Plug("bullets-vim/bullets.vim")
+Plug("godlygeek/tabular", { ["commit"] = "339091ac4dd1f17e225fe7d57b48aff55f99b23a" })
+Plug("dhruvasagar/vim-table-mode")
 --}}}
 vim.fn["plug#end"]()

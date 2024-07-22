@@ -5,7 +5,19 @@ end
 
 local opts = {
 	fat_headlines = false,
-	bullets = { "", "◉", "○", "✸" },
+	headline_highlights = {
+		"Heading1",
+		"Heading2",
+		"Heading3",
+		"Heading4",
+		"Heading5",
+		"Heading6",
+	},
+	bullet_highlights = {
+		"HeadingBullet",
+	},
+	bullets = { "󰎤", "󰎧", "󰎪", "󰎭", "󰎱", "󰎳" },
+	-- bullets = { "", "◉", "○", "✸" },
 }
 
 headlines.setup({
