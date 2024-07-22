@@ -494,7 +494,25 @@ local function create_refactor_keymaps(bufnr)
 		return
 	end
 	-- filetypes currently supported by refactor plugin
-	local refactor_filetypes = { "typescript", "javascript", "lua", "c", "cpp", "go", "py", "java", "php", "rb" }
+	local refactor_filetypes = {
+		"ts",
+		"js",
+		"typescriptreact",
+		"javascriptreact",
+		"typescript",
+		"javascript",
+		"java",
+		"lua",
+		"go",
+		"php",
+		"cpp",
+		"c",
+		"h",
+		"hpp",
+		"cxx",
+		"python",
+		"ruby",
+	}
 	-- check the filetype of the buffer is supported by plugin
 	local file_match =
 		vim.tbl_contains(refactor_filetypes, vim.api.nvim_get_option_value("filetype", { scope = "local" }))

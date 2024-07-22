@@ -19,11 +19,11 @@ saga.setup({
 		enable = false,
 	},
 	lightbulb = {
-		enable = false,
+		enable = true,
 		enable_in_insert = false,
-		sign = true,
+		sign = false,
 		sign_priority = 20,
-		virtual_text = false,
+		virtual_text = true,
 		update_time = 50,
 	},
 	show_outline = {

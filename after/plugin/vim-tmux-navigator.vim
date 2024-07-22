@@ -9,4 +9,9 @@ if exists("g:loaded_tmux_navigator") && !(has("win32"))
 	noremap <silent> <M-k> :<C-U>TmuxNavigateUp<cr>
 	noremap <silent> <M-l> :<C-U>TmuxNavigateRight<cr>
 	noremap <silent> <M-\> :<C-U>TmuxNavigatePrevious<cr>
+else
+	noremap <silent> <M-h> :wincmd h<cr>
+	noremap <silent> <M-j> :wincmd j<cr>
+	noremap <silent> <M-k> :wincmd k<cr>
+	noremap <silent> <M-l> :wincmd l<cr>
 endif

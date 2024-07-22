@@ -25,9 +25,6 @@ local icons = require("faith.icons")
 
 local opts = { noremap = true, silent = true }
 nnoremap("<F6>", require("dap").continue, opts)
-nnoremap("<F10>", require("dap").step_over, opts)
-nnoremap("<F11>", require("dap").step_into, opts)
-nnoremap("<F12>", require("dap").step_out, opts)
 nnoremap("<F7>", require("dap").step_over, opts)
 nnoremap("<F8>", require("dap").step_into, opts)
 nnoremap("<F9>", require("dap").step_out, opts)
@@ -294,13 +291,13 @@ dapui.setup({
 				"stacks",
 				{ id = "scopes", size = 0.5 },
 			},
-			size = 0.4,
+			size = 0.33,
 			position = "right",
 		},
 		{
 			elements = {
 				"repl",
-				"console",
+				{ id = "console", size = 0.5 },
 			},
 			size = 0.25,
 			position = "bottom",
@@ -308,7 +305,7 @@ dapui.setup({
 		{
 			elements = {
 				"watches",
-				"breakpoints",
+				{ id = "breakpoints", size = 0.5 },
 			},
 			size = 0.2,
 			position = "left",

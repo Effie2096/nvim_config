@@ -10,7 +10,7 @@ Plug(
 	"vhyrro/luarocks.nvim",
 	{ ["do"] = ":source ./build.lua", ["commit"] = "1db9093915eb16ba2473cfb8d343ace5ee04130a" }
 )
-Plug("stevearc/oil.nvim")
+Plug("stevearc/oil.nvim", { ["tag"] = "v2.11.*" })
 Plug("tpope/vim-sleuth", { ["commit"] = "1cc4557420f215d02c4d2645a748a816c220e99b" })
 Plug("antoinemadec/FixCursorHold.nvim")
 
@@ -89,8 +89,7 @@ Plug("rafamadriz/friendly-snippets")
 Plug("L3MON4D3/LuaSnip", { ["tag"] = "v2.*" })
 Plug("onsails/lspkind.nvim", { ["commit"] = "1735dd5a5054c1fb7feaf8e8658dbab925f4f0cf" })
 
--- Plug("Exafunction/codeium.vim")
-Plug("jcdickinson/codeium.nvim", { ["commit"] = "d3b88eb3aa1de6da33d325c196b8a41da2bcc825" })
+Plug("Exafunction/codeium.nvim")
 --[[]]
 
 Plug("nvim-treesitter/nvim-treesitter", { ["tag"] = "v0.9.*" })

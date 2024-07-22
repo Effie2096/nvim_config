@@ -23,6 +23,7 @@ local servers = {
 	"tsserver",
 	"yamlls",
 	"basedpyright",
+	"kotlin_language_server",
 }
 
 local icons = require("faith.icons")
@@ -150,6 +151,11 @@ for _, server in pairs(servers) do
 	if server == "basedpyright" then
 		local basedpyright_opts = require("faith.lsp.settings.pyright")
 		opts = vim.tbl_deep_extend("force", basedpyright_opts, opts)
+	end
+
+	if server == "kotlin_language_server" then
+		local kotlin_opts = require("faith.lsp.settings.kotlin_language_server")
+		opts = vim.tbl_deep_extend("force", kotlin_opts, opts)
 	end
 
 	lspconfig[server].setup(opts)

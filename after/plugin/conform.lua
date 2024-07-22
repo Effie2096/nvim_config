@@ -41,9 +41,15 @@ conform.formatters.black = {
 
 conform.formatters.isort = {
 	prepend_args = function()
-		return { "--line-length", "99" }
+		return { "--line-length", "99", "--multi-line", "3" }
 	end,
 }
+
+--[[ conform.formatters.ktfmt = {
+	prepend_args = function()
+		return { "--kotlinlang-style" }
+	end,
+} ]]
 
 vim.api.nvim_create_user_command("FormatDisable", function(args)
 	if args.bang then

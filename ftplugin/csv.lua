@@ -1,6 +1,6 @@
-vim.opt.wrap = false
-vim.opt.linebreak = false
-vim.opt.colorcolumn = ""
+vim.opt_local.wrap = false
+vim.opt_local.linebreak = false
+vim.opt_local.colorcolumn = ""
 
 vim.cmd([[
 nnoremap <expr> <C-Left> get(b:, 'rbcsv', 0) == 1 ? ':RainbowCellGoLeft<CR>' : '<C-Left>'

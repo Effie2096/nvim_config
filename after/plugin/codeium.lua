@@ -20,4 +20,6 @@ if not has_codeium then
 	return
 end
 
-codeium.setup()
+codeium.setup({
+	enable_chat = true,
+})

@@ -84,7 +84,7 @@ function M.lsp_workspace_symbols()
 	opts = vim.tbl_deep_extend("force", opts, {
 		path_display = { "tail" },
 	})
-	require("telescope.builtin").lsp_workspace_symbols(opts)
+	require("telescope.builtin").lsp_dynamic_workspace_symbols(opts)
 end
 
 function M.help_tags()
