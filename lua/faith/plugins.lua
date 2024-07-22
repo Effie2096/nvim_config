@@ -5,6 +5,7 @@ Plug("catppuccin/nvim", {
 	["as"] = "catppuccin",
 	["tag"] = "v1.*",
 })
+Plug("andweeb/presence.nvim")
 Plug(
 	"vhyrro/luarocks.nvim",
 	{ ["do"] = ":source ./build.lua", ["commit"] = "1db9093915eb16ba2473cfb8d343ace5ee04130a" }
