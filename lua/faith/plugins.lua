@@ -62,6 +62,9 @@ Plug("nvim-neotest/nvim-nio", { ["tag"] = "v1.*" })
 Plug("rcarriga/nvim-dap-ui", { ["commit"] = "b7267003ba4dd860350be86f75b9d9ea287cedca" })
 Plug("theHamsta/nvim-dap-virtual-text", { ["commit"] = "d7c695ea39542f6da94ee4d66176f5d660ab0a77" })
 Plug("mfussenegger/nvim-dap-python", { ["commit"] = "d777c2b32ed39f61209c09bede28d7491621a631" })
+Plug("leoluz/nvim-dap-go", { ["commit"] = "3999f0744e80d2dba5775189fc7c7a5e9846053e" })
+Plug("ofirgall/goto-breakpoints.nvim", { ["commit"] = "d14776899eda4023667b246e5c53c14a7c41f88e" })
+Plug("Weissle/persistent-breakpoints.nvim", { ["commit"] = "01e43512ef8d137f2b9e5c1c74fd35c37e787b59" })
 --[[]]
 
 --[[ Completion ]]

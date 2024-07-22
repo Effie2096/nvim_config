@@ -28,18 +28,41 @@ nnoremap("<F6>", require("dap").continue, opts)
 nnoremap("<F10>", require("dap").step_over, opts)
 nnoremap("<F11>", require("dap").step_into, opts)
 nnoremap("<F12>", require("dap").step_out, opts)
-nnoremap(
-	"<Leader>db",
-	require("dap").toggle_breakpoint,
-	desc(opts, "[d]ebug [b]reakpoint: Toggle debugger breakpoint on current line.")
-)
-nnoremap("<Leader>dB", function()
-	require("dap").set_breakpoint(vim.fn.input({ prompt = "Breakpoint condition: " }))
-end, desc(opts, "[d]ebug [B]reakpoint conditional: Toggle conditional breakpoint on current line."))
-nnoremap("<Leader>dp", function()
+nnoremap("<F7>", require("dap").step_over, opts)
+nnoremap("<F8>", require("dap").step_into, opts)
+nnoremap("<F9>", require("dap").step_out, opts)
+
+local has_persisten_breakpoints, persistent_breakpoints = pcall(require, "persistent-breakpoints")
+if has_persisten_breakpoints then
+	persistent_breakpoints.setup({
+		load_breakpoints_event = "BufReadPost",
+	})
+	vim.keymap.set(
+		"n",
+		"<Leader>db",
+		require("persistent-breakpoints.api").toggle_breakpoint,
+		desc(opts, "[d]ebug [b]reakpoint: Toggle debugger breakpoint on current line.")
+	)
+	vim.keymap.set(
+		"n",
+		"<Leader>dB",
+		require("persistent-breakpoints.api").set_conditional_breakpoint,
+		desc(opts, "[d]ebug [B]reakpoint conditional: Toggle conditional breakpoint on current line.")
+	)
+else
+	vim.keymap.set(
+		"n",
+		"<Leader>db",
+		require("dap").toggle_breakpoint,
+		desc(opts, "[d]ebug [b]reakpoint: Toggle debugger breakpoint on current line.")
+	)
+	vim.keymap.set("n", "<Leader>dB", function()
+		require("dap").set_breakpoint(vim.fn.input({ prompt = "Breakpoint condition: " }))
+	end, desc(opts, "[d]ebug [B]reakpoint conditional: Toggle conditional breakpoint on current line."))
+end
+vim.keymap.set("n", "<Leader>dp", function()
 	require("dap").set_breakpoint(nil, nil, vim.fn.input({ prompt = "Log point message: " }))
 end, desc(opts, "[d]ebug log [p]oint: Add logging breakpoint on current line."))
--- nnoremap("<Leader>dr", require'dap'.repl.open, opts)
 
 vim.keymap.set(
 	{ "n", "v" },
@@ -51,6 +74,28 @@ vim.keymap.set(
 function GotoWindow(id)
 	vim.fn["win_gotoid"](id)
 	vim.cmd("MaximizerToggle")
+end
+
+local has_goto_breakpoints, _ = pcall(require, "goto-breakpoints")
+if has_goto_breakpoints then
+	vim.keymap.set(
+		"n",
+		"]D",
+		require("goto-breakpoints").next,
+		vim.tbl_extend("force", opts, { desc = "Next debug breakpoint." })
+	)
+	vim.keymap.set(
+		"n",
+		"[D",
+		require("goto-breakpoints").prev,
+		vim.tbl_extend("force", opts, { desc = "Previous debug breakpoint." })
+	)
+	vim.keymap.set(
+		"n",
+		"]S",
+		require("goto-breakpoints").stopped,
+		vim.tbl_extend("force", opts, { desc = "Goto debug stop point." })
+	)
 end
 
 local home = os.getenv("HOME")
@@ -193,12 +238,6 @@ nnoremap(
 	desc(opts, "[d]ebug [t]est view: Open repl and console for test output.")
 )
 nnoremap("<Leader>m", ":MaximizerToggle!<CR>", desc(opts, "[m]aximize: Toggle fullscreen current window."))
---[[ nnoremap("<Leader>dw", function() GotoWindow(vim.fn['bufwinid']('DAP Watches')) end, opts)
-nnoremap("<Leader>dS", function() GotoWindow(vim.fn['bufwinid']('DAP Stacks')) end, opts)
--- nnoremap("<Leader>db", function() GotoWindow(vim.fn['bufwinid']('DAP Breakpoints')) end, opts)
-nnoremap("<Leader>ds", function() GotoWindow(vim.fn['bufwinid']('DAP Scopes')) end, opts)
-nnoremap("<Leader>dr", function() GotoWindow(vim.fn['bufwinid']('dap-repl')) end, opts)
-nnoremap("<Leader>dt", function() GotoWindow(vim.fn['bufwinid']('dap-terminal')) end, opts) ]]
 
 --[[ dap.listeners.after.event_initialized["dapui_config"] = function()
   dapui.open()
