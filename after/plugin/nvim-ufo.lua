@@ -8,6 +8,10 @@ local nnoremap = fk.nnoremap
 
 local icons = require("faith.icons")
 
+local ftMap = {
+	markdown = { "treesitter", "indent" },
+}
+
 -- needs to be high for ufo
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
@@ -82,8 +86,8 @@ ufo.setup({
 			scrollD = "<C-d>",
 		},
 	},
-	provider_selector = function(--[[ bufnr, filetype, buftype ]])
-		return { "lsp", "indent" }
+	provider_selector = function(bufnr, filetype, buftype)
+		return ftMap[filetype]
 	end,
 	enable_get_fold_virt_text = true,
 	fold_virt_text_handler = handler,

@@ -27,7 +27,7 @@ vim.opt.updatetime = 300
 vim.opt.timeoutlen = 500
 vim.opt.hidden = true
 vim.opt.textwidth = 100
-vim.opt.wrap = true
+vim.opt.wrap = false
 vim.opt.linebreak = true
 vim.opt.showbreak = "↪"
 vim.opt.breakat = " ^I!@;:,./?([{"
@@ -49,23 +49,43 @@ vim.opt.fillchars:append({
 	verthoriz = "│", -- "┼",
 })
 
--- Auto formatting is BAD.
-vim.opt.formatoptions:remove("a")
--- Don't auto format my code. I got linters for that.
-vim.opt.formatoptions:remove("t")
--- In general, I like it when comments respect textwidth
-vim.opt.formatoptions:append("c")
--- Allow formatting comments w/ gq
-vim.opt.formatoptions:append("q")
--- O and o, don't continue comments
-vim.opt.formatoptions:remove("o")
--- But do continue when pressing enter.
-vim.opt.formatoptions:append("r")
--- Indent past the formatlistpat, not underneath it.
-vim.opt.formatoptions:append("n")
--- Auto-remove comments if possible.
-vim.opt.formatoptions:append("j")
-vim.opt.formatoptions:remove("2")
+-- set format options for each window otherwise it just doens't work for some reason :c
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+	pattern = "*",
+	callback = function(data)
+		local ext = vim.fn.fnamemodify(data.file, ":e")
+
+		if ext == "md" then
+			vim.opt.formatoptions:remove("c")
+			vim.opt.formatoptions:remove("q")
+			vim.opt.formatoptions:remove("j")
+			vim.opt.formatoptions:remove("l")
+
+			vim.opt.formatoptions:append("w")
+			vim.opt.formatoptions:append("a")
+			vim.opt.formatoptions:append("n")
+		else
+			-- defaults ig
+			-- Auto formatting is BAD.
+			vim.opt.formatoptions:remove("a")
+			-- Don't auto format my code. I have linters for that.
+			vim.opt.formatoptions:remove("t")
+			-- In general, I like it when comments respect textwidth
+			vim.opt.formatoptions:append("c")
+			-- Allow formatting comments w/ gq
+			vim.opt.formatoptions:append("q")
+			-- O and o, don't continue comments
+			vim.opt.formatoptions:remove("o")
+			-- But do continue when pressing enter.
+			vim.opt.formatoptions:append("r")
+			-- Indent past the formatlistpat, not underneath it.
+			vim.opt.formatoptions:append("n") -- doesn't work well with "2"
+			vim.opt.formatoptions:remove("2")
+			-- Auto-remove comments if possible.
+			vim.opt.formatoptions:append("j")
+		end
+	end,
+})
 
 vim.api.nvim_create_autocmd({ "Filetype" }, {
 	pattern = { "gitcommit", "markdown" },

@@ -176,11 +176,12 @@ Plug("udalov/kotlin-vim", { ["commit"] = "53fe045906df8eeb07cb77b078fc93acda6c90
 
 --{{{ Notes
 Plug("epwalsh/obsidian.nvim")
-Plug("lukas-reineke/headlines.nvim")
+-- Plug("lukas-reineke/headlines.nvim")
 Plug("3rd/image.nvim")
 Plug("jmbuhr/otter.nvim")
 Plug("bullets-vim/bullets.vim")
 Plug("godlygeek/tabular", { ["commit"] = "339091ac4dd1f17e225fe7d57b48aff55f99b23a" })
 Plug("dhruvasagar/vim-table-mode")
+Plug("MeanderingProgrammer/markdown.nvim")
 --}}}
 vim.fn["plug#end"]()

@@ -145,14 +145,26 @@ catppuccin.setup({
 
 			LspInlayHint = { fg = colors.overlay1, bg = colors.base },
 
-			Heading1 = { fg = markdown_heading, bg = colors.red },
+			Heading1 = { fg = markdown_heading, bg = colors.green },
 			Heading2 = { fg = markdown_heading, bg = colors.peach },
-			Heading3 = { fg = markdown_heading, bg = colors.yellow },
-			Heading4 = { fg = markdown_heading, bg = colors.green },
-			Heading5 = { fg = markdown_heading, bg = colors.sapphire },
-			Heading6 = { fg = markdown_heading, bg = colors.mauve },
+			Heading3 = { fg = markdown_heading, bg = colors.mauve },
+			Heading4 = { fg = markdown_heading, bg = colors.sapphire },
+			Heading5 = { fg = markdown_heading, bg = colors.yellow },
+			Heading6 = { fg = markdown_heading, bg = colors.red },
 			CodeBlock = { bg = colors.crust },
 			HeadingBullet = { fg = markdown_heading },
+
+			RenderMarkdownH1Bg = { bg = colors.green, fg = markdown_heading },
+			RenderMarkdownH2Bg = { bg = colors.peach, fg = markdown_heading },
+			RenderMarkdownH3Bg = { bg = colors.mauve, fg = markdown_heading },
+			RenderMarkdownH4Bg = { bg = colors.sapphire, fg = markdown_heading },
+			RenderMarkdownH5Bg = { bg = colors.yellow, fg = markdown_heading },
+			RenderMarkdownH6Bg = { bg = colors.red, fg = markdown_heading },
+
+			["@markup.quote"] = { fg = colors.yellow, bold = false },
+			["@markup.italic"] = { fg = colors.rosewater, italic = true },
+			["@markup.strong"] = { fg = colors.maroon, bold = true },
+			ObsidianTagCustom = { fg = colors.teal, bg = colors.surface1 },
 		}
 
 		return hightlight_overrides

@@ -17,7 +17,6 @@ conform.setup({
 		lua = { "stylua" },
 		rust = { "rustfmt" },
 		javascript = { { "prettierd" } },
-		markdown = { "prettierd" },
 		python = { "black", "isort" },
 		--[[ formatting.prettierd.with({
 			-- extra_filetypes = { "toml", "solidity" },
@@ -50,6 +49,26 @@ conform.formatters.isort = {
 		return { "--kotlinlang-style" }
 	end,
 } ]]
+
+conform.formatters.injected = {
+	options = {
+		lang_to_ext = {
+			bash = "sh",
+			c_sharp = "cs",
+			elixir = "exs",
+			javascript = "js",
+			julia = "jl",
+			latex = "tex",
+			markdown = "md",
+			python = "py",
+			ruby = "rb",
+			rust = "rs",
+			teal = "tl",
+			r = "r",
+			typescript = "ts",
+		},
+	},
+}
 
 vim.api.nvim_create_user_command("FormatDisable", function(args)
 	if args.bang then
