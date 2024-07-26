@@ -6,6 +6,9 @@ end
 local icons = require("faith.icons")
 
 saga.setup({
+	ui = {
+		kind = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
+	},
 	diagnostic_header = {
 		icons.diagnostic.error,
 		icons.diagnostic.warn,
@@ -35,5 +38,4 @@ saga.setup({
 	implement = {
 		enable = true,
 	},
-	-- custom_kind = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
 })

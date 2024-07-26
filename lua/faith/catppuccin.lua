@@ -9,7 +9,7 @@ catppuccin.setup({
 	transparent_background = vim.g.transparent_enabled,
 	term_colors = true,
 	dim_inactive = {
-		enable = false,
+		enable = true,
 		shade = "dark",
 		percentage = 0.15,
 	},
@@ -28,17 +28,34 @@ catppuccin.setup({
 		operators = {},
 	},
 	integrations = {
+		barbecue = {
+			dim_dirname = true, -- directory name is dimmed by default
+			bold_basename = true,
+			dim_context = true,
+			alt_background = true,
+		},
+		diffview = true,
+		fidget = true,
 		gitsigns = true,
-		lightspeed = true,
-		cmp = true,
-		notify = true,
-		treesitter_context = true,
-		treesitter = true,
-		lsp_trouble = true,
-		ts_rainbow = false,
-		telescope = true,
 		harpoon = true,
-		rainbow_delimiters = true,
+		headlines = false,
+		indent_blankline = {
+			enabled = true,
+			scope_color = "pink",
+			colored_indent_levels = false,
+		},
+		lightspeed = true,
+		lsp_saga = true,
+		markdown = true,
+		mason = true,
+		neotest = true,
+		noice = true,
+		cmp = true,
+		dap = {
+			enabled = true,
+			enable_ui = true,
+		},
+		dap_ui = true,
 		native_lsp = {
 			enabled = true,
 			virtual_text = {
@@ -53,30 +70,23 @@ catppuccin.setup({
 				warnings = { "undercurl" },
 				information = { "underline" },
 			},
-		},
-		dap = {
-			enabled = true,
-			enable_ui = true,
-		},
-		indent_blankline = {
-			enabled = true,
-			scope_color = "pink",
-			colored_indent_levels = false,
+			inlay_hints = {
+				background = true,
+			},
 		},
 		navic = {
 			enable = true,
 			custom_bg = "NONE",
 		},
+		notify = true,
+		semantic_tokens = true,
 		nvimtree = true,
-		barbecue = {
-			dim_dirname = true, -- directory name is dimmed by default
-			bold_basename = true,
-			dim_context = true,
-			alt_background = true,
-		},
-		lsp_saga = true,
-		mason = true,
-		noice = true,
+		treesitter_context = true,
+		treesitter = true,
+		ufo = true,
+		rainbow_delimiters = true,
+		telescope = true,
+		lsp_trouble = true,
 	},
 	custom_highlights = function(colors)
 		local git_change_color = colors.blue
@@ -143,7 +153,7 @@ catppuccin.setup({
 			CmpItemKindTypeParameter = { fg = colors.base, bg = colors.blue },
 			CmpItemKindCopilot = { fg = colors.base, bg = colors.teal },
 
-			LspInlayHint = { fg = colors.overlay1, bg = colors.base },
+			-- LspInlayHint = { fg = colors.overlay1, bg = colors.base },
 
 			Heading1 = { fg = markdown_heading, bg = colors.green },
 			Heading2 = { fg = markdown_heading, bg = colors.peach },
@@ -222,9 +232,9 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 			vim.api.nvim_set_hl(0, "BufferLineOffsetSeparator", { link = "VertSplit" })
 		end
 
-		if package.loaded.fidget ~= nil then
+		--[[ if package.loaded.fidget ~= nil then
 			vim.api.nvim_set_hl(0, "FidgetTitle", { fg = colors.pink, bold = true })
-		end
+		end ]]
 
 		-- vim.api.nvim_set_hl(0, "TreesitterContextBottom", { bg = colors.mantle, special = "none" })
 	end,
