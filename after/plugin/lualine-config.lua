@@ -138,11 +138,9 @@ local language_server = {
 		local formatter = registered["NULL_LS_FORMATTING"]
 		local linter = registered["NULL_LS_DIAGNOSTICS"]
 		if formatter ~= nil then
-			---@diagnostic disable-next-line: missing-parameter
 			vim.list_extend(client_names, formatter)
 		end
 		if linter ~= nil then
-			---@diagnostic disable-next-line: missing-parameter
 			vim.list_extend(client_names, linter)
 		end
 
@@ -200,43 +198,6 @@ local asyncrun_status = {
 			return (job.status == "success" and "✅" or "❌")
 		end, vim.g.asyncrun_job_status or {})))
 	end,
-}
-
-local spaces = {
-	function()
-		local buf_ft = vim.bo.filetype
-
-		local ui_filetypes = {
-			"help",
-			"packer",
-			"neogitstatus",
-			"NvimTree",
-			"Trouble",
-			"lir",
-			"Outline",
-			"spectre_panel",
-			"DressingSelect",
-			"",
-		}
-		local space = ""
-
-		if contains(ui_filetypes, buf_ft) then
-			space = " "
-		end
-
-		local shiftwidth = vim.api.nvim_get_option_value("shiftwidth", { scope = "local" })
-
-		if shiftwidth == nil then
-			return ""
-		end
-
-		local indent_type = vim.api.nvim_get_option_value("expandtab", { scope = "local" }) and "spaces" or "tabs"
-
-		return indent_type .. ": " .. shiftwidth .. space
-	end,
-	padding = 1,
-	-- separator = "%#SLSeparator#" .. " │" .. "%*",
-	-- cond = hide_in_width_100,
 }
 
 local git = {
@@ -441,7 +402,7 @@ lualine.setup({
 		lualine_a = { git },
 		lualine_b = { obsession, workspace_diagnostics, git_conflict },
 		lualine_c = { language_server, asyncrun_status },
-		lualine_x = { show_macro_recording, location, spaces, fileformat, encoding },
+		lualine_x = { show_macro_recording, location, "SleuthIndicator", fileformat, encoding },
 		lualine_y = { format_on_save },
 		lualine_z = trans_flag,
 	},
