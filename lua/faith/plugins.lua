@@ -19,6 +19,7 @@ Plug("kevinhwang91/promise-async", { ["commit"] = "28c1d5a295eb5310afa2523d4ae9a
 Plug("skywind3000/asyncrun.vim", { ["tag"] = "2.12.*" })
 Plug("szw/vim-maximizer", { ["commit"] = "2e54952fe91e140a2e69f35f22131219fcd9c5f1" })
 Plug("tpope/vim-abolish", { ["commit"] = "dcbfe065297d31823561ba787f51056c147aa682" })
+Plug("nvim-treesitter/nvim-treesitter-textobjects", { ["commit"] = "34867c69838078df7d6919b130c0541c0b400c47" })
 
 if not vim.fn.has("win32") then
 	Plug("tmux-plugins/vim-tmux", { ["tag"] = "v3.*" }) -- tmux.conf syntax hl n stuff
