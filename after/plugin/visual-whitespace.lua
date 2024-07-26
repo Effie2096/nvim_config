@@ -5,7 +5,7 @@ end
 
 local icons = require("faith.icons").characters
 visual_whitespace.setup({
-	-- highlight = { link = "comment" },
+	highlight = { link = "Visual" },
 	space_char = icons.space,
 	nl_char = icons.eol,
 })
