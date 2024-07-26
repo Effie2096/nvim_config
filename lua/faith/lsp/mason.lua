@@ -51,7 +51,7 @@ local lspconfig_status_ok, lspconfig = pcall(require, "lspconfig")
 if not lspconfig_status_ok then
 	return
 end
-lspconfig.util.default_config = vim.tbl_extend("force", lspconfig.util.default_config, {
+lspconfig.util.default_config = vim.tbl_deep_extend("force", lspconfig.util.default_config, {
 	capabilities = require("faith.lsp.handlers").capabilities,
 })
 

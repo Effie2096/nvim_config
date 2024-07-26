@@ -9,6 +9,10 @@ local diagnostic_icons = require("faith.icons").diagnostic
 
 M.capabilities = vim.lsp.protocol.make_client_capabilities()
 M.capabilities.textDocument.completion.completionItem.snippetSupport = true
+M.capabilities.textDocument.foldingRange = {
+	dynamicRegistration = false,
+	lineFoldingOnly = true,
+}
 
 local status_cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 if status_cmp_ok then
@@ -28,7 +32,7 @@ local float_config = {
 	prefix = function(_, i, _)
 		return string.format("%s: ", i)
 	end,
-	-- width = 40,
+	width = 60,
 	--[[ width = function()
 				local vim_width = vim.api.nvim_get_option_value("columns", { scope = "global" })
 				return vim_width / 2 < 61 and vim_width / 2 or 100
@@ -83,18 +87,6 @@ M.setup = function()
 	}
 
 	vim.diagnostic.config(config)
-
-	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-		border = "single",
-		-- width = 60,
-		-- height = 30,
-	})
-
-	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-		border = "single",
-		-- width = 60,
-		-- height = 30,
-	})
 end
 
 -- Create a custom namespace. This will aggregate signs from all other
@@ -529,20 +521,20 @@ M.on_attach = function(client, bufnr)
 	formatting_maps(bufnr)
 	create_refactor_keymaps(bufnr)
 
-	if client.server_capabilities.documentSymbolProvider then
+	if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentSymbol) then
 		attach_navic(client, bufnr)
 	end
 
-	if client.server_capabilities.documentHighlightProvider then
+	if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
 		symbol_highlight(bufnr)
 	end
 
-	if client.server_capabilities.codeLensProvider then
+	if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_codeLens) then
 		vim.lsp.codelens.refresh({ bufnr = bufnr })
 		refresh_codelens(bufnr)
 	end
 
-	if client.server_capabilities.inlayHintProvider then
+	if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
 		vim.lsp.inlay_hint.enable(true)
 	end
 
