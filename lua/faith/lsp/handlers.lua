@@ -307,7 +307,10 @@ local function lsp_keymaps(bufnr)
 		nnoremap("<leader>dl", function()
 			vim.cmd.Lspsaga({ "show_line_diagnostics", "++unfocus" })
 
-			if package.loaded.rustaceanvim ~= nil then
+			if
+				package.loaded.rustaceanvim ~= nil
+				and vim.api.nvim_get_option_value("filetype", { buf = bufnr }) == "rust"
+			then
 				vim.cmd.RustLsp({ "explainError", "current" })
 			end
 		end, desc(opts, "[d]iagnostic [l]ist: Open float listing all diagnostics on line."))
