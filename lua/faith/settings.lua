@@ -98,6 +98,22 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.numberwidth = 2
 
+local number_toggle_group = vim.api.nvim_create_augroup("number_toggle", { clear = true })
+vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "InsertLeave", "WinEnter" }, {
+	group = number_toggle_group,
+	pattern = "*",
+	callback = function()
+		vim.cmd([[if &nu && mode() != "i" | set rnu | endif]])
+	end,
+})
+vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "InsertEnter", "WinLeave" }, {
+	group = number_toggle_group,
+	pattern = "*",
+	callback = function()
+		vim.cmd([[if &nu | set nornu | endif]])
+	end,
+})
+
 local function QuickFixDo(cmd)
 	local bufs = {}
 	local commands = vim.split(cmd, " ", {})
