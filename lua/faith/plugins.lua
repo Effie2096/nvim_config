@@ -125,7 +125,7 @@ Plug(
 
 Plug("ThePrimeagen/harpoon", { ["branch"] = "harpoon2" })
 
-Plug("ggandor/lightspeed.nvim", { ["commit"] = "fcc72d8a4d5f4ebba62d8a3a0660f88f1b5c3b05" })
+Plug("ggandor/leap.nvim", { ["commit"] = "3b1d76ee9cd5a12a8f7a42f0e91124332860205c" })
 --[[]]
 
 --[[ Projects ]]
