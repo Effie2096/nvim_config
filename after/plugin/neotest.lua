@@ -32,7 +32,8 @@ vim.keymap.set("n", "<leader>tg", function()
 	end
 end, desc(opts, "[t]est [g]o: Go to last file tests were ran."))
 vim.keymap.set("n", "<leader>to", function()
-	require("neotest").output_panel.toggle()
+	-- require("neotest").output_panel.toggle()
+	require("overseer").toggle({ enter = false, direction = "bottom" })
 	require("neotest").summary.toggle()
 end, desc(opts, "[t]est [o]utput: "))
 
@@ -63,5 +64,8 @@ neotest.setup({
 			allow_file_types = { "c" },
 			ignore_file_types = { "python", "vim", "lua" },
 		}),
+	},
+	consumers = {
+		overseer = require("neotest.consumers.overseer"),
 	},
 })

@@ -382,6 +382,13 @@ local git_conflict = {
 	end,
 }
 
+local overseer = {
+	"overseer",
+	label = "",
+	colored = true,
+	unique = true,
+}
+
 lualine.setup({
 	options = {
 		icons_enabled = true,
@@ -401,7 +408,7 @@ lualine.setup({
 	sections = {
 		lualine_a = { git },
 		lualine_b = { obsession, workspace_diagnostics, git_conflict },
-		lualine_c = { language_server, asyncrun_status },
+		lualine_c = { language_server, asyncrun_status, overseer },
 		lualine_x = { show_macro_recording, location, "SleuthIndicator", fileformat, encoding },
 		lualine_y = { format_on_save },
 		lualine_z = trans_flag,

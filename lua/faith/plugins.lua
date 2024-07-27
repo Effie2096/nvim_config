@@ -17,6 +17,7 @@ Plug("tpope/vim-sleuth", { ["commit"] = "1cc4557420f215d02c4d2645a748a816c220e99
 Plug("antoinemadec/FixCursorHold.nvim")
 Plug("kevinhwang91/promise-async", { ["commit"] = "28c1d5a295eb5310afa2523d4ae9aa41ec5a9de2" })
 Plug("skywind3000/asyncrun.vim", { ["tag"] = "2.12.*" })
+Plug("stevearc/overseer.nvim", { ["tag"] = "v1.*" })
 Plug("szw/vim-maximizer", { ["commit"] = "2e54952fe91e140a2e69f35f22131219fcd9c5f1" })
 Plug("tpope/vim-abolish", { ["commit"] = "dcbfe065297d31823561ba787f51056c147aa682" })
 Plug("nvim-treesitter/nvim-treesitter-textobjects", { ["commit"] = "34867c69838078df7d6919b130c0541c0b400c47" })
