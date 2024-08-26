@@ -103,7 +103,7 @@ catppuccin.setup({
 
 		local markdown_heading = colors.surface0
 
-		local hightlight_overrides = {
+		local highlight_overrides = {
 			GitSignsAddInline = { fg = colors.base, bg = git_add_color },
 			GitSignsAddLnInline = { fg = colors.base, bg = git_add_color },
 			GitSignsChangeInline = { fg = colors.base, bg = git_change_color },
@@ -176,7 +176,7 @@ catppuccin.setup({
 			["@markup.strong"] = { fg = colors.maroon, bold = true },
 		}
 
-		return hightlight_overrides
+		return highlight_overrides
 	end,
 	highlight_overrides = {
 		latte = function(colors)
