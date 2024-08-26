@@ -18,7 +18,6 @@ local servers = {
 	"lua_ls",
 	"marksman",
 	"powershell_es",
-	"rust_analyzer",
 	"taplo",
 	"tsserver",
 	"yamlls",

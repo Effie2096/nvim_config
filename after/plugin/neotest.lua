@@ -60,9 +60,10 @@ neotest.setup({
 				) .. "/python"
 			end,
 		}),
+		require("rustaceanvim.neotest"),
 		require("neotest-vim-test")({
 			allow_file_types = { "c" },
-			ignore_file_types = { "python", "vim", "lua" },
+			ignore_file_types = { "python", "vim", "lua", "rust" },
 		}),
 	},
 	consumers = {

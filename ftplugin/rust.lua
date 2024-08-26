@@ -1,8 +1,13 @@
 vim.opt_local.expandtab = false
 vim.lsp.inlay_hint.enable(true)
 
+local bufnr = vim.api.nvim_get_current_buf()
+
 local has_rustaceanvim, rustaceanvim = pcall(require, "rustaceanvim")
+require("faith.lsp.handlers").lsp_keymaps(bufnr)
 if has_rustaceanvim then
+	require("faith.lsp.handlers").rust_keymaps(bufnr)
+
 	vim.g.rustaceanvim = function()
 		local codelldb = require("mason-registry").get_package("codelldb")
 		local extension_path = codelldb:get_install_path() .. "/extension/"
@@ -36,3 +41,4 @@ if has_rustaceanvim then
 		}
 	end
 end
+

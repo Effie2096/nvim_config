@@ -240,7 +240,7 @@ local function formatting_maps(bufnr)
 	end
 end
 
-local function lsp_keymaps(bufnr)
+M.lsp_keymaps = function(bufnr)
 	local opts = { noremap = true, silent = true, buffer = bufnr }
 	nnoremap(
 		"K",
@@ -306,15 +306,7 @@ local function lsp_keymaps(bufnr)
 
 		nnoremap("<leader>dl", function()
 			vim.cmd.Lspsaga({ "show_line_diagnostics", "++unfocus" })
-
-			if
-				package.loaded.rustaceanvim ~= nil
-				and vim.api.nvim_get_option_value("filetype", { buf = bufnr }) == "rust"
-			then
-				vim.cmd.RustLsp({ "explainError", "current" })
-			end
 		end, desc(opts, "[d]iagnostic [l]ist: Open float listing all diagnostics on line."))
-		-- nnoremap("<leader>dl", require('lspsaga.diagnostic').show_cursor_diagnostics, opts)
 		nnoremap(
 			"<leader>dj",
 			"<cmd>Lspsaga diagnostic_jump_next<cr>",
@@ -337,9 +329,6 @@ local function lsp_keymaps(bufnr)
 	else
 		nnoremap("<leader>dl", function()
 			vim.diagnostic.open_float()
-			if package.loaded.rustaceanvim ~= nil then
-				vim.cmd.RustLsp({ "explainError", "current" })
-			end
 		end, desc(opts, "[d]iagnostic [l]ist: Open float listing all diagnostics on line."))
 		nnoremap(
 			"<leader>dj",
@@ -395,7 +384,7 @@ local function jdt_keymaps(bufnr)
 	vim.cmd("command! -buffer JdtJshell lua require('jdtls').jshell()")
 end
 
-local function rust_keymaps(bufnr)
+M.rust_keymaps = function(bufnr)
 	local opts = { noremap = true, silent = true, buffer = bufnr }
 	if pcall(require, "rustaceanvim") then
 		nnoremap("<leader>rr", function()
@@ -404,6 +393,9 @@ local function rust_keymaps(bufnr)
 		nnoremap("<leader>ra", function()
 			vim.cmd.RUstLsp("codeAction")
 		end, desc(opts, "[r]ust code[a]ction."))
+		vim.keymap.set("n", "<leader>dl", function()
+			vim.cmd.RustLsp({ "explainError", "current" })
+		end, opts)
 	end
 end
 
@@ -520,7 +512,7 @@ local function create_refactor_keymaps(bufnr)
 end
 
 M.on_attach = function(client, bufnr)
-	lsp_keymaps(bufnr)
+	M.lsp_keymaps(bufnr)
 	formatting_maps(bufnr)
 	create_refactor_keymaps(bufnr)
 
