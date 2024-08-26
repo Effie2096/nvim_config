@@ -174,11 +174,24 @@ catppuccin.setup({
 			["@markup.quote"] = { fg = colors.yellow, bold = false },
 			["@markup.italic"] = { fg = colors.rosewater, italic = true },
 			["@markup.strong"] = { fg = colors.maroon, bold = true },
-			ObsidianTagCustom = { fg = colors.teal, bg = colors.surface1 },
 		}
 
 		return hightlight_overrides
 	end,
+	highlight_overrides = {
+		latte = function(colors)
+			local highlight_overrides = {
+				ObsidianTagCustom = { fg = colors.pink, bg = "#eedbee", bold = false },
+			}
+			return highlight_overrides
+		end,
+		mocha = function(colors)
+			local highlight_overrides = {
+				ObsidianTagCustom = { fg = colors.pink, bg = "#493f53", bold = false },
+			}
+			return highlight_overrides
+		end,
+	},
 })
 
 vim.api.nvim_create_autocmd("ColorScheme", {
