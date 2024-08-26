@@ -9,7 +9,8 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 	group = "markdown_format",
 	pattern = "*.md",
 	command = [[
+	:execute "normal! m'"
 	g!/^|\|\[\[.*\]\]\|\[.*\](.*)/normal gqq
-	:execute "normal! \<C-o>"
+	:execute "normal! `'"
 	]],
 })
