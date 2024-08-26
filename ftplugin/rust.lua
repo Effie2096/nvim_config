@@ -42,3 +42,23 @@ if has_rustaceanvim then
 	end
 end
 
+local has_overseer, _ = pcall(require, "overseer")
+if has_overseer then
+	local opts = { silent = true, noremap = true }
+	vim.keymap.set({ "n", "i" }, "<F3>", function()
+		require("overseer").run_template({
+			tags = {
+				require("overseer").TAG.BUILD,
+			},
+		})
+		require("overseer").open({ enter = false })
+	end, opts)
+	vim.keymap.set({ "n", "i" }, "<F4>", function()
+		require("overseer").run_template({
+			tags = {
+				require("overseer").TAG.RUN,
+			},
+		})
+		require("overseer").open({ enter = false })
+	end, opts)
+end
