@@ -22,4 +22,8 @@ function M.exists(lookup)
 	return a and c
 end
 
+M.get_selection = function()
+	return vim.fn.getregion(vim.fn.getpos("."), vim.fn.getpos("v"), { mode = vim.fn.mode() })
+end
+
 return M

@@ -261,16 +261,20 @@ local root = {
 local tabs = {
 	"tabs",
 	mode = 2,
+	max_length = vim.o.columns / 2,
 	fmt = function(name, context)
 		local tab_dir = vim.fn.fnamemodify(vim.fn.getcwd(-1, context.tabnr), ":t")
 		local show_dir = not (tab_dir == vim.fn.fnamemodify(vim.fn.getcwd(-1, -1), ":t"))
-		return string.format("%s%s", show_dir and tab_dir .. ": " or "", name)
+		local title = name
+		if vim.fn.exists("g:loaded_taboo") then
+			title = vim.fn.TabooTabTitle(context.tabnr)
+		end
+		return string.format("%s%s", show_dir and tab_dir .. ": " or "", title)
 	end,
 	cond = function()
 		return vim.fn.tabpagenr("$") > 1
 	end,
 }
-
 local harpoon = {
 	function()
 		local harpoon = require("harpoon")
@@ -332,6 +336,7 @@ local harpoon = {
 		return tabline
 	end,
 	cond = function()
+		-- TODO: list no worky? <27-10-24, Effie2096 havealittlefaith2096@gmail.com>
 		return package.loaded.harpoon ~= nil and next(require("harpoon"):list().items) ~= nil
 	end,
 }
@@ -401,7 +406,7 @@ lualine.setup({
 		globalstatus = true,
 		refresh = {
 			statusline = 120,
-			tabline = 240,
+			tabline = 120,
 			winbar = 120,
 		},
 	},

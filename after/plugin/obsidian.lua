@@ -36,8 +36,7 @@ local workspaces = vim.tbl_extend(
 				return assert(vim.fs.dirname(vim.api.nvim_buf_get_name(0)))
 			end,
 			overrides = {
-				notes_subdir = vim.NIL, --
-				--have to use 'vim.NIL' instead of 'nil'
+				notes_subdir = vim.NIL, -- have to use 'vim.NIL' instead of 'nil'
 				new_notes_location = "current_dir",
 				templates = {
 					folder = vim.NIL,
@@ -56,7 +55,32 @@ vim.keymap.set("n", "<leader>oq", function()
 end, { desc = "[o]bsidian [q]uickswitch: Switch to note." })
 vim.keymap.set("n", "<leader>os", function()
 	vim.api.nvim_cmd({ cmd = "ObsidianSearch" }, { output = false })
-end, { desc = "[o]bsidian [s]earch: Swearch (or create) note." })
+end, { desc = "[o]bsidian [s]earch: Search (or create) note." })
+vim.keymap.set("n", "<leader>ofw", function()
+	vim.api.nvim_cmd({ cmd = "ObsidianWorkspace" }, { output = false })
+end, { desc = "[o]bsidian [w]orkspace: Open picker listing workspaces." })
+vim.keymap.set({ "v" }, "<leader>ol", function()
+	vim.api.nvim_cmd({ cmd = "ObsidianLink" }, { output = true })
+end, { desc = "[o]bsidian [l]ink: Link to note (if any) that match text under cursor or selection." })
+vim.keymap.set({ "v" }, "<leader>oL", function()
+	local viz = require("faith.functions").get_selection()
+	if #viz ~= 1 then
+		vim.notify("Selection can't span multiple lines", vim.log.levels.ERROR, { title = "Obsidian.nvim LinkNew" })
+		return
+	end
+
+	local title = vim.fn.input({
+		prompt = "Creating note. (Cancel to abort).",
+		default = viz[1],
+	})
+
+	if title == "" then
+		vim.notify("Aborted making new note!", vim.log.levels.INFO, { title = "Obsidian.nvim LinkNew" })
+		return
+	end
+
+	vim.api.nvim_cmd({ cmd = "ObsidianLinkNew" }, { output = false })
+end, { desc = "[o]bsidian [L]ink: Link selected text to new note." })
 
 obsidian.setup({
 	workspaces = workspaces,
@@ -135,23 +159,32 @@ obsidian.setup({
 			end,
 			opts = { buffer = true, desc = "[o]bsidian [o]pen: Open current note in Obsidian app." },
 		},
-		["<leader>ob"] = {
+		["<leader>ofb"] = {
 			action = function()
 				vim.api.nvim_cmd({ cmd = "ObsidianBacklinks" }, { output = false })
 			end,
 			opts = { buffer = true, desc = "[o]bsidian [b]acklinks: Search references to current note." },
 		},
-		["<leader>ol"] = {
+		["<leader>ofl"] = {
 			action = function()
 				vim.api.nvim_cmd({ cmd = "ObsidianLinks" }, { output = false })
 			end,
-			opts = { buffer = true, desc = "[o]bsidian [l]inks: List all links in current note." },
+			opts = { buffer = true, desc = "[o]bsidian [f]ind [l]inks: List all links in current note." },
 		},
 		["<leader>ot"] = {
 			action = function()
 				vim.api.nvim_cmd({ cmd = "ObsidianTemplate" }, { output = false })
 			end,
 			opts = { buffer = true, desc = "[o]bsidian [t]emplate: Insert template from templates folder." },
+		},
+		["<leader>oT"] = {
+			action = function()
+				vim.api.nvim_cmd({ cmd = "ObsidianNewFromTemplate" }, { output = false })
+			end,
+			opts = {
+				buffer = true,
+				desc = "[o]bsidian [T]emplate: Create new note from template from templates folder.",
+			},
 		},
 	},
 	-- Optional, completion of wiki links, local markdown links, and tags using nvim-cmp.
@@ -170,8 +203,8 @@ obsidian.setup({
 	-- Optional, for templates (see below).
 	templates = {
 		subdir = "_System/Templates",
-		date_format = "%Y-%m-%d",
-		time_format = "%H:%M",
+		date_format = "%Y%m%d",
+		time_format = "%H%M",
 		-- A map for custom variables, the key should be the variable and the value a function
 		substitutions = {},
 	},
@@ -186,14 +219,14 @@ obsidian.setup({
 		end,
 	},
 	ui = {
-		enable = true, -- set to false to disable all additional syntax features
+		enable = false, -- set to false to disable all additional syntax features
 		update_debounce = 200, -- update delay after a text change (in milliseconds)
 		-- Define how various check-boxes are displayed
 		checkboxes = {
-			[" "] = { char = "󰄱 ", hl_group = "ObsidianTodo" },
-			["x"] = { char = " ", hl_group = "ObsidianDone" },
-			[">"] = { char = " ", hl_group = "ObsidianRightArrow" },
-			["~"] = { char = "󰰱 ", hl_group = "ObsidianTilde" },
+			[" "] = { char = "󰄱", hl_group = "ObsidianTodo" },
+			["x"] = { char = "", hl_group = "ObsidianDone" },
+			[">"] = { char = "", hl_group = "ObsidianRightArrow" },
+			["~"] = { char = "󰰱", hl_group = "ObsidianTilde" },
 			-- Replace the above with this if you don't have a patched font:
 			-- [" "] = { char = "☐", hl_group = "ObsidianTodo" },
 			-- ["x"] = { char = "✔", hl_group = "ObsidianDone" },

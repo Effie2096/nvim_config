@@ -1,4 +1,4 @@
-vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize"
+vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,globals,winsize"
 
 local fk = require("faith.keymap")
 local nnoremap = fk.nnoremap

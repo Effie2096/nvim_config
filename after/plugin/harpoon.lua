@@ -3,6 +3,8 @@ if not has_harpoon then
 	return
 end
 
+harpoon:setup()
+
 vim.keymap.set("n", "<leader>ma", function()
 	harpoon:list():add()
 end)
@@ -34,5 +36,3 @@ end)
 vim.keymap.set("n", "<C-Right>", function()
 	harpoon:list():select(8)
 end)
-
-harpoon:setup()

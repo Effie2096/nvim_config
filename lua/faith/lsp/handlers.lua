@@ -297,6 +297,10 @@ M.lsp_keymaps = function(bufnr)
 		desc(opts, "code [a]ction: List code actions available for selection.")
 	)
 
+	if package.loaded.outline ~= nil then
+		nnoremap("<leader>lo", "<cmd>Outline<cr>", desc(opts, "[l]sp [o]utline: Open outline."))
+	end
+
 	if package.loaded.lspsaga ~= nil then
 		nnoremap(
 			"<leader>lf",
@@ -317,7 +321,6 @@ M.lsp_keymaps = function(bufnr)
 			"<cmd>Lspsaga diagnostic_jump_prev<cr>",
 			desc(opts, "[d]iagnostic [up]: Jump to prev diagnostic in file.")
 		)
-		nnoremap("<leader>lo", "<cmd>Lspsaga outline<cr>", desc(opts, "[l]sp [o]utline: Open outline."))
 
 		--[[ nnoremap("<leader>a", function()
 			require("lspsaga.codeaction"):code_action()
@@ -402,6 +405,9 @@ end
 local function refactor_keymaps(bufnr)
 	local opts = { buffer = bufnr, noremap = true, silent = true, expr = false }
 	-- Remaps for the refactoring operations currently offered by the plugin
+	vim.keymap.set({ "n", "x" }, "<leader>rr", function()
+		require("telescope").extensions.refactoring.refactors()
+	end, desc(opts, "[r]efactor [r]efactors: List refactors."))
 	vnoremap(
 		"<leader>re",
 		[[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>]],
@@ -543,8 +549,13 @@ M.on_attach = function(client, bufnr)
 		-- end
 	end
 
-	if client.name == "rust-analyzer" or client.name == "rust_analyzer-standalone" then
-		rust_keymaps(bufnr)
+	if client.name == "omnisharp" or client.name == "omnisharp_mono" then
+		local opts = { noremap = true, silent = true, buffer = bufnr }
+		vim.keymap.set("n", "<leader>ld", require("omnisharp_extended").lsp_definition, opts)
+		vim.keymap.set("n", "<leader>lt", require("omnisharp_extended").lsp_type_definition, opts)
+		vim.keymap.set("n", "<leader>lr", require("omnisharp_extended").lsp_references, opts)
+		vim.keymap.set("n", "<leader>li", require("omnisharp_extended").lsp_implementation, opts)
+		vim.keymap.set("n", "<leader>il", vim.lsp.inlay_hint.enable, opts)
 	end
 end
 

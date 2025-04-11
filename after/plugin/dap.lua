@@ -225,6 +225,206 @@ dap.configurations.rust = {
 	},
 }
 
+dap.adapters.ocaml = {
+	type = "executable",
+	command = "ocamlearlybird",
+	args = { "debug" },
+}
+
+dap.configurations.ocaml = {
+	{
+		name = "OCaml Debug test.bc",
+		type = "ocaml",
+		request = "launch",
+		cwd = "${workspaceFolder}",
+		program = "${workspaceFolder}/_build/default/test/test.bc",
+	},
+	-- {
+	-- 	type = "ocamlearlybird",
+	-- 	request = "launch",
+	-- 	name = "Launch debug test",
+	-- 	-- console = "integratedTerminal",
+	-- 	-- program = "_build/default/${relativeFileDirname}/${fileBasenameNoExtension}.bc",
+	-- 	program = "${workspaceFolder}/_build/default/bin/main.bc",
+	-- 	cwd = "${workspaceFolder}",
+	-- 	stopOnEntry = true,
+	-- 	yieldSteps = 4096,
+	-- 	onlyDebugGlob = "<${workspaceFolder}/**/*>",
+	-- },
+	{
+		name = "OCaml Debug main.bc",
+		type = "ocaml",
+		request = "launch",
+		cwd = "${workspaceFolder}",
+		program = "${workspaceFolder}/_build/default/bin/main.bc",
+		stopOnEntry = true,
+		yieldSteps = 4096,
+		onlyDebugGlob = "<${workspaceFolder}/**/*>",
+	},
+}
+
+dap.adapters.coreclr = {
+	type = "executable",
+	command = require("mason-registry").get_package("netcoredbg"):get_install_path() .. "/netcoredbg/netcoredbg",
+	-- command = "C:\\Users\\Faith\\.local\\nvim-data\\mason\\bin\\netcoredbg.cmd",
+	args = { "--interpreter=vscode" },
+}
+
+-- vim.g.dotnet_build_project = function()
+-- 	local default_path = vim.fn.getcwd() .. "/"
+-- 	if vim.g["dotnet_last_proj_path"] ~= nil then
+-- 		default_path = vim.g["dotnet_last_proj_path"]
+-- 	end
+-- 	local path = vim.fn.input("Path to your *proj file", default_path, "file")
+-- 	vim.g["dotnet_last_proj_path"] = path
+-- 	local cmd = "dotnet build -c Debug " .. path .. " > /dev/null"
+-- 	print("")
+-- 	print("Cmd to execute: " .. cmd)
+-- 	local f = os.execute(cmd)
+-- 	if f == 0 then
+-- 		print("\nBuild: ✔️ ")
+-- 	else
+-- 		print("\nBuild: ❌ (code: " .. f .. ")")
+-- 	end
+-- end
+
+-- vim.g.dotnet_get_dll_path = function()
+-- 	local request = function()
+-- 		return vim.fn.input("Path to dll", vim.fn.getcwd() .. "/bin/Debug/", "file")
+-- 	end
+
+-- 	if vim.g["dotnet_last_dll_path"] == nil then
+-- 		vim.g["dotnet_last_dll_path"] = request()
+-- 	else
+-- 		if
+-- 			vim.fn.confirm("Do you want to change the path to dll?\n" .. vim.g["dotnet_last_dll_path"], "&yes\n&no", 2)
+-- 			== 1
+-- 		then
+-- 			vim.g["dotnet_last_dll_path"] = request()
+-- 		end
+-- 	end
+
+-- 	return vim.g["dotnet_last_dll_path"]
+-- end
+
+-- local config = {
+-- 	{
+-- 		type = "coreclr",
+-- 		name = "launch - netcoredbg",
+-- 		request = "launch",
+-- 		program = function()
+-- 			if vim.fn.confirm("Should I recompile first?", "&yes\n&no", 2) == 1 then
+-- 				vim.g.dotnet_build_project()
+-- 			end
+-- 			return vim.g.dotnet_get_dll_path()
+-- 		end,
+-- 	},
+-- }
+
+-- dap.configurations.cs = config
+-- dap.configurations.fsharp = config
+dap.adapters["pwa-node"] = {
+	type = "server",
+	host = "localhost",
+	port = "${port}",
+	executable = {
+		command = "node",
+		-- 💀 Make sure to update this path to point to your installation
+		args = {
+			require("mason-registry").get_package("js-debug-adapter"):get_install_path()
+				.. "/js-debug/src/dapDebugServer.js",
+			"${port}",
+		},
+	},
+}
+
+-- custom adapter for running tasks before starting debug
+local custom_adapter = "pwa-node-custom"
+dap.adapters[custom_adapter] = function(cb, config)
+	if config.preLaunchTask then
+		local async = require("plenary.async")
+		local notify = require("notify").async
+
+		async.run(function()
+			---@diagnostic disable-next-line: missing-parameter
+			notify("Running [" .. config.preLaunchTask .. "]").events.close()
+		end, function()
+			vim.fn.system(config.preLaunchTask)
+			config.type = "pwa-node"
+			dap.run(config)
+		end)
+	end
+end
+
+for _, language in ipairs({ "typescript", "javascript" }) do
+	dap.configurations[language] = {
+		{
+			name = "Launch",
+			type = "pwa-node",
+			request = "launch",
+			program = "${file}",
+			rootPath = "${workspaceFolder}",
+			cwd = "${workspaceFolder}",
+			sourceMaps = true,
+			skipFiles = { "<node_internals>/**" },
+			protocol = "inspector",
+			console = "integratedTerminal",
+		},
+		{
+			name = "Attach to node process",
+			type = "pwa-node",
+			request = "attach",
+			rootPath = "${workspaceFolder}",
+			processId = require("dap.utils").pick_process,
+		},
+		{
+			name = "Debug Main Process (Electron)",
+			type = "pwa-node",
+			request = "launch",
+			program = "${workspaceFolder}/node_modules/.bin/electron",
+			args = {
+				"${workspaceFolder}/dist/index.js",
+			},
+			outFiles = {
+				"${workspaceFolder}/dist/*.js",
+			},
+			resolveSourceMapLocations = {
+				"${workspaceFolder}/dist/**/*.js",
+				"${workspaceFolder}/dist/*.js",
+			},
+			rootPath = "${workspaceFolder}",
+			cwd = "${workspaceFolder}",
+			sourceMaps = true,
+			skipFiles = { "<node_internals>/**" },
+			protocol = "inspector",
+			console = "integratedTerminal",
+		},
+		{
+			name = "Compile & Debug Main Process (Electron)",
+			type = custom_adapter,
+			request = "launch",
+			preLaunchTask = "npm run build-ts",
+			program = "${workspaceFolder}/node_modules/.bin/electron",
+			args = {
+				"${workspaceFolder}/dist/index.js",
+			},
+			outFiles = {
+				"${workspaceFolder}/dist/*.js",
+			},
+			resolveSourceMapLocations = {
+				"${workspaceFolder}/dist/**/*.js",
+				"${workspaceFolder}/dist/*.js",
+			},
+			rootPath = "${workspaceFolder}",
+			cwd = "${workspaceFolder}",
+			sourceMaps = true,
+			skipFiles = { "<node_internals>/**" },
+			protocol = "inspector",
+			console = "integratedTerminal",
+		},
+	}
+end
+
 nnoremap("<Leader>do", function()
 	require("dapui").toggle({ reset = true })
 	vim.cmd("DapVirtualTextForceRefresh")

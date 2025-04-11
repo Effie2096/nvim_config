@@ -90,7 +90,7 @@ cmp.setup({
 		fields = { "kind", "abbr", "menu" },
 		format = function(entry, vim_item)
 			local kind = require("lspkind").cmp_format({
-				mode = "symbol",
+				mode = "symbol_text",
 				maxwidth = 40,
 				menu = {
 					buffer = "[buf]",
@@ -120,7 +120,7 @@ cmp.setup({
 				vim_item.kind_hl_group = "CmpItemKindFunction"
 			end
 			local strings = vim.split(kind.kind, "%s", { trimempty = true })
-			kind.kind = " " .. strings[1] .. " "
+			kind.kind = " " .. (strings[1] or "") .. " "
 			return kind
 		end,
 		--[[ fields = { "kind", "abbr", "menu" },

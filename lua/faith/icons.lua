@@ -21,6 +21,8 @@ local icons = {
 			bottom_right = "┘",
 			inter_left = "├",
 			inter_right = "┤",
+			inter_top = "┬",
+			inter_bottom = "┴",
 		},
 		round = {
 			top = "─",
@@ -33,6 +35,8 @@ local icons = {
 			bottom_right = "╯",
 			inter_left = "├",
 			inter_right = "┤",
+			inter_top = "┬",
+			inter_bottom = "┴",
 		},
 	},
 	kind = {

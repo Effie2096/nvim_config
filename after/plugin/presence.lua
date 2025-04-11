@@ -5,6 +5,6 @@ end
 
 presence.setup({
 	auto_update = true,
-	neovim_image_text = "Ye, I'm a boomer T~T",
-	blacklist = { "BrainFart" },
+	neovim_image_text = "",
+	blacklist = { "BrainFart", "komorebi" },
 })

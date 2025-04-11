@@ -23,7 +23,7 @@ zen_mode.setup({
 			showcmd = false,
 		},
 		gitsigns = { enabled = true },
-		twighlight = { enabled = true },
+		twighlight = { enabled = false },
 		tmux = { enabled = true },
 		kitty = {
 			enabled = true,

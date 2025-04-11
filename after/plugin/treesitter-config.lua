@@ -11,7 +11,7 @@ ts_conf.setup({
 		enable = true,
 	},
 	indent = {
-		enable = true,
+		enable = false,
 	},
 	incremental_selection = {
 		enable = true,
@@ -34,8 +34,8 @@ ts_conf.setup({
 				-- You can optionally set descriptions to the mappings (used in the desc parameter of
 				-- nvim_buf_set_keymap) which plugins like which-key display
 				["iF"] = "@class.inner",
-				["av"] = "@parameter.outer",
-				["iv"] = "@parameter.inner",
+				["aa"] = "@parameter.outer",
+				["ia"] = "@parameter.inner",
 				["al"] = "@loop.outer",
 				["il"] = "@loop.inner",
 				["ac"] = "@conditional.outer",
@@ -57,11 +57,11 @@ ts_conf.setup({
 			enable = true,
 			swap_next = {
 				["<leader>sfn"] = "@function.outer",
-				["<leader>svn"] = "@parameter.inner",
+				["<leader>san"] = "@parameter.inner",
 			},
 			swap_previous = {
 				["<leader>sfp"] = "@function.outer",
-				["<leader>svp"] = "@parameter.inner",
+				["<leader>sap"] = "@parameter.inner",
 			},
 		},
 		move = {
@@ -71,25 +71,25 @@ ts_conf.setup({
 				["]m"] = "@function.outer",
 				["]["] = "@class.outer",
 				["]b"] = "@block.outer",
-				["]v"] = "@parameter.inner",
+				["]a"] = "@parameter.inner",
 			},
 			goto_next_end = {
 				["]M"] = "@function.outer",
 				["]]"] = "@class.outer",
 				["]B"] = "@block.outer",
-				["]V"] = "@parameter.inner",
+				["]A"] = "@parameter.inner",
 			},
 			goto_previous_start = {
 				["[m"] = "@function.outer",
 				["[["] = "@class.outer",
 				["[b"] = "@block.outer",
-				["[v"] = "@parameter.inner",
+				["[a"] = "@parameter.inner",
 			},
 			goto_previous_end = {
 				["[M"] = "@function.outer",
 				["[]"] = "@class.outer",
 				["]B"] = "@block.outer",
-				["[V"] = "@parameter.inner",
+				["[A"] = "@parameter.inner",
 			},
 		},
 		lsp_interop = {

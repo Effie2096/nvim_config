@@ -3,10 +3,23 @@ if not status_ok then
 	return
 end
 
+local function list_fileicons()
+	local barbecue_fileicons = {}
+	local fileicons = require("nvim-web-devicons").get_icons_by_extension()
+	for _, value in pairs(fileicons) do
+		table.insert(barbecue_fileicons, "barbecue_fileicon_" .. value.name)
+	end
+
+	return barbecue_fileicons
+end
+
 transparent.setup({
-	extra_groups = {
+	extra_groups = vim.tbl_extend("force", list_fileicons(), {
 		"NormalFloat",
 		"NvimTreeNormal",
+		"NvimTreeWinSeparator",
+
+		"CatAccentInverse",
 
 		"FidgetTitle",
 		"FidgetTask",
@@ -41,6 +54,7 @@ transparent.setup({
 		"lualine_c_normal",
 
 		"barbecue_normal",
+		"barbecue_modified",
 		"barbecue_ellipsis",
 		"barbecue_separator",
 		"barbecue_dirname",
@@ -89,5 +103,5 @@ transparent.setup({
 		"GitSignsStagedDeleteNr",
 		"GitSignsStagedTogdeleteNr",
 		"GitSignsStagedTopdelete",
-	},
+	}),
 })

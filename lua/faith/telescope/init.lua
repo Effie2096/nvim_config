@@ -22,6 +22,7 @@ function M.find_files()
 	opts = vim.tbl_deep_extend("force", opts, {
 		hidden = true,
 		no_ignore = true,
+		file_ignore_patterns = {},
 	})
 
 	require("telescope.builtin").find_files(opts)
@@ -159,7 +160,11 @@ end
 
 function M.commands()
 	local opts = vim.deepcopy(layouts.centered_compact) or {}
-	-- opts = vim.tbl_deep_extend("force", opts, {})
+	opts = vim.tbl_deep_extend("force", opts, {
+		layout_config = {
+			anchor = "N",
+		},
+	})
 	require("telescope.builtin").commands(opts)
 end
 

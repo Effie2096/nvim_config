@@ -5,6 +5,8 @@ end
 
 vim.opt.cmdheight = 0
 
+vim.keymap.set({ "n", "i", "v" }, "<M-;>", "<cmd>Noice dismiss<CR>", { noremap = true, silent = true })
+
 noice.setup({
 	lsp = {
 		progress = {

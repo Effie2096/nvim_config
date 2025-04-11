@@ -27,6 +27,8 @@ if not vim.fn.has("win32") then
 	Plug("preservim/vimux", { ["tag"] = "1.*" })
 	Plug("christoomey/vim-tmux-navigator", { ["tag"] = "v1.*" })
 end
+Plug("mrjones2014/smart-splits.nvim", { ["tag"] = "v1.*" })
+Plug("miversen33/sunglasses.nvim", { ["commit"] = "651a9bdbee2b4ce4c96c42be4b8029b7e3d87d06" })
 
 --[[]]
 Plug("davidgranstrom/scnvim")
@@ -45,6 +47,8 @@ Plug("b0o/schemastore.nvim")
 Plug("pedro757/emmet", { ["commit"] = "bff967b1d91948a88104987b427842deb78bacf5" })
 Plug("DasGandlaf/nvim-autohotkey")
 Plug("mrcjkb/rustaceanvim", { ["tag"] = "4.*" })
+Plug("Hoffs/omnisharp-extended-lsp.nvim")
+Plug("LuaCATS/love2d")
 -- Plug("cdelledonne/vim-cmake", { ["commit"] = "4e155794686811c0fc381a8dc82260a2e388c2a6" })
 
 Plug("ray-x/lsp_signature.nvim", { ["tag"] = "v0.3.*" })
@@ -102,7 +106,7 @@ Plug("numToStr/Comment.nvim", { ["commit"] = "e30b7f2008e52442154b66f7c519bfd2f1
 Plug("folke/todo-comments.nvim", { ["commit"] = "51e10f838e84b4756c16311d0b1ef0972c6482d2" })
 Plug("JoosepAlviste/nvim-ts-context-commentstring", { ["commit"] = "cb064386e667def1d241317deed9fd1b38f0dc2e" })
 Plug("kylechui/nvim-surround", { ["tag"] = "v2.3.*" })
-Plug("windwp/nvim-autopairs", { ["commit"] = "c15de7e7981f1111642e7e53799e1211d4606cb9" })
+-- Plug("windwp/nvim-autopairs", { ["commit"] = "c15de7e7981f1111642e7e53799e1211d4606cb9" })
 Plug("nat-418/boole.nvim", { ["commit"] = "7b4a3dae28e3b2497747aa840439e9493cabdc49" })
 Plug("tpope/vim-repeat", { ["commit"] = "24afe922e6a05891756ecf331f39a1f6743d3d5a" })
 
@@ -155,6 +159,8 @@ Plug("mechatroner/rainbow_csv", { ["commit"] = "9997a58bca39c961c3a1ba5bf1e3a180
 Plug("folke/noice.nvim", { ["commit"] = "03c6a75661e68012e30b0ed81f050358b1e2233c" })
 Plug("MunifTanjim/nui.nvim", { ["commit"] = "61574ce6e60c815b0a0c4b5655b8486ba58089a1" })
 Plug("nvimdev/lspsaga.nvim", { ["commit"] = "6f920cfabddb9b7de5a3a4d0b7cd4f0774ae23e2" })
+Plug("hedyhli/outline.nvim", { ["commit"] = "6c44527837ff7ac1cd054dc365a721e881020a2e" })
+Plug("gcmt/taboo.vim")
 
 Plug("rcarriga/nvim-notify", { ["commit"] = "d333b6f167900f6d9d42a59005d82919830626bf" })
 
@@ -184,6 +190,10 @@ Plug("jmbuhr/otter.nvim")
 Plug("bullets-vim/bullets.vim")
 Plug("godlygeek/tabular", { ["commit"] = "339091ac4dd1f17e225fe7d57b48aff55f99b23a" })
 Plug("dhruvasagar/vim-table-mode")
-Plug("MeanderingProgrammer/markdown.nvim")
+Plug("MeanderingProgrammer/render-markdown.nvim")
+Plug("iamcco/markdown-preview.nvim", { ["do"] = vim.fn["mkdp#util#install"], ["for"] = { "markdown", "vim-plug" } })
+Plug("luizribeiro/vim-cooklang", { ["for"] = "cook" })
+
+Plug("brianhuster/live-preview.nvim")
 --}}}
 vim.fn["plug#end"]()

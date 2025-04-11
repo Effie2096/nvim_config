@@ -22,4 +22,5 @@ end
 
 codeium.setup({
 	enable_chat = true,
+	enable_cmp_source = true,
 })

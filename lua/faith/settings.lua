@@ -27,7 +27,7 @@ vim.opt.updatetime = 300
 vim.opt.timeoutlen = 500
 vim.opt.hidden = true
 vim.opt.textwidth = 100
-vim.opt.wrap = false
+vim.opt.wrap = true
 vim.opt.linebreak = true
 vim.opt.showbreak = "↪"
 vim.opt.breakat = " ^I!@;:,./?([{"
@@ -169,7 +169,7 @@ augroup END
 -- Indentation {
 local indentWidth = 4
 vim.opt.tabstop = indentWidth
--- vim.opt.softtabstop=indentWidth
+vim.opt.softtabstop = 0
 vim.opt.shiftwidth = indentWidth
 vim.opt.smarttab = true
 vim.opt.expandtab = false

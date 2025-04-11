@@ -1,28 +1,31 @@
 local servers = {
 	"angularls",
+	"basedpyright",
 	"bashls",
+	"biome",
 	"clangd",
 	"cmake",
+	"css_variables",
 	"cssls",
 	"cssmodules_ls",
-	"omnisharp",
 	"docker_compose_language_service",
 	"dockerls",
-	"eslint",
 	"emmet_ls",
+	"eslint",
 	"gopls",
 	"html",
 	"jdtls",
 	"jsonls",
+	"kotlin_language_server",
 	"lemminx",
 	"lua_ls",
 	"marksman",
+	"ocamllsp",
+	"omnisharp",
 	"powershell_es",
 	"taplo",
-	"tsserver",
+	"ts_ls",
 	"yamlls",
-	"basedpyright",
-	"kotlin_language_server",
 }
 
 local icons = require("faith.icons")
@@ -155,6 +158,21 @@ for _, server in pairs(servers) do
 	if server == "kotlin_language_server" then
 		local kotlin_opts = require("faith.lsp.settings.kotlin_language_server")
 		opts = vim.tbl_deep_extend("force", kotlin_opts, opts)
+	end
+
+	if server == "omnisharp" then
+		local omnisharp_opts = require("faith.lsp.settings.omnisharp")
+		opts = vim.tbl_deep_extend("force", omnisharp_opts, opts)
+	end
+
+	if server == "ocamllsp" then
+		local ocaml_opts = require("faith.lsp.settings.ocamllsp")
+		opts = vim.tbl_deep_extend("force", ocaml_opts, opts)
+	end
+
+	if server == "html" then
+		local html_opts = require("faith.lsp.settings.html")
+		opts = vim.tbl_deep_extend("force", html_opts, opts)
 	end
 
 	lspconfig[server].setup(opts)

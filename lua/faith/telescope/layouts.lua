@@ -235,16 +235,16 @@ M.layout_configs = {
 
 M.file_ignore = {
 	file_ignore_patterns = {
-		"^node_modules/",
+		"^node_modules[\\/]",
 		"package%.json", "package%-lock%.json",
-		"^target/", "^bin/", "^build/", "^Build/", "^Debug/", "^debug/", "^Release/", "^release/",
+		"^target[\\/]", "^bin[\\/]", "^build[\\/]", "^Build[\\/]", "^Debug[\\/]", "^debug[\\/]", "^Release[\\/]", "^release[\\/]", "^_opam[\\/]", "^_build[\\/]", "^_System[\\/]",
 		"%.class", "%.jar",
 		"%.swp", "%.zip", "%.exe", "%.mid", "%.jar", "%.class", "%.mm", "%.o", "%.obj",
 		"%.csproj", "%.sln", "%.cache", "%.asset", "%.prefs", "%.dwlt", "%.db", "%.catalog", "%.graph", "%.meta",
 		"%.bmp", "%.gif", "%.ico", "%.jpg", "%.png", "%.ico", "%.webp",
 		"%.pdf",
-		"^tmp/", "^.vs/", "^Library/", "^Logs/", "^obj/", "^Packages/", "^ProjectSettings/",
-		"^%.venv/"
+		"^tmp[\\/]", "^.vs[\\/]", "^Library[\\/]", "^Logs[\\/]", "^obj[\\/]", "^Packages[\\/]", "^ProjectSettings[\\/]",
+		"^%.venv[\\/]"
 	}
 }
 M.layout_configs.defaults = vim.tbl_extend('force', M.layout_configs.defaults, M.file_ignore)

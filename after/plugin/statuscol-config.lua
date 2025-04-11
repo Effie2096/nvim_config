@@ -4,6 +4,7 @@ if not has_statuscol then
 end
 
 local builtin = require("statuscol.builtin")
+local icons = require("faith.icons")
 
 statuscol.setup({
 	setopt = true, -- Whether to set the 'statuscolumn' option, may be set to false for those who
@@ -31,7 +32,7 @@ statuscol.setup({
 			click = "v:lua.ScSa",
 		},
 		{
-			sign = { namespace = { "diagnostic/signs" }, maxwidth = 2, auto = false },
+			sign = { namespace = { "diagnostic/signs" }, maxwidth = 2, auto = false, foldclosed = true },
 			click = "v:lua.ScSa",
 		},
 		{
@@ -47,7 +48,9 @@ statuscol.setup({
 				namespace = { "gitsigns" },
 				maxwidth = 1,
 				colwidth = 1,
-				auto = true,
+				-- fillchar = icons.git.signs.add,
+				-- fillcharhl = "WinSeparator",
+				auto = false,
 			},
 		},
 	},
