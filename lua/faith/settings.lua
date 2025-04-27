@@ -1,4 +1,5 @@
 vim.opt.title = true
+vim.opt.confirm = true
 vim.opt.titlestring = "Nvim: %t%( %M%)%( %a%)"
 vim.opt.iskeyword:remove({ "-" })
 vim.opt.termguicolors = true
@@ -8,7 +9,7 @@ vim.opt.mouse = "nvi"
 -- vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.laststatus = 3
-vim.opt.colorcolumn = "100"
+vim.opt.colorcolumn = "80"
 vim.opt.cursorline = true
 vim.opt.cursorlineopt = "line,number"
 vim.opt.scrolloff = 8
@@ -23,8 +24,8 @@ vim.opt.undofile = true
 vim.opt.history = 5000
 vim.opt.shortmess = vim.opt.shortmess + "c"
 vim.opt.signcolumn = "yes:3"
-vim.opt.updatetime = 300
-vim.opt.timeoutlen = 500
+vim.opt.updatetime = 250
+vim.opt.timeoutlen = 300
 vim.opt.hidden = true
 vim.opt.textwidth = 100
 vim.opt.wrap = true
@@ -32,7 +33,7 @@ vim.opt.linebreak = true
 vim.opt.showbreak = "↪"
 vim.opt.breakat = " ^I!@;:,./?([{"
 vim.opt.breakindent = true
-vim.opt.breakindentopt = "sbr,shift:8"
+vim.opt.breakindentopt = "shift:8"
 vim.opt.showmode = false
 vim.opt.pumheight = 20
 vim.opt.encoding = "utf-8"
@@ -47,6 +48,7 @@ vim.opt.fillchars:append({
 	vertleft = "│", -- "┤",
 	vertright = "│", -- "├",
 	verthoriz = "│", -- "┼",
+	diff = "╱",
 })
 
 -- set format options for each window otherwise it just doens't work for some reason :c
@@ -98,21 +100,28 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.numberwidth = 2
 
-local number_toggle_group = vim.api.nvim_create_augroup("number_toggle", { clear = true })
-vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "InsertLeave", "WinEnter" }, {
-	group = number_toggle_group,
-	pattern = "*",
-	callback = function()
-		vim.cmd([[if &nu && mode() != "i" | set rnu | endif]])
-	end,
-})
-vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "InsertEnter", "WinLeave" }, {
-	group = number_toggle_group,
-	pattern = "*",
-	callback = function()
-		vim.cmd([[if &nu | set nornu | endif]])
-	end,
-})
+local number_toggle_group =
+	vim.api.nvim_create_augroup("number_toggle", { clear = true })
+vim.api.nvim_create_autocmd(
+	{ "BufEnter", "FocusGained", "InsertLeave", "WinEnter" },
+	{
+		group = number_toggle_group,
+		pattern = "*",
+		callback = function()
+			vim.cmd([[if &nu && mode() != "i" | set rnu | endif]])
+		end,
+	}
+)
+vim.api.nvim_create_autocmd(
+	{ "BufLeave", "FocusLost", "InsertEnter", "WinLeave" },
+	{
+		group = number_toggle_group,
+		pattern = "*",
+		callback = function()
+			vim.cmd([[if &nu | set nornu | endif]])
+		end,
+	}
+)
 
 local function QuickFixDo(cmd)
 	local bufs = {}
@@ -178,9 +187,15 @@ vim.opt.autoindent = false
 -- } Indentation
 
 -- searching {
+vim.opt.inccommand = "split"
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.incsearch = true
 vim.opt.hlsearch = false
-vim.api.nvim_set_keymap("n", "<esc>", "<cmd>noh<cr><esc>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap(
+	"n",
+	"<esc>",
+	"<cmd>noh<cr><esc>",
+	{ noremap = true, silent = true }
+)
 -- } searching

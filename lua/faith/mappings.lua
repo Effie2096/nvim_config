@@ -59,7 +59,10 @@ vnoremap("<leader>d", '"_d', opts)
 nnoremap(
 	"<leader>cd",
 	"<cmd>cd %:p:h<CR>",
-	desc(opts, "[c]hange [d]irectory: Change Nvim's current working directory to the path of the current buffer.")
+	desc(
+		opts,
+		"[c]hange [d]irectory: Change Nvim's current working directory to the path of the current buffer."
+	)
 )
 
 -- add new line without entering insertmode
@@ -114,5 +117,8 @@ inoremap("<M-o>", "<Space><Esc>r<CR>O", opts)
 nnoremap(
 	"<leader>bc",
 	"<cmd>bp |bd #<CR>",
-	desc(opts, "[b]uffer [c]lose: Delete current buffer without closing window.")
+	desc(
+		opts,
+		"[b]uffer [c]lose: Delete current buffer without closing window."
+	)
 )

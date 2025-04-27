@@ -1,3 +1,2 @@
 require("faith")
-
-require("faith.catppuccin")
+require("faith.lazy")

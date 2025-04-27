@@ -1,20 +1,7 @@
-require("faith.plugins")
-
-if vim.fn.has("win32") ~= 0 then
-	require("faith.shell")
-end
-
 require("faith.globals")
-
-require("faith.keymap")
 require("faith.mappings")
 require("faith.settings")
-require("faith.filewatcher")
+require("faith.plugins")
 
-require("faith.telescope.setup")
-require("faith.telescope.mappings")
-
-require("faith.lsp")
-require("faith.snippets.comment_nvim")
-
-require("faith.neovide")
+-- require("faith.plugins.telescope-conf")
+-- require("faith.plugins.telescope-conf.mappings")

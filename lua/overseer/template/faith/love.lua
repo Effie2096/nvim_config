@@ -19,7 +19,10 @@ local tmpl = {
 }
 
 local function get_boon_file(opts)
-	return vim.fs.find("Boon.toml", { upward = true, type = "file", path = opts.dir })[1]
+	return vim.fs.find(
+		"Boon.toml",
+		{ upward = true, type = "file", path = opts.dir }
+	)[1]
 end
 
 local function get_love_file(opts)
@@ -53,24 +56,38 @@ return {
 		local ret = {}
 
 		local commands = {
-			{ cmd = "boon", args = { "build", boon_dir }, tags = { TAG.BUILD } },
+			{
+				cmd = "boon",
+				args = { "build", boon_dir },
+				tags = { TAG.BUILD },
+			},
 			{ cmd = "lovec", args = { executable }, tags = { TAG.RUN } },
 			{ cmd = "boon", args = { "clean" }, tags = { TAG.CLEAN } },
 		}
-		local roots = { {
-			postfix = "",
-			cwd = boon_dir,
-			priority = 55,
-		} }
+		local roots =
+			{ {
+				postfix = "",
+				cwd = boon_dir,
+				priority = 55,
+			} }
 		for _, root in ipairs(roots) do
 			for _, command in ipairs(commands) do
 				table.insert(
 					ret,
 					overseer.wrap_template(tmpl, {
-						name = string.format("%s %s%s", command.cmd, table.concat(command.args, " "), root.postfix),
+						name = string.format(
+							"%s %s%s",
+							command.cmd,
+							table.concat(command.args, " "),
+							root.postfix
+						),
 						tags = command.tags,
 						priority = root.priority,
-					}, { args = command.args, bin = command.cmd, cwd = root.cwd })
+					}, {
+						args = command.args,
+						bin = command.cmd,
+						cwd = root.cwd,
+					})
 				)
 			end
 		end

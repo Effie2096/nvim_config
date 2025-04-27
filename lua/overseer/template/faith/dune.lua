@@ -21,7 +21,10 @@ local tmpl = {
 }
 
 local function get_dune_file(opts)
-	return vim.fs.find("dune-project", { upward = true, type = "file", path = opts.dir })[1]
+	return vim.fs.find(
+		"dune-project",
+		{ upward = true, type = "file", path = opts.dir }
+	)[1]
 end
 
 return {
@@ -48,26 +51,41 @@ return {
 		local commands = {
 			{ args = { "build" }, tags = { TAG.BUILD } },
 			{ args = { "exec", dune_default_prog }, tags = { TAG.RUN } },
-			{ args = { "runtest", "--stop-on-first-error" }, tags = { TAG.TEST } },
+			{
+				args = { "runtest", "--stop-on-first-error" },
+				tags = { TAG.TEST },
+			},
 			{ args = { "clean" }, tags = { TAG.CLEAN } },
 		}
-		local roots = { {
-			postfix = "",
-			cwd = dune_dir,
-			priority = 55,
-		} }
+		local roots =
+			{ {
+				postfix = "",
+				cwd = dune_dir,
+				priority = 55,
+			} }
 		for _, root in ipairs(roots) do
 			for _, command in ipairs(commands) do
 				table.insert(
 					ret,
 					overseer.wrap_template(tmpl, {
-						name = string.format("dune %s%s", table.concat(command.args, " "), root.postfix),
+						name = string.format(
+							"dune %s%s",
+							table.concat(command.args, " "),
+							root.postfix
+						),
 						tags = command.tags,
 						priority = root.priority,
 					}, { args = command.args, cwd = root.cwd })
 				)
 			end
-			table.insert(ret, overseer.wrap_template(tmpl, { name = "dune" .. root.postfix }, { cwd = root.cwd }))
+			table.insert(
+				ret,
+				overseer.wrap_template(
+					tmpl,
+					{ name = "dune" .. root.postfix },
+					{ cwd = root.cwd }
+				)
+			)
 		end
 		cb(ret)
 		-- local ret = {overseer.wrap_template(tmpl, nil, { cwd = cwd }) }
