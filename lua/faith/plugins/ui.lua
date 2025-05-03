@@ -64,6 +64,7 @@ return {
 					"dap-repl",
 					"lazy",
 					"trouble",
+					"toggleterm",
 				},
 				thousands = false, -- or line number thousands separator string ("." / ",")
 				relculright = true, -- whether to right-align the cursor line number with 'relativenumber' set
@@ -78,7 +79,7 @@ return {
 						sign = {
 							name = { ".*" },
 							maxwidth = 4,
-							colwidth = 1,
+							colwidth = 0,
 							auto = true,
 							wrap = false,
 						},
@@ -88,6 +89,7 @@ return {
 						sign = {
 							namespace = { "diagnostic.signs" },
 							maxwidth = 2,
+							colwidth = 1,
 							auto = false,
 							foldclosed = true,
 						},
@@ -97,7 +99,7 @@ return {
 						sign = {
 							name = { "Dap" },
 							maxwidth = 1,
-							colwidth = 1,
+							colwidth = 0,
 							auto = true,
 						},
 					},
