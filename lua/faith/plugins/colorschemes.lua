@@ -1080,12 +1080,12 @@ return {
 					vim.api.nvim_set_hl(
 						0,
 						"Accent",
-						{ fg = base, bg = accent, bold = true }
+						{ fg = mantle, bg = accent, bold = true }
 					)
 					vim.api.nvim_set_hl(
 						0,
 						"AccentInverse",
-						{ fg = accent, bg = base, bold = true }
+						{ fg = accent, bg = mantle, bold = true }
 					)
 
 					for _, level in pairs({ "Error", "Warn", "Info", "Hint" }) do
