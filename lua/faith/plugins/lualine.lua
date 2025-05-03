@@ -606,6 +606,9 @@ local winbar = {
 				if ft == "trouble" then
 					icon = " "
 				end
+				if ft == "toggleterm" then
+					icon = "%#DiagnosticCheck#" .. icons.ui.Term .. "%*"
+				end
 				return icon
 			end,
 			padding = { left = 0, right = 0 },
@@ -644,6 +647,7 @@ local winbar = {
 					and ft ~= "DiffviewFiles"
 					and ft ~= "Outline"
 					and ft ~= "trouble"
+					and ft ~= "toggleterm"
 			end,
 		},
 		{
@@ -683,6 +687,10 @@ local winbar = {
 				end
 				if ft == "trouble" then
 					name = ""
+					goto continue
+				end
+				if ft == "toggleterm" then
+					name = "Terminal (" .. vim.b.toggle_number .. ")"
 					goto continue
 				end
 				if string.match(ft, "dapui") ~= nil then

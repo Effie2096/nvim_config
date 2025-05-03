@@ -65,4 +65,29 @@ return {
 		},
 		cmd = "LivePreview",
 	},
+	{
+		"akinsho/toggleterm.nvim",
+		opts = {
+			size = function(term)
+				if term.direction == "horizontal" then
+					return 16
+				elseif term.direction == "vertical" then
+					local term_win_width = math.floor(vim.o.columns * 0.4)
+					return term_win_width > 81 and term_win_width or 81
+				end
+			end,
+			open_mapping = [[<c-t>]],
+			insert_mappings = true,
+			terminal_mappings = true,
+		},
+		keys = {
+			{
+				"<c-t>",
+				function()
+					require("toggleterm").toggle({ direction = "horizontal" })
+				end,
+				{ "n", "i" },
+			},
+		},
+	},
 }
