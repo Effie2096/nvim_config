@@ -6,25 +6,24 @@ return {
 		"nvim-telescope/telescope-ui-select.nvim",
 		{
 			"nvim-telescope/telescope-fzf-native.nvim",
-			build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
+			build = function()
+				if vim.fn.executable("cmake") == 0 then
+					return "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build"
+				else
+					return "make"
+				end
+			end,
 		},
 	},
 	config = function()
 		local telescope = require("telescope")
 		telescope.setup({
-			defaults = {
-				--[[ mappings = {
-					i = {
-						["<M-p>"] = require("telescope.actions.layout").toggle_preview,
-					},
-				}, ]]
-			},
 			extensions = {
-				-- fzf = {
-				-- 	fuzzy = true,
-				-- 	override_generic_sorter = true,
-				-- 	override_file_sorter = true,
-				-- },
+				fzf = {
+					fuzzy = true,
+					override_generic_sorter = true,
+					override_file_sorter = true,
+				},
 				["ui-select"] = {
 					require("telescope.themes").get_cursor(
 						require("faith.plugins.telescope-conf.layouts").layout_configs.default_cursor
