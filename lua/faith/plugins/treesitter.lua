@@ -43,6 +43,16 @@ return {
 				},
 			},
 			"nvim-treesitter/nvim-treesitter-textobjects",
+			{
+				"andymass/vim-matchup",
+				lazy = false,
+				init = function()
+					vim.g.matchup_matchparen_offscreen = { method = "popup" }
+					vim.g.matchup_transmute_enabled = 1
+					vim.g.matchup_matchparen_deferred = 0
+					vim.g.matchup_matchparen_hi_surround_always = 0
+				end,
+			},
 		},
 		opts = {
 			ensure_installed = {
@@ -178,6 +188,9 @@ return {
 				enable = true,
 				use_virtual_text = true,
 				lint_events = { "BufWrite", "CursorHold" },
+			},
+			matchup = {
+				enable = true,
 			},
 		},
 	},
