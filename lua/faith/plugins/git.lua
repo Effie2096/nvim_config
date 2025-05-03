@@ -11,6 +11,7 @@ return {
 	},
 	{
 		"lewis6991/gitsigns.nvim",
+		commit = "140ac646db125904e456e42ab8b538d28f9607d7",
 		opts = function()
 			vim.api.nvim_create_user_command("GitSignsToggleAll", function()
 				-- gitsign.toggle_linehl()
