@@ -609,6 +609,14 @@ local winbar = {
 				if ft == "toggleterm" then
 					icon = "%#DiagnosticCheck#" .. icons.ui.Term .. "%*"
 				end
+				if ft == "fugitive" then
+					icon = "%#DevIconGit#"
+						.. require("nvim-web-devicons").get_icon_by_filetype(
+							"git",
+							{}
+						)
+						.. " %*"
+				end
 				return icon
 			end,
 			padding = { left = 0, right = 0 },
@@ -648,6 +656,7 @@ local winbar = {
 					and ft ~= "Outline"
 					and ft ~= "trouble"
 					and ft ~= "toggleterm"
+					and ft ~= "fugitive"
 			end,
 		},
 		{
@@ -691,6 +700,10 @@ local winbar = {
 				end
 				if ft == "toggleterm" then
 					name = "Terminal (" .. vim.b.toggle_number .. ")"
+					goto continue
+				end
+				if ft == "fugitive" then
+					name = "Fugitive"
 					goto continue
 				end
 				if string.match(ft, "dapui") ~= nil then
