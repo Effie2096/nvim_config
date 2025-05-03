@@ -33,7 +33,7 @@ vim.opt.linebreak = true
 vim.opt.showbreak = "↪"
 vim.opt.breakat = " ^I!@;:,./?([{"
 vim.opt.breakindent = true
-vim.opt.breakindentopt = "shift:8"
+vim.opt.breakindentopt = "shift:4"
 vim.opt.showmode = false
 vim.opt.pumheight = 20
 vim.opt.encoding = "utf-8"
@@ -176,7 +176,7 @@ augroup END
 -- ]]
 
 -- Indentation {
-local indentWidth = 4
+local indentWidth = 2
 vim.opt.tabstop = indentWidth
 vim.opt.softtabstop = 0
 vim.opt.shiftwidth = indentWidth
