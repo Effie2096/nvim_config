@@ -1009,29 +1009,29 @@ return {
 			},
 			groups = {
 				all = {
-					GitSignsAddInline = { fg = "bg1", bg = "green" },
+					GitSignsAddInline = { fg = "bg1", bg = "palette.green" },
 					GitSignsAddLnInline = {
 						fg = "bg1",
-						bg = "green",
+						bg = "palette.green",
 					},
 					GitSignsChangeInline = {
 						fg = "bg1",
-						bg = "blue",
+						bg = "palette.blue",
 					},
 					GitSignsChangeLnInline = {
 						fg = "bg1",
-						bg = "blue",
+						bg = "palette.blue",
 					},
 					GitSignsDeleteInline = {
 						fg = "bg1",
-						bg = "red",
+						bg = "palette.red",
 					},
 					GitSignsDeleteLnInline = {
 						fg = "bg1",
-						bg = "red",
+						bg = "palette.red",
 					},
-					GitSignsChange = { fg = "blue", bg = "bg1" },
-					GitSignsChangeNr = { fg = "blue", bg = "bg1" },
+					GitSignsChange = { fg = "palette.blue", bg = "bg1" },
+					GitSignsChangeNr = { fg = "palette.blue", bg = "bg1" },
 
 					TelescopeNormal = { bg = "bg4" },
 					TelescopeSelection = { bg = "bg3" },
@@ -1046,11 +1046,11 @@ return {
 					},
 					TelescopePromptTitle = {
 						fg = "fg1",
-						bg = "pink",
+						bg = "palette.pink",
 					},
 					TelescopePreviewTitle = {
 						fg = "fg1",
-						bg = "green",
+						bg = "palette.green",
 					},
 					-- LspInlayHint = { fg = colors.overlay1, bg = "bg1" },
 
