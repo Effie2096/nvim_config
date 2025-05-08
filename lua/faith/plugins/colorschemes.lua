@@ -355,6 +355,7 @@ return {
 					{ fg = colors.bg, bg = colors.blue }
 				highlights.CmpItemKindCopilot =
 					{ fg = colors.bg, bg = colors.blue6 }
+				highlights.IblScope = { fg = colors.magenta2 }
 			end,
 		},
 	},
@@ -543,6 +544,7 @@ return {
 						fg = colors.base.dark,
 						bg = colors.base.cyan,
 					},
+					IblScope = { fg = colors.base.magenta },
 				}
 
 				return highlight_overrides
@@ -828,6 +830,7 @@ return {
 						bg = colors.blue,
 					},
 					CmpItemKindCopilot = { fg = colors.bg1, bg = colors.cyan },
+					IblScope = { fg = colors.purple },
 				}
 			end,
 		},
@@ -1055,6 +1058,7 @@ return {
 					-- LspInlayHint = { fg = colors.overlay1, bg = "bg1" },
 
 					WinBar = { bg = "bg0" },
+					IblScope = { fg = "palette.pink" },
 				},
 			},
 		},
