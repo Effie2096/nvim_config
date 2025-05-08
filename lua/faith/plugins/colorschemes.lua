@@ -839,9 +839,9 @@ return {
 
 					local accent = colors.purple
 					local base = vim.g.transparent_enabled and "NONE"
-						or colors.bg1
-					local mantle = vim.g.transparent_enabled and "NONE"
 						or colors.bg0
+					local mantle = vim.g.transparent_enabled and "NONE"
+						or colors.bg1
 					vim.api.nvim_set_hl(
 						0,
 						"Accent",
