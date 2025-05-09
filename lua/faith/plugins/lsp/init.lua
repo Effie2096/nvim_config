@@ -859,7 +859,18 @@ return {
 	require("faith.plugins.lsp.rust"),
 	{
 		"uga-rosa/ccc.nvim",
-		opts = {},
+		lazy = false,
+		opts = {
+			highlight_mode = "virtual",
+			virtual_pos = "inline-left",
+			virtual_symbol = require("faith.icons").ui.Circle,
+			highlighter = {
+				auto_enable = true,
+				excludes = {
+					"fugitive",
+				},
+			},
+		},
 		keys = {
 			{
 				"<Leader>cp",

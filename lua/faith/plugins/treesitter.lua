@@ -25,8 +25,8 @@ return {
 							"for", -- These won't appear in the context
 							"while",
 							"if",
-							-- 'switch',
-							-- 'case',
+							"switch",
+							"case",
 						},
 						-- Example for a specific filetype.
 						-- If a pattern is missing, *open a PR* so everyone can benefit.
@@ -47,7 +47,12 @@ return {
 				"andymass/vim-matchup",
 				lazy = false,
 				init = function()
-					vim.g.matchup_matchparen_offscreen = { method = "popup" }
+					vim.g.matchup_matchparen_offscreen = {
+						method = "popup",
+						fullwidth = 1,
+						syntax_hl = 1,
+						border = 0,
+					}
 					vim.g.matchup_transmute_enabled = 1
 					vim.g.matchup_matchparen_deferred = 0
 					vim.g.matchup_matchparen_hi_surround_always = 0

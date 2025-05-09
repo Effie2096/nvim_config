@@ -314,6 +314,7 @@ return {
 	},
 	{
 		"luizribeiro/vim-cooklang",
+		enabled = false,
 		ft = "cook",
 	},
 }

@@ -830,7 +830,7 @@ return {
 				winbar = winbar,
 				inactive_winbar = winbar,
 				tabline = {
-					lualine_a = { root },
+					-- lualine_a = { root },
 					lualine_c = { tabs },
 					lualine_x = { harpoon },
 				},
