@@ -4,22 +4,38 @@ local themes = {
 		{
 			name = "Catppuccin Mocha",
 			colorscheme = "catppuccin-mocha",
+			before = [[
+				vim.o.background = "dark"
+			]],
 		},
 		{
 			name = "Tokyo Night",
 			colorscheme = "tokyonight-night",
+			before = [[
+				vim.o.background = "dark"
+			]],
 		},
 		{
 			name = "TokyoDark",
 			colorscheme = "tokyodark",
+			before = [[
+				vim.o.background = "dark"
+			]],
 		},
 		{
 			name = "Nightfox Carbon",
 			colorscheme = "carbonfox",
+			before = [[
+				vim.o.background = "dark"
+			]],
 		},
 		{
 			name = "Monokai Spectrum",
 			colorscheme = "monokai-pro-spectrum",
+			before = [[
+				vim.o.background = "dark"
+			]],
+		},
 		},
 	},
 
@@ -28,18 +44,30 @@ local themes = {
 		{
 			name = "Catppuccin Latte",
 			colorscheme = "catppuccin-latte",
+			before = [[
+				vim.o.background = "light"
+			]],
 		},
 		{
 			name = "Tokyo Day",
 			colorscheme = "tokyonight-day",
+			before = [[
+				vim.o.background = "light"
+			]],
 		},
 		{
 			name = "Monokai Light",
 			colorscheme = "monokai-pro-light",
+			before = [[
+				vim.o.background = "light"
+			]],
 		},
 		{
 			name = "Nightfox Day",
 			colorscheme = "dayfox",
+			before = [[
+				vim.o.background = "light"
+			]],
 		},
 	},
 
@@ -47,22 +75,37 @@ local themes = {
 		{
 			name = "Monokai Pro",
 			colorscheme = "monokai-pro-default",
+			before = [[
+				vim.o.background = "dark"
+			]],
 		},
 		{
 			name = "Monokai Octagon",
 			colorscheme = "monokai-pro-octagon",
+			before = [[
+				vim.o.background = "dark"
+			]],
 		},
 		{
 			name = "Monokai Machine",
 			colorscheme = "monokai-pro-machine",
+			before = [[
+				vim.o.background = "dark"
+			]],
 		},
 		{
 			name = "Monokai Ristretto",
 			colorscheme = "monokai-pro-ristretto",
+			before = [[
+				vim.o.background = "dark"
+			]],
 		},
 		{
 			name = "Monokai Classic",
 			colorscheme = "monokai-pro-classic",
+			before = [[
+				vim.o.background = "dark"
+			]],
 		},
 	},
 }
