@@ -311,6 +311,30 @@ return {
 						"HarpoonNumberInactive",
 						{ link = "Tabline" }
 					)
+
+					vim.api.nvim_set_hl(0, "RainbowRed", { fg = colors.red })
+					vim.api.nvim_set_hl(
+						0,
+						"RainbowYellow",
+						{ fg = colors.yellow }
+					)
+					vim.api.nvim_set_hl(0, "RainbowBlue", { fg = colors.blue1 })
+					vim.api.nvim_set_hl(
+						0,
+						"RainbowOrange",
+						{ fg = colors.orange }
+					)
+					vim.api.nvim_set_hl(
+						0,
+						"RainbowGreen",
+						{ fg = colors.green }
+					)
+					vim.api.nvim_set_hl(
+						0,
+						"RainbowViolet",
+						{ fg = colors.magenta }
+					)
+					vim.api.nvim_set_hl(0, "RainbowCyan", { fg = colors.teal })
 				end,
 			})
 		end,
@@ -754,6 +778,41 @@ return {
 					-- 	"@markup.strong",
 					-- 	{ fg = colors[translate.maroon,] bold = true }
 					-- )
+					vim.api.nvim_set_hl(
+						0,
+						"RainbowRed",
+						{ fg = colors[translate.red] }
+					)
+					vim.api.nvim_set_hl(
+						0,
+						"RainbowYellow",
+						{ fg = colors[translate.yellow] }
+					)
+					vim.api.nvim_set_hl(
+						0,
+						"RainbowBlue",
+						{ fg = colors[translate.sapphire] }
+					)
+					vim.api.nvim_set_hl(
+						0,
+						"RainbowOrange",
+						{ fg = colors[translate.peach] }
+					)
+					vim.api.nvim_set_hl(
+						0,
+						"RainbowGreen",
+						{ fg = colors[translate.green] }
+					)
+					vim.api.nvim_set_hl(
+						0,
+						"RainbowViolet",
+						{ fg = colors[translate.mauve] }
+					)
+					vim.api.nvim_set_hl(
+						0,
+						"RainbowCyan",
+						{ fg = colors[translate.teal] }
+					)
 				end,
 			})
 		end,
@@ -1027,6 +1086,29 @@ return {
 						"HarpoonNumberInactive",
 						{ link = "Tabline" }
 					)
+					vim.api.nvim_set_hl(0, "RainbowRed", { fg = colors.red })
+					vim.api.nvim_set_hl(
+						0,
+						"RainbowYellow",
+						{ fg = colors.yellow }
+					)
+					vim.api.nvim_set_hl(0, "RainbowBlue", { fg = colors.blue })
+					vim.api.nvim_set_hl(
+						0,
+						"RainbowOrange",
+						{ fg = colors.orange }
+					)
+					vim.api.nvim_set_hl(
+						0,
+						"RainbowGreen",
+						{ fg = colors.green }
+					)
+					vim.api.nvim_set_hl(
+						0,
+						"RainbowViolet",
+						{ fg = colors.purple }
+					)
+					vim.api.nvim_set_hl(0, "RainbowCyan", { fg = colors.cyan })
 				end,
 			})
 		end,
@@ -1258,6 +1340,41 @@ return {
 					-- 	"@markup.strong",
 					-- 	{ fg = palette.red.dim, bg = base, style = "bold" }
 					-- )
+					vim.api.nvim_set_hl(
+						0,
+						"RainbowRed",
+						{ fg = palette.red.base }
+					)
+					vim.api.nvim_set_hl(
+						0,
+						"RainbowYellow",
+						{ fg = palette.yellow.base }
+					)
+					vim.api.nvim_set_hl(
+						0,
+						"RainbowBlue",
+						{ fg = palette.blue.base }
+					)
+					vim.api.nvim_set_hl(
+						0,
+						"RainbowOrange",
+						{ fg = palette.orange.base }
+					)
+					vim.api.nvim_set_hl(
+						0,
+						"RainbowGreen",
+						{ fg = palette.green.base }
+					)
+					vim.api.nvim_set_hl(
+						0,
+						"RainbowViolet",
+						{ fg = palette.magenta.base }
+					)
+					vim.api.nvim_set_hl(
+						0,
+						"RainbowCyan",
+						{ fg = palette.cyan.base }
+					)
 				end,
 			})
 		end,
@@ -1394,6 +1511,33 @@ return {
 					-- 	"@markup.strong",
 					-- 	{ fg = colors.maroon, bold = true }
 					-- )
+					vim.api.nvim_set_hl(0, "RainbowRed", { fg = colors.red })
+					vim.api.nvim_set_hl(
+						0,
+						"RainbowYellow",
+						{ fg = colors.yellow }
+					)
+					vim.api.nvim_set_hl(
+						0,
+						"RainbowBlue",
+						{ fg = colors.sapphire }
+					)
+					vim.api.nvim_set_hl(
+						0,
+						"RainbowOrange",
+						{ fg = colors.peach }
+					)
+					vim.api.nvim_set_hl(
+						0,
+						"RainbowGreen",
+						{ fg = colors.green }
+					)
+					vim.api.nvim_set_hl(
+						0,
+						"RainbowViolet",
+						{ fg = colors.mauve }
+					)
+					vim.api.nvim_set_hl(0, "RainbowCyan", { fg = colors.teal })
 				end,
 			})
 		end,

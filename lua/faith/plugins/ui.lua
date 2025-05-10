@@ -6,28 +6,23 @@ return {
 		name = "ibl",
 		config = function()
 			local highlight = {
-				"RainbowRed",
-				"RainbowYellow",
-				"RainbowBlue",
-				"RainbowOrange",
 				"RainbowGreen",
-				"RainbowViolet",
+				"RainbowBlue",
 				"RainbowCyan",
+				"RainbowViolet",
+				"RainbowYellow",
+				"RainbowOrange",
+				"RainbowRed",
 			}
 			local ibl = require("ibl")
-			local hooks = require("ibl.hooks")
 			local mocha = require("catppuccin.palettes").get_palette("mocha")
-			-- create the highlight groups in the highlight setup hook, so they are reset
-			-- every time the colorscheme changes
-			hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
-				vim.api.nvim_set_hl(0, "RainbowRed", { fg = mocha.red })
-				vim.api.nvim_set_hl(0, "RainbowYellow", { fg = mocha.peach })
-				vim.api.nvim_set_hl(0, "RainbowBlue", { fg = mocha.sapphire })
-				vim.api.nvim_set_hl(0, "RainbowOrange", { fg = mocha.yellow })
-				vim.api.nvim_set_hl(0, "RainbowGreen", { fg = mocha.green })
-				vim.api.nvim_set_hl(0, "RainbowViolet", { fg = mocha.mauve })
-				vim.api.nvim_set_hl(0, "RainbowCyan", { fg = mocha.teal })
-			end)
+			vim.api.nvim_set_hl(0, "RainbowRed", { fg = mocha.red })
+			vim.api.nvim_set_hl(0, "RainbowYellow", { fg = mocha.peach })
+			vim.api.nvim_set_hl(0, "RainbowBlue", { fg = mocha.sapphire })
+			vim.api.nvim_set_hl(0, "RainbowOrange", { fg = mocha.yellow })
+			vim.api.nvim_set_hl(0, "RainbowGreen", { fg = mocha.green })
+			vim.api.nvim_set_hl(0, "RainbowViolet", { fg = mocha.mauve })
+			vim.api.nvim_set_hl(0, "RainbowCyan", { fg = mocha.teal })
 
 			ibl.setup({
 				indent = {
