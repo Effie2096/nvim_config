@@ -1787,27 +1787,6 @@ return {
 				pattern = { "matrix" },
 				callback = function()
 					local colors = require("matrix.colors")
-					-- {
-					-- 	--16 colors
-					-- 	matrix0_gui = "#0D0208", -- matrix0 in palette
-					-- 	matrix1_gui = "#113311",
-					-- 	matrix2_gui = "#003B00",
-					-- 	matrix3_gui = "#226622",
-					-- 	matrix3_gui_bright = "#616E88", -- out of palette
-					-- 	matrix4_gui = "#55ff55",
-					-- 	matrix5_gui = "#00FF41",
-					-- 	matrix6_gui = "#00FF41",
-					-- 	matrix7_gui = "#339955",
-					-- 	matrix8_gui = "#339933",
-					-- 	matrix9_gui = "#008F11",
-					-- 	matrix10_gui = "#027c14",
-					-- 	matrix11_gui = "#ff0000",
-					-- 	matrix12_gui = "#D08770",
-					-- 	matrix13_gui = "#FFFF00",
-					-- 	matrix14_gui = "#00FF41",
-					-- 	matrix15_gui = "#E4D00A",
-					-- 	none = "NONE",
-					-- }
 					local accent = colors.matrix5_gui
 					local base = vim.g.transparent_enabled and "NONE"
 						or "#000000"
@@ -1827,12 +1806,49 @@ return {
 					vim.api.nvim_set_hl(
 						0,
 						"Accent",
-						{ fg = base, bg = accent, bold = true }
+						{ fg = mantle, bg = accent, bold = true }
 					)
 					vim.api.nvim_set_hl(
 						0,
 						"AccentInverse",
-						{ fg = accent, bg = base, bold = true }
+						{ fg = accent, bg = mantle, bold = true }
+					)
+
+					vim.api.nvim_set_hl(
+						0,
+						"GitSignsAdd",
+						{ bg = base, fg = colors.matrix4_gui }
+					)
+					vim.api.nvim_set_hl(
+						0,
+						"GitSignsAddNr",
+						{ bg = base, fg = colors.matrix4_gui }
+					)
+					vim.api.nvim_set_hl(
+						0,
+						"GitSignsChange",
+						{ bg = base, fg = "#26FFE6" }
+					)
+					vim.api.nvim_set_hl(
+						0,
+						"GitSignsChangeNr",
+						{ bg = base, fg = "#26FFE6" }
+					)
+					vim.api.nvim_set_hl(
+						0,
+						"GitSignsDelete",
+						{ bg = base, fg = colors.matrix11_gui }
+					)
+					vim.api.nvim_set_hl(
+						0,
+						"GitSignsDeleteNr",
+						{ bg = base, fg = colors.matrix11_gui }
+					)
+
+					vim.api.nvim_set_hl(
+						0,
+						"WinSeparator",
+						{ bg = base, fg = colors.matrix1_gui }
 					)
 
 					vim.api.nvim_set_hl(
@@ -1902,6 +1918,26 @@ return {
 						0,
 						"RainbowCyan",
 						{ fg = colors.matrix4_gui }
+					)
+					vim.api.nvim_set_hl(
+						0,
+						"HarpoonInactive",
+						{ link = "Tabline" }
+					)
+					vim.api.nvim_set_hl(0, "HarpoonActive", {
+						fg = colors.matrix0_gui,
+						bg = colors.matrix6_gui,
+						bold = true,
+					})
+					vim.api.nvim_set_hl(0, "HarpoonNumberActive", {
+						fg = colors.matrix0_gui,
+						bg = colors.matrix6_gui,
+						bold = true,
+					})
+					vim.api.nvim_set_hl(
+						0,
+						"HarpoonNumberInactive",
+						{ link = "Tabline" }
 					)
 				end,
 			})
