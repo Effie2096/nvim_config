@@ -560,10 +560,14 @@ local winbar = {
 			fmt = function(str)
 				local ft = vim.bo.filetype
 				if
-					ft == "dap-repl"
-					or string.match(ft, "dapui") ~= nil
-					or ft == "DiffviewFiles"
-					or ft == "Outline"
+					contains({
+						"dap-repl",
+						"DiffviewFiles",
+						"Outline",
+						"OverseerList",
+						"undotree",
+						"neo-tree",
+					}, ft) or string.match(ft, "dapui") ~= nil
 				then
 					return " "
 				end
@@ -617,6 +621,15 @@ local winbar = {
 						)
 						.. " %*"
 				end
+				if ft == "OverseerList" then
+					icon = "%#DiagnosticCheck#" .. icons.ui.StatusList .. "%*"
+				end
+				if ft == "undotree" then
+					icon = "%#DiagnosticCheck#" .. icons.ui.Undo .. "%*"
+				end
+				if ft == "neo-tree" then
+					icon = ""
+				end
 				return icon
 			end,
 			padding = { left = 0, right = 0 },
@@ -650,13 +663,18 @@ local winbar = {
 			end,
 			cond = function()
 				local ft = vim.bo.filetype
-				return ft ~= "dap-repl"
-					and string.match(ft, "dapui") == nil
-					and ft ~= "DiffviewFiles"
-					and ft ~= "Outline"
-					and ft ~= "trouble"
-					and ft ~= "toggleterm"
-					and ft ~= "fugitive"
+				return string.match(ft, "dapui") == nil
+					and not contains({
+						"dap-repl",
+						"DiffviewFiles",
+						"Outline",
+						"trouble",
+						"toggleterm",
+						"fugitive",
+						"OverseerList",
+						"undotree",
+						"neo-tree",
+					}, ft)
 			end,
 		},
 		{
@@ -672,8 +690,8 @@ local winbar = {
 			shorting_target = 40, -- Shortens path to leave 40 spaces in the window
 			-- for other components. (terrible name, any suggestions?)
 			symbols = {
-				modified = "%#BarDiagError#" .. icons.ui.Dot .. "%*", -- Text to show when the file is modified.
-				readonly = "%#BarDiagError#" .. icons.ui.Lock .. "%*", -- Text to show when the file is non-modifiable or readonly.
+				modified = "%#BarDiagError#" .. icons.ui.Dot, -- Text to show when the file is modified.
+				readonly = "%#BarDiagError#" .. icons.ui.Lock, -- Text to show when the file is non-modifiable or readonly.
 				unnamed = "[No Name]", -- Text to show for unnamed buffers.
 				newfile = "[New]", -- Text to show for newly created file before first write
 			},
@@ -704,6 +722,18 @@ local winbar = {
 				end
 				if ft == "fugitive" then
 					name = "Fugitive"
+					goto continue
+				end
+				if ft == "OverseerList" then
+					name = format_bubble("Overseer")
+					goto continue
+				end
+				if ft == "undotree" then
+					name = format_bubble("UndoTree")
+					goto continue
+				end
+				if ft == "neo-tree" then
+					name = format_bubble("NeoTree")
 					goto continue
 				end
 				if string.match(ft, "dapui") ~= nil then
@@ -739,6 +769,7 @@ local winbar = {
 			always_visible = false, -- Show diagnostics even if there are none.
 			fmt = function(str, ctx)
 				local ft = vim.bo.filetype
+				local bt = vim.bo.buftype
 				local total = 0
 				if ctx.last_diagnostics_count[1] then
 					for _, value in pairs(ctx.last_diagnostics_count[1]) do
@@ -746,7 +777,20 @@ local winbar = {
 					end
 				end
 
-				if ft == "dap-repl" or string.match(ft, "dapui") ~= nil then
+				if
+					string.match(ft, "dapui") ~= nil
+					or contains(
+						{
+							"dap-repl",
+							"Outline",
+							"OverseerList",
+							"undotree",
+							"neo-tree",
+						},
+						ft
+					)
+					or contains({ "terminal" }, bt)
+				then
 					return ""
 				end
 				return total == 0

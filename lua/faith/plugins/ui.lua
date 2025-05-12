@@ -60,7 +60,12 @@ return {
 					"lazy",
 					"trouble",
 					"toggleterm",
+					"OverseerList",
+					"undotree",
+					"Outline",
+					"neo-tree",
 				},
+				bt_ignore = { "terminal" },
 				thousands = false, -- or line number thousands separator string ("." / ",")
 				relculright = true, -- whether to right-align the cursor line number with 'relativenumber' set
 				-- Builtin 'statuscolumn' options

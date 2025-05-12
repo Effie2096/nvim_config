@@ -130,6 +130,7 @@ local icons = {
 		Package = " ",
 		List = " ",
 		BulletList = " ",
+		StatusList = "󱖫 ",
 		SignIn = " ",
 		SignOut = " ",
 		Check = " ",
@@ -155,6 +156,7 @@ local icons = {
 		Calc = "󰃬 ",
 		Tag = " ",
 		FoldSuffix = "󰁂 ",
+		Undo = "󰕍 ",
 	},
 	debug = {
 		Pause = "",
