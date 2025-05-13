@@ -779,17 +779,14 @@ local winbar = {
 
 				if
 					string.match(ft, "dapui") ~= nil
-					or contains(
-						{
-							"dap-repl",
-							"Outline",
-							"OverseerList",
-							"undotree",
-							"neo-tree",
-						},
-						ft
-					)
-					or contains({ "terminal" }, bt)
+					or contains({
+						"dap-repl",
+						"Outline",
+						"OverseerList",
+						"undotree",
+						"neo-tree",
+					}, ft)
+					or contains({ "terminal", "nofile" }, bt)
 				then
 					return ""
 				end
