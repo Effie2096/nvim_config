@@ -1939,6 +1939,12 @@ return {
 						"HarpoonNumberInactive",
 						{ link = "Tabline" }
 					)
+
+					vim.api.nvim_set_hl(
+						0,
+						"YankFlash",
+						{ fg = colors.matrix0_gui, bg = colors.matrix13_gui }
+					)
 				end,
 			})
 		end,
