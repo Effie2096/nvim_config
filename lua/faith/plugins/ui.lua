@@ -697,4 +697,16 @@ return {
 		opts = {}, -- for default options, refer to the configuration section for custom setup.
 		cmd = "Trouble",
 	},
+	{
+		"mcauley-penney/visual-whitespace.nvim",
+		opts = function()
+			local opts = {
+				highlight = { link = "Visual" },
+				space_char = icons.characters.space,
+				nl_char = icons.characters.eol,
+			}
+
+			return opts
+		end,
+	},
 }
