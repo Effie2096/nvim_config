@@ -8,7 +8,7 @@ return {
 			{
 				"romgrk/nvim-treesitter-context",
 				opts = function()
-					local context_height = vim.o.lines / 4
+					local context_height = math.floor(vim.o.lines / 4)
 					local opts = {
 						enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
 						multiwindow = true,
@@ -42,17 +42,31 @@ return {
 							-- exactly match "impl_item" only)
 							-- rust = true,
 						},
+						on_attach = function(bufnr)
+							vim.api.nvim_create_augroup(
+								"ts-context-height",
+								{ clear = true }
+							)
+							vim.api.nvim_create_autocmd(
+								{ "VimResized", "WinResized", "BufWinEnter" },
+								{
+									group = "ts-context-height",
+									buffer = bufnr,
+									callback = function()
+										local height = math.floor(
+											vim.api.nvim_win_get_height(0) / 4
+										)
+
+										require("treesitter-context").setup({
+											max_lines = height == 0 and 4
+												or height,
+										})
+									end,
+								}
+							)
+						end,
 					}
 					return opts
-				end,
-				init = function()
-					vim.api.nvim_create_autocmd("VimResized", {
-						callback = function()
-							require("treesitter-context").setup({
-								max_lines = math.floor(vim.o.lines / 4),
-							})
-						end,
-					})
 				end,
 			},
 			"nvim-treesitter/nvim-treesitter-textobjects",
