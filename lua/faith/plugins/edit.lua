@@ -254,4 +254,12 @@ return {
 		end,
 	},
 	"tpope/vim-abolish",
+	{
+		"bullets-vim/bullets.vim",
+		init = function()
+			vim.g.bullets_enabled_file_types =
+				{ "markdown", "text", "gitcommit" }
+			vim.g.bullets_enable_in_empty_buffers = 0 -- default = 1
+		end,
+	},
 }

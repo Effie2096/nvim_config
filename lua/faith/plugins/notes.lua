@@ -91,7 +91,13 @@ return {
 			vim.g.table_mode_corner = "|"
 		end,
 	},
-	"iamcco/markdown-preview.nvim",
+	{
+		"iamcco/markdown-preview.nvim",
+		build = vim.fn["mkdp#util#install"],
+		ft = {
+			"markdown",
+		},
+	},
 	{
 		"MeanderingProgrammer/render-markdown.nvim",
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
@@ -316,5 +322,11 @@ return {
 		"luizribeiro/vim-cooklang",
 		enabled = false,
 		ft = "cook",
+	},
+	{
+		"dhruvasagar/vim-table-mode",
+		init = function()
+			vim.g.table_mode_corner = "|"
+		end,
 	},
 }
