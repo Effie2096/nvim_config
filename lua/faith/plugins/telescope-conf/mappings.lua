@@ -19,6 +19,7 @@ local map_tele = function(key, f, options, buffer)
 	local map_options = {
 		noremap = true,
 		silent = true,
+		desc = "Telescope: " .. f,
 	}
 
 	if not buffer then
