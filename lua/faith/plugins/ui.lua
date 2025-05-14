@@ -25,6 +25,11 @@ return {
 			vim.api.nvim_set_hl(0, "RainbowCyan", { fg = mocha.teal })
 
 			ibl.setup({
+				exclude = {
+					filetypes = {
+						"fugitive",
+					},
+				},
 				indent = {
 					char = icons.characters.indent,
 					smart_indent_cap = true,
@@ -65,7 +70,7 @@ return {
 					"Outline",
 					"neo-tree",
 				},
-				bt_ignore = { "terminal" },
+				bt_ignore = { "terminal", "nofile" },
 				thousands = false, -- or line number thousands separator string ("." / ",")
 				relculright = true, -- whether to right-align the cursor line number with 'relativenumber' set
 				-- Builtin 'statuscolumn' options
