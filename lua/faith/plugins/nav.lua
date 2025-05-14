@@ -1,3 +1,4 @@
+local icons = require("faith.icons")
 return {
 	{
 		"ThePrimeagen/harpoon",
@@ -160,7 +161,74 @@ return {
 		---@module "neo-tree"
 		---@type neotree.Config?
 		opts = {
-			popup_border_style = "winborder",
+			default_component_configs = {
+				indent = {
+					with_expanders = true,
+					expander_collapsed = icons.ui.ArrowClosed,
+					expander_expanded = icons.ui.ArrowOpen,
+					expander_highlight = "NeoTreeExpander",
+				},
+			},
+			window = {
+				mappings = {
+					["e"] = function()
+						vim.api.nvim_cmd({
+							cmd = "Neotree",
+							args = { "focus", "filesystem", "left" },
+						}, { output = false })
+					end,
+					["b"] = function()
+						vim.api.nvim_cmd({
+							cmd = "Neotree",
+							args = { "focus", "buffers", "left" },
+						}, { output = false })
+					end,
+					["g"] = function()
+						vim.api.nvim_cmd({
+							cmd = "Neotree",
+							args = { "focus", "git_status", "left" },
+						}, { output = false })
+					end,
+				},
+			},
+			filesystem = {
+				window = {
+					mappings = {
+						["h"] = function(state)
+							local node = state.tree:get_node()
+							if
+								node.type == "directory" and node:is_expanded()
+							then
+								require("neo-tree.sources.filesystem").toggle_directory(
+									state,
+									node
+								)
+							else
+								require("neo-tree.ui.renderer").focus_node(
+									state,
+									node:get_parent_id()
+								)
+							end
+						end,
+						["l"] = function(state)
+							local node = state.tree:get_node()
+							if node.type == "directory" then
+								if not node:is_expanded() then
+									require("neo-tree.sources.filesystem").toggle_directory(
+										state,
+										node
+									)
+								elseif node:has_children() then
+									require("neo-tree.ui.renderer").focus_node(
+										state,
+										node:get_child_ids()[1]
+									)
+								end
+							end
+						end,
+					},
+				},
+			},
 		},
 		keys = {
 			{
