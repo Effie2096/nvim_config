@@ -295,6 +295,14 @@ return {
 			})
 			vim.opt.foldnestmax = 1
 			vim.opt.foldenable = true
+
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = { "neo-tree" },
+				callback = function()
+					require("ufo").detach()
+					vim.opt_local.foldenable = false
+				end,
+			})
 		end,
 		config = function()
 			local ufo = require("ufo")
