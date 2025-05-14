@@ -16,9 +16,6 @@ local ft_ignore = {
 	"terminal",
 }
 
-local winbar_widths = {}
-local status_widths = {}
-
 --- @param trunc_width number trunctates component when screen width is less then trunc_width
 --- @param trunc_len number truncates component to trunc_len number of chars
 --- @param hide_width number hides component when window width is smaller then hide_width
@@ -38,59 +35,6 @@ local function trunc(str, trunc_width, trunc_len, hide_width, no_ellipsis)
 	end
 	return str
 end
-
--- check width of current component and add to maps
-local function add_width(str, name, tally)
-	if not str or str == "" then
-		tally[name] = 0
-		return str
-	end
-	tally[name] = #vim.api.nvim_eval_statusline(str, {}).str
-	return str
-end
-
--- fill space bweteen left-most components and middle of terminal
-local function fill_space(tally)
-	local used_space = 0
-	for _, width in pairs(tally) do
-		used_space = used_space + width
-	end
-
-	local filetype_w = tally["filetype"] or 0
-	local filename_w = tally["filename"] or 0
-
-	used_space = used_space - (filename_w + filetype_w)
-
-	local term_width = vim.fn.winwidth(0)
-
-	local fill = string.rep(
-		" ",
-		math.floor((term_width - filename_w - filetype_w) / 2) - used_space
-	)
-	return fill
-end
-
-local function get_component_pos(component, tally)
-	local used_space = 0
-	for comp, width in pairs(tally) do
-		if comp == tally[component] then
-			return used_space
-		end
-		used_space = used_space + width
-	end
-end
-
--- local spinner_frames = { "⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷" }
--- local spinner_frames =
--- 	{ "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
--- local spinner = 1
---
--- local function update_spinner()
--- 	local frame = spinner_frames[spinner]
--- 	spinner = (spinner % #spinner_frames) + 1
--- 	vim.defer_fn(update_spinner, 100)
--- 	return frame
--- end
 
 local encoding = {
 	"fileformat",
@@ -266,9 +210,6 @@ local language_server = {
 	end,
 	padding = { left = 1, right = 0 },
 	separator = { left = "", right = "" },
-	fmt = function(str)
-		return add_width(str, "language_server", status_widths)
-	end,
 }
 
 local asyncrun_status = {
@@ -286,9 +227,6 @@ local git = {
 	"b:gitsigns_head",
 	color = "lualine_a_normal",
 	icon = { icons.git.Branch, align = "left" },
-	fmt = function(str)
-		return add_width(str, "git", status_widths)
-	end,
 }
 
 local workspace_diagnostics = {
@@ -296,9 +234,6 @@ local workspace_diagnostics = {
 	sources = { "nvim_workspace_diagnostic" },
 	symbols = require("faith.icons").diagnostic,
 	update_in_insert = true,
-	fmt = function(str)
-		return add_width(str, "workspace_diagnostics", status_widths)
-	end,
 }
 
 local location = {
@@ -340,9 +275,6 @@ local obsession = {
 		return vim.fn.exists("g:loaded_obsession") == 1 -- plug installed and loaded
 			and vim.fn["ObsessionStatus"]() ~= "" -- session loaded
 	end,
-	fmt = function(str)
-		return add_width(str, "obsession", status_widths)
-	end,
 }
 
 local root = {
@@ -362,9 +294,8 @@ local tabs = {
 	fmt = function(name, context)
 		local tab_dir =
 			vim.fn.fnamemodify(vim.fn.getcwd(-1, context.tabnr), ":t")
-		local show_dir = not (
-			tab_dir == vim.fn.fnamemodify(vim.fn.getcwd(-1, -1), ":t")
-		)
+		local show_dir = tab_dir
+			~= vim.fn.fnamemodify(vim.fn.getcwd(-1, -1), ":t")
 		local title = name
 		if vim.fn.exists("g:loaded_taboo") then
 			title = vim.fn.TabooTabTitle(context.tabnr)
@@ -482,9 +413,6 @@ local git_conflict = {
 	cond = function()
 		return require("git-conflict").conflict_count() > 0
 	end,
-	fmt = function(str)
-		return add_width(str, "git_conflict", status_widths)
-	end,
 }
 
 local overseer = {
@@ -519,10 +447,22 @@ local windsurf = {
 	cond = function()
 		return package.loaded["codeium"] ~= nil
 	end,
-	fmt = function(str)
-		return add_width(str, "windsurf", status_widths)
-	end,
 }
+
+local function is_loclist()
+	return vim.fn.getloclist(0, { filewinid = 1 }).filewinid ~= 0
+end
+
+local function qf_label()
+	return is_loclist() and "Location List" or "Quickfix List"
+end
+
+local function qf_title()
+	if is_loclist() then
+		return vim.fn.getloclist(0, { title = 0 }).title
+	end
+	return vim.fn.getqflist({ title = 0 }).title
+end
 
 local function format_bubble(str)
 	return string.format(
@@ -545,16 +485,11 @@ local winbar = {
 			end,
 			padding = 0,
 			separator = { left = "", right = "" },
-			fmt = function(str)
-				return add_width(str, "winnum", winbar_widths)
-			end,
 		},
 	},
 	lualine_c = {
 		{ -- fill space to center filename
-			function()
-				return fill_space(winbar_widths)
-			end,
+			"%=",
 			separator = { left = "", right = "" },
 			padding = { left = 0, right = 0 },
 			fmt = function(str)
@@ -567,83 +502,13 @@ local winbar = {
 						"OverseerList",
 						"undotree",
 						"neo-tree",
+						"qf",
 					}, ft) or string.match(ft, "dapui") ~= nil
 				then
 					return " "
 				end
 				return trunc(str, 10, 0, 5, true)
 			end,
-		},
-		{
-			function()
-				local ft = vim.bo.filetype
-				local icon = ""
-				if ft == "dapui_watches" then
-					icon = "%#DAPUIWatchesValue#" .. icons.ui.Watches .. "%*"
-				end
-				if ft == "dapui_breakpoints" then
-					icon = "%#DapBreakpoint#" .. icons.ui.Bug .. "%*"
-				end
-				if ft == "dapui_console" then
-					icon = "%#DevIconTerminal#"
-						.. require("nvim-web-devicons").get_icon_by_filetype(
-							"terminal",
-							{}
-						)
-						.. " %*"
-				end
-				if ft == "dapui_stacks" then
-					icon = "%#DAPUISource#" .. icons.ui.Stacks .. "%*"
-				end
-				if ft == "dapui_scopes" then
-					icon = "%#DAPUIScope#" .. icons.ui.Scopes .. " %*"
-				end
-				if ft == "dap-repl" then
-					icon = icons.ui.Repeat .. "%*"
-				end
-				if ft == "DiffviewFiles" then
-					icon = icons.git.Diff .. "%*"
-				end
-				if ft == "Outline" then
-					icon = icons.ui.BulletList .. "%*"
-				end
-				if ft == "trouble" then
-					icon = " "
-				end
-				if ft == "toggleterm" then
-					icon = "%#DiagnosticCheck#" .. icons.ui.Term .. "%*"
-				end
-				if ft == "fugitive" then
-					icon = "%#DevIconGit#"
-						.. require("nvim-web-devicons").get_icon_by_filetype(
-							"git",
-							{}
-						)
-						.. " %*"
-				end
-				if ft == "OverseerList" then
-					icon = "%#DiagnosticCheck#" .. icons.ui.StatusList .. "%*"
-				end
-				if ft == "undotree" then
-					icon = "%#DiagnosticCheck#" .. icons.ui.Undo .. "%*"
-				end
-				if ft == "neo-tree" then
-					icon = ""
-				end
-				return icon
-			end,
-			padding = { left = 0, right = 0 },
-			separator = { left = "", right = "" },
-			fmt = function(str)
-				return add_width(
-					trunc(str, 10, 0, 5, true),
-					"filetype",
-					winbar_widths
-				)
-			end,
-			-- cond = function()
-			-- 	return vim.bo.filetype == "dap-repl" or string.match(vim.bo.filetype, "dapui") ~= nil
-			-- end,
 		},
 		{
 			"filetype",
@@ -655,11 +520,61 @@ local winbar = {
 			padding = { left = 0, right = 0 },
 			separator = { left = "", right = "" },
 			fmt = function(str)
-				return add_width(
-					trunc(str, 10, 0, 5, true),
-					"filetype",
-					winbar_widths
-				)
+				local ft = vim.bo.filetype
+				if ft == "dapui_watches" then
+					str = "%#DAPUIWatchesValue#" .. icons.ui.Watches .. "%*"
+				end
+				if ft == "dapui_breakpoints" then
+					str = "%#DapBreakpoint#" .. icons.ui.Bug .. "%*"
+				end
+				if ft == "dapui_console" then
+					str = "%#DevIconTerminal#"
+						.. require("nvim-web-devicons").get_icon_by_filetype(
+							"terminal",
+							{}
+						)
+						.. " %*"
+				end
+				if ft == "dapui_stacks" then
+					str = "%#DAPUISource#" .. icons.ui.Stacks .. "%*"
+				end
+				if ft == "dapui_scopes" then
+					str = "%#DAPUIScope#" .. icons.ui.Scopes .. " %*"
+				end
+				if ft == "dap-repl" then
+					str = icons.ui.Repeat .. "%*"
+				end
+				if ft == "DiffviewFiles" then
+					str = icons.git.Diff .. "%*"
+				end
+				if ft == "Outline" then
+					str = icons.ui.BulletList .. "%*"
+				end
+				if ft == "trouble" then
+					str = " "
+				end
+				if ft == "toggleterm" then
+					str = "%#DiagnosticCheck#" .. icons.ui.Term .. "%*"
+				end
+				if ft == "fugitive" then
+					str = "%#DevIconGit#"
+						.. require("nvim-web-devicons").get_icon_by_filetype(
+							"git",
+							{}
+						)
+						.. " %*"
+				end
+				if ft == "OverseerList" then
+					str = "%#DiagnosticCheck#" .. icons.ui.StatusList .. "%*"
+				end
+				if ft == "undotree" then
+					str = "%#DiagnosticCheck#" .. icons.ui.Undo .. "%*"
+				end
+				if ft == "neo-tree" or ft == "qf" then
+					str = ""
+				end
+
+				return trunc(str, 10, 0, 5, true)
 			end,
 			cond = function()
 				local ft = vim.bo.filetype
@@ -674,6 +589,7 @@ local winbar = {
 						"OverseerList",
 						"undotree",
 						"neo-tree",
+						"qf",
 					}, ft)
 			end,
 		},
@@ -736,17 +652,20 @@ local winbar = {
 					name = format_bubble("NeoTree")
 					goto continue
 				end
+				if ft == "qf" then
+					name = string.format(
+						"%s %s",
+						format_bubble(qf_label()),
+						qf_title()
+					)
+				end
 				if string.match(ft, "dapui") ~= nil then
 					name = format_bubble(
 						string.gsub(ft:gsub("dapui_", ""), "^%l", string.upper)
 					)
 				end
 				::continue::
-				return add_width(
-					trunc(name, 10, 0, 5, true),
-					"filename",
-					winbar_widths
-				)
+				return trunc(name, 10, 0, 5, true)
 			end,
 		},
 	},
@@ -785,8 +704,9 @@ local winbar = {
 						"OverseerList",
 						"undotree",
 						"neo-tree",
+						"qf",
 					}, ft)
-					or contains({ "terminal", "nofile" }, bt)
+					or contains({ "terminal", "nofile", "quickfix" }, bt)
 				then
 					return ""
 				end
@@ -807,6 +727,16 @@ return {
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons", lazy = true },
+		init = function()
+			vim.g.lualine_laststatus = vim.o.laststatus
+			if vim.fn.argc(-1) > 0 then
+				-- set an empty statusline till lualine loads
+				vim.o.statusline = " "
+			else
+				-- hide the statusline on the starter page
+				vim.o.laststatus = 0
+			end
+		end,
 		opts = function()
 			local opts = {
 				options = {
