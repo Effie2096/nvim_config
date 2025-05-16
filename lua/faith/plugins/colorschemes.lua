@@ -825,6 +825,8 @@ return {
 	},
 	{
 		"tiagovla/tokyodark.nvim",
+		lazy = false,
+		priority = 1000,
 		opts = {
 			transparent_background = vim.g.transparent_enabled,
 			gamma = 1.0,
@@ -1776,6 +1778,8 @@ return {
 	},
 	{
 		"iruzo/matrix-nvim",
+		lazy = false,
+		priority = 1000,
 		init = function()
 			vim.g.matrix_contrast = true
 			vim.g.matrix_borders = false
