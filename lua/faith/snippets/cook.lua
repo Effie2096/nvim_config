@@ -25,8 +25,8 @@ return {
 			time: {}
 			difficulty: {}
 			category: {}
-			diet: [{}]
-			tags: [{}]
+			diet: {}
+			tags: {}
 			---
 
 			{}
