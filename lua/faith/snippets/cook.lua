@@ -12,18 +12,20 @@ return {
 		"cookm",
 		fmt(
 			[[
-			>> title: {}
-			>> source: {}
-			>> servings: {}
-			>> description: {}
-			>> image: {}
-			>> time.prep: {}
-			>> time.cook: {}
-			>> time: {}
-			>> difficulty: {}
-			>> category: {}
-			>> diet: [{}]
-			>> tags: [{}]
+			---
+			title: {}
+			source: {}
+			servings: {}
+			description: {}
+			image: {}
+			time.prep: {}
+			time.cook: {}
+			time: {}
+			difficulty: {}
+			category: {}
+			diet: [{}]
+			tags: [{}]
+			---
 
 			{}
 		]],
