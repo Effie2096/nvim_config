@@ -12,6 +12,8 @@ return {
 		"cookm",
 		fmt(
 			[[
+			>> [duplicate]: ref
+
 			---
 			title: {}
 			source: {}
