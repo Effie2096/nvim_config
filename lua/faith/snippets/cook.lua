@@ -19,7 +19,6 @@ return {
 			source: {}
 			servings: {}
 			description: {}
-			image: {}
 			time.prep: {}
 			time.cook: {}
 			time: {}
