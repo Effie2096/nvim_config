@@ -11,16 +11,13 @@ return {
 	},
 	{
 		"lewis6991/gitsigns.nvim",
-		commit = "140ac646db125904e456e42ab8b538d28f9607d7",
 		opts = function()
 			vim.api.nvim_create_user_command("GitSignsToggleAll", function()
-				-- gitsign.toggle_linehl()
-				require("gitsigns").preview_hunk_inline()
-				-- vim.wait(200, function () end)
+				require("gitsigns").toggle_linehl()
+				-- require("gitsigns").preview_hunk_inline()
 				vim.defer_fn(function()
-					-- gitsign.toggle_numhl()
+					require("gitsigns").toggle_numhl()
 					require("gitsigns").toggle_word_diff()
-					-- gitsign.toggle_current_line_blame()
 				end, 100)
 			end, {})
 
@@ -32,16 +29,50 @@ return {
 					},
 					delete = {
 						text = require("faith.icons").git.signs.delete,
+						show_count = true,
 					},
 					topdelete = {
 						text = require("faith.icons").git.signs.top_delete,
 					},
 					changedelete = {
 						text = require("faith.icons").git.signs.change_delete,
+						show_count = true,
 					},
 					untracked = {
 						text = require("faith.icons").git.signs.untracked,
 					},
+				},
+				signs_staged = {
+					add = { text = require("faith.icons").git.signs.add },
+					change = {
+						text = require("faith.icons").git.signs.mod,
+					},
+					delete = {
+						text = require("faith.icons").git.signs.delete,
+						show_count = true,
+					},
+					topdelete = {
+						text = require("faith.icons").git.signs.top_delete,
+					},
+					changedelete = {
+						text = require("faith.icons").git.signs.change_delete,
+						show_count = true,
+					},
+					untracked = {
+						text = require("faith.icons").git.signs.untracked,
+					},
+				},
+				count_chars = {
+					"₁",
+					"₂",
+					"₃",
+					"₄",
+					"₅",
+					"₆",
+					"₇",
+					"₈",
+					"₉",
+					["+"] = ">",
 				},
 				signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
 				numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
