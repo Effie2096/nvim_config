@@ -32,24 +32,23 @@ end
 -- basic builtins
 map_tele("<leader>ff", "find_files")
 map_tele("<leader>fp", "project_files")
+map_tele("<leader>fl", "current_buffer_fuzzy_find")
 map_tele("<leader>fL", "live_grep")
 map_tele("<leader>fb", "buffers")
+map_tele("<leader>fw", "grep_string")
 map_tele("<leader>fh", "help_tags")
 map_tele("<leader>fk", "keymaps")
-map_tele("<leader>fl", "current_buffer_fuzzy_find")
 map_tele("<leader>fs", "lsp_document_symbols")
 map_tele("<leader>fS", "lsp_workspace_symbols")
 map_tele("<leader>fgc", "git_commits")
 map_tele("<leader>fgs", "git_status")
+map_tele("<leader>fgw", "git_worktrees")
 map_tele("<leader>fi", "spell_suggest")
 map_tele("<leader>fd", "diagnostics")
 map_tele("<leader>fm", "harpoon")
-map_tele("<leader>fwt", "git_worktrees")
-map_tele("<leader>fwc", "create_git_worktree")
 map_tele("<leader>;", "commands")
 
 -- extensions
-map_tele("<leader>fe", "file_browser")
 map_tele("<leader>ft", "todo")
 
 return map_tele

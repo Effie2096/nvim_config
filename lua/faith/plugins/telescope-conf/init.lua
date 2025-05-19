@@ -44,8 +44,16 @@ function M.buffers()
 	require("telescope.builtin").buffers(opts)
 end
 
+function M.grep_string()
+	local opts = vim.deepcopy(layouts.centered_compact) or {}
+	require("telescope.builtin").grep_string(opts)
+end
+
 function M.current_buffer_fuzzy_find()
 	local opts = vim.deepcopy(layouts.centered_compact) or {}
+	opts = vim.tbl_deep_extend("force", opts, {
+		prompt_title = "Find Word",
+	})
 	require("telescope.builtin").current_buffer_fuzzy_find(opts)
 end
 
