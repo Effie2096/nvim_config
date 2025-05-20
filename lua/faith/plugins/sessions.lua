@@ -82,4 +82,14 @@ return {
 			deleteBufferWhenFileDeleted = true,
 		},
 	},
+	{
+		"chrisgrieser/nvim-origami",
+		event = "VeryLazy",
+		opts = {
+			foldKeymaps = {
+				setup = false, -- modifies `h` and `l`
+				hOnlyOpensOnFirstColumn = false,
+			},
+		}, -- needed even when using default config
+	},
 }
