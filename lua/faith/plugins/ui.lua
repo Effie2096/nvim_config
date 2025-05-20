@@ -142,11 +142,11 @@ return {
 					{
 						sign = {
 							namespace = { "gitsigns" },
-							maxwidth = 1,
-							colwidth = 1,
-							fillchar = icons.git.signs.add,
+							maxwidth = 2,
+							colwidth = 2,
+							fillchar = " ",
 							fillcharhl = "WinSeparator",
-							auto = false,
+							auto = true,
 						},
 					},
 				},
