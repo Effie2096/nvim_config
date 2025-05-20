@@ -233,7 +233,7 @@ return {
 		keys = {
 			{
 				"<leader>ef",
-				"<cmd>Neotree filesystem reveal left<cr>",
+				"<cmd>Neotree filesystem toggle left<cr>",
 				desc = "[e]xplore [f]iles: Open file explorer.",
 			},
 		},
