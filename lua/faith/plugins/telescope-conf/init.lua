@@ -120,7 +120,7 @@ function M.file_browser()
 end
 
 function M.todo()
-	local opts = vim.deepcopy(layouts.default_vert) or {}
+	local opts = vim.deepcopy(layouts.default_bottom) or {}
 	opts = vim.tbl_deep_extend("force", opts, {
 		prompt_title = "TODO Comments",
 	})
