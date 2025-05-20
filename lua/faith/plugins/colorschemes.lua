@@ -116,24 +116,856 @@ local themes = {
 	},
 }
 
+---@class ColorMap
+---@field bg string
+---@field bg_light string
+---@field bg_dark string
+---@field fg string
+---@field fg_light string
+---@field fg_dark string
+---@field float string
+---@field float_light string
+---@field float_dark string
+---@field surface string
+---@field surface_light string
+---@field surface_dark string
+---@field accent string
+---@field red string
+---@field red_light string
+---@field red_dark string
+---@field green string
+---@field green_light string
+---@field green_dark string
+---@field blue string
+---@field blue_light string
+---@field blue_dark string
+---@field cyan string
+---@field cyan_light string
+---@field cyan_dark string
+---@field pink string
+---@field pink_light string
+---@field pink_dark string
+---@field purple string
+---@field purple_light string
+---@field purple_dark string
+---@field yellow string
+---@field yellow_light string
+---@field yellow_dark string
+---@field orange string
+---@field orange_light string
+---@field orange_dark string
+---@field pale string
+---@field pale_light string
+---@field pale_dark string
+---@field error string
+---@field warn string
+---@field hint string
+---@field info string
+
+---@type table<string, function>
+local theme_colormaps = {
+	["catppuccin"] = function(scheme)
+		local colors = require("catppuccin.palettes").get_palette(scheme)
+		---@type ColorMap
+		local color_map = {
+			bg = colors.base,
+			bg_light = colors.mantle,
+			bg_dark = colors.crust,
+			fg = colors.text,
+			fg_light = colors.subtext1,
+			fg_dark = colors.subtext0,
+			float = colors.overlay1,
+			float_light = colors.overlay2,
+			float_dark = colors.overlay0,
+			surface = colors.surface1,
+			surface_light = colors.surface2,
+			surface_dark = colors.surface0,
+			accent = colors.pink,
+			red = colors.red,
+			red_light = colors.red,
+			red_dark = colors.maroon,
+			green = colors.green,
+			green_light = colors.green,
+			green_dark = colors.green,
+			blue = colors.blue,
+			blue_light = colors.sky,
+			blue_dark = colors.sapphire,
+			cyan = colors.cyan,
+			cyan_light = colors.cyan,
+			cyan_dark = colors.cyan,
+			pink = colors.pink,
+			pink_light = colors.rosewater,
+			pink_dark = colors.flamingo,
+			purple = colors.mauve,
+			purple_light = colors.lavender,
+			purple_dark = colors.mauve,
+			yellow = colors.yellow,
+			yellow_light = colors.yellow,
+			yellow_dark = colors.yellow,
+			orange = colors.peach,
+			orange_light = colors.peach,
+			orange_dark = colors.peach,
+			error = colors.red,
+			warn = colors.peach,
+			info = colors.cyan,
+			hint = colors.teal,
+		}
+
+		return color_map
+	end,
+	["tokyonight"] = function(scheme)
+		local colors = require("tokyonight.colors").setup({ style = scheme })
+		---@type ColorMap
+		local color_map = {
+			bg = colors.bg,
+			bg_light = colors.bg_dark,
+			bg_dark = colors.bg_dark1,
+			fg = colors.fg,
+			fg_light = colors.fg_float,
+			fg_dark = colors.fg_dark,
+			float = colors.bg_float,
+			float_light = colors.bg_popup,
+			float_dark = colors.bg_float,
+			surface = colors.bg_dark,
+			surface_light = colors.bg_float,
+			surface_dark = colors.bg_dark1,
+			accent = colors.magenta2,
+			red = colors.red,
+			red_light = colors.red,
+			red_dark = colors.red1,
+			green = colors.green,
+			green_light = colors.green1,
+			green_dark = colors.green2,
+			blue = colors.blue,
+			blue_light = colors.blue5,
+			blue_dark = colors.blue0,
+			cyan = colors.cyan,
+			cyan_light = colors.cyan,
+			cyan_dark = colors.cyan,
+			pink = colors.magenta2,
+			pink_light = colors.magenta2,
+			pink_dark = colors.magenta2,
+			purple = colors.magenta,
+			purple_light = colors.magenta,
+			purple_dark = colors.purple,
+			yellow = colors.yellow,
+			yellow_light = colors.yellow,
+			yellow_dark = colors.yellow,
+			orange = colors.orange,
+			orange_light = colors.orange,
+			orange_dark = colors.orange,
+			error = colors.error,
+			warn = colors.warning,
+			info = colors.info,
+			hint = colors.hint,
+		}
+
+		return color_map
+	end,
+	["monokai-pro"] = function(scheme)
+		local colors = require("monokai-pro.colorscheme.palette." .. scheme)
+		---@type ColorMap
+		local color_map = {
+			bg = colors.background,
+			bg_light = colors.dark2,
+			bg_dark = colors.dark1,
+			fg = colors.text,
+			fg_light = colors.text,
+			fg_dark = colors.text,
+			float = colors.dimmed1,
+			float_light = colors.dimmed2,
+			float_dark = colors.dimmed3,
+			surface = colors.dimmed4,
+			surface_light = colors.dimmed3,
+			surface_dark = colors.dimmed5,
+			accent = "#FE64A3",
+			red = colors.accent1,
+			red_light = colors.accent1,
+			red_dark = colors.accent1,
+			green = colors.accent4,
+			green_light = colors.accent4,
+			green_dark = colors.accent4,
+			blue = colors.accent5,
+			blue_light = colors.accent5,
+			blue_dark = colors.accent5,
+			cyan = colors.accent5,
+			cyan_light = colors.accent5,
+			cyan_dark = colors.accent5,
+			pink = "#FE64A3",
+			pink_light = "#FE64A3",
+			pink_dark = "#FE64A3",
+			purple = colors.accent6,
+			purple_light = colors.accent6,
+			purple_dark = colors.accent6,
+			yellow = colors.accent3,
+			yellow_light = colors.accent3,
+			yellow_dark = colors.accent3,
+			orange = colors.accent2,
+			orange_light = colors.accent2,
+			orange_dark = colors.accent2,
+			error = colors.accent1,
+			warn = colors.accent2,
+			info = colors.accent5,
+			hint = colors.accent5,
+		}
+
+		return color_map
+	end,
+	["tokyodark"] = function(_)
+		local colors = require("tokyodark.palette")
+
+		---@type ColorMap
+		local color_map = {
+			bg = colors.bg0,
+			bg_light = colors.bg1,
+			bg_dark = colors.black,
+			fg = colors.fg,
+			fg_light = colors.fg,
+			fg_dark = colors.grey,
+			float = colors.bg3,
+			float_light = colors.bg4,
+			float_dark = colors.bg2,
+			surface = colors.bg3,
+			surface_light = colors.bg4,
+			surface_dark = colors.bg2,
+			accent = "#FE64A3",
+			red = colors.red,
+			red_light = colors.bg_red,
+			red_dark = colors.red,
+			green = colors.green,
+			green_light = colors.bg_green,
+			green_dark = colors.cyan,
+			blue = colors.blue,
+			blue_light = colors.bg_blue,
+			blue_dark = colors.blue,
+			cyan = colors.cyan,
+			cyan_light = colors.cyan,
+			cyan_dark = colors.cyan,
+			pink = "#FE64A3",
+			pink_light = "#FE64A3",
+			pink_dark = "#FE64A3",
+			purple = colors.purple,
+			purple_light = colors.purple,
+			purple_dark = colors.purple,
+			yellow = colors.yellow,
+			yellow_light = colors.yellow,
+			yellow_dark = colors.yellow,
+			orange = colors.orange,
+			orange_light = colors.orange,
+			orange_dark = colors.orange,
+			error = colors.red,
+			warn = colors.yellow,
+			info = colors.blue,
+			hint = colors.purple,
+		}
+
+		return color_map
+	end,
+	["nightfox"] = function(scheme)
+		local colors = require("nightfox.palette").load(scheme)
+
+		---@type ColorMap
+		local color_map = {
+			bg = colors.bg2,
+			bg_light = colors.bg0,
+			bg_dark = colors.bg1,
+			fg = colors.fg1,
+			fg_light = colors.fg0,
+			fg_dark = colors.fg2,
+			float = colors.bg3,
+			float_light = colors.bg4,
+			float_dark = colors.bg2,
+			surface = colors.black.base,
+			surface_light = colors.black.bright,
+			surface_dark = colors.black.dim,
+			accent = colors.pink.base,
+			red = colors.red.base,
+			red_light = colors.red.bright,
+			red_dark = colors.red.dim,
+			green = colors.green.base,
+			green_light = colors.green.bright,
+			green_dark = colors.green.dim,
+			blue = colors.blue.base,
+			blue_light = colors.blue.bright,
+			blue_dark = colors.blue.dim,
+			cyan = colors.cyan.base,
+			cyan_light = colors.cyan.bright,
+			cyan_dark = colors.cyan.dim,
+			pink = colors.pink.base,
+			pink_light = colors.pink.bright,
+			pink_dark = colors.pink.dim,
+			purple = colors.magenta.base,
+			purple_light = colors.magenta.bright,
+			purple_dark = colors.magenta.dim,
+			yellow = colors.yellow.base,
+			yellow_light = colors.yellow.bright,
+			yellow_dark = colors.yellow.dim,
+			orange = colors.orange.base,
+			orange_light = colors.orange.bright,
+			orange_dark = colors.orange.dim,
+			error = colors.red.base,
+			warn = colors.yellow.base,
+			info = colors.blue.base,
+			hint = colors.green.base,
+		}
+
+		return color_map
+	end,
+
+	["matrix"] = function(_)
+		local colors = require("matrix.colors")
+
+		---@type ColorMap
+		local color_map = {
+			bg = colors.matrix0_gui,
+			bg_light = colors.matrix1_gui,
+			bg_dark = colors.matrix2_gui,
+			fg = colors.matrix6_gui,
+			fg_light = colors.matrix4_gui,
+			fg_dark = colors.matrix5_gui,
+			float = colors.float,
+			float_light = colors.matrix7_gui,
+			float_dark = colors.matrix9_gui,
+			surface = colors.matrix2_gui,
+			surface_light = colors.matrix3_gui,
+			surface_dark = colors.matrix1_gui,
+			accent = "#FF00FF",
+			red = colors.matrix11_gui,
+			red_light = colors.matrix11_gui,
+			red_dark = "#800000",
+			green = colors.matrix14_gui,
+			green_light = colors.matrix2_gui,
+			green_dark = "#008000",
+			blue = "#0088ff",
+			blue_light = "#00ffff",
+			blue_dark = "#0000FF",
+			cyan = "#008080",
+			cyan_light = "#008080",
+			cyan_dark = "#008080",
+			pink = "#ff00ff",
+			pink_light = "#ff00ff",
+			pink_dark = "#ff00ff",
+			purple = "#800080",
+			purple_light = "#800080",
+			purple_dark = "#800080",
+			yellow = colors.matrix13_gui,
+			yellow_light = colors.matrix13_gui,
+			yellow_dark = "#808000",
+			orange = colors.matrix15_gui,
+			orange_light = colors.matrix15_gui,
+			orange_dark = colors.matrix12_gui,
+			error = colors.matrix11_gui,
+			warn = colors.matrix15_gui,
+			info = colors.matrix10_gui,
+			hint = "#008080",
+		}
+
+		return color_map
+	end,
+}
+
+---@param theme string
+local function apply_theme_overrides(theme, scheme)
+	local scheme = scheme or ""
+	local color_map = theme_colormaps[theme](scheme)
+
+	vim.api.nvim_set_hl(
+		0,
+		"Accent",
+		{ fg = color_map.bg, bg = color_map.accent, bold = true }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"AccentInverse",
+		{ fg = color_map.accent, bg = color_map.bg_light, bold = true }
+	)
+
+	for _, level in pairs({ "Error", "Warn", "Info", "Hint" }) do
+		vim.api.nvim_set_hl(0, "BarDiag" .. level, {
+			fg = color_map[level:gsub("^%L", string.lower)],
+			bg = color_map.bg_light,
+		})
+	end
+
+	vim.api.nvim_set_hl(0, "DiffChange", { bg = "#3d4261" })
+	vim.api.nvim_set_hl(0, "DiffText", {
+		bg = "#3d5a8a",
+		special = "#3d5a8a",
+		underline = true,
+	})
+
+	vim.api.nvim_set_hl(0, "GitSignsChangedelete", {
+		fg = color_map.blue,
+		bg = color_map.red,
+	})
+
+	vim.api.nvim_set_hl(
+		0,
+		"YankFlash",
+		{ fg = color_map.bg, bg = color_map.purple_light }
+	)
+
+	vim.api.nvim_set_hl(
+		0,
+		"Heading1",
+		{ fg = color_map.surface_dark, bg = color_map.green }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"Heading2",
+		{ fg = color_map.surface_dark, bg = color_map.orange }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"Heading3",
+		{ fg = color_map.surface_dark, bg = color_map.purple_dark }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"Heading4",
+		{ fg = color_map.surface_dark, bg = color_map.blue_dark }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"Heading5",
+		{ fg = color_map.surface_dark, bg = color_map.yellow }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"Heading6",
+		{ fg = color_map.surface_dark, bg = color_map.red }
+	)
+	vim.api.nvim_set_hl(0, "CodeBlock", { bg = color_map.bg_dark })
+	vim.api.nvim_set_hl(0, "HeadingBullet", { fg = color_map.surface_dark })
+
+	vim.api.nvim_set_hl(0, "RenderMarkdownH1Bg", {
+		bg = color_map.green,
+		fg = color_map.surface_dark,
+	})
+	vim.api.nvim_set_hl(0, "RenderMarkdownH2Bg", {
+		bg = color_map.orange,
+		fg = color_map.surface_dark,
+	})
+	vim.api.nvim_set_hl(0, "RenderMarkdownH3Bg", {
+		bg = color_map.purple_dark,
+		fg = color_map.surface_dark,
+	})
+	vim.api.nvim_set_hl(0, "RenderMarkdownH4Bg", {
+		bg = color_map.blue_dark,
+		fg = color_map.surface_dark,
+	})
+	vim.api.nvim_set_hl(0, "RenderMarkdownH5Bg", {
+		bg = color_map.yellow,
+		fg = color_map.surface_dark,
+	})
+	vim.api.nvim_set_hl(0, "RenderMarkdownH6Bg", {
+		bg = color_map.red,
+		fg = color_map.surface_dark,
+	})
+
+	vim.api.nvim_set_hl(
+		0,
+		"DiagnosticCheck",
+		{ bg = color_map.bg_light, fg = color_map.green }
+	)
+
+	vim.api.nvim_set_hl(0, "IblScope", { fg = color_map.accent })
+
+	vim.api.nvim_set_hl(
+		0,
+		"@markup.quote",
+		{ fg = color_map.yellow, bold = false }
+	)
+	vim.api.nvim_set_hl(0, "@markup.italic", {
+		fg = color_map.purple_dark,
+		italic = true,
+	})
+	vim.api.nvim_set_hl(
+		0,
+		"@markup.strong",
+		{ fg = color_map.red, bold = true }
+	)
+
+	vim.api.nvim_set_hl(0, "RainbowRed", { fg = color_map.red })
+	vim.api.nvim_set_hl(0, "RainbowYellow", { fg = color_map.yellow })
+	vim.api.nvim_set_hl(0, "RainbowBlue", { fg = color_map.blue_dark })
+	vim.api.nvim_set_hl(0, "RainbowOrange", { fg = color_map.orange })
+	vim.api.nvim_set_hl(0, "RainbowGreen", { fg = color_map.green })
+	vim.api.nvim_set_hl(0, "RainbowViolet", { fg = color_map.purple_dark })
+	vim.api.nvim_set_hl(0, "RainbowCyan", { fg = color_map.green_light })
+	vim.api.nvim_set_hl(
+		0,
+		"ScrollbarCursor",
+		{ fg = color_map.accent, bg = color_map.surface_dark }
+	)
+
+	vim.api.nvim_set_hl(
+		0,
+		"GitSignsAddInline",
+		{ fg = color_map.bg, bg = color_map.green }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"GitSignsAddLnInline",
+		{ fg = color_map.bg, bg = color_map.green }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"GitSignsChangeInline",
+		{ fg = color_map.bg, bg = color_map.blue }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"GitSignsChangeLnInline",
+		{ fg = color_map.bg, bg = color_map.blue }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"GitSignsDeleteInline",
+		{ fg = color_map.bg, bg = color_map.red }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"GitSignsDeleteLnInline",
+		{ fg = color_map.bg, bg = color_map.red }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"GitSignsChange",
+		{ fg = color_map.blue, bg = color_map.bg }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"GitSignsChangeNr",
+		{ fg = color_map.blue, bg = color_map.bg }
+	)
+
+	-- Telescope
+	local telescope_bg = color_map.surface_dark
+	local telescope_prompt_bg = color_map.bg_light
+	local telescope_preview_bg = color_map.bg
+	local telescope_border = color_map.accent
+
+	vim.api.nvim_set_hl(
+		0,
+		"TelescopeSelection",
+		{ bg = color_map.surface_light }
+	)
+
+	vim.api.nvim_set_hl(
+		0,
+		"TelescopePromptTitle",
+		{ fg = color_map.bg, bg = color_map.accent }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"TelescopePreviewTitle",
+		{ fg = color_map.bg, bg = color_map.green }
+	)
+
+	vim.api.nvim_set_hl(
+		0,
+		"TelescopePromptNormal",
+		{ bg = telescope_prompt_bg }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"TelescopeResultsNormal",
+		{ bg = telescope_prompt_bg }
+	)
+	vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = telescope_bg })
+	vim.api.nvim_set_hl(
+		0,
+		"TelescopePreviewNormal",
+		{ bg = telescope_preview_bg }
+	)
+
+	vim.api.nvim_set_hl(
+		0,
+		"TelescopePromptBorder",
+		{ fg = telescope_border, bg = telescope_prompt_bg }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"TelescopeResultsBorder",
+		{ fg = telescope_border, bg = telescope_prompt_bg }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"TelescopeBorder",
+		{ fg = telescope_border, bg = telescope_bg }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"TelescopePreviewBorder",
+		{ fg = telescope_border, bg = telescope_preview_bg }
+	)
+
+	vim.api.nvim_set_hl(0, "HarpoonInactive", { link = "Tabline" })
+	vim.api.nvim_set_hl(
+		0,
+		"HarpoonActive",
+		{ fg = color_map.bg, bg = color_map.accent, bold = true }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"HarpoonNumberActive",
+		{ fg = color_map.bg, bg = color_map.accent, bold = true }
+	)
+	vim.api.nvim_set_hl(0, "HarpoonNumberInactive", { link = "Tabline" })
+
+	-- LspInlayHint = { fg = color_map.float, bg = color_map.bg },
+
+	vim.api.nvim_set_hl(0, "WinBar", { bg = color_map.bg_light })
+
+	vim.api.nvim_set_hl(
+		0,
+		"CmpItemKindSnippet",
+		{ fg = color_map.bg, bg = color_map.purple_dark }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"CmpItemKindKeyword",
+		{ fg = color_map.bg, bg = color_map.red }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"CmpItemKindText",
+		{ fg = color_map.bg, bg = color_map.green_light }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"CmpItemKindMethod",
+		{ fg = color_map.bg, bg = color_map.blue }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"CmpItemKindConstructor",
+		{ fg = color_map.bg, bg = color_map.blue }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"CmpItemKindFunction",
+		{ fg = color_map.bg, bg = color_map.blue }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"CmpItemKindFolder",
+		{ fg = color_map.bg, bg = color_map.blue }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"CmpItemKindModule",
+		{ fg = color_map.bg, bg = color_map.blue }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"CmpItemKindConstant",
+		{ fg = color_map.bg, bg = color_map.orange }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"CmpItemKindField",
+		{ fg = color_map.bg, bg = color_map.green }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"CmpItemKindProperty",
+		{ fg = color_map.bg, bg = color_map.green }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"CmpItemKindEnum",
+		{ fg = color_map.bg, bg = color_map.green }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"CmpItemKindUnit",
+		{ fg = color_map.bg, bg = color_map.green }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"CmpItemKindClass",
+		{ fg = color_map.bg, bg = color_map.yellow }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"CmpItemKindVariable",
+		{ fg = color_map.bg, bg = color_map.pink_dark }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"CmpItemKindFile",
+		{ fg = color_map.bg, bg = color_map.blue }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"CmpItemKindInterface",
+		{ fg = color_map.bg, bg = color_map.yellow }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"CmpItemKindColor",
+		{ fg = color_map.bg, bg = color_map.red }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"CmpItemKindReference",
+		{ fg = color_map.bg, bg = color_map.red }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"CmpItemKindEnumMember",
+		{ fg = color_map.bg, bg = color_map.red }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"CmpItemKindStruct",
+		{ fg = color_map.bg, bg = color_map.blue }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"CmpItemKindValue",
+		{ fg = color_map.bg, bg = color_map.orange }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"CmpItemKindEvent",
+		{ fg = color_map.bg, bg = color_map.blue }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"CmpItemKindOperator",
+		{ fg = color_map.bg, bg = color_map.blue }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"CmpItemKindTypeParameter",
+		{ fg = color_map.bg, bg = color_map.blue }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"CmpItemKindCopilot",
+		{ fg = color_map.bg, bg = color_map.green_light }
+	)
+
+	--scrollbar
+	local scroll_handle = color_map.bg_light
+	local scroll_norm = color_map.bg
+
+	vim.api.nvim_set_hl(
+		0,
+		"ScrollbarHandle",
+		{ fg = "NONE", bg = scroll_handle }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"ScrollbarCursorHandle",
+		{ fg = color_map.accent, bg = scroll_handle }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"ScrollbarCursor",
+		{ fg = color_map.accent, bg = scroll_norm }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"ScrollbarSearchHandle",
+		{ fg = color_map.orange, bg = scroll_handle }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"ScrollbarSearch",
+		{ fg = color_map.orange, bg = scroll_norm }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"ScrollbarErrorHandle",
+		{ fg = color_map.error, bg = scroll_handle }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"ScrollbarError",
+		{ fg = color_map.error, bg = scroll_norm }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"ScrollbarWarnHandle",
+		{ fg = color_map.warn, bg = scroll_handle }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"ScrollbarWarn",
+		{ fg = color_map.warn, bg = scroll_norm }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"ScrollbarInfoHandle",
+		{ fg = color_map.info, bg = scroll_handle }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"ScrollbarInfo",
+		{ fg = color_map.info, bg = scroll_norm }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"ScrollbarHintHandle",
+		{ fg = color_map.hint, bg = scroll_handle }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"ScrollbarHint",
+		{ fg = color_map.hint, bg = scroll_norm }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"ScrollbarMiscHandle",
+		{ fg = color_map.fg, bg = scroll_handle }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"ScrollbarMisc",
+		{ fg = color_map.fg, bg = scroll_norm }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"ScrollbarGitAdd",
+		{ fg = color_map.green, bg = scroll_norm }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"ScrollbarGitAddHandle",
+		{ fg = color_map.green, bg = scroll_handle }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"ScrollbarGitChange",
+		{ fg = color_map.green, bg = scroll_norm }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"ScrollbarGitChangeHandle",
+		{ fg = color_map.blue, bg = scroll_handle }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"ScrollbarGitDelete",
+		{ fg = color_map.blue, bg = scroll_norm }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"ScrollbarGitDeleteHandle",
+		{ fg = color_map.red, bg = scroll_handle }
+	)
+end
+
 vim.api.nvim_create_autocmd("ColorScheme", {
 	pattern = { "*" },
 	callback = function()
 		if vim.g.transparent_enabled then
 			require("transparent").clear_prefix("lualine_c")
 		end
-
-		local yank_group =
-			vim.api.nvim_create_augroup("highlight_yank", { clear = true })
-		vim.api.nvim_create_autocmd("TextYankPost", {
-			group = yank_group,
-			callback = function()
-				vim.highlight.on_yank({
-					higroup = "YankFlash",
-					timeout = 40,
-				})
-			end,
-		})
 	end,
 })
 
@@ -167,272 +999,15 @@ return {
 					"tokyonight-moon",
 				},
 				callback = function(args)
-					local colors = require("tokyonight.colors").setup({
-						style = args.match:gsub("tokyonight%-", ""),
-					})
-
-					local accent = colors.magenta2
-					local base = vim.g.transparent_enabled and "NONE"
-						or colors.bg
-					local mantle = vim.g.transparent_enabled and "NONE"
-						or colors.bg_dark
-					vim.api.nvim_set_hl(
-						0,
-						"Accent",
-						{ fg = mantle, bg = accent, bold = true }
+					apply_theme_overrides(
+						"tokyonight",
+						args.match:gsub("tokyonight%-", "")
 					)
-					vim.api.nvim_set_hl(
-						0,
-						"AccentInverse",
-						{ fg = accent, bg = mantle, bold = true }
-					)
-
-					for _, level in pairs({ "Error", "Warn", "Info", "Hint" }) do
-						vim.api.nvim_set_hl(0, "BarDiag" .. level, {
-							fg = vim.api.nvim_get_hl(
-								0,
-								{ name = "Diagnostic" .. level }
-							).fg,
-							bg = mantle,
-						})
-					end
-
-					vim.api.nvim_set_hl(0, "DiffChange", { bg = "#3d4261" })
-					vim.api.nvim_set_hl(0, "DiffText", {
-						bg = "#3d5a8a",
-						special = "#3d5a8a",
-						underline = true,
-					})
-
-					vim.api.nvim_set_hl(
-						0,
-						"YankFlash",
-						{ fg = colors.bg, bg = colors.magenta }
-					)
-
-					vim.api.nvim_set_hl(
-						0,
-						"Heading1",
-						{ fg = colors.bg_popup, bg = colors.green }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"Heading2",
-						{ fg = colors.bg_popup, bg = colors.orange }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"Heading3",
-						{ fg = colors.bg_popup, bg = colors.magenta }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"Heading4",
-						{ fg = colors.bg_popup, bg = colors.blue1 }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"Heading5",
-						{ fg = colors.bg_popup, bg = colors.yellow }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"Heading6",
-						{ fg = colors.bg_popup, bg = colors.red }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"CodeBlock",
-						{ bg = colors.bg_dark1 }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"HeadingBullet",
-						{ fg = colors.bg_popup }
-					)
-
-					vim.api.nvim_set_hl(0, "RenderMarkdownH1Bg", {
-						bg = colors.green,
-						fg = colors.bg_popup,
-					})
-					vim.api.nvim_set_hl(0, "RenderMarkdownH2Bg", {
-						bg = colors.orange,
-						fg = colors.bg_popup,
-					})
-					vim.api.nvim_set_hl(0, "RenderMarkdownH3Bg", {
-						bg = colors.magenta,
-						fg = colors.bg_popup,
-					})
-					vim.api.nvim_set_hl(0, "RenderMarkdownH4Bg", {
-						bg = colors.blue1,
-						fg = colors.bg_popup,
-					})
-					vim.api.nvim_set_hl(0, "RenderMarkdownH5Bg", {
-						bg = colors.yellow,
-						fg = colors.bg_popup,
-					})
-					vim.api.nvim_set_hl(0, "RenderMarkdownH6Bg", {
-						bg = colors.red,
-						fg = colors.bg_popup,
-					})
-
-					vim.api.nvim_set_hl(
-						0,
-						"DiagnosticCheck",
-						{ bg = mantle, fg = colors.green }
-					)
-
-					vim.api.nvim_set_hl(
-						0,
-						"@markup.quote",
-						{ fg = colors.yellow, bold = false }
-					)
-					vim.api.nvim_set_hl(0, "@markup.italic", {
-						fg = colors.magenta,
-						italic = true,
-					})
-					vim.api.nvim_set_hl(
-						0,
-						"@markup.strong",
-						{ fg = colors.red1, bold = true }
-					)
-
-					vim.api.nvim_set_hl(
-						0,
-						"HarpoonInactive",
-						{ link = "Tabline" }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"HarpoonActive",
-						{ fg = colors.bg, bg = colors.purple, bold = true }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"HarpoonNumberActive",
-						{ fg = colors.bg, bg = colors.purple, bold = true }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"HarpoonNumberInactive",
-						{ link = "Tabline" }
-					)
-
-					vim.api.nvim_set_hl(0, "RainbowRed", { fg = colors.red })
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowYellow",
-						{ fg = colors.yellow }
-					)
-					vim.api.nvim_set_hl(0, "RainbowBlue", { fg = colors.blue1 })
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowOrange",
-						{ fg = colors.orange }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowGreen",
-						{ fg = colors.green }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowViolet",
-						{ fg = colors.magenta }
-					)
-					vim.api.nvim_set_hl(0, "RainbowCyan", { fg = colors.teal })
 				end,
 			})
 		end,
-		opts = {
-			on_highlights = function(highlights, colors)
-				highlights.GitSignsAddInline =
-					{ fg = colors.bg, bg = colors.green }
-				highlights.GitSignsAddLnInline =
-					{ fg = colors.bg, bg = colors.green }
-				highlights.GitSignsChangeInline =
-					{ fg = colors.bg, bg = colors.blue }
-				highlights.GitSignsChangeLnInline =
-					{ fg = colors.bg, bg = colors.blue }
-				highlights.GitSignsDeleteInline =
-					{ fg = colors.bg, bg = colors.red }
-				highlights.GitSignsDeleteLnInline =
-					{ fg = colors.bg, bg = colors.red }
-				highlights.GitSignsChange = { fg = colors.blue, bg = colors.bg }
-				highlights.GitSignsChangeNr =
-					{ fg = colors.blue, bg = colors.bg }
-
-				highlights.TelescopeNormal = { bg = colors.bg_popup }
-				highlights.TelescopeSelection = { bg = colors.bg_highlight }
-				highlights.TelescopePromptNormal = { bg = colors.bg_highlight }
-				highlights.TelescopeBorder =
-					{ fg = colors.bg_popup, bg = colors.bg_popup }
-				highlights.TelescopePromptBorder =
-					{ fg = colors.bg_highlight, bg = colors.bg_highlight }
-				highlights.TelescopePromptTitle =
-					{ fg = colors.bg_dark1, bg = colors.purple }
-				highlights.TelescopePreviewTitle =
-					{ fg = colors.bg_dark1, bg = colors.green }
-
-				highlights.WinBar = { bg = colors.bg_dark }
-
-				highlights.CmpItemKindSnippet =
-					{ fg = colors.bg, bg = colors.magenta }
-				highlights.CmpItemKindKeyword =
-					{ fg = colors.bg, bg = colors.red }
-				highlights.CmpItemKindText =
-					{ fg = colors.bg, bg = colors.blue6 }
-				highlights.CmpItemKindMethod =
-					{ fg = colors.bg, bg = colors.blue }
-				highlights.CmpItemKindConstructor =
-					{ fg = colors.bg, bg = colors.blue }
-				highlights.CmpItemKindFunction =
-					{ fg = colors.bg, bg = colors.blue }
-				highlights.CmpItemKindFolder =
-					{ fg = colors.bg, bg = colors.blue }
-				highlights.CmpItemKindModule =
-					{ fg = colors.bg, bg = colors.blue }
-				highlights.CmpItemKindConstant =
-					{ fg = colors.bg, bg = colors.orange }
-				highlights.CmpItemKindField =
-					{ fg = colors.bg, bg = colors.green }
-				highlights.CmpItemKindProperty =
-					{ fg = colors.bg, bg = colors.green }
-				highlights.CmpItemKindEnum =
-					{ fg = colors.bg, bg = colors.green }
-				highlights.CmpItemKindUnit =
-					{ fg = colors.bg, bg = colors.green }
-				highlights.CmpItemKindClass =
-					{ fg = colors.bg, bg = colors.yellow }
-				highlights.CmpItemKindVariable =
-					{ fg = colors.bg, bg = colors.terminal.yellow_bright }
-				highlights.CmpItemKindFile =
-					{ fg = colors.bg, bg = colors.blue }
-				highlights.CmpItemKindInterface =
-					{ fg = colors.bg, bg = colors.yellow }
-				highlights.CmpItemKindColor =
-					{ fg = colors.bg, bg = colors.red }
-				highlights.CmpItemKindReference =
-					{ fg = colors.bg, bg = colors.red }
-				highlights.CmpItemKindEnumMember =
-					{ fg = colors.bg, bg = colors.red }
-				highlights.CmpItemKindStruct =
-					{ fg = colors.bg, bg = colors.blue }
-				highlights.CmpItemKindValue =
-					{ fg = colors.bg, bg = colors.orange }
-				highlights.CmpItemKindEvent =
-					{ fg = colors.bg, bg = colors.blue }
-				highlights.CmpItemKindOperator =
-					{ fg = colors.bg, bg = colors.blue }
-				highlights.CmpItemKindTypeParameter =
-					{ fg = colors.bg, bg = colors.blue }
-				highlights.CmpItemKindCopilot =
-					{ fg = colors.bg, bg = colors.blue6 }
-				highlights.IblScope = { fg = colors.magenta2 }
-			end,
-		},
+		opts = {},
 	},
-
 	{
 		"loctvl842/monokai-pro.nvim",
 		lazy = false,
@@ -441,187 +1016,6 @@ return {
 			transparent_background = vim.g.transparent_enabled,
 			terminal_colors = true,
 			devicons = true, -- highlight the icons of `nvim-web-devicons`
-			override = function(colors)
-				local highlight_overrides = {
-					GitSignsAddInline = {
-						fg = colors.base.dark,
-						bg = colors.base.green,
-					},
-					GitSignsAddLnInline = {
-						fg = colors.base.dark,
-						bg = colors.base.green,
-					},
-					GitSignsChangeInline = {
-						fg = colors.base.dark,
-						bg = colors.base.blue,
-					},
-					GitSignsChangeLnInline = {
-						fg = colors.base.dark,
-						bg = colors.base.blue,
-					},
-					GitSignsDeleteInline = {
-						fg = colors.base.dark,
-						bg = colors.base.red,
-					},
-					GitSignsDeleteLnInline = {
-						fg = colors.base.dark,
-						bg = colors.base.red,
-					},
-					GitSignsChange = {
-						fg = colors.base.blue,
-						bg = colors.base.dark,
-					},
-					GitSignsChangeNr = {
-						fg = colors.base.blue,
-						bg = colors.base.dark,
-					},
-
-					TelescopeNormal = { bg = colors.base.dimmed1 },
-					TelescopeSelection = { bg = colors.base.dimmed4 },
-					TelescopePromptNormal = { bg = colors.base.dimmed5 },
-					TelescopeBorder = {
-						fg = colors.base.dimmed2,
-						bg = colors.base.dimmed2,
-					},
-					TelescopePromptBorder = {
-						fg = colors.base.dimmed5,
-						bg = colors.base.dimmed5,
-					},
-					TelescopePromptTitle = {
-						fg = colors.base.black,
-						bg = colors.base.magenta,
-					},
-					TelescopePreviewTitle = {
-						fg = colors.base.black,
-						bg = colors.base.green,
-					},
-
-					HarpoonInactive = { link = "Tabline" },
-					HarpoonActive = {
-						fg = colors.base.dark,
-						bg = colors.base.magenta,
-						bold = true,
-					},
-					HarpoonNumberActive = {
-						fg = colors.base.dark,
-						bg = colors.base.magenta,
-						bold = true,
-					},
-					HarpoonNumberInactive = { link = "Tabline" },
-
-					-- LspInlayHint = { fg = colors.base.overlay1, bg = colors.base.dark },
-
-					WinBar = { bg = colors.base.black },
-
-					CmpItemKindSnippet = {
-						fg = colors.base.dark,
-						bg = colors.base.magenta,
-					},
-					CmpItemKindKeyword = {
-						fg = colors.base.dark,
-						bg = colors.base.red,
-					},
-					CmpItemKindText = {
-						fg = colors.base.dark,
-						bg = colors.base.cyan,
-					},
-					CmpItemKindMethod = {
-						fg = colors.base.dark,
-						bg = colors.base.blue,
-					},
-					CmpItemKindConstructor = {
-						fg = colors.base.dark,
-						bg = colors.base.blue,
-					},
-					CmpItemKindFunction = {
-						fg = colors.base.dark,
-						bg = colors.base.blue,
-					},
-					CmpItemKindFolder = {
-						fg = colors.base.dark,
-						bg = colors.base.blue,
-					},
-					CmpItemKindModule = {
-						fg = colors.base.dark,
-						bg = colors.base.blue,
-					},
-					CmpItemKindConstant = {
-						fg = colors.base.dark,
-						bg = colors.base.yellow,
-					},
-					CmpItemKindField = {
-						fg = colors.base.dark,
-						bg = colors.base.green,
-					},
-					CmpItemKindProperty = {
-						fg = colors.base.dark,
-						bg = colors.base.green,
-					},
-					CmpItemKindEnum = {
-						fg = colors.base.dark,
-						bg = colors.base.green,
-					},
-					CmpItemKindUnit = {
-						fg = colors.base.dark,
-						bg = colors.base.green,
-					},
-					CmpItemKindClass = {
-						fg = colors.base.dark,
-						bg = colors.base.yellow,
-					},
-					CmpItemKindVariable = {
-						fg = colors.base.dark,
-						bg = colors.base.white,
-					},
-					CmpItemKindFile = {
-						fg = colors.base.dark,
-						bg = colors.base.blue,
-					},
-					CmpItemKindInterface = {
-						fg = colors.base.dark,
-						bg = colors.base.yellow,
-					},
-					CmpItemKindColor = {
-						fg = colors.base.dark,
-						bg = colors.base.red,
-					},
-					CmpItemKindReference = {
-						fg = colors.base.dark,
-						bg = colors.base.red,
-					},
-					CmpItemKindEnumMember = {
-						fg = colors.base.dark,
-						bg = colors.base.red,
-					},
-					CmpItemKindStruct = {
-						fg = colors.base.dark,
-						bg = colors.base.blue,
-					},
-					CmpItemKindValue = {
-						fg = colors.base.dark,
-						bg = colors.base.yellow,
-					},
-					CmpItemKindEvent = {
-						fg = colors.base.dark,
-						bg = colors.base.blue,
-					},
-					CmpItemKindOperator = {
-						fg = colors.base.dark,
-						bg = colors.base.blue,
-					},
-					CmpItemKindTypeParameter = {
-						fg = colors.base.dark,
-						bg = colors.base.blue,
-					},
-					CmpItemKindCopilot = {
-						fg = colors.base.dark,
-						bg = colors.base.cyan,
-					},
-					IblScope = { fg = colors.base.magenta },
-				}
-
-				return highlight_overrides
-			end,
 		},
 		init = function()
 			vim.api.nvim_create_autocmd("ColorScheme", {
@@ -637,188 +1031,7 @@ return {
 				callback = function(args)
 					local filter = args.match:gsub("monokai%-pro%-", "")
 					filter = filter:gsub("default", "pro")
-					local colors =
-						require("monokai-pro.colorscheme").get(filter).base
-					local translate = {
-						mantle = "black",
-						base = "dark",
-						crust = "black",
-						text = "white",
-						subtext1 = "white",
-						subtext0 = "white",
-						red = "red",
-						maroon = "red",
-						peach = "blue",
-						yellow = "yellow",
-						green = "green",
-						blue = "cyan",
-						teal = "cyan",
-						sky = "cyan",
-						sapphire = "cyan",
-						mauve = "magenta",
-						pink = "magenta",
-						lavender = "magenta",
-						overlay2 = "dimmed1",
-						overlay1 = "dimmed2",
-						overlay0 = "dimmed2",
-						surface2 = "dimmed3",
-						surface1 = "dimmed4",
-						surface0 = "dimmed5",
-					}
-
-					local accent = colors[translate.pink]
-					local base = vim.g.transparent_enabled and "none"
-						or colors[translate.base]
-					local mantle = vim.g.transparent_enabled and "none"
-						or colors[translate.mantle]
-					vim.api.nvim_set_hl(
-						0,
-						"Accent",
-						{ fg = base, bg = accent, bold = true }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"AccentInverse",
-						{ fg = accent, bg = base, bold = true }
-					)
-
-					for _, level in pairs({ "Error", "Warn", "Info", "Hint" }) do
-						vim.api.nvim_set_hl(0, "BarDiag" .. level, {
-							fg = vim.api.nvim_get_hl(
-								0,
-								{ name = "Diagnostic" .. level }
-							).fg,
-							bg = mantle,
-						})
-					end
-
-					vim.api.nvim_set_hl(0, "DiffChange", { bg = "#3d4261" })
-					vim.api.nvim_set_hl(0, "DiffText", {
-						bg = "#3d5a8a",
-						special = "#3d5a8a",
-						underline = true,
-					})
-
-					vim.api.nvim_set_hl(0, "YankFlash", {
-						fg = colors[translate.base],
-						bg = colors[translate.lavender],
-					})
-
-					vim.api.nvim_set_hl(0, "Heading1", {
-						fg = colors[translate.surface0],
-						bg = colors[translate.green],
-					})
-					vim.api.nvim_set_hl(0, "Heading2", {
-						fg = colors[translate.surface0],
-						bg = colors[translate.peach],
-					})
-					vim.api.nvim_set_hl(0, "Heading3", {
-						fg = colors[translate.surface0],
-						bg = colors[translate.mauve],
-					})
-					vim.api.nvim_set_hl(0, "Heading4", {
-						fg = colors[translate.surface0],
-						bg = colors[translate.sapphire],
-					})
-					vim.api.nvim_set_hl(0, "Heading5", {
-						fg = colors[translate.surface0],
-						bg = colors[translate.yellow],
-					})
-					vim.api.nvim_set_hl(0, "Heading6", {
-						fg = colors[translate.surface0],
-						bg = colors[translate.red],
-					})
-					vim.api.nvim_set_hl(
-						0,
-						"CodeBlock",
-						{ bg = colors[translate.crust] }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"HeadingBullet",
-						{ fg = colors[translate.surface0] }
-					)
-
-					vim.api.nvim_set_hl(0, "RenderMarkdownH1Bg", {
-						bg = colors[translate.green],
-						fg = colors[translate.surface0],
-					})
-					vim.api.nvim_set_hl(0, "RenderMarkdownH2Bg", {
-						bg = colors[translate.peach],
-						fg = colors[translate.surface0],
-					})
-					vim.api.nvim_set_hl(0, "RenderMarkdownH3Bg", {
-						bg = colors[translate.mauve],
-						fg = colors[translate.surface0],
-					})
-					vim.api.nvim_set_hl(0, "RenderMarkdownH4Bg", {
-						bg = colors[translate.sapphire],
-						fg = colors[translate.surface0],
-					})
-					vim.api.nvim_set_hl(0, "RenderMarkdownH5Bg", {
-						bg = colors[translate.yellow],
-						fg = colors[translate.surface0],
-					})
-					vim.api.nvim_set_hl(0, "RenderMarkdownH6Bg", {
-						bg = colors[translate.red],
-						fg = colors[translate.surface0],
-					})
-
-					vim.api.nvim_set_hl(
-						0,
-						"DiagnosticCheck",
-						{ bg = base, fg = colors[translate.green] }
-					)
-
-					-- vim.api.nvim_set_hl(
-					-- 	0,
-					-- 	"@markup.quote",
-					-- 	{ fg = colors[translate.yellow,] bold = false }
-					-- )
-					-- vim.api.nvim_set_hl(0, "@markup.italic", {
-					-- 	fg = colors[translate.rosewater,]
-					-- 	italic = true,
-					-- })
-					-- vim.api.nvim_set_hl(
-					-- 	0,
-					-- 	"@markup.strong",
-					-- 	{ fg = colors[translate.maroon,] bold = true }
-					-- )
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowRed",
-						{ fg = colors[translate.red] }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowYellow",
-						{ fg = colors[translate.yellow] }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowBlue",
-						{ fg = colors[translate.sapphire] }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowOrange",
-						{ fg = colors[translate.peach] }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowGreen",
-						{ fg = colors[translate.green] }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowViolet",
-						{ fg = colors[translate.mauve] }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowCyan",
-						{ fg = colors[translate.teal] }
-					)
+					apply_theme_overrides("monokai-pro", filter)
 				end,
 			})
 		end,
@@ -830,295 +1043,12 @@ return {
 		opts = {
 			transparent_background = vim.g.transparent_enabled,
 			gamma = 1.0,
-			custom_highlights = function(highlights, colors)
-				return {
-					GitSignsAddInline = { fg = colors.bg1, bg = colors.green },
-					GitSignsAddLnInline = {
-						fg = colors.bg1,
-						bg = colors.green,
-					},
-					GitSignsChangeInline = {
-						fg = colors.bg1,
-						bg = colors.blue,
-					},
-					GitSignsChangeLnInline = {
-						fg = colors.bg1,
-						bg = colors.blue,
-					},
-					GitSignsDeleteInline = {
-						fg = colors.bg1,
-						bg = colors.red,
-					},
-					GitSignsDeleteLnInline = {
-						fg = colors.bg1,
-						bg = colors.red,
-					},
-					GitSignsChange = { fg = colors.blue, bg = colors.bg1 },
-					GitSignsChangeNr = { fg = colors.blue, bg = colors.bg1 },
-
-					TelescopeNormal = { bg = colors.bg1 },
-					TelescopeSelection = { bg = colors.bg0 },
-					TelescopePromptNormal = { bg = colors.bg0 },
-					TelescopeBorder = {
-						fg = colors.bg1,
-						bg = colors.bg1,
-					},
-					TelescopePromptBorder = {
-						fg = colors.bg0,
-						bg = colors.bg0,
-					},
-					TelescopePromptTitle = {
-						fg = colors.black,
-						bg = colors.purple,
-					},
-					TelescopePreviewTitle = {
-						fg = colors.black,
-						bg = colors.green,
-					},
-
-					HarpoonInactive = { link = "Tabline" },
-					HarpoonActive = {
-						fg = colors.bg1,
-						bg = colors.purple,
-						bold = true,
-					},
-					HarpoonNumberActive = {
-						fg = colors.bg1,
-						bg = colors.purple,
-						bold = true,
-					},
-					HarpoonNumberInactive = { link = "Tabline" },
-
-					-- LspInlayHint = { fg = colors.overlay1, bg = colors.bg1 },
-
-					WinBar = { bg = colors.bg0 },
-
-					CmpItemKindSnippet = { fg = colors.bg1, bg = colors.purple },
-					CmpItemKindKeyword = { fg = colors.bg1, bg = colors.red },
-					CmpItemKindText = { fg = colors.bg1, bg = colors.cyan },
-					CmpItemKindMethod = { fg = colors.bg1, bg = colors.blue },
-					CmpItemKindConstructor = {
-						fg = colors.bg1,
-						bg = colors.blue,
-					},
-					CmpItemKindFunction = { fg = colors.bg1, bg = colors.blue },
-					CmpItemKindFolder = { fg = colors.bg1, bg = colors.blue },
-					CmpItemKindModule = { fg = colors.bg1, bg = colors.blue },
-					CmpItemKindConstant = {
-						fg = colors.bg1,
-						bg = colors.orange,
-					},
-					CmpItemKindField = { fg = colors.bg1, bg = colors.green },
-					CmpItemKindProperty = {
-						fg = colors.bg1,
-						bg = colors.green,
-					},
-					CmpItemKindEnum = { fg = colors.bg1, bg = colors.green },
-					CmpItemKindUnit = { fg = colors.bg1, bg = colors.green },
-					CmpItemKindClass = { fg = colors.bg1, bg = colors.yellow },
-					CmpItemKindVariable = {
-						fg = colors.bg1,
-						bg = colors.flamingo,
-					},
-					CmpItemKindFile = { fg = colors.bg1, bg = colors.blue },
-					CmpItemKindInterface = {
-						fg = colors.bg1,
-						bg = colors.yellow,
-					},
-					CmpItemKindColor = { fg = colors.bg1, bg = colors.red },
-					CmpItemKindReference = { fg = colors.bg1, bg = colors.red },
-					CmpItemKindEnumMember = {
-						fg = colors.bg1,
-						bg = colors.red,
-					},
-					CmpItemKindStruct = { fg = colors.bg1, bg = colors.blue },
-					CmpItemKindValue = { fg = colors.bg1, bg = colors.orange },
-					CmpItemKindEvent = { fg = colors.bg1, bg = colors.blue },
-					CmpItemKindOperator = { fg = colors.bg1, bg = colors.blue },
-					CmpItemKindTypeParameter = {
-						fg = colors.bg1,
-						bg = colors.blue,
-					},
-					CmpItemKindCopilot = { fg = colors.bg1, bg = colors.cyan },
-					IblScope = { fg = colors.purple },
-				}
-			end,
 		},
 		init = function()
 			vim.api.nvim_create_autocmd("ColorScheme", {
 				pattern = { "tokyodark" },
 				callback = function()
-					local colors = require("tokyodark.palette")
-
-					local accent = colors.purple
-					local base = vim.g.transparent_enabled and "NONE"
-						or colors.bg0
-					local mantle = vim.g.transparent_enabled and "NONE"
-						or colors.bg1
-
-					vim.api.nvim_set_hl(
-						0,
-						"Accent",
-						{ fg = base, bg = accent, bold = true }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"AccentInverse",
-						{ fg = accent, bg = base, bold = true }
-					)
-
-					for _, level in pairs({
-						"Error",
-						"Warn",
-						"Info",
-						"Hint",
-					}) do
-						vim.api.nvim_set_hl(0, "BarDiag" .. level, {
-							fg = vim.api.nvim_get_hl(
-								0,
-								{ name = "Diagnostic" .. level }
-							).fg,
-							bg = mantle,
-						})
-					end
-
-					vim.api.nvim_set_hl(0, "DiffChange", { bg = "#3d4261" })
-					vim.api.nvim_set_hl(0, "DiffText", {
-						bg = "#3d5a8a",
-						special = "#3d5a8a",
-						underline = true,
-					})
-
-					vim.api.nvim_set_hl(
-						0,
-						"YankFlash",
-						{ fg = colors.base, bg = colors.purple }
-					)
-
-					vim.api.nvim_set_hl(
-						0,
-						"Heading1",
-						{ fg = colors.bg5, bg = colors.green }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"Heading2",
-						{ fg = colors.bg5, bg = colors.orange }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"Heading3",
-						{ fg = colors.bg5, bg = colors.purple }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"Heading4",
-						{ fg = colors.bg5, bg = colors.blue }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"Heading5",
-						{ fg = colors.bg5, bg = colors.yellow }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"Heading6",
-						{ fg = colors.bg5, bg = colors.red }
-					)
-					vim.api.nvim_set_hl(0, "CodeBlock", { bg = colors.black })
-					vim.api.nvim_set_hl(0, "HeadingBullet", { fg = colors.bg5 })
-
-					vim.api.nvim_set_hl(0, "RenderMarkdownH1Bg", {
-						bg = colors.green,
-						fg = colors.bg5,
-					})
-					vim.api.nvim_set_hl(0, "RenderMarkdownH2Bg", {
-						bg = colors.orange,
-						fg = colors.bg5,
-					})
-					vim.api.nvim_set_hl(0, "RenderMarkdownH3Bg", {
-						bg = colors.purple,
-						fg = colors.bg5,
-					})
-					vim.api.nvim_set_hl(0, "RenderMarkdownH4Bg", {
-						bg = colors.blue,
-						fg = colors.bg5,
-					})
-					vim.api.nvim_set_hl(0, "RenderMarkdownH5Bg", {
-						bg = colors.yellow,
-						fg = colors.bg5,
-					})
-					vim.api.nvim_set_hl(0, "RenderMarkdownH6Bg", {
-						bg = colors.red,
-						fg = colors.bg5,
-					})
-
-					vim.api.nvim_set_hl(
-						0,
-						"DiagnosticCheck",
-						{ bg = colors.bg1, fg = colors.green }
-					)
-
-					-- vim.api.nvim_set_hl(
-					-- 	0,
-					-- 	"@markup.quote",
-					-- 	{ fg = colors.yellow, bold = false }
-					-- )
-					-- vim.api.nvim_set_hl(0, "@markup.italic", {
-					-- 	fg = colors.rosewater,
-					-- 	italic = true,
-					-- })
-					-- vim.api.nvim_set_hl(
-					-- 	0,
-					-- 	"@markup.strong",
-					-- 	{ fg = colors.maroon, bold = true }
-					-- )
-					--
-
-					vim.api.nvim_set_hl(
-						0,
-						"HarpoonInactive",
-						{ link = "Tabline" }
-					)
-					vim.api.nvim_set_hl(0, "HarpoonActive", {
-						fg = colors.bg1,
-						bg = colors.purple,
-						bold = true,
-					})
-					vim.api.nvim_set_hl(0, "HarpoonNumberActive", {
-						fg = colors.bg1,
-						bg = colors.purple,
-						bold = true,
-					})
-					vim.api.nvim_set_hl(
-						0,
-						"HarpoonNumberInactive",
-						{ link = "Tabline" }
-					)
-
-					vim.api.nvim_set_hl(0, "RainbowRed", { fg = colors.red })
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowYellow",
-						{ fg = colors.yellow }
-					)
-					vim.api.nvim_set_hl(0, "RainbowBlue", { fg = colors.blue })
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowOrange",
-						{ fg = colors.orange }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowGreen",
-						{ fg = colors.green }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowViolet",
-						{ fg = colors.purple }
-					)
-					vim.api.nvim_set_hl(0, "RainbowCyan", { fg = colors.cyan })
+					apply_theme_overrides("tokyodark")
 				end,
 			})
 		end,
@@ -1209,182 +1139,7 @@ return {
 					"carbonfox",
 				},
 				callback = function(args)
-					local palette = require("nightfox.palette").load(args.match)
-
-					local accent = palette.pink.base
-					local base = vim.g.transparent_enabled and "none"
-						or palette.bg1
-					local mantle = vim.g.transparent_enabled and "none"
-						or palette.bg0
-					vim.api.nvim_set_hl(
-						0,
-						"Accent",
-						{ fg = mantle, bg = accent, bold = true }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"AccentInverse",
-						{ fg = accent, bg = mantle, bold = true }
-					)
-
-					for _, level in pairs({ "Error", "Warn", "Info", "Hint" }) do
-						vim.api.nvim_set_hl(0, "BarDiag" .. level, {
-							fg = vim.api.nvim_get_hl(
-								0,
-								{ name = "Diagnostic" .. level }
-							).fg,
-							bg = mantle,
-						})
-					end
-
-					-- vim.api.nvim_set_hl(0, "DiffChange", { bg = "#3d4261" })
-					-- vim.api.nvim_set_hl(0, "DiffText", {
-					-- 	bg = "#3d5a8a",
-					-- 	special = "#3d5a8a",
-					-- 	underline = true,
-					-- })
-
-					vim.api.nvim_set_hl(
-						0,
-						"YankFlash",
-						{ fg = base, bg = palette.magenta.bright }
-					)
-
-					vim.api.nvim_set_hl(
-						0,
-						"Heading1",
-						{ fg = palette.fg0, bg = palette.green.base }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"Heading2",
-						{ fg = palette.fg0, bg = palette.orange.bright }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"Heading3",
-						{ fg = palette.fg0, bg = palette.magenta.bright }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"Heading4",
-						{ fg = palette.fg0, bg = palette.blue.bright }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"Heading5",
-						{ fg = palette.fg0, bg = palette.yellow.base }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"Heading6",
-						{ fg = palette.fg0, bg = palette.red.base }
-					)
-					vim.api.nvim_set_hl(0, "CodeBlock", { bg = palette.bg0 })
-					vim.api.nvim_set_hl(0, "HeadingBullet", { fg = mantle })
-
-					vim.api.nvim_set_hl(0, "RenderMarkdownH1Bg", {
-						bg = palette.green.bright,
-						fg = palette.bg0,
-					})
-					vim.api.nvim_set_hl(0, "RenderMarkdownH2Bg", {
-						bg = palette.orange.bright,
-						fg = palette.bg0,
-					})
-					vim.api.nvim_set_hl(0, "RenderMarkdownH3Bg", {
-						bg = palette.magenta.bright,
-						fg = palette.bg0,
-					})
-					vim.api.nvim_set_hl(0, "RenderMarkdownH4Bg", {
-						bg = palette.blue.bright,
-						fg = palette.bg0,
-					})
-					vim.api.nvim_set_hl(0, "RenderMarkdownH5Bg", {
-						bg = palette.yellow.base,
-						fg = palette.bg0,
-					})
-					vim.api.nvim_set_hl(0, "RenderMarkdownH6Bg", {
-						bg = palette.red.base,
-						fg = palette.bg0,
-					})
-
-					vim.api.nvim_set_hl(
-						0,
-						"DiagnosticCheck",
-						{ bg = mantle, fg = palette.green.base }
-					)
-
-					vim.api.nvim_set_hl(
-						0,
-						"HarpoonInactive",
-						{ link = "Tabline" }
-					)
-					vim.api.nvim_set_hl(0, "HarpoonActive", {
-						fg = palette.bg1,
-						bg = palette.pink.base,
-						bold = true,
-					})
-					vim.api.nvim_set_hl(0, "HarpoonNumberActive", {
-						fg = palette.bg1,
-						bg = palette.pink.base,
-						bold = true,
-					})
-					vim.api.nvim_set_hl(
-						0,
-						"HarpoonNumberInactive",
-						{ link = "Tabline" }
-					)
-
-					-- vim.api.nvim_set_hl(
-					-- 	0,
-					-- 	"@markup.quote",
-					-- 	{ fg = palette.yellow.base, bg = base, style = "bold" }
-					-- )
-					-- vim.api.nvim_set_hl(0, "@markup.italic", {
-					-- 	fg = palette.white.bright,
-					-- 	bg = base,
-					-- 	style = "italic",
-					-- })
-					-- vim.api.nvim_set_hl(
-					-- 	0,
-					-- 	"@markup.strong",
-					-- 	{ fg = palette.red.dim, bg = base, style = "bold" }
-					-- )
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowRed",
-						{ fg = palette.red.base }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowYellow",
-						{ fg = palette.yellow.base }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowBlue",
-						{ fg = palette.blue.base }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowOrange",
-						{ fg = palette.orange.base }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowGreen",
-						{ fg = palette.green.base }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowViolet",
-						{ fg = palette.magenta.base }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowCyan",
-						{ fg = palette.cyan.base }
-					)
+					apply_theme_overrides("nightfox", args.match)
 				end,
 			})
 		end,
@@ -1397,157 +1152,11 @@ return {
 		init = function()
 			vim.api.nvim_create_autocmd("ColorScheme", {
 				pattern = { "catppuccin*" },
-				callback = function()
-					local colors = require("catppuccin.palettes").get_palette()
-
-					local accent = colors.pink
-					local base = vim.g.transparent_enabled and "none"
-						or colors.base
-					local mantle = vim.g.transparent_enabled and "none"
-						or colors.mantle
-					vim.api.nvim_set_hl(
-						0,
-						"Accent",
-						{ fg = base, bg = accent, bold = true }
+				callback = function(args)
+					apply_theme_overrides(
+						"catppuccin",
+						args.match:gsub("catppuccin%-", "")
 					)
-					vim.api.nvim_set_hl(
-						0,
-						"AccentInverse",
-						{ fg = accent, bg = base, bold = true }
-					)
-
-					for _, level in pairs({ "Error", "Warn", "Info", "Hint" }) do
-						vim.api.nvim_set_hl(0, "BarDiag" .. level, {
-							fg = vim.api.nvim_get_hl(
-								0,
-								{ name = "Diagnostic" .. level }
-							).fg,
-							bg = mantle,
-						})
-					end
-
-					vim.api.nvim_set_hl(0, "DiffChange", { bg = "#3d4261" })
-					vim.api.nvim_set_hl(0, "DiffText", {
-						bg = "#3d5a8a",
-						special = "#3d5a8a",
-						underline = true,
-					})
-
-					vim.api.nvim_set_hl(
-						0,
-						"YankFlash",
-						{ fg = colors.base, bg = colors.lavender }
-					)
-
-					vim.api.nvim_set_hl(
-						0,
-						"Heading1",
-						{ fg = colors.surface0, bg = colors.green }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"Heading2",
-						{ fg = colors.surface0, bg = colors.peach }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"Heading3",
-						{ fg = colors.surface0, bg = colors.mauve }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"Heading4",
-						{ fg = colors.surface0, bg = colors.sapphire }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"Heading5",
-						{ fg = colors.surface0, bg = colors.yellow }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"Heading6",
-						{ fg = colors.surface0, bg = colors.red }
-					)
-					vim.api.nvim_set_hl(0, "CodeBlock", { bg = colors.crust })
-					vim.api.nvim_set_hl(
-						0,
-						"HeadingBullet",
-						{ fg = colors.surface0 }
-					)
-
-					vim.api.nvim_set_hl(0, "RenderMarkdownH1Bg", {
-						bg = colors.green,
-						fg = colors.surface0,
-					})
-					vim.api.nvim_set_hl(0, "RenderMarkdownH2Bg", {
-						bg = colors.peach,
-						fg = colors.surface0,
-					})
-					vim.api.nvim_set_hl(0, "RenderMarkdownH3Bg", {
-						bg = colors.mauve,
-						fg = colors.surface0,
-					})
-					vim.api.nvim_set_hl(0, "RenderMarkdownH4Bg", {
-						bg = colors.sapphire,
-						fg = colors.surface0,
-					})
-					vim.api.nvim_set_hl(0, "RenderMarkdownH5Bg", {
-						bg = colors.yellow,
-						fg = colors.surface0,
-					})
-					vim.api.nvim_set_hl(0, "RenderMarkdownH6Bg", {
-						bg = colors.red,
-						fg = colors.surface0,
-					})
-
-					vim.api.nvim_set_hl(
-						0,
-						"DiagnosticCheck",
-						{ bg = mantle, fg = colors.green }
-					)
-
-					-- vim.api.nvim_set_hl(
-					-- 	0,
-					-- 	"@markup.quote",
-					-- 	{ fg = colors.yellow, bold = false }
-					-- )
-					-- vim.api.nvim_set_hl(0, "@markup.italic", {
-					-- 	fg = colors.rosewater,
-					-- 	italic = true,
-					-- })
-					-- vim.api.nvim_set_hl(
-					-- 	0,
-					-- 	"@markup.strong",
-					-- 	{ fg = colors.maroon, bold = true }
-					-- )
-					vim.api.nvim_set_hl(0, "RainbowRed", { fg = colors.red })
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowYellow",
-						{ fg = colors.yellow }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowBlue",
-						{ fg = colors.sapphire }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowOrange",
-						{ fg = colors.peach }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowGreen",
-						{ fg = colors.green }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowViolet",
-						{ fg = colors.mauve }
-					)
-					vim.api.nvim_set_hl(0, "RainbowCyan", { fg = colors.teal })
 				end,
 			})
 		end,
@@ -1638,120 +1247,6 @@ return {
 				telescope = true,
 				lsp_trouble = true,
 			},
-			custom_highlights = function(colors)
-				local highlight_overrides = {
-					GitSignsAddInline = { fg = colors.base, bg = colors.green },
-					GitSignsAddLnInline = {
-						fg = colors.base,
-						bg = colors.green,
-					},
-					GitSignsChangeInline = {
-						fg = colors.base,
-						bg = colors.blue,
-					},
-					GitSignsChangeLnInline = {
-						fg = colors.base,
-						bg = colors.blue,
-					},
-					GitSignsDeleteInline = {
-						fg = colors.base,
-						bg = colors.red,
-					},
-					GitSignsDeleteLnInline = {
-						fg = colors.base,
-						bg = colors.red,
-					},
-					GitSignsChange = { fg = colors.blue, bg = colors.base },
-					GitSignsChangeNr = { fg = colors.blue, bg = colors.base },
-
-					TelescopeNormal = { bg = colors.surface0 },
-					TelescopeSelection = { bg = colors.surface1 },
-					TelescopePromptNormal = { bg = colors.surface1 },
-					TelescopeBorder = {
-						fg = colors.surface0,
-						bg = colors.surface0,
-					},
-					TelescopePromptBorder = {
-						fg = colors.surface1,
-						bg = colors.surface1,
-					},
-					TelescopePromptTitle = {
-						fg = colors.crust,
-						bg = colors.pink,
-					},
-					TelescopePreviewTitle = {
-						fg = colors.crust,
-						bg = colors.green,
-					},
-
-					HarpoonInactive = { link = "Tabline" },
-					HarpoonActive = {
-						fg = colors.base,
-						bg = colors.pink,
-						bold = true,
-					},
-					HarpoonNumberActive = {
-						fg = colors.base,
-						bg = colors.pink,
-						bold = true,
-					},
-					HarpoonNumberInactive = { link = "Tabline" },
-
-					-- LspInlayHint = { fg = colors.overlay1, bg = colors.base },
-
-					WinBar = { bg = colors.mantle },
-
-					CmpItemKindSnippet = { fg = colors.base, bg = colors.mauve },
-					CmpItemKindKeyword = { fg = colors.base, bg = colors.red },
-					CmpItemKindText = { fg = colors.base, bg = colors.teal },
-					CmpItemKindMethod = { fg = colors.base, bg = colors.blue },
-					CmpItemKindConstructor = {
-						fg = colors.base,
-						bg = colors.blue,
-					},
-					CmpItemKindFunction = { fg = colors.base, bg = colors.blue },
-					CmpItemKindFolder = { fg = colors.base, bg = colors.blue },
-					CmpItemKindModule = { fg = colors.base, bg = colors.blue },
-					CmpItemKindConstant = {
-						fg = colors.base,
-						bg = colors.peach,
-					},
-					CmpItemKindField = { fg = colors.base, bg = colors.green },
-					CmpItemKindProperty = {
-						fg = colors.base,
-						bg = colors.green,
-					},
-					CmpItemKindEnum = { fg = colors.base, bg = colors.green },
-					CmpItemKindUnit = { fg = colors.base, bg = colors.green },
-					CmpItemKindClass = { fg = colors.base, bg = colors.yellow },
-					CmpItemKindVariable = {
-						fg = colors.base,
-						bg = colors.flamingo,
-					},
-					CmpItemKindFile = { fg = colors.base, bg = colors.blue },
-					CmpItemKindInterface = {
-						fg = colors.base,
-						bg = colors.yellow,
-					},
-					CmpItemKindColor = { fg = colors.base, bg = colors.red },
-					CmpItemKindReference = { fg = colors.base, bg = colors.red },
-					CmpItemKindEnumMember = {
-						fg = colors.base,
-						bg = colors.red,
-					},
-					CmpItemKindStruct = { fg = colors.base, bg = colors.blue },
-					CmpItemKindValue = { fg = colors.base, bg = colors.peach },
-					CmpItemKindEvent = { fg = colors.base, bg = colors.blue },
-					CmpItemKindOperator = { fg = colors.base, bg = colors.blue },
-					CmpItemKindTypeParameter = {
-						fg = colors.base,
-						bg = colors.blue,
-					},
-					CmpItemKindCopilot = { fg = colors.base, bg = colors.teal },
-				}
-
-				return highlight_overrides
-			end,
 			highlight_overrides = {
 				latte = function(colors)
 					local highlight_overrides = {
@@ -1790,165 +1285,7 @@ return {
 			vim.api.nvim_create_autocmd("ColorScheme", {
 				pattern = { "matrix" },
 				callback = function()
-					local colors = require("matrix.colors")
-					local accent = colors.matrix5_gui
-					local base = vim.g.transparent_enabled and "NONE"
-						or "#000000"
-					local mantle = vim.g.transparent_enabled and "none"
-						or colors.matrix1_gui
-					vim.api.nvim_set_hl(
-						0,
-						"Normal",
-						{ fg = colors.matrix4_gui, bg = base }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"SignColumn",
-						{ fg = colors.matrix4_gui, bg = base }
-					)
-
-					vim.api.nvim_set_hl(
-						0,
-						"Accent",
-						{ fg = mantle, bg = accent, bold = true }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"AccentInverse",
-						{ fg = accent, bg = mantle, bold = true }
-					)
-
-					vim.api.nvim_set_hl(
-						0,
-						"GitSignsAdd",
-						{ bg = base, fg = colors.matrix4_gui }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"GitSignsAddNr",
-						{ bg = base, fg = colors.matrix4_gui }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"GitSignsChange",
-						{ bg = base, fg = "#26FFE6" }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"GitSignsChangeNr",
-						{ bg = base, fg = "#26FFE6" }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"GitSignsDelete",
-						{ bg = base, fg = colors.matrix11_gui }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"GitSignsDeleteNr",
-						{ bg = base, fg = colors.matrix11_gui }
-					)
-
-					vim.api.nvim_set_hl(
-						0,
-						"WinSeparator",
-						{ bg = base, fg = colors.matrix1_gui }
-					)
-
-					vim.api.nvim_set_hl(
-						0,
-						"BarDiagError",
-						{ fg = colors.matrix11_gui, bg = mantle }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"BarDiagWarn",
-						{ fg = colors.matrix15_gui, bg = mantle }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"BarDiagInfo",
-						{ fg = colors.matrix10_gui, bg = mantle }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"BarDiagHint",
-						{ fg = colors.matrix9_gui, bg = mantle }
-					)
-
-					vim.api.nvim_set_hl(
-						0,
-						"DiagnosticCheck",
-						{ bg = mantle, fg = colors.matrix4_gui }
-					)
-
-					vim.api.nvim_set_hl(
-						0,
-						"IblScope",
-						{ bg = base, fg = colors.matrix6_gui }
-					)
-
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowRed",
-						{ fg = colors.matrix11_gui }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowYellow",
-						{ fg = colors.matrix13_gui }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowBlue",
-						{ fg = colors.matrix7_gui }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowOrange",
-						{ fg = colors.matrix15_gui }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowGreen",
-						{ fg = colors.matrix9_gui }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowViolet",
-						{ fg = colors.matrix12_gui }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"RainbowCyan",
-						{ fg = colors.matrix4_gui }
-					)
-					vim.api.nvim_set_hl(
-						0,
-						"HarpoonInactive",
-						{ link = "Tabline" }
-					)
-					vim.api.nvim_set_hl(0, "HarpoonActive", {
-						fg = colors.matrix0_gui,
-						bg = colors.matrix6_gui,
-						bold = true,
-					})
-					vim.api.nvim_set_hl(0, "HarpoonNumberActive", {
-						fg = colors.matrix0_gui,
-						bg = colors.matrix6_gui,
-						bold = true,
-					})
-					vim.api.nvim_set_hl(
-						0,
-						"HarpoonNumberInactive",
-						{ link = "Tabline" }
-					)
-
-					vim.api.nvim_set_hl(
-						0,
-						"YankFlash",
-						{ fg = colors.matrix0_gui, bg = colors.matrix13_gui }
-					)
+					apply_theme_overrides("matrix")
 				end,
 			})
 		end,
