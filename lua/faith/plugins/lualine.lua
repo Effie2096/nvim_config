@@ -704,11 +704,13 @@ local winbar = {
 						"OverseerList",
 						"undotree",
 						"neo-tree",
+						"help",
 						"qf",
+						"fugitive",
 					}, ft)
 					or contains({ "terminal", "nofile", "quickfix" }, bt)
 				then
-					return ""
+					return "%#DiagnosticCheck# %*"
 				end
 				return total == 0
 						and string.format(
