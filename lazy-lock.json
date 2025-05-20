@@ -91,6 +91,7 @@
   "rustaceanvim": { "branch": "master", "commit": "4b8c2edb55f548ed9c683f88dde2ffb235413b03" },
   "smart-splits.nvim": { "branch": "master", "commit": "fdb4e812b615bbdc94b403a0c0b21c9e0af2cf2a" },
   "smartcolumn.nvim": { "branch": "main", "commit": "92f3773af80d674f1eb61e112dca79e2fa449fd1" },
+  "snacks.nvim": { "branch": "main", "commit": "bc0630e43be5699bb94dadc302c0d21615421d93" },
   "statuscol.nvim": { "branch": "main", "commit": "a2580e009a3b4c51b5978768d907dafae2c919ac" },
   "taboo.vim": { "branch": "master", "commit": "937f67ab9dc2ba1861fabc40ca367e5622c30d36" },
   "tabular": { "branch": "master", "commit": "12437cd1b53488e24936ec4b091c9324cafee311" },
@@ -120,5 +121,6 @@
   "vim-test": { "branch": "master", "commit": "b0c3e13249699a522c8b472ff79eff40d2935476" },
   "visual-whitespace.nvim": { "branch": "main", "commit": "5539f68299827e67b308c79324716c4e43f37450" },
   "windsurf.nvim": { "branch": "main", "commit": "821b570b526dbb05b57aa4ded578b709a704a38a" },
+  "yazi.nvim": { "branch": "main", "commit": "613b256ea9fed51027575d2818e4eba1ad1e3bc7" },
   "zen-mode.nvim": { "branch": "main", "commit": "863f150ca321b3dd8aa1a2b69b5f411a220e144f" }
 }
