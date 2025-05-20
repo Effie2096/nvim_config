@@ -73,4 +73,13 @@ return {
 			vim.g.taboo_tab_format = "%F"
 		end,
 	},
+	{
+		"chrisgrieser/nvim-early-retirement",
+		event = "VeryLazy",
+		opts = {
+			ignoreUnloadedBufs = true,
+			notificationOnAutoClose = true,
+			deleteBufferWhenFileDeleted = true,
+		},
+	},
 }
