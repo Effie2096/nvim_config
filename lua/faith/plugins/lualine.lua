@@ -114,7 +114,7 @@ local lint_progress = {
 		if #linters == 0 then
 			return "%#DiagnosticCheck#󰦕%*"
 		end
-		return "%#BarDiagInfo#󱉶%*"
+		return "%#BarDiagInfo#󱉶 %*"
 			.. table.concat(linters, ", ")
 			.. lint_spinner:update_spinner()
 	end,
