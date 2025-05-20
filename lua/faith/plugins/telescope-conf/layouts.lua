@@ -45,6 +45,16 @@ M.borders = {
 		' ',
 		' '
 	},
+	Edge_borders = {
+		icons.borders.edge_thin.top, -- top
+		icons.borders.edge_thin.right, -- right
+		icons.borders.edge_thin.bottom, -- bottom
+		icons.borders.edge_thin.left, -- left
+		icons.borders.edge_thin.top_left, -- top left
+		icons.borders.edge_thin.top_right, -- top right
+		icons.borders.edge_thin.bottom_right, -- bottom right
+		icons.borders.edge_thin.bottom_left -- bottom left
+	},
 }
 
 M.border_presets = {
@@ -104,6 +114,11 @@ M.border_presets = {
 			icons.borders.square.bottom_right,
 			icons.borders.square.bottom_left,
 		}
+	},
+	Preview_emphasis = {
+		prompt = M.borders.Blank_borders,
+		results = M.borders.Blank_borders,
+		preview = M.borders.Edge_borders
 	}
 }
 
@@ -140,7 +155,11 @@ M.layout_configs = {
 		layout_strategy = 'horizontal',
 		previewer = false,
 		sorting_strategy = 'ascending',
-		borderchars = M.borders.Blank_borders,
+		borderchars = {
+			prompt = M.borders.Blank_borders,
+			results = M.borders.Edge_borders,
+			preview = M.borders.Edge_borders
+		},
 		layout_config = {
 			horizontal = {
 				prompt_position = 'top',
@@ -160,7 +179,7 @@ M.layout_configs = {
 	default_flex = {
 		layout_strategy = 'flex',
 		sorting_strategy = 'ascending',
-		borderchars = M.borders.Blank_borders,
+		borderchars = M.border_presets.Preview_emphasis,
 		layout_config = {
 			prompt_position = 'top',
 			horizontal = {
@@ -181,7 +200,11 @@ M.layout_configs = {
 	default_vert = {
 		layout_strategy = 'vertical',
 		sorting_strategy = 'ascending',
-		borderchars = M.border_presets.Square_borders_vert,
+		borderchars = {
+			prompt = M.borders.Blank_borders,
+			results = M.borders.Edge_borders,
+			preview = M.borders.Edge_borders
+		},
 		layout_config = {
 			vertical = {
 				prompt_position = 'top',
@@ -198,31 +221,49 @@ M.layout_configs = {
 			},
 		}
 	},
-	default_bottom = {
-		layout_strategy = 'horizontal',
-		sorting_strategy = 'ascending',
-		borderchars = M.borders.Blank_borders,
-		layout_config = {
-			horizontal = {
-				prompt_position = 'top',
-				height = function (_, _, lines)
-					if lines > 60 then
-						return 20
-					else
-						return math.floor(lines * 0.25)
-					end
-				end,
-				width = { padding = 0 },
-				preview_width = function (_, cols, _)
-					if cols > 160 then
-						return math.floor(cols * 0.5)
-					else
-						return 80
-					end
-				end
-			}
+	default_bottom = require("telescope.themes").get_ivy( {
+		-- layout_strategy = 'horizontal',
+		-- sorting_strategy = 'ascending',
+		borderchars = {
+			prompt = {
+				icons.borders.edge_thin.top,
+				" ",
+				" ",
+				" ",
+				icons.borders.edge_thin.top,
+				icons.borders.edge_thin.top,
+				" ",
+				" ",
+			},
+			results = M.borders.Blank_borders,
+			preview = {
+				icons.borders.edge_thin.top,
+				" ",
+				icons.borders.edge_thin.bottom,
+				icons.borders.edge_thin.left,
+				icons.borders.edge_thin.top_left,
+				icons.borders.edge_thin.top,
+				" ",
+				icons.borders.edge_thin.bottom_left,
+			},
 		},
-	},
+		layout_config = {
+			height = function (_, _, lines)
+				if lines > 60 then
+					return 10
+				else
+					return math.floor(lines * 0.25)
+				end
+			end,
+			preview_width = function (_, cols, _)
+				if cols > 160 then
+					return math.floor(cols * 0.5)
+				else
+					return 80
+				end
+			end
+		},
+	}),
 	default_cursor = {
 		layout_strategy = 'cursor',
 		borderchars = M.border_presets.Square_borders_alt,
