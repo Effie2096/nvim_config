@@ -364,8 +364,9 @@ local harpoon = {
 							.. "%#HarpoonActive#"
 					else
 						tabline = tabline
-							.. "%#HarpoonNumberInactive#"
+							.. "%#HarpoonSeparator#"
 							.. (i == 1 and " " or icons.separators.bar.left)
+							.. "%#HarpoonNumberInactive#"
 							.. prefix
 							.. key
 							.. " %*"

@@ -701,7 +701,13 @@ local function apply_theme_overrides(theme, scheme)
 		{ fg = telescope_border, bg = telescope_preview_bg }
 	)
 
-	vim.api.nvim_set_hl(0, "HarpoonInactive", { link = "Tabline" })
+	local harpoon_bg = vim.api.nvim_get_hl(0, { name = "Tabline" }).bg
+	vim.api.nvim_set_hl(
+		0,
+		"HarpoonSeparator",
+		{ fg = color_map.accent, bg = harpoon_bg }
+	)
+	vim.api.nvim_set_hl(0, "HarpoonInactive", { bg = harpoon_bg })
 	vim.api.nvim_set_hl(
 		0,
 		"HarpoonActive",
@@ -712,7 +718,7 @@ local function apply_theme_overrides(theme, scheme)
 		"HarpoonNumberActive",
 		{ fg = color_map.bg, bg = color_map.accent, bold = true }
 	)
-	vim.api.nvim_set_hl(0, "HarpoonNumberInactive", { link = "Tabline" })
+	vim.api.nvim_set_hl(0, "HarpoonNumberInactive", { bg = harpoon_bg })
 
 	-- LspInlayHint = { fg = color_map.float, bg = color_map.bg },
 
