@@ -503,6 +503,7 @@ local winbar = {
 						"OverseerList",
 						"undotree",
 						"neo-tree",
+						"oil",
 						"qf",
 					}, ft) or string.match(ft, "dapui") ~= nil
 				then
@@ -590,6 +591,7 @@ local winbar = {
 						"OverseerList",
 						"undotree",
 						"neo-tree",
+						"oil",
 						"qf",
 					}, ft)
 			end,
@@ -653,6 +655,10 @@ local winbar = {
 					name = format_bubble("NeoTree")
 					goto continue
 				end
+				if ft == "oil" then
+					name = format_bubble("Oil")
+					goto continue
+				end
 				if ft == "qf" then
 					name = string.format(
 						"%s %s",
@@ -708,6 +714,7 @@ local winbar = {
 						"help",
 						"qf",
 						"fugitive",
+						"oil",
 					}, ft)
 					or contains({ "terminal", "nofile", "quickfix" }, bt)
 				then

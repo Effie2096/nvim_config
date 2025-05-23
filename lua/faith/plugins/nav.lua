@@ -192,6 +192,7 @@ return {
 				},
 			},
 			filesystem = {
+				hijack_netrw_behavior = "disabled",
 				window = {
 					mappings = {
 						["h"] = function(state)
