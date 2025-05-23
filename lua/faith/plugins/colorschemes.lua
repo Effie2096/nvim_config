@@ -475,7 +475,7 @@ local theme_colormaps = {
 		---@type ColorMap
 		local color_map = {
 			bg = components.bg,
-			bg_light = colors.black,
+			bg_light = components.bg,
 			bg_dark = colors.gray[8],
 			fg = components.fg,
 			fg_light = colors.gray[1],
@@ -536,6 +536,13 @@ local function apply_theme_overrides(theme, scheme)
 		"AccentInverse",
 		{ fg = color_map.accent, bg = color_map.bg_light, bold = true }
 	)
+
+	vim.api.nvim_set_hl(0, "Folded", {
+		fg = color_map.accent,
+		bg = color_map.bg,
+	})
+
+	vim.api.nvim_set_hl(0, "LspInlayHint", { link = "Comment" })
 
 	for _, level in pairs({ "Error", "Warn", "Info", "Hint" }) do
 		vim.api.nvim_set_hl(0, "BarDiag" .. level, {
