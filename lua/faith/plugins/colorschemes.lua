@@ -701,7 +701,7 @@ local function apply_theme_overrides(theme, scheme)
 		{ fg = telescope_border, bg = telescope_preview_bg }
 	)
 
-	local harpoon_bg = vim.api.nvim_get_hl(0, { name = "Tabline" }).bg
+	local harpoon_bg = color_map.bg_light
 	vim.api.nvim_set_hl(
 		0,
 		"HarpoonSeparator",
