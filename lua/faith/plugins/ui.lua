@@ -683,28 +683,31 @@ return {
 					foldcolumn = "0",
 					winbar = "",
 					signcolumn = "yes:3",
+					colorcolumn = "0",
+					cursorline = false,
 				},
 			},
 			plugins = {
 				options = {
 					enabled = true,
-					ruler = false,
+					ruler = true,
 					showcmd = false,
+					laststatus = 0, -- turn off the statusline in zen mode
 				},
 				gitsigns = { enabled = true },
-				twighlight = { enabled = false },
-				todo = { enabled = false }, -- if set to "true", todo-comments.nvim highlights will be disabled
+				twilight = { enabled = false },
+				todo = { enabled = true }, -- if set to "true", todo-comments.nvim highlights will be disabled
 				tmux = { enabled = false }, -- disables the tmux statusline
 				kitty = {
 					enabled = true,
 					font = "+6",
 				},
 				wezterm = {
-					enabled = true,
+					enabled = false,
 					font = "+12",
 				},
 				neovide = {
-					enabled = false,
+					enabled = true,
 					-- Will multiply the current scale factor by this number
 					scale = 1.2,
 					-- disable the Neovide animations while in Zen mode
@@ -720,9 +723,11 @@ return {
 			},
 			on_open = function(_)
 				vim.diagnostic.hide(nil, 0)
+				vim.cmd.ScrollbarHide()
 			end,
 			on_close = function()
 				vim.diagnostic.show(nil, 0)
+				vim.cmd.ScrollbarShow()
 			end,
 		},
 		keys = {
