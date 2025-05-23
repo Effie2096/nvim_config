@@ -135,21 +135,27 @@ M.layout_configs = {
 			width = { padding = 0 },
 			height = { padding = 0 },
 			horizontal = {
+				preview_cutoff = 0,
 				preview_width = function (_, cols, _)
-					--[[ if cols > 200 then
-						return math.floor(cols * 0.5)
-					else
-						return math.floor(cols * 0.3)
-					end ]]
 					return (math.floor(cols * 0.4)) < 70 and math.floor(cols * 0.4) or 100
 				end
 			},
 			vertical = {
 				width = { padding = 0 },
 				height = { padding = 0 },
-				preview_height = 0.5
+				preview_cutoff = 0,
+				preview_height = 0.5,
+				mirror = true,
 			},
-		}
+		},
+		mappings = {
+			i = {
+				["<M-p>"] = require("telescope.actions.layout").toggle_preview,
+			},
+			n = {
+				["<M-p>"] = require("telescope.actions.layout").toggle_preview,
+			},
+		},
 	},
 	centered_compact = {
 		layout_strategy = 'horizontal',
@@ -192,6 +198,17 @@ M.layout_configs = {
 						return 81
 					else
 						return math.floor(cols * 0.4)
+					end
+				end,
+			},
+			vertical = {
+				preview_height = function (_, _, lines)
+					if lines > 200 then
+						return 20
+					elseif lines > 150 then
+						return math.floor(lines * 0.5)
+					else
+						return math.floor(lines * 0.4)
 					end
 				end,
 			},

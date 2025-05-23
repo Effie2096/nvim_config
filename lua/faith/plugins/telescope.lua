@@ -18,6 +18,7 @@ return {
 	config = function()
 		local telescope = require("telescope")
 		telescope.setup({
+			defaults = require("faith.plugins.telescope-conf.layouts").layout_configs.default,
 			extensions = {
 				fzf = {
 					fuzzy = true,
