@@ -80,6 +80,7 @@ return {
 			ignoreUnloadedBufs = true,
 			notificationOnAutoClose = true,
 			deleteBufferWhenFileDeleted = true,
+			ignoreUnsavedChangesBufs = true,
 		},
 	},
 	{
