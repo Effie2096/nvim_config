@@ -43,6 +43,13 @@ local themes = {
 				vim.o.background = "dark"
 			]],
 		},
+		{
+			name = "Midnight",
+			colorscheme = "midnight",
+			before = [[
+				vim.o.background = "dark"
+			]],
+		},
 	},
 
 	-- Light
@@ -458,6 +465,56 @@ local theme_colormaps = {
 			warn = colors.matrix15_gui,
 			info = colors.matrix10_gui,
 			hint = "#008080",
+		}
+
+		return color_map
+	end,
+	["midnight"] = function(_)
+		local colors = require("midnight.colors").palette
+		local components = require("midnight.colors").components
+		---@type ColorMap
+		local color_map = {
+			bg = components.bg,
+			bg_light = colors.black,
+			bg_dark = colors.gray[8],
+			fg = components.fg,
+			fg_light = colors.gray[1],
+			fg_dark = colors.gray[2],
+			float = colors.gray[6],
+			float_light = colors.gray[5],
+			float_dark = colors.gray[7],
+			surface = colors.gray[6],
+			surface_light = colors.gray[5],
+			surface_dark = colors.gray[7],
+			accent = colors.magenta[2],
+			red = colors.red[4],
+			red_light = colors.red[3],
+			red_dark = colors.red[5],
+			green = colors.green[4],
+			green_light = colors.green[3],
+			green_dark = colors.green[5],
+			blue = colors.blue[3],
+			blue_light = colors.blue[2],
+			blue_dark = colors.blue[4],
+			cyan = colors.cyan[3],
+			cyan_light = colors.cyan[2],
+			cyan_dark = colors.cyan[4],
+			pink = colors.magenta[2],
+			pink_light = colors.magenta[1],
+			pink_dark = colors.magenta[2],
+			purple = colors.purple[3],
+			purple_light = colors.purple[2],
+			purple_dark = colors.purple[4],
+			yellow = colors.yellow[2],
+			yellow_light = colors.yellow[1],
+			yellow_dark = colors.yellow[3],
+			orange = colors.orange[2],
+			orange_light = colors.orange[1],
+			orange_dark = colors.orange[3],
+			error = components.error,
+			warn = components.warn,
+			info = components.info,
+			hint = components.hint,
 		}
 
 		return color_map
@@ -1292,6 +1349,19 @@ return {
 				pattern = { "matrix" },
 				callback = function()
 					apply_theme_overrides("matrix")
+				end,
+			})
+		end,
+	},
+	{
+		"dasupradyumna/midnight.nvim",
+		lazy = false,
+		priority = 1000,
+		init = function()
+			vim.api.nvim_create_autocmd("ColorScheme", {
+				pattern = { "midnight" },
+				callback = function()
+					apply_theme_overrides("midnight")
 				end,
 			})
 		end,

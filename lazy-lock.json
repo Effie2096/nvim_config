@@ -43,6 +43,7 @@
   "mason-tool-installer.nvim": { "branch": "main", "commit": "1255518cb067e038a4755f5cb3e980f79b6ab89c" },
   "mason.nvim": { "branch": "main", "commit": "fc98833b6da5de5a9c5b1446ac541577059555be" },
   "matrix-nvim": { "branch": "main", "commit": "5fafe6b440d08c1070e3c4c4cb9d648436d5d867" },
+  "midnight.nvim": { "branch": "main", "commit": "fe062a6f2e5bd77cd8a260f61e6e12789eaf4f13" },
   "monokai-pro.nvim": { "branch": "master", "commit": "31bad737610ec211de086d373c73025f39de93cb" },
   "neo-tree.nvim": { "branch": "v3.x", "commit": "f481de16a0eb59c985abac8985e3f2e2f75b4875" },
   "neoscroll.nvim": { "branch": "master", "commit": "f957373912e88579e26fdaea4735450ff2ef5c9c" },
