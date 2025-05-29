@@ -110,7 +110,7 @@ return {
 	{
 		"MeanderingProgrammer/render-markdown.nvim",
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
-		ft = { "markdown", "vim-plug" },
+		ft = { "markdown", "vim-plug", "Avante" },
 		opts = {
 			file_types = { "markdown", "Avante" },
 			render_modes = { "n", "i", "c" },
@@ -123,7 +123,7 @@ return {
 				-- min_width = 80,
 			},
 			indent = {
-				enabled = true,
+				enabled = false,
 				skip_heading = true,
 				-- icon = " ",
 			},
@@ -172,6 +172,7 @@ return {
 				min_width = 78,
 				left_pad = 2,
 				language_pad = 2,
+				highlight_inline = "",
 			},
 			sign = {
 				-- Turn on / off sign rendering.
