@@ -114,47 +114,84 @@ return {
 					-- Navigation
 					map("n", "]h", function()
 						if vim.wo.diff then
-							return "]h"
-						end
-						vim.schedule(function()
-							gs.next_hunk()
+							vim.cmd.normal({ "]c", bang = true })
+						else
+							gs.nav_hunk("next")
 							vim.cmd("normal! zz")
-						end)
-						return "<Ignore>"
-					end, { expr = true })
+						end
+					end, { desc = "Next hunk" })
 
 					map("n", "[h", function()
 						if vim.wo.diff then
-							return "[h"
-						end
-						vim.schedule(function()
-							gs.prev_hunk()
+							vim.cmd.normal({ "[c", bang = true })
+						else
+							gs.nav_hunk("prev")
 							vim.cmd("normal! zz")
-						end)
-						return "<Ignore>"
-					end, { expr = true })
+						end
+					end, { desc = "Previous hunk" })
 
 					-- Actions
-					map("n", "<leader>hs", gs.stage_hunk)
-					map("n", "<leader>hr", gs.reset_hunk)
+					map(
+						"n",
+						"<leader>hs",
+						gs.stage_hunk,
+						{ desc = "[h]unk [s]tage" }
+					)
+					map(
+						"n",
+						"<leader>hr",
+						gs.reset_hunk,
+						{ desc = "[h]unk [r]eset" }
+					)
 					map("v", "<leader>hs", function()
 						gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-					end)
+					end, { desc = "[h]unk [s]tage" })
 					map("v", "<leader>hr", function()
 						gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-					end)
-					-- map('n', '<leader>hS', gs.stage_buffer)
-					map("n", "<leader>hu", gs.undo_stage_hunk)
-					-- map('n', '<leader>hR', gs.reset_buffer)
-					map("n", "<leader>hp", gs.preview_hunk)
+					end, { desc = "[h]unk [r]eset" })
+					map(
+						"n",
+						"<leader>hS",
+						gs.stage_buffer,
+						{ desc = "[h]unk [S]tage buffer" }
+					)
+					map(
+						"n",
+						"<leader>hu",
+						gs.undo_stage_hunk,
+						{ desc = "[h]unk [u]ndo" }
+					)
+					map(
+						"n",
+						"<leader>hR",
+						gs.reset_buffer,
+						{ desc = "[h]unk [R]eset buffer" }
+					)
+					map(
+						"n",
+						"<leader>hp",
+						gs.preview_hunk,
+						{ desc = "[h]unk [p]review" }
+					)
+					map(
+						"n",
+						"<leader>hi",
+						gs.preview_hunk_inline,
+						{ desc = "[h]unk [i]nline" }
+					)
 					-- map('n', '<leader>hb', function() gs.blame_line{full=true} end)
 					-- map('n', '<leader>tb', gs.toggle_current_line_blame)
-					map("n", "<leader>gd", gs.diffthis)
+					map(
+						"n",
+						"<leader>gd",
+						gs.diffthis,
+						{ desc = "[g]it [d]iff" }
+					)
 					map("n", "<leader>gD", function()
 						gs.diffthis("~")
-					end)
+					end, { desc = "[g]it [D]iff upstream" })
 					-- map('n', '<leader>td', gs.toggle_deleted)
-					map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
+					map({ "o", "x" }, "ih", gs.select_hunk)
 				end,
 			}
 

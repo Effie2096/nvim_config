@@ -1179,6 +1179,26 @@ return {
 		end,
 	},
 	{
+		"folke/which-key.nvim",
+		event = "VeryLazy",
+		opts = {
+			preset = "classic",
+			disable = {
+				ft = { "toggleterm" },
+				bt = { "terminal" },
+			},
+		},
+		keys = {
+			{
+				"<leader>?",
+				function()
+					require("which-key").show({ global = false })
+				end,
+				desc = "Buffer Local Keymaps (which-key)",
+			},
+		},
+	},
+	{
 		"kosayoda/nvim-lightbulb",
 		opts = {
 			hide_in_unfocused_buffer = false,

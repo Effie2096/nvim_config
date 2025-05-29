@@ -52,9 +52,6 @@ nnoremap("<leader>y", '"+y', opts)
 vnoremap("<leader>y", '"+y', opts)
 nnoremap("<leader>Y", '"+Y', opts)
 
-nnoremap("<leader>d", '"_d', opts)
-vnoremap("<leader>d", '"_d', opts)
-
 -- Set working dir to dir of current buffer's file
 nnoremap(
 	"<leader>cd",
