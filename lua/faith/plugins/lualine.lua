@@ -326,13 +326,21 @@ local harpoon = {
 
 		local tabline = ""
 
+		local buf = vim.api.nvim_buf_get_name(0)
+
 		local next = next
 		if next(marks) ~= nil then
 			for i, mark in ipairs(marks) do
-				local is_current = vim.fn.fnamemodify(
-					vim.api.nvim_buf_get_name(0),
-					":p:."
-				) == mark.value
+				local is_current = (
+					(
+						vim.fn.glob(vim.fn.fnamemodify(buf, ":p:.")) -- relative
+						== vim.fn.glob(mark.value)
+					)
+					or (
+						vim.fn.glob(vim.fn.fnamemodify(buf, ":p"))
+						== vim.fn.glob(mark.value)
+					) -- or absolute
+				)
 
 				local label
 				if mark.value == "" or mark.value == "(empty)" then
