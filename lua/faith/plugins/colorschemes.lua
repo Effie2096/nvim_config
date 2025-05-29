@@ -197,9 +197,9 @@ local theme_colormaps = {
 			blue = colors.blue,
 			blue_light = colors.sky,
 			blue_dark = colors.sapphire,
-			cyan = colors.cyan,
-			cyan_light = colors.cyan,
-			cyan_dark = colors.cyan,
+			cyan = colors.teal,
+			cyan_light = colors.teal,
+			cyan_dark = colors.teal,
 			pink = colors.pink,
 			pink_light = colors.rosewater,
 			pink_dark = colors.flamingo,
@@ -214,7 +214,7 @@ local theme_colormaps = {
 			orange_dark = colors.peach,
 			error = colors.red,
 			warn = colors.peach,
-			info = colors.cyan,
+			info = colors.teal,
 			hint = colors.teal,
 		}
 
@@ -279,12 +279,12 @@ local theme_colormaps = {
 			fg = colors.text,
 			fg_light = colors.text,
 			fg_dark = colors.text,
-			float = colors.dimmed1,
-			float_light = colors.dimmed2,
-			float_dark = colors.dimmed3,
-			surface = colors.dimmed4,
-			surface_light = colors.dimmed3,
-			surface_dark = colors.dimmed5,
+			float = colors.dimmed4,
+			float_light = colors.dimmed3,
+			float_dark = colors.dimmed5,
+			surface = colors.dimmed1,
+			surface_light = colors.dimmed2,
+			surface_dark = colors.dimmed3,
 			accent = "#FE64A3",
 			red = colors.accent1,
 			red_light = colors.accent1,
@@ -382,9 +382,9 @@ local theme_colormaps = {
 			float = colors.bg3,
 			float_light = colors.bg4,
 			float_dark = colors.bg2,
-			surface = colors.black.base,
-			surface_light = colors.black.bright,
-			surface_dark = colors.black.dim,
+			surface = colors.bg4,
+			surface_light = colors.bg4,
+			surface_dark = colors.bg3,
 			accent = colors.pink.base,
 			red = colors.red.base,
 			red_light = colors.red.bright,
@@ -475,7 +475,7 @@ local theme_colormaps = {
 		---@type ColorMap
 		local color_map = {
 			bg = components.bg,
-			bg_light = components.bg,
+			bg_light = colors.gray[7],
 			bg_dark = colors.gray[8],
 			fg = components.fg,
 			fg_light = colors.gray[1],
@@ -526,6 +526,10 @@ local function apply_theme_overrides(theme, scheme)
 	local scheme = scheme or ""
 	local color_map = theme_colormaps[theme](scheme)
 
+	local function h(name)
+		return vim.api.nvim_get_hl(0, { name = name })
+	end
+
 	vim.api.nvim_set_hl(
 		0,
 		"Accent",
@@ -537,13 +541,30 @@ local function apply_theme_overrides(theme, scheme)
 		{ fg = color_map.accent, bg = color_map.bg_light, bold = true }
 	)
 
+	vim.api.nvim_set_hl(0, "FoldColumn", {
+		fg = color_map.accent,
+		bg = color_map.bg,
+	})
 	vim.api.nvim_set_hl(0, "Folded", {
 		fg = color_map.accent,
 		bg = color_map.bg,
 	})
 
+	vim.api.nvim_set_hl(0, "NormalFloat", {
+		fg = color_map.fg,
+		bg = color_map.surface_dark,
+	})
+
 	vim.api.nvim_set_hl(0, "LspInlayHint", { link = "Comment" })
 
+	vim.api.nvim_set_hl(0, "StatusLine", {
+		fg = color_map.fg,
+		bg = color_map.bg_light,
+	})
+	vim.api.nvim_set_hl(0, "WinBar", {
+		fg = color_map.fg,
+		bg = color_map.bg_light,
+	})
 	for _, level in pairs({ "Error", "Warn", "Info", "Hint" }) do
 		vim.api.nvim_set_hl(0, "BarDiag" .. level, {
 			fg = color_map[level:gsub("^%L", string.lower)],
@@ -566,7 +587,7 @@ local function apply_theme_overrides(theme, scheme)
 	vim.api.nvim_set_hl(
 		0,
 		"YankFlash",
-		{ fg = color_map.bg, bg = color_map.purple_light }
+		{ fg = color_map.surface_dark, bg = color_map.purple_light }
 	)
 
 	vim.api.nvim_set_hl(
@@ -582,12 +603,12 @@ local function apply_theme_overrides(theme, scheme)
 	vim.api.nvim_set_hl(
 		0,
 		"Heading3",
-		{ fg = color_map.surface_dark, bg = color_map.purple_dark }
+		{ fg = color_map.float_light, bg = color_map.purple_dark }
 	)
 	vim.api.nvim_set_hl(
 		0,
 		"Heading4",
-		{ fg = color_map.surface_dark, bg = color_map.blue_dark }
+		{ fg = color_map.float_light, bg = color_map.blue_dark }
 	)
 	vim.api.nvim_set_hl(
 		0,
@@ -600,31 +621,32 @@ local function apply_theme_overrides(theme, scheme)
 		{ fg = color_map.surface_dark, bg = color_map.red }
 	)
 	vim.api.nvim_set_hl(0, "CodeBlock", { bg = color_map.bg_dark })
+	vim.api.nvim_set_hl(0, "RenderMarkdownCode", { bg = color_map.bg_dark })
 	vim.api.nvim_set_hl(0, "HeadingBullet", { fg = color_map.surface_dark })
 
 	vim.api.nvim_set_hl(0, "RenderMarkdownH1Bg", {
 		bg = color_map.green,
-		fg = color_map.surface_dark,
+		fg = color_map.bg,
 	})
 	vim.api.nvim_set_hl(0, "RenderMarkdownH2Bg", {
 		bg = color_map.orange,
-		fg = color_map.surface_dark,
+		fg = color_map.bg,
 	})
 	vim.api.nvim_set_hl(0, "RenderMarkdownH3Bg", {
 		bg = color_map.purple_dark,
-		fg = color_map.surface_dark,
+		fg = color_map.bg,
 	})
 	vim.api.nvim_set_hl(0, "RenderMarkdownH4Bg", {
 		bg = color_map.blue_dark,
-		fg = color_map.surface_dark,
+		fg = color_map.bg,
 	})
 	vim.api.nvim_set_hl(0, "RenderMarkdownH5Bg", {
 		bg = color_map.yellow,
-		fg = color_map.surface_dark,
+		fg = color_map.bg,
 	})
 	vim.api.nvim_set_hl(0, "RenderMarkdownH6Bg", {
 		bg = color_map.red,
-		fg = color_map.surface_dark,
+		fg = color_map.bg,
 	})
 
 	vim.api.nvim_set_hl(
@@ -634,6 +656,8 @@ local function apply_theme_overrides(theme, scheme)
 	)
 
 	vim.api.nvim_set_hl(0, "IblScope", { fg = color_map.accent })
+	vim.api.nvim_set_hl(0, "IblWhitespace", { fg = h("Comment").fg })
+	vim.api.nvim_set_hl(0, "NonText", { fg = h("Comment").fg })
 
 	vim.api.nvim_set_hl(
 		0,
@@ -657,11 +681,6 @@ local function apply_theme_overrides(theme, scheme)
 	vim.api.nvim_set_hl(0, "RainbowGreen", { fg = color_map.green })
 	vim.api.nvim_set_hl(0, "RainbowViolet", { fg = color_map.purple_dark })
 	vim.api.nvim_set_hl(0, "RainbowCyan", { fg = color_map.green_light })
-	vim.api.nvim_set_hl(
-		0,
-		"ScrollbarCursor",
-		{ fg = color_map.accent, bg = color_map.surface_dark }
-	)
 
 	vim.api.nvim_set_hl(
 		0,
@@ -705,16 +724,17 @@ local function apply_theme_overrides(theme, scheme)
 	)
 
 	-- Telescope
-	local telescope_bg = color_map.surface_dark
+	local telescope_bg = color_map.float
 	local telescope_prompt_bg = color_map.bg_light
 	local telescope_preview_bg = color_map.bg
 	local telescope_border = color_map.accent
 
 	vim.api.nvim_set_hl(
 		0,
-		"TelescopeSelection",
-		{ bg = color_map.surface_light }
+		"TelescopePromptCounter",
+		{ fg = color_map.fg_dark, bg = telescope_prompt_bg }
 	)
+	vim.api.nvim_set_hl(0, "TelescopeSelection", { bg = color_map.float_dark })
 
 	vim.api.nvim_set_hl(
 		0,
@@ -782,9 +802,33 @@ local function apply_theme_overrides(theme, scheme)
 		"HarpoonNumberActive",
 		{ fg = color_map.bg, bg = color_map.accent, bold = true }
 	)
-	vim.api.nvim_set_hl(0, "HarpoonNumberInactive", { bg = harpoon_bg })
+	vim.api.nvim_set_hl(
+		0,
+		"HarpoonNumberInactive",
+		{ bg = harpoon_bg, fg = color_map.accent }
+	)
 
-	-- LspInlayHint = { fg = color_map.float, bg = color_map.bg },
+	local ts_context_bg = color_map.bg
+	local ts_bottom = true
+	vim.api.nvim_set_hl(0, "TreesitterContext", {
+		bg = ts_context_bg,
+	})
+	vim.api.nvim_set_hl(0, "TreesitterContextBottom", {
+		bg = ts_context_bg,
+		sp = color_map.accent,
+		underline = ts_bottom,
+	})
+	vim.api.nvim_set_hl(0, "TreesitterContextSeparator", {
+		bg = ts_context_bg,
+	})
+	vim.api.nvim_set_hl(0, "TreesitterContextLineNumber", {
+		bg = ts_context_bg,
+	})
+	vim.api.nvim_set_hl(0, "TreesitterContextLineNumberBottom", {
+		bg = ts_context_bg,
+		sp = color_map.accent,
+		underline = ts_bottom,
+	})
 
 	vim.api.nvim_set_hl(0, "WinBar", { bg = color_map.bg_light })
 
@@ -920,7 +964,7 @@ local function apply_theme_overrides(theme, scheme)
 	)
 
 	--scrollbar
-	local scroll_handle = color_map.bg_light
+	local scroll_handle = color_map.bg_dark
 	local scroll_norm = color_map.bg
 
 	vim.api.nvim_set_hl(
@@ -1028,6 +1072,34 @@ local function apply_theme_overrides(theme, scheme)
 		"ScrollbarGitDeleteHandle",
 		{ fg = color_map.red, bg = scroll_handle }
 	)
+	vim.api.nvim_set_hl(0, "LightBulbVirtualText", { link = "ColorColumn" })
+
+	vim.api.nvim_set_hl(
+		0,
+		"SymbolUsageRounding",
+		{ fg = h("CursorLine").bg, italic = true }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"SymbolUsageContent",
+		{ bg = h("CursorLine").bg, fg = h("Comment").fg, italic = true }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"SymbolUsageRef",
+		{ fg = h("Function").fg, bg = h("CursorLine").bg, italic = true }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"SymbolUsageDef",
+		{ fg = h("Type").fg, bg = h("CursorLine").bg, italic = true }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"SymbolUsageImpl",
+		{ fg = h("@keyword").fg, bg = h("CursorLine").bg, italic = true }
+	)
+
 	local avante_bg = h("NormalFloat").bg
 	local avante_tit_bg = color_map.accent
 	local avante_tit_fg = color_map.bg
@@ -1214,57 +1286,6 @@ return {
 					strings = "italic",
 					types = "NONE",
 					variables = "NONE",
-				},
-			},
-			groups = {
-				all = {
-					GitSignsAddInline = { fg = "bg1", bg = "palette.green" },
-					GitSignsAddLnInline = {
-						fg = "bg1",
-						bg = "palette.green",
-					},
-					GitSignsChangeInline = {
-						fg = "bg1",
-						bg = "palette.blue",
-					},
-					GitSignsChangeLnInline = {
-						fg = "bg1",
-						bg = "palette.blue",
-					},
-					GitSignsDeleteInline = {
-						fg = "bg1",
-						bg = "palette.red",
-					},
-					GitSignsDeleteLnInline = {
-						fg = "bg1",
-						bg = "palette.red",
-					},
-					GitSignsChange = { fg = "palette.blue", bg = "bg1" },
-					GitSignsChangeNr = { fg = "palette.blue", bg = "bg1" },
-
-					TelescopeNormal = { bg = "bg4" },
-					TelescopeSelection = { bg = "bg3" },
-					TelescopePromptNormal = { bg = "bg3" },
-					TelescopeBorder = {
-						fg = "bg4",
-						bg = "bg4",
-					},
-					TelescopePromptBorder = {
-						fg = "bg3",
-						bg = "bg3",
-					},
-					TelescopePromptTitle = {
-						fg = "fg1",
-						bg = "palette.pink",
-					},
-					TelescopePreviewTitle = {
-						fg = "fg1",
-						bg = "palette.green",
-					},
-					-- LspInlayHint = { fg = colors.overlay1, bg = "bg1" },
-
-					WinBar = { bg = "bg0" },
-					IblScope = { fg = "palette.pink" },
 				},
 			},
 		},
