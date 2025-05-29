@@ -417,17 +417,17 @@ return {
 			cmp.setup({
 				mapping = cmp.mapping.preset.insert({
 					["<C-n>"] = cmp.mapping.select_next_item({
-						behavior = cmp.SelectBehavior.Insert,
+						behavior = cmp.SelectBehavior.Select,
 					}),
 					["<C-p>"] = cmp.mapping.select_prev_item({
-						behavior = cmp.SelectBehavior.Insert,
+						behavior = cmp.SelectBehavior.Select,
 					}),
 					["<C-d>"] = cmp.mapping.scroll_docs(-4),
 					["<C-f>"] = cmp.mapping.scroll_docs(4),
 					["<C-e>"] = cmp.mapping.abort(),
 					["<CR>"] = cmp.mapping.confirm({
 						behavior = cmp.ConfirmBehavior.Replace,
-						select = true,
+						select = false,
 					}, { "i", "c" }),
 					["<c-y>"] = cmp.mapping({
 						i = cmp.mapping.complete(),
