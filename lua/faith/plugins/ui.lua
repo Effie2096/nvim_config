@@ -106,14 +106,10 @@ return {
 				-- Default segments (fold -> sign -> line number + separator), explained below
 				segments = {
 					{
-						text = { require("statuscol.builtin").foldfunc },
-						click = "v:lua.ScFa",
-					},
-					{
 						sign = {
 							name = { ".*" },
 							maxwidth = 4,
-							colwidth = 0,
+							colwidth = 1,
 							auto = true,
 							wrap = false,
 						},
@@ -122,8 +118,9 @@ return {
 					{
 						sign = {
 							namespace = { "diagnostic.signs" },
-							maxwidth = 2,
-							colwidth = 1,
+							text = { "💡", "🔎" },
+							maxwidth = 1,
+							colwidth = 2,
 							auto = false,
 							foldclosed = true,
 						},
@@ -131,9 +128,11 @@ return {
 					},
 					{
 						sign = {
-							name = { "Dap" },
-							maxwidth = 1,
-							colwidth = 0,
+							namespace = { "gitsigns" },
+							maxwidth = 2,
+							colwidth = 2,
+							fillchar = " ",
+							fillcharhl = "SignColumn",
 							auto = true,
 						},
 					},
@@ -146,13 +145,15 @@ return {
 						click = "v:lua.ScLa",
 					},
 					{
+						text = { require("statuscol.builtin").foldfunc },
+						click = "v:lua.ScFa",
+					},
+					{
 						sign = {
-							namespace = { "gitsigns" },
-							maxwidth = 2,
+							name = { "Dap" },
+							maxwidth = 1,
 							colwidth = 2,
-							fillchar = " ",
-							fillcharhl = "WinSeparator",
-							auto = true,
+							auto = false,
 						},
 					},
 				},
@@ -1174,6 +1175,175 @@ return {
 						"AvanteSelectedFiles",
 					},
 				},
+			})
+		end,
+	},
+	{
+		"kosayoda/nvim-lightbulb",
+		opts = {
+			hide_in_unfocused_buffer = false,
+			code_lenses = false,
+			-- Configuration for various handlers:
+			-- 1. Sign column.
+			sign = {
+				enabled = true,
+				-- Text to show in the sign column.
+				-- Must be between 1-2 characters.
+				text = "💡",
+				lens_text = "🔎",
+				-- Highlight group to highlight the sign column text.
+				hl = "LightBulbSign",
+			},
+
+			-- 2. Virtual text.
+			virtual_text = {
+				enabled = false,
+				-- Text to show in the virt_text.
+				text = "💡",
+				lens_text = "🔎",
+				-- Position of virtual text given to |nvim_buf_set_extmark|.
+				-- Can be a number representing a fixed column (see `virt_text_pos`).
+				-- Can be a string representing a position (see `virt_text_win_col`).
+				pos = "eol",
+				-- Highlight group to highlight the virtual text.
+				hl = "LightBulbVirtualText",
+				-- How to combine other highlights with text highlight.
+				-- See `hl_mode` of |nvim_buf_set_extmark|.
+				hl_mode = "combine",
+			},
+
+			-- 3. Floating window.
+			float = {
+				enabled = false,
+				-- Text to show in the floating window.
+				text = "💡",
+				lens_text = "🔎",
+				-- Highlight group to highlight the floating window.
+				hl = "LightBulbFloatWin",
+				-- Window options.
+				-- See |vim.lsp.util.open_floating_preview| and |nvim_open_win|.
+				-- Note that some options may be overridden by |open_floating_preview|.
+				win_opts = {
+					focusable = false,
+				},
+			},
+
+			-- 4. Status text.
+			-- When enabled, will allow using |NvimLightbulb.get_status_text|
+			-- to retrieve the configured text.
+			status_text = {
+				enabled = false,
+				-- Text to set if a lightbulb is available.
+				text = "💡",
+				lens_text = "🔎",
+				-- Text to set if a lightbulb is unavailable.
+				text_unavailable = "",
+			},
+
+			-- 5. Number column.
+			number = {
+				enabled = false,
+				-- Highlight group to highlight the number column if there is a lightbulb.
+				hl = "LightBulbNumber",
+			},
+
+			-- 6. Content line.
+			line = {
+				enabled = false,
+				-- Highlight group to highlight the line if there is a lightbulb.
+				hl = "LightBulbLine",
+			},
+			autocmd = {
+				-- Whether or not to enable autocmd creation.
+				enabled = true,
+				-- See |updatetime|.
+				-- Set to a negative value to avoid setting the updatetime.
+				updatetime = -1,
+				-- See |nvim_create_autocmd|.
+				events = { "CursorHold", "CursorHoldI" },
+				-- See |nvim_create_autocmd| and |autocmd-pattern|.
+				pattern = { "*" },
+			},
+		},
+	},
+	{
+		"Wansmer/symbol-usage.nvim",
+		event = "LspAttach", -- need run before LspAttach if you use nvim 0.9. On 0.10 use 'LspAttach'
+		config = function()
+			local function text_format(symbol)
+				local res = {}
+
+				local round_start = {
+					require("faith.icons").separators.rounded.right,
+					"SymbolUsageRounding",
+				}
+				local round_end = {
+					require("faith.icons").separators.rounded.left,
+					"SymbolUsageRounding",
+				}
+
+				-- Indicator that shows if there are any other symbols in the same line
+				local stacked_functions_content = symbol.stacked_count > 0
+						and ("+%s"):format(symbol.stacked_count)
+					or ""
+
+				if symbol.references then
+					local usage = symbol.references <= 1 and "usage" or "usages"
+					local num = symbol.references == 0 and "no"
+						or symbol.references
+					table.insert(res, round_start)
+					table.insert(res, { "󰌹 ", "SymbolUsageRef" })
+					table.insert(
+						res,
+						{ ("%s %s"):format(num, usage), "SymbolUsageContent" }
+					)
+					table.insert(res, round_end)
+				end
+
+				if symbol.definition then
+					if #res > 0 then
+						table.insert(res, { " ", "NonText" })
+					end
+					table.insert(res, round_start)
+					table.insert(res, { "󰳽 ", "SymbolUsageDef" })
+					table.insert(
+						res,
+						{ symbol.definition .. " defs", "SymbolUsageContent" }
+					)
+					table.insert(res, round_end)
+				end
+
+				if symbol.implementation then
+					if #res > 0 then
+						table.insert(res, { " ", "NonText" })
+					end
+					table.insert(res, round_start)
+					table.insert(res, { "󰡱 ", "SymbolUsageImpl" })
+					table.insert(res, {
+						symbol.implementation .. " impls",
+						"SymbolUsageContent",
+					})
+					table.insert(res, round_end)
+				end
+
+				if stacked_functions_content ~= "" then
+					if #res > 0 then
+						table.insert(res, { " ", "NonText" })
+					end
+					table.insert(res, round_start)
+					table.insert(res, { " ", "SymbolUsageImpl" })
+					table.insert(
+						res,
+						{ stacked_functions_content, "SymbolUsageContent" }
+					)
+					table.insert(res, round_end)
+				end
+
+				return res
+			end
+
+			require("symbol-usage").setup({
+				text_format = text_format,
 			})
 		end,
 	},
