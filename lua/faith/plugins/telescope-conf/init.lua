@@ -179,6 +179,11 @@ function M.commands()
 	require("telescope.builtin").commands(opts)
 end
 
+function M.quickfix()
+	local opts = vim.deepcopy(layouts.default_bottom) or {}
+	require("telescope.builtin").quickfix(opts)
+end
+
 return setmetatable({}, {
 	__index = function(_, k)
 		reloader()

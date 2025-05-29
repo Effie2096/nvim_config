@@ -47,6 +47,7 @@ map_tele("<leader>fi", "spell_suggest")
 map_tele("<leader>fd", "diagnostics")
 map_tele("<leader>fm", "harpoon")
 map_tele("<leader>;", "commands")
+map_tele("<leader>fq", "quickfix")
 
 -- extensions
 map_tele("<leader>ft", "todo")
