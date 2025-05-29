@@ -86,10 +86,19 @@ return {
 	},
 	"godlygeek/tabular",
 	{
-		"dhruvasagar/vim-table-mode",
-		init = function()
-			vim.g.table_mode_corner = "|"
-		end,
+		"Kicamon/markdown-table-mode.nvim",
+		cmd = "Mtm",
+		opts = {
+			filetype = {
+				"*.md",
+			},
+			options = {
+				insert = true, -- when typing "|"
+				insert_leave = true, -- when leaving insert
+				pad_separator_line = false, -- add space in separator line
+				alig_style = "default", -- default, left, center, right
+			},
+		},
 	},
 	{
 		"iamcco/markdown-preview.nvim",
@@ -322,12 +331,6 @@ return {
 		"luizribeiro/vim-cooklang",
 		enabled = false,
 		ft = "cook",
-	},
-	{
-		"dhruvasagar/vim-table-mode",
-		init = function()
-			vim.g.table_mode_corner = "|"
-		end,
 	},
 	{
 		"epwalsh/obsidian.nvim",
