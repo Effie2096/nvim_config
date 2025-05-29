@@ -1,6 +1,8 @@
 return {
-	"tpope/vim-sleuth",
-	"szw/vim-maximizer",
+	{
+		"tpope/vim-sleuth",
+		enabled = false,
+	},
 	"tpope/vim-abolish",
 	"kevinhwang91/promise-async",
 }
