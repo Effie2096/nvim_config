@@ -74,16 +74,6 @@ return {
 		end,
 	},
 	{
-		"chrisgrieser/nvim-early-retirement",
-		event = "VeryLazy",
-		opts = {
-			ignoreUnloadedBufs = true,
-			notificationOnAutoClose = true,
-			deleteBufferWhenFileDeleted = true,
-			ignoreUnsavedChangesBufs = true,
-		},
-	},
-	{
 		"chrisgrieser/nvim-origami",
 		event = "VeryLazy",
 		opts = {
