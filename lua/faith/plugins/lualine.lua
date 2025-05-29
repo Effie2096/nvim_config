@@ -291,6 +291,11 @@ local tabs = {
 	"tabs",
 	mode = 2,
 	max_length = vim.o.columns / 2,
+	tabs_color = {
+		-- Same values as the general color option can be used here.
+		active = "TabLineSel", -- Color for active tab.
+		inactive = "TabLine", -- Color for inactive tab.
+	},
 	fmt = function(name, context)
 		local tab_dir =
 			vim.fn.fnamemodify(vim.fn.getcwd(-1, context.tabnr), ":t")
@@ -300,6 +305,7 @@ local tabs = {
 		if vim.fn.exists("g:loaded_taboo") then
 			title = vim.fn.TabooTabTitle(context.tabnr)
 		end
+
 		return string.format("%s%s", show_dir and tab_dir .. ": " or "", title)
 	end,
 	cond = function()
@@ -841,9 +847,10 @@ return {
 				inactive_winbar = winbar,
 				tabline = {
 					-- lualine_a = { root },
-					lualine_c = { tabs },
-					lualine_x = { harpoon },
+					-- lualine_a = { tabs },
+					-- lualine_x = { harpoon },
 				},
+				inactive_tablines = {},
 				extensions = {
 					"fugitive",
 					"nvim-dap-ui",

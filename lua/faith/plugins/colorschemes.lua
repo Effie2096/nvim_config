@@ -1072,6 +1072,32 @@ local function apply_theme_overrides(theme, scheme)
 		{ fg = avante_ter_bg, bg = avante_bg }
 	)
 
+	local tab_active_fg = color_map.fg_dark
+	local tab_active_bg = color_map.accent
+	local tab_inactive_fg = color_map.fg_dark
+	local tab_inactive_bg = color_map.surface_dark
+	vim.api.nvim_set_hl(
+		0,
+		"TabLine",
+		{ fg = tab_inactive_fg, bg = tab_inactive_bg, sp = tab_active_bg }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"TabLineSep",
+		{ fg = tab_inactive_bg, bg = tab_inactive_fg }
+	)
+	vim.api.nvim_set_hl(0, "TabLineSel", {
+		fg = tab_active_fg,
+		bg = tab_active_bg,
+		sp = color_map.accent,
+		underline = true,
+	})
+	vim.api.nvim_set_hl(0, "TabLineSelSep", {
+		fg = tab_active_bg,
+		bg = tab_active_fg,
+		sp = color_map.accent,
+		underline = true,
+	})
 end
 
 vim.api.nvim_create_autocmd("ColorScheme", {
@@ -1087,6 +1113,7 @@ return {
 	{
 		"zaldih/themery.nvim",
 		lazy = false,
+		priority = 1000,
 		config = function()
 			require("themery").setup({
 				themes = vim.list_extend(
