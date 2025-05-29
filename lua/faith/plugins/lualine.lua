@@ -505,6 +505,8 @@ local winbar = {
 						"neo-tree",
 						"oil",
 						"qf",
+						"AvanteInput",
+						"AvanteSelectedFiles",
 					}, ft) or string.match(ft, "dapui") ~= nil
 				then
 					return " "
@@ -572,6 +574,9 @@ local winbar = {
 				if ft == "undotree" then
 					str = "%#DiagnosticCheck#" .. icons.ui.Undo .. "%*"
 				end
+				if ft == "Avante" then
+					str = icons.ui.Chat
+				end
 				if ft == "neo-tree" or ft == "qf" then
 					str = ""
 				end
@@ -593,6 +598,8 @@ local winbar = {
 						"neo-tree",
 						"oil",
 						"qf",
+						"AvanteInput",
+						"AvanteSelectedFiles",
 					}, ft)
 			end,
 		},
@@ -659,6 +666,18 @@ local winbar = {
 					name = format_bubble("Oil")
 					goto continue
 				end
+				if ft == "Avante" then
+					name = format_bubble("Avante")
+					goto continue
+				end
+				if ft == "AvanteSelectedFiles" then
+					name = format_bubble("Context")
+					goto continue
+				end
+				if ft == "AvanteInput" then
+					name = format_bubble("Ask Avante")
+					goto continue
+				end
 				if ft == "qf" then
 					name = string.format(
 						"%s %s",
@@ -715,6 +734,9 @@ local winbar = {
 						"qf",
 						"fugitive",
 						"oil",
+						"Avante",
+						"AvanteSelectedFiles",
+						"AvanteInput",
 					}, ft)
 					or contains({ "terminal", "nofile", "quickfix" }, bt)
 				then
@@ -763,6 +785,13 @@ return {
 						statusline = 100,
 						tabline = 100,
 						winbar = 100,
+					},
+					disabled_filetypes = {
+						winbar = {
+							"Avante",
+							"AvanteInput",
+							"AvanteSelectedFiles",
+						},
 					},
 					-- disabled_filetypes = {
 					-- 	statusline = {},

@@ -1028,6 +1028,50 @@ local function apply_theme_overrides(theme, scheme)
 		"ScrollbarGitDeleteHandle",
 		{ fg = color_map.red, bg = scroll_handle }
 	)
+	local avante_bg = h("NormalFloat").bg
+	local avante_tit_bg = color_map.accent
+	local avante_tit_fg = color_map.bg
+	local avante_sub_bg = color_map.cyan
+	local avante_ter_bg = color_map.green
+
+	vim.api.nvim_set_hl(
+		0,
+		"AvantePromptInput",
+		{ fg = color_map.accent, bg = avante_bg }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"AvanteTitle",
+		{ fg = avante_tit_fg, bg = avante_tit_bg }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"AvanteReversedTitle",
+		{ fg = avante_tit_bg, bg = avante_bg }
+	)
+
+	vim.api.nvim_set_hl(
+		0,
+		"AvanteSubtitle",
+		{ fg = avante_tit_fg, bg = avante_sub_bg }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"AvanteReversedSubtitle",
+		{ fg = avante_sub_bg, bg = avante_bg }
+	)
+
+	vim.api.nvim_set_hl(
+		0,
+		"AvanteThirdTitle",
+		{ fg = avante_tit_fg, bg = avante_ter_bg }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"AvanteReversedThirdTitle",
+		{ fg = avante_ter_bg, bg = avante_bg }
+	)
+
 end
 
 vim.api.nvim_create_autocmd("ColorScheme", {

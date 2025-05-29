@@ -51,6 +51,9 @@ return {
 				exclude = {
 					filetypes = {
 						"fugitive",
+						"Avante",
+						"AvanteSelectedFiles",
+						"AvanteInput",
 					},
 				},
 				indent = {
@@ -92,6 +95,9 @@ return {
 					"undotree",
 					"Outline",
 					"neo-tree",
+					"Avante",
+					"AvanteSelectedFiles",
+					"AvanteInput",
 				},
 				bt_ignore = { "terminal", "nofile" },
 				thousands = false, -- or line number thousands separator string ("." / ",")

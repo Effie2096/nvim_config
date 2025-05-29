@@ -147,6 +147,7 @@ local icons = {
 		Dashboard = " ",
 		History = " ",
 		Comment = " ",
+		Chat = "󰭹 ",
 		Bug = " ",
 		Code = " ",
 		Telescope = " ",
