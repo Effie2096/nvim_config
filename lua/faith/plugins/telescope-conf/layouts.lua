@@ -178,7 +178,13 @@ M.layout_configs = {
 						return math.floor(cols * 0.8)
 					end
 				end,
-				height = 0.4,
+				height = function(_, _, lines)
+					if lines > 40 then
+						return math.floor(lines * 0.4)
+					else
+						return math.floor(lines * 0.8)
+					end
+				end,
 			}
 		},
 	},
@@ -188,6 +194,8 @@ M.layout_configs = {
 		borderchars = M.border_presets.Preview_emphasis,
 		layout_config = {
 			prompt_position = 'top',
+			flip_columns = 180,
+			flip_lines = 50,
 			horizontal = {
 				preview_width = function (_, cols, _)
 					if cols > 250 then

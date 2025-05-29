@@ -225,7 +225,6 @@ local asyncrun_status = {
 
 local git = {
 	"b:gitsigns_head",
-	color = "lualine_a_normal",
 	icon = { icons.git.Branch, align = "left" },
 }
 
@@ -621,7 +620,7 @@ local winbar = {
 			"filename",
 			file_status = true, -- Displays file status (readonly status, modified status)
 			newfile_status = true, -- Display new file status (new file means no write after created)
-			path = 4, -- 0: Just the filename
+			path = 1, -- 0: Just the filename
 			-- 1: Relative path
 			-- 2: Absolute path
 			-- 3: Absolute path, with tilde as the home directory
@@ -820,13 +819,13 @@ return {
 					-- },
 				},
 				sections = {
-					lualine_a = { git },
-					lualine_b = {
+					lualine_a = {},
+					lualine_b = {},
+					lualine_c = {
+						git,
 						obsession,
 						workspace_diagnostics,
 						git_conflict,
-					},
-					lualine_c = {
 						language_server,
 						lint_progress,
 						windsurf,
@@ -835,13 +834,13 @@ return {
 					},
 					lualine_x = {
 						show_macro_recording,
-						location,
+						-- location,
 						"SleuthIndicator",
 						fileformat,
 						encoding,
 					},
-					lualine_y = { format_on_save },
-					lualine_z = trans_flag,
+					lualine_y = {},
+					lualine_z = {},
 				},
 				inactive_sections = {
 					lualine_a = {},
