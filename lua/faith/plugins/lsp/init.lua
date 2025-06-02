@@ -515,15 +515,12 @@ return {
 				select = false,
 			}, ]]
 				experimental = {
-					native_menu = false,
-					ghost_text = true,
+					ghost_text = false,
 				},
 				view = {
-					entries = {
-						name = "custom",
-						selection_order = "near_cursor",
-						follow_cursor = true,
-					},
+					name = "custom",
+					selection_order = "top_down",
+					follow_cursor = true,
 				},
 				window = {
 					completion = {

@@ -2,6 +2,7 @@ local icons = require("faith.icons")
 return {
 	{
 		"Exafunction/windsurf.nvim",
+		-- enabled = false,
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"hrsh7th/nvim-cmp",
@@ -72,7 +73,10 @@ return {
 			},
 			windows = {
 				sidebar_header = {
-					enabled = false,
+					enabled = true,
+				},
+				input = {
+					prefix = icons.ui.Prompt,
 				},
 			},
 		},
@@ -85,7 +89,7 @@ return {
 		-- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter",
-			"stevearc/dressing.nvim",
+			-- "stevearc/dressing.nvim",
 			"nvim-lua/plenary.nvim",
 			"MunifTanjim/nui.nvim",
 			"nvim-telescope/telescope.nvim", -- for file_selector provider telescope
@@ -93,7 +97,23 @@ return {
 			"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
 			{
 				"zbirenbaum/copilot.lua", -- for providers='copilot'
-				opts = {},
+				opts = {
+					suggestion = {
+						enabled = true,
+						auto_trigger = false,
+						hide_during_completion = true,
+						debounce = 75,
+						trigger_on_accept = true,
+						keymap = {
+							accept = false,
+							accept_word = false,
+							accept_line = false,
+							next = false,
+							prev = false,
+							dismiss = false,
+						},
+					},
+				},
 			},
 			{
 				-- support for image pasting
@@ -112,14 +132,8 @@ return {
 					},
 				},
 			},
-			{
-				-- Make sure to set this up properly if you have lazy=true
-				"MeanderingProgrammer/render-markdown.nvim",
-				opts = {
-					file_types = { "markdown", "Avante" },
-				},
-				ft = { "markdown", "Avante" },
-			},
+			-- Make sure to set this up properly if you have lazy=true
+			"MeanderingProgrammer/render-markdown.nvim",
 		},
 	},
 }

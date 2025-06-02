@@ -47,7 +47,7 @@ return { -- Autoformat
 	init = function()
 		vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 
-		vim.keymap.set({ "n", "v" }, "<M>f", function()
+		vim.keymap.set({ "n", "v" }, "<M-f>", function()
 			require("conform").format({
 				async = true,
 				lsp_format = "fallback",
