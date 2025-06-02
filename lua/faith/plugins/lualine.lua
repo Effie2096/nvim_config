@@ -619,6 +619,90 @@ local function format_bubble(str)
 	)
 end
 
+local winbar_ignore = {
+	"Avante",
+	"AvanteInput",
+	"AvanteSelectedFiles",
+	"DiffviewFiles",
+	"Outline",
+	"OverseerList",
+	"dap-repl",
+	"dapui_breakpoints",
+	"dapui_console",
+	"dapui_scopes",
+	"dapui_stacks",
+	"dapui_watches",
+	"fugitive",
+	"help",
+	"neo-tree",
+	"oil",
+	"qf",
+	"undotree",
+}
+
+local winbar_ft_icons = {
+	dapui_watches = {
+		hl = "DAPUIWatchesValue",
+		icon = icons.ui.Watches,
+	},
+	dapui_breakpoints = {
+		hl = "DapBreakpoint",
+		icon = icons.ui.Bug,
+	},
+	dapui_stacks = {
+		hl = "DAPUISource",
+		icon = icons.ui.Stacks,
+	},
+	dapui_scopes = {
+		hl = "DAPUIScope",
+		icon = icons.ui.Scopes,
+	},
+	["dap-repl"] = {
+		icon = icons.ui.Repeat,
+	},
+	DiffviewFiles = {
+		icon = icons.git.Diff,
+	},
+	Outline = {
+		icon = icons.ui.BulletList,
+	},
+	trouble = {
+		icon = " ",
+	},
+	toggleterm = {
+		hl = "DiagnosticCheck",
+		icon = icons.ui.Term,
+	},
+	OverseerList = {
+		hl = "DiagnosticCheck",
+		icon = icons.ui.StatusList,
+	},
+	undotree = {
+		hl = "DiagnosticCheck",
+		icon = icons.ui.Undo,
+	},
+	Avante = {
+		icon = icons.ui.Chat,
+	},
+	["neo-tree"] = {
+		icon = "",
+	},
+	qf = {
+		icon = "",
+	},
+	dapui_console = {
+		hl = "DevIconTerminal",
+		icon = require("nvim-web-devicons").get_icon_by_filetype(
+			"terminal",
+			{}
+		),
+	},
+	fugitive = {
+		hl = "DevIconGit",
+		icon = require("nvim-web-devicons").get_icon_by_filetype("git", {}),
+	},
+}
+
 local winbar = {
 	lualine_a = {
 		{
@@ -636,20 +720,7 @@ local winbar = {
 			padding = { left = 0, right = 0 },
 			fmt = function(str)
 				local ft = vim.bo.filetype
-				if
-					contains({
-						"dap-repl",
-						"DiffviewFiles",
-						"Outline",
-						"OverseerList",
-						"undotree",
-						"neo-tree",
-						"oil",
-						"qf",
-						"AvanteInput",
-						"AvanteSelectedFiles",
-					}, ft) or string.match(ft, "dapui") ~= nil
-				then
+				if contains(winbar_ignore, ft) then
 					return " "
 				end
 				return trunc(str, 10, 0, 5, true)
@@ -666,82 +737,20 @@ local winbar = {
 			separator = { left = "", right = "" },
 			fmt = function(str)
 				local ft = vim.bo.filetype
-				if ft == "dapui_watches" then
-					str = "%#DAPUIWatchesValue#" .. icons.ui.Watches .. "%*"
-				end
-				if ft == "dapui_breakpoints" then
-					str = "%#DapBreakpoint#" .. icons.ui.Bug .. "%*"
-				end
-				if ft == "dapui_console" then
-					str = "%#DevIconTerminal#"
-						.. require("nvim-web-devicons").get_icon_by_filetype(
-							"terminal",
-							{}
-						)
-						.. " %*"
-				end
-				if ft == "dapui_stacks" then
-					str = "%#DAPUISource#" .. icons.ui.Stacks .. "%*"
-				end
-				if ft == "dapui_scopes" then
-					str = "%#DAPUIScope#" .. icons.ui.Scopes .. " %*"
-				end
-				if ft == "dap-repl" then
-					str = icons.ui.Repeat .. "%*"
-				end
-				if ft == "DiffviewFiles" then
-					str = icons.git.Diff .. "%*"
-				end
-				if ft == "Outline" then
-					str = icons.ui.BulletList .. "%*"
-				end
-				if ft == "trouble" then
-					str = " "
-				end
-				if ft == "toggleterm" then
-					str = "%#DiagnosticCheck#" .. icons.ui.Term .. "%*"
-				end
-				if ft == "fugitive" then
-					str = "%#DevIconGit#"
-						.. require("nvim-web-devicons").get_icon_by_filetype(
-							"git",
-							{}
-						)
-						.. " %*"
-				end
-				if ft == "OverseerList" then
-					str = "%#DiagnosticCheck#" .. icons.ui.StatusList .. "%*"
-				end
-				if ft == "undotree" then
-					str = "%#DiagnosticCheck#" .. icons.ui.Undo .. "%*"
-				end
-				if ft == "Avante" then
-					str = icons.ui.Chat
-				end
-				if ft == "neo-tree" or ft == "qf" then
-					str = ""
+
+				if contains(winbar_ignore, ft) then
+					local ico = winbar_ft_icons[ft]
+					str = string.format(
+						"%s%s%%*",
+						(string.format("%%#%s#", ico.hl) or ""),
+						(ico.icon or "")
+					)
 				end
 
 				return trunc(str, 10, 0, 5, true)
 			end,
 			cond = function()
-				local ft = vim.bo.filetype
-				return string.match(ft, "dapui") == nil
-					and not contains({
-						"dap-repl",
-						"DiffviewFiles",
-						"Outline",
-						"trouble",
-						"toggleterm",
-						"fugitive",
-						"OverseerList",
-						"undotree",
-						"neo-tree",
-						"oil",
-						"qf",
-						"AvanteInput",
-						"AvanteSelectedFiles",
-					}, ft)
+				return not contains(winbar_ignore, vim.bo.filetype)
 			end,
 		},
 		{
@@ -836,6 +845,19 @@ local winbar = {
 			end,
 		},
 	},
+	lualine_x = {
+		"SleuthIndicator",
+		vim.tbl_extend("force", fileformat, {
+			cond = function()
+				return not contains(winbar_ignore, vim.bo.filetype)
+			end,
+		}),
+		vim.tbl_extend("force", encoding, {
+			cond = function()
+				return not contains(winbar_ignore, vim.bo.filetype)
+			end,
+		}),
+	},
 	lualine_y = {
 		{
 			"diagnostics",
@@ -864,21 +886,7 @@ local winbar = {
 				end
 
 				if
-					string.match(ft, "dapui") ~= nil
-					or contains({
-						"dap-repl",
-						"Outline",
-						"OverseerList",
-						"undotree",
-						"neo-tree",
-						"help",
-						"qf",
-						"fugitive",
-						"oil",
-						"Avante",
-						"AvanteSelectedFiles",
-						"AvanteInput",
-					}, ft)
+					contains(winbar_ignore, ft)
 					or contains({ "terminal", "nofile", "quickfix" }, bt)
 				then
 					return "%#DiagnosticCheck# %*"
