@@ -10,7 +10,8 @@ end
 
 M = {}
 
-local layouts = require("faith.plugins.telescope-conf.layouts").layout_configs
+local configs = require("faith.plugins.telescope-conf.layouts")
+local layouts = configs.layout_configs
 
 local function merge_ext_options(local_options, ext_options)
 	return vim.tbl_deep_extend("force", local_options, ext_options)
@@ -39,8 +40,28 @@ function M.project_files()
 	require("telescope.builtin").find_files(opts)
 end
 
+local buffers_maps = function(_, map)
+	map("i", "<c-d>", require("telescope.actions").delete_buffer)
+	map("n", "d", require("telescope.actions").delete_buffer)
+end
+
+function M.scope_buffers()
+	local opts = vim.deepcopy(layouts.centered_compact) or {}
+	opts = vim.tbl_deep_extend("force", opts, {
+		attach_mappings = require("faith.plugins.telescope-conf.layouts").attach_mappings_with_defaults(
+			buffers_maps
+		),
+	})
+	require("telescope._extensions.scope").exports.buffers(opts)
+end
+
 function M.buffers()
 	local opts = vim.deepcopy(layouts.centered_compact) or {}
+	opts = vim.tbl_deep_extend("force", opts, {
+		attach_mappings = require("faith.plugins.telescope-conf.layouts").attach_mappings_with_defaults(
+			buffers_maps
+		),
+	})
 	require("telescope.builtin").buffers(opts)
 end
 

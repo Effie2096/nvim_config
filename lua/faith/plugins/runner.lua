@@ -87,7 +87,7 @@ return {
 				end
 				return { size = size, direction = direction }
 			end
-			vim.keymap.set("n", "<c-t>", function()
+			vim.keymap.set("n", "<c-\\>", function()
 				local opts = term_opts()
 				vim.api.nvim_cmd({
 					cmd = "ToggleTerm",
@@ -98,7 +98,7 @@ return {
 					count = 1,
 				}, { output = false })
 			end)
-			vim.keymap.set("i", "<c-t>", function()
+			vim.keymap.set("i", "<c-\\>", function()
 				local opts = term_opts()
 				vim.api.nvim_cmd({
 					cmd = "ToggleTerm",

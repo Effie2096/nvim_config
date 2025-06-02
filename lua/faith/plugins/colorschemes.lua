@@ -682,6 +682,7 @@ local function apply_theme_overrides(theme, scheme)
 	vim.api.nvim_set_hl(0, "RainbowViolet", { fg = color_map.purple_dark })
 	vim.api.nvim_set_hl(0, "RainbowCyan", { fg = color_map.green_light })
 
+	vim.api.nvim_set_hl(0, "BranchIndicator", { fg = color_map.blue })
 	vim.api.nvim_set_hl(
 		0,
 		"GitSignsAddInline",
@@ -783,29 +784,6 @@ local function apply_theme_overrides(theme, scheme)
 		0,
 		"TelescopePreviewBorder",
 		{ fg = telescope_border, bg = telescope_preview_bg }
-	)
-
-	local harpoon_bg = color_map.bg_light
-	vim.api.nvim_set_hl(
-		0,
-		"HarpoonSeparator",
-		{ fg = color_map.accent, bg = harpoon_bg }
-	)
-	vim.api.nvim_set_hl(0, "HarpoonInactive", { bg = harpoon_bg })
-	vim.api.nvim_set_hl(
-		0,
-		"HarpoonActive",
-		{ fg = color_map.bg, bg = color_map.accent, bold = true }
-	)
-	vim.api.nvim_set_hl(
-		0,
-		"HarpoonNumberActive",
-		{ fg = color_map.bg, bg = color_map.accent, bold = true }
-	)
-	vim.api.nvim_set_hl(
-		0,
-		"HarpoonNumberInactive",
-		{ bg = harpoon_bg, fg = color_map.accent }
 	)
 
 	local ts_context_bg = color_map.bg
@@ -1144,9 +1122,9 @@ local function apply_theme_overrides(theme, scheme)
 		{ fg = avante_ter_bg, bg = avante_bg }
 	)
 
-	local tab_active_fg = color_map.fg_dark
+	local tab_active_fg = color_map.bg
 	local tab_active_bg = color_map.accent
-	local tab_inactive_fg = color_map.fg_dark
+	local tab_inactive_fg = color_map.fg
 	local tab_inactive_bg = color_map.surface_dark
 	vim.api.nvim_set_hl(
 		0,
@@ -1170,6 +1148,28 @@ local function apply_theme_overrides(theme, scheme)
 		sp = color_map.accent,
 		underline = true,
 	})
+
+	vim.api.nvim_set_hl(
+		0,
+		"HarpoonSeparator",
+		{ fg = color_map.accent, bg = tab_inactive_bg }
+	)
+	vim.api.nvim_set_hl(0, "HarpoonInactive", { bg = tab_inactive_bg })
+	vim.api.nvim_set_hl(
+		0,
+		"HarpoonActive",
+		{ fg = tab_active_fg, bg = tab_active_bg, bold = true }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"HarpoonNumberActive",
+		{ fg = tab_active_fg, bg = tab_active_bg, bold = true }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"HarpoonNumberInactive",
+		{ bg = tab_inactive_bg, fg = color_map.accent }
+	)
 end
 
 vim.api.nvim_create_autocmd("ColorScheme", {
@@ -1468,11 +1468,13 @@ return {
 	{
 		"xiyaowong/nvim-transparent",
 		opts = function()
+			require("transparent").clear_prefix("lualine_c")
 			-- require("transparent").clear_prefix("lualine_c_filetype_DevIcon")
-			-- require("transparent").clear_prefix("lualine_c_overseer")
 			local opts = {
 				exclude_groups = {
 					"Accent",
+					"TabLineSel",
+					"TabLineSelSep",
 				},
 				extra_groups = {
 					"NormalFloat",
@@ -1480,6 +1482,12 @@ return {
 					"NvimTreeWinSeparator",
 
 					"WinBar",
+					"TabLine",
+					"TabLineSep",
+
+					"HarpoonSeparator",
+					"HarpoonInactive",
+					"HarpoonNumberInactive",
 
 					"AccentInverse",
 

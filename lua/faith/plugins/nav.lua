@@ -5,8 +5,34 @@ return {
 		branch = "harpoon2",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
+			local Path = require("plenary.path")
 			local harpoon = require("harpoon")
 			harpoon:setup()
+
+			local add_to_tab = function(name)
+				name = name
+					or Path:new(
+						vim.api.nvim_buf_get_name(
+							vim.api.nvim_get_current_buf()
+						)
+					):make_relative()
+				return {
+					value = name,
+					context = { tab = vim.api.nvim_get_current_tabpage() },
+				}
+			end
+
+			local tab_lists = {}
+			for i = 1, 100 do
+				tab_lists["tab" .. i] = {
+					add = function(possible_value)
+						return add_to_tab(possible_value)
+					end,
+				}
+			end
+
+			harpoon:setup(tab_lists)
+
 			local harpoon_extensions = require("harpoon.extensions")
 			harpoon:extend(harpoon_extensions.builtins.highlight_current_file())
 			harpoon:extend({
@@ -25,36 +51,124 @@ return {
 				end,
 			})
 
+			vim.api.nvim_create_autocmd("TabClosed", {
+				callback = function(args)
+					require("harpoon")
+						:list(string.format("%s%d", "tab", args.file))
+						:clear()
+				end,
+			})
+
 			vim.keymap.set("n", "<leader>ma", function()
-				harpoon:list():add()
+				harpoon
+					:list(
+						string.format(
+							"%s%d",
+							"tab",
+							vim.api.nvim_get_current_tabpage()
+						)
+					)
+					:add()
 			end)
 			vim.keymap.set("n", "<leader>me", function()
-				harpoon.ui:toggle_quick_menu(harpoon:list())
+				harpoon.ui:toggle_quick_menu(
+					harpoon:list(
+						string.format(
+							"%s%d",
+							"tab",
+							vim.api.nvim_get_current_tabpage()
+						)
+					)
+				)
 			end)
 
 			vim.keymap.set("n", "<C-h>", function()
-				harpoon:list():select(1)
+				harpoon
+					:list(
+						string.format(
+							"%s%d",
+							"tab",
+							vim.api.nvim_get_current_tabpage()
+						)
+					)
+					:select(1)
 			end)
 			vim.keymap.set("n", "<C-j>", function()
-				harpoon:list():select(2)
+				harpoon
+					:list(
+						string.format(
+							"%s%d",
+							"tab",
+							vim.api.nvim_get_current_tabpage()
+						)
+					)
+					:select(2)
 			end)
 			vim.keymap.set("n", "<C-k>", function()
-				harpoon:list():select(3)
+				harpoon
+					:list(
+						string.format(
+							"%s%d",
+							"tab",
+							vim.api.nvim_get_current_tabpage()
+						)
+					)
+					:select(3)
 			end)
 			vim.keymap.set("n", "<C-l>", function()
-				harpoon:list():select(4)
+				harpoon
+					:list(
+						string.format(
+							"%s%d",
+							"tab",
+							vim.api.nvim_get_current_tabpage()
+						)
+					)
+					:select(4)
 			end)
 			vim.keymap.set("n", "<C-Left>", function()
-				harpoon:list():select(5)
+				harpoon
+					:list(
+						string.format(
+							"%s%d",
+							"tab",
+							vim.api.nvim_get_current_tabpage()
+						)
+					)
+					:select(5)
 			end)
 			vim.keymap.set("n", "<C-Down>", function()
-				harpoon:list():select(6)
+				harpoon
+					:list(
+						string.format(
+							"%s%d",
+							"tab",
+							vim.api.nvim_get_current_tabpage()
+						)
+					)
+					:select(6)
 			end)
 			vim.keymap.set("n", "<C-Up>", function()
-				harpoon:list():select(7)
+				harpoon
+					:list(
+						string.format(
+							"%s%d",
+							"tab",
+							vim.api.nvim_get_current_tabpage()
+						)
+					)
+					:select(7)
 			end)
 			vim.keymap.set("n", "<C-Right>", function()
-				harpoon:list():select(8)
+				harpoon
+					:list(
+						string.format(
+							"%s%d",
+							"tab",
+							vim.api.nvim_get_current_tabpage()
+						)
+					)
+					:select(8)
 			end)
 		end,
 	},

@@ -122,6 +122,41 @@ M.border_presets = {
 	}
 }
 
+M.mapping_configs = {
+	defaults = {
+		{ mode = { "i", "n" }, lhs = "<M-p>", rhs = require("telescope.actions.layout").toggle_preview }
+	},
+	buffer = {
+		{ mode = "n", lhs = "d", rhs = require("telescope.actions").delete_buffer },
+		{ mode = "i", lhs = "<C-d>", rhs = require("telescope.actions").delete_buffer },
+	},
+}
+
+local function merge_mappings(defaults, new_mappings)
+	local merged = vim.deepcopy(defaults)
+
+  for _, mapping in ipairs(new_mappings or {}) do
+    table.insert(merged, mapping) -- Add new mappings
+  end
+  return merged
+end
+
+M.attach_mappings_with_defaults = function(new_callback)
+  return function(_, map)
+    -- Apply default mappings
+    for _, mapping in ipairs(require("faith.plugins.telescope-conf.layouts").mapping_configs.defaults) do
+      map(mapping.mode, mapping.lhs, mapping.rhs)
+    end
+
+    -- Call the new callback if provided
+    if new_callback then
+      new_callback(_, map)
+    end
+
+    return true -- Ensure the mappings are applied
+  end
+end
+
 M.layout_configs = {
 	defaults = {
 		results_title = false,
@@ -148,14 +183,7 @@ M.layout_configs = {
 				mirror = true,
 			},
 		},
-		mappings = {
-			i = {
-				["<M-p>"] = require("telescope.actions.layout").toggle_preview,
-			},
-			n = {
-				["<M-p>"] = require("telescope.actions.layout").toggle_preview,
-			},
-		},
+		attach_mappings = M.attach_mappings_with_defaults,
 	},
 	centered_compact = {
 		layout_strategy = 'horizontal',

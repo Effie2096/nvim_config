@@ -33,9 +33,6 @@ return {
 			},
 		})
 
-		require("faith.plugins.telescope-conf")
-		require("faith.plugins.telescope-conf.mappings")
-
 		require("telescope").load_extension("ui-select")
 		-- require("telescope").load_extension("file_browser")
 		require("telescope").load_extension("fzf")
@@ -44,5 +41,9 @@ return {
 		-- require("telescope").load_extension("git_worktree")
 		-- require("telescope").load_extension("scdoc")
 		require("telescope").load_extension("noice")
+		require("telescope").load_extension("scope")
+
+		require("faith.plugins.telescope-conf")
+		require("faith.plugins.telescope-conf.mappings")
 	end,
 }

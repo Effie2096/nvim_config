@@ -36,7 +36,7 @@ local function trunc(str, trunc_width, trunc_len, hide_width, no_ellipsis)
 	return str
 end
 
-local encoding = {
+local fileformat = {
 	"fileformat",
 	padding = { left = 1, right = 2 },
 	fmt = function(str)
@@ -47,7 +47,7 @@ local encoding = {
 	end,
 }
 
-local fileformat = {
+local encoding = {
 	"encoding",
 	padding = { left = 0, right = 1 },
 	fmt = function(str)
@@ -225,7 +225,14 @@ local asyncrun_status = {
 
 local git = {
 	"b:gitsigns_head",
-	icon = { icons.git.Branch, align = "left" },
+	fmt = function(str)
+		return string.format(
+			"on %%#BranchIndicator#%s%s%%*",
+			icons.git.Branch,
+			str
+		)
+	end,
+	padding = { left = 1, right = 1 },
 }
 
 local workspace_diagnostics = {
@@ -276,59 +283,184 @@ local obsession = {
 	end,
 }
 
+local resession = {
+	function()
+		local color = require("resession").get_current_session_info() ~= nil
+				and "%#DiagnosticCheck#"
+			or "%#BarDiagError#"
+		return color .. icons.ui.Session .. "%* in"
+	end,
+	separator = { left = "", right = "" },
+	padding = { left = 1, right = 0 },
+	cond = function()
+		return require("resession").get_current_session_info() ~= nil
+	end,
+}
+
 local root = {
 	function()
+		return vim.fn.fnamemodify(vim.fn.getcwd(-1, -1), ":t")
+	end,
+	color = "AccentInverse",
+	separator = { left = "", right = "" },
+	padding = { left = 1, right = 0 },
+}
+
+local buffers = {
+	"buffers",
+	show_filename_only = true, -- Shows shortened relative path when set to false.
+	hide_filename_extension = false, -- Hide filename extension when set to true.
+	show_modified_status = true, -- Shows indicator when the buffer is modified.
+	icons_enabled = false,
+	padding = { left = 1, right = 1 },
+	mode = 0,
+	-- 0: Shows buffer name
+	-- 1: Shows buffer index
+	-- 2: Shows buffer name + buffer index
+	-- 3: Shows buffer number
+	-- 4: Shows buffer name + buffer number
+
+	max_length = function()
+		return vim.o.columns * 6 / 3
+	end, -- Maximum width of buffers component,
+	-- it can also be a function that returns
+	-- the value of `max_length` dynamically.
+	filetype_names = {
+		TelescopePrompt = "Telescope",
+		dashboard = "Dashboard",
+		packer = "Packer",
+		fzf = "FZF",
+		alpha = "Alpha",
+	}, -- Shows specific buffer name for that filetype ( { `filetype` = `buffer_name`, ... } )
+
+	-- Automatically updates active buffer color to match color of other components (will be overidden if buffers_color is set)
+	use_mode_colors = false,
+
+	buffers_color = {
+		-- Same values as the general color option can be used here.
+		active = "TabLineSel", -- Color for active buffer.
+		inactive = "TabLine", -- Color for inactive buffer.
+	},
+
+	symbols = {
+		modified = " " .. icons.ui.Dot, -- Text to show when the buffer is modified
+		alternate_file = "#", -- Text to show to identify the alternate file
+		directory = icons.kind.Folder, -- Text to show when the buffer is a directory
+	},
+	fmt = function(str, ctx)
+		local is_current = ctx.bufnr == vim.api.nvim_get_current_buf()
+		local ft = vim.bo.filetype
+
+		if str:find("Scratch") then
+			str = "Scratch"
+		elseif str:len() > 20 then
+			-- split filename and extension
+			local name = vim.fn.fnamemodify(str, ":t:r")
+			local ext = vim.fn.fnamemodify(str, ":e:e")
+			-- truncate name so that name + "..." + ext equals 20 chars
+			str = string.format("%s...%s", name:sub(1, 20 - ext:len() - 3), ext)
+		end
+		local icon, hl = require("nvim-web-devicons").get_icon_by_filetype(
+			ft,
+			{ default = true }
+		)
+		-- merge current tab background highlight with icon foreground highlight
+
 		return string.format(
-			"%s %s",
-			icons.ui.Project,
-			vim.fn.fnamemodify(vim.fn.getcwd(-1, -1), ":t")
+			"%%#%s#%s %s %%*%%#%s#%s",
+			(is_current and "TabLineSel" or "AccentInverse"),
+			ctx.buf_index,
+			string.format("%%#%s#%s", (is_current and "TabLineSel" or hl), icon),
+			(is_current and "TabLineSel" or "TabLine"),
+			str
 		)
 	end,
 }
 
 local tabs = {
 	"tabs",
-	mode = 2,
-	max_length = vim.o.columns / 2,
+	-- 0: Shows tab_nr
+	-- 1: Shows tab_name
+	-- 2: Shows tab_nr + tab_name
+	mode = 1,
+	-- 0: just shows the filename
+	-- 1: shows the relative path and shorten $HOME to ~
+	-- 2: shows the full path
+	-- 3: shows the full path and shorten $HOME to ~
+	path = 0,
+	max_length = function()
+		return math.floor(vim.o.columns * 3 / 3) - 5
+	end, -- Maximum width of buffers component,
+	padding = { left = 1, right = 0 },
 	tabs_color = {
 		-- Same values as the general color option can be used here.
 		active = "TabLineSel", -- Color for active tab.
 		inactive = "TabLine", -- Color for inactive tab.
 	},
+	show_modified_status = false, -- Shows a symbol next to the tab name if the file has been modified.
+	symbols = {
+		modified = icons.ui.Dot, -- Text to show when the file is modified.
+	},
 	fmt = function(name, context)
+		local is_current = context.tabnr == vim.fn.tabpagenr()
 		local tab_dir =
 			vim.fn.fnamemodify(vim.fn.getcwd(-1, context.tabnr), ":t")
 		local show_dir = tab_dir
 			~= vim.fn.fnamemodify(vim.fn.getcwd(-1, -1), ":t")
-		local title = name
-		if vim.fn.exists("g:loaded_taboo") then
-			title = vim.fn.TabooTabTitle(context.tabnr)
-		end
 
-		return string.format("%s%s", show_dir and tab_dir .. ": " or "", title)
+		local tabname = vim.fn.gettabvar(context.tabnr, "tabname")
+
+		local tab_name = (type(tabname) == "string" and tabname ~= "")
+				and string.format("%s ", string.upper(tabname))
+			or ""
+
+		local path = (
+			show_dir and string.format("%s %s/", icons.kind.Folder, tab_dir)
+			or ""
+		)
+
+		return string.format(
+			"%%#%s#%s %%*%%#%s#%s%s",
+			(is_current and "TabLineSel" or "AccentInverse"),
+			context.tabnr,
+			(is_current and "TabLineSel" or "TabLine"),
+			tab_name,
+			path
+		)
 	end,
-	cond = function()
-		return vim.fn.tabpagenr("$") > 1
-	end,
+	-- cond = function()
+	-- 	return vim.fn.tabpagenr("$") > 1
+	-- end,
 }
 local harpoon = {
 	function()
 		local harpoon = require("harpoon")
-		local marks = harpoon:list().items or {}
-
-		local section_prefix = "%#HarpoonNumberActive#"
-			.. icons.ui.BookMark
-			.. "%*"
-
-		local prefix = ""
-		local suffix = " "
-
-		local tabline = ""
+		local marks = harpoon:list(
+			string.format("%s%d", "tab", vim.fn.tabpagenr())
+		).items or {}
 
 		local buf = vim.api.nvim_buf_get_name(0)
 
-		local next = next
+		local extra_marks = 0
+
+		local keys = {
+			[1] = "h",
+			[2] = "j",
+			[3] = "k",
+			[4] = "l",
+			[5] = icons.arrows.left,
+			[6] = icons.arrows.down,
+			[7] = icons.arrows.up,
+			[8] = icons.arrows.right,
+		}
+		local result = {}
+
 		if next(marks) ~= nil then
+			table.insert(result, {
+				text = icons.ui.BookMark,
+				link = "HarpoonNumberActive",
+			})
+
 			for i, mark in ipairs(marks) do
 				local is_current = (
 					(
@@ -352,58 +484,54 @@ local harpoon = {
 					)
 				end
 
-				local extra_marks = 0
-
-				local keys = {
-					[1] = "h",
-					[2] = "j",
-					[3] = "k",
-					[4] = "l",
-					[5] = icons.arrows.left,
-					[6] = icons.arrows.down,
-					[7] = icons.arrows.up,
-					[8] = icons.arrows.right,
-				}
-
 				if i <= #keys then
-					local key = keys[i]
-
-					if is_current then
-						tabline = tabline
-							.. "%#HarpoonNumberActive# "
-							.. prefix
-							.. key
-							.. " %*"
-							.. "%#HarpoonActive#"
-					else
-						tabline = tabline
-							.. "%#HarpoonSeparator#"
-							.. (i == 1 and " " or icons.separators.bar.left)
-							.. "%#HarpoonNumberInactive#"
-							.. prefix
-							.. key
-							.. " %*"
-							.. "%#HarpoonInactive#"
+					if not is_current then
+						table.insert(result, {
+							text = (
+								i == 1 and " "
+								or icons.separators.bar.left
+							),
+							link = "HarpoonSeparator",
+						})
 					end
-
-					tabline = tabline .. label .. suffix .. "%*"
+					table.insert(result, {
+						text = string.format(
+							"%s%s",
+							(is_current and " " or ""),
+							keys[i]
+						),
+						link = is_current and "HarpoonNumberActive"
+							or "HarpoonNumberInactive",
+					})
+					table.insert(result, {
+						text = string.format(" %s ", label),
+						link = is_current and "HarpoonActive"
+							or "HarpoonInactive",
+					})
 				else
 					extra_marks = extra_marks + 1
-					tabline = tabline
-						.. "%#HarpoonNumberActive#"
-						.. " +"
-						.. extra_marks
-						.. "%*"
-						.. "%#HarpoonActive#"
+					table.insert(result, {
+						text = string.format(" %s%s", "+", extra_marks),
+						link = "HarpoonNumberActive",
+					})
 				end
 			end
-		end
 
-		return section_prefix .. tabline
+			return vim.iter(result)
+				:map(function(v)
+					return string.format("%%#%s#%s%%*", v.link, v.text)
+				end)
+				:join("")
+		end
 	end,
 	cond = function()
 		return package.loaded.harpoon ~= nil
-			and next(require("harpoon"):list().items) ~= nil
+			and next(
+					require("harpoon"):list(
+						string.format("%s%d", "tab", vim.fn.tabpagenr())
+					).items
+				)
+				~= nil
 	end,
 }
 
@@ -781,6 +909,22 @@ return {
 				-- hide the statusline on the starter page
 				vim.o.laststatus = 0
 			end
+
+			local buf_next = function(next, count)
+				if count ~= 0 then
+					vim.cmd([[LualineBuffersJump! ]] .. count)
+				else
+					vim.cmd(next and "bnext" or "bprevious")
+				end
+			end
+
+			local opts = { noremap = true, silent = true }
+			vim.keymap.set("n", "<Tab>", function()
+				buf_next(true, vim.v.count)
+			end, opts)
+			vim.keymap.set("n", "<S-Tab>", function()
+				buf_next(false, vim.v.count)
+			end, opts)
 		end,
 		opts = function()
 			local opts = {
@@ -822,24 +966,24 @@ return {
 					lualine_a = {},
 					lualine_b = {},
 					lualine_c = {
+						resession,
+						root,
 						git,
-						obsession,
 						workspace_diagnostics,
 						git_conflict,
-						language_server,
+						-- language_server,
 						lint_progress,
 						windsurf,
 						asyncrun_status,
 						overseer,
 					},
 					lualine_x = {
+						buffers,
+					},
+					lualine_y = {
 						show_macro_recording,
 						-- location,
-						"SleuthIndicator",
-						fileformat,
-						encoding,
 					},
-					lualine_y = {},
 					lualine_z = {},
 				},
 				inactive_sections = {
@@ -854,19 +998,22 @@ return {
 				inactive_winbar = winbar,
 				tabline = {
 					-- lualine_a = { root },
-					-- lualine_a = { tabs },
-					-- lualine_x = { harpoon },
+					lualine_b = { tabs },
+					lualine_c = {},
+					lualine_x = { harpoon },
 				},
 				inactive_tablines = {},
 				extensions = {
 					"fugitive",
-					"nvim-dap-ui",
-					"quickfix",
 					"lazy",
 					"mason",
+					"neo-tree",
 					"nvim-dap-ui",
 					"oil",
 					"overseer",
+					"quickfix",
+					"symbols-outline",
+					"toggleterm",
 					"trouble",
 				},
 			}

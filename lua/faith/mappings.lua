@@ -95,13 +95,24 @@ end
 -- inoremap("<S-U> <ESC>viwUi
 nnoremap("<S-U>", "viwU<ESC>", opts)
 
--- TAB in normal mode will move to next buffer
-nnoremap("<TAB>", "<cmd>bnext<CR>", opts)
--- SHIFT-TAB will go back
-nnoremap("<S-TAB>", "<cmd>bprevious<CR>", opts)
+local tab_next = function(next, count)
+	if vim.fn.tabpagenr("$") > 1 then
+		if count > vim.fn.tabpagenr("$") then
+			return
+		end
+		vim.cmd(
+			(count ~= 0 and count or "")
+				.. (next and "tabnext" or "tabprevious")
+		)
+	else
+		vim.cmd.tabnew()
+	end
+end
 
-nnoremap("<PageUp>", "<cmd>tabnext<CR>", opts)
-nnoremap("<PageDown>", "<cmd>tabprevious<CR>", opts)
+-- stylua: ignore start
+nnoremap("gt", function() tab_next(true, vim.v.count) end, opts)
+nnoremap("gT", function() tab_next(false, vim.v.count) end, opts)
+-- stylua: ignore end
 
 -- better indentation
 vnoremap("<", "<gv", opts)
@@ -113,7 +124,7 @@ inoremap("<M-o>", "<Space><Esc>r<CR>O", opts)
 -- Delete current buffer without closing split
 nnoremap(
 	"<leader>bc",
-	"<cmd>bp |bd #<CR>",
+	"<cmd>bp | sp | bn | bd<CR>",
 	desc(
 		opts,
 		"[b]uffer [c]lose: Delete current buffer without closing window."

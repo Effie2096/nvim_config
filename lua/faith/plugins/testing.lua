@@ -15,35 +15,35 @@ return {
 		keys = {
 
 			{
-				"<leader>t",
+				"<leader>trr",
 				function()
 					require("neotest").run.run()
 				end,
 				desc = "[t]est nearest.",
 			},
 			{
-				"<leader>T",
+				"<leader>trf",
 				function()
 					require("neotest").run.run(vim.fn.expand("%"))
 				end,
 				desc = "[T]est file.",
 			},
 			{
-				"<leader>ta",
+				"<leader>tra",
 				function()
 					require("neotest").run.run({ suite = true })
 				end,
 				desc = "[t]est [a]ll",
 			},
 			{
-				"<leader>tl",
+				"<leader>trl",
 				function()
 					require("neotest").run.run_last()
 				end,
 				desc = "[t]est [l]ast.",
 			},
 			{
-				"<leader>tg",
+				"<leader>trg",
 				function()
 					local last = require("neotest").run.get_last_run()
 					if last == nil then

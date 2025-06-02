@@ -144,6 +144,7 @@ local icons = {
 		Caret_Arrow = " ",
 		Lightbulb = "",
 		Project = " ",
+		Session = " ",
 		Dashboard = " ",
 		History = " ",
 		Comment = " ",

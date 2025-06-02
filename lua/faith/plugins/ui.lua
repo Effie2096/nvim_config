@@ -1369,6 +1369,7 @@ return {
 	},
 	{
 		"akinsho/bufferline.nvim",
+		enabled = false,
 		version = "*",
 		dependencies = "nvim-tree/nvim-web-devicons",
 		opts = {
@@ -1412,8 +1413,10 @@ return {
 						return fts[found]
 					end
 
-					local tab_dir =
-						vim.fn.fnamemodify(vim.fn.getcwd(-1, ctx.tabnr), ":t")
+					local tab_dir = vim.fn.fnamemodify(
+						vim.fn.getcwd(-1, ctx.tabnr or 0),
+						":t"
+					)
 					local show_dir = tab_dir --[[ tab has different dir ]]
 						~= vim.fn.fnamemodify(vim.fn.getcwd(-1, -1), ":t")
 					local taboo = (
@@ -1471,7 +1474,13 @@ return {
 				custom_areas = {
 					right = function()
 						local harpoon = require("harpoon")
-						local marks = harpoon:list().items or {}
+						local marks = harpoon:list(
+							string.format(
+								"%s%d",
+								"tab",
+								vim.api.nvim_get_current_tabpage()
+							)
+						).items or {}
 
 						local buf = vim.api.nvim_buf_get_name(0)
 
