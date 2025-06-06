@@ -1,3 +1,4 @@
+local icons = require("faith.icons")
 return {
 	{
 		"nvim-neotest/neotest",
@@ -118,5 +119,45 @@ return {
 
 			return opts
 		end,
+	},
+	{
+		"andythigpen/nvim-coverage",
+		version = "*",
+		opts = {
+			commands = true, -- create commands
+			highlights = {
+				-- customize highlight groups created by the plugin
+				covered = nil, -- supports style, fg, bg, sp (see :h highlight-gui)
+				uncovered = nil,
+				partial = nil,
+			},
+			signs = {
+				-- use your own highlight groups or text markers
+				covered = {
+					hl = "CoverageCovered",
+					text = icons.testing.covered,
+				},
+				uncovered = {
+					hl = "CoverageUncovered",
+					text = icons.testing.uncovered,
+				},
+				partial = {
+					hl = "CoveragePartial",
+					text = icons.testing.partial,
+				},
+			},
+			summary = {
+				-- customize the summary pop-up
+				min_coverage = 80.0, -- minimum coverage threshold (used for highlighting)
+			},
+			load_coverage_cb = function(ftype)
+				vim.notify("Loaded " .. ftype .. " coverage")
+			end,
+			lang = {
+				rust = {
+					coverage_command = "grcov ${cwd} -s ${cwd} --binary-path ./target/debug/ -t coveralls --branch --ignore-not-existing --token NO_TOKEN",
+				},
+			},
+		},
 	},
 }

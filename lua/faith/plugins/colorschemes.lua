@@ -1170,6 +1170,10 @@ local function apply_theme_overrides(theme, scheme)
 		"HarpoonNumberInactive",
 		{ bg = tab_inactive_bg, fg = color_map.accent }
 	)
+
+	vim.api.nvim_set_hl(0, "CoverageCovered", { fg = color_map.green })
+	vim.api.nvim_set_hl(0, "CoverageUncovered", { fg = color_map.red })
+	vim.api.nvim_set_hl(0, "CoveragePartial", { fg = color_map.yellow })
 end
 
 vim.api.nvim_create_autocmd("ColorScheme", {

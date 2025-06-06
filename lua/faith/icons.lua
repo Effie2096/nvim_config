@@ -215,6 +215,11 @@ local icons = {
 		hint = "󰌵 ",
 		info = " ",
 	},
+	testing = {
+		covered = "█",
+		uncovered = "█",
+		partial = "█",
+	},
 	git = {
 		Add = "+",
 		Mod = "~",
