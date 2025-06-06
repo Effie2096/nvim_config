@@ -133,10 +133,8 @@ return {
 				docker_compose_language_service = {},
 				dockerls = {},
 				emmet_ls = require("faith.plugins.lsp.settings.emmet_ls"),
-				eslint = {},
 				gopls = {},
 				html = require("faith.plugins.lsp.settings.html"),
-				jdtls = {},
 				jsonls = require("faith.plugins.lsp.settings.jsonls"),
 				kotlin_language_server = require(
 					"faith.plugins.lsp.settings.kotlin_language_server"
@@ -234,24 +232,22 @@ return {
 				},
 				signs = {
 					text = {
-						[vim.diagnostic.severity.ERROR] = require(
-							"faith.icons"
-						).diagnostic.error,
-						[vim.diagnostic.severity.WARN] = require("faith.icons").diagnostic.warn,
-						[vim.diagnostic.severity.HINT] = require("faith.icons").diagnostic.hint,
-						[vim.diagnostic.severity.INFO] = require("faith.icons").diagnostic.info,
+						[vim.diagnostic.severity.ERROR] = "",
+						[vim.diagnostic.severity.WARN] = "",
+						[vim.diagnostic.severity.HINT] = "",
+						[vim.diagnostic.severity.INFO] = "",
 					},
-					linkhl = {
-						[vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
-						[vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
-						[vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
-						[vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
+					linehl = {
+						[vim.diagnostic.severity.ERROR] = "NONE", -- "DiagnosticSignError",
+						[vim.diagnostic.severity.WARN] = "NONE", --"DiagnosticSignWarn",
+						[vim.diagnostic.severity.HINT] = "NONE", --"DiagnosticSignHint",
+						[vim.diagnostic.severity.INFO] = "NONE", --"DiagnosticSignInfo",
 					},
 					numhl = {
-						[vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
-						[vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
-						[vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
-						[vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
+						[vim.diagnostic.severity.ERROR] = "DiagnosticErrorNum",
+						[vim.diagnostic.severity.WARN] = "DiagnosticWarnNum",
+						[vim.diagnostic.severity.HINT] = "DiagnosticHintNum",
+						[vim.diagnostic.severity.INFO] = "DiagnosticInfoNum",
 					},
 				},
 				update_in_insert = false,
@@ -515,7 +511,7 @@ return {
 				select = false,
 			}, ]]
 				experimental = {
-					ghost_text = false,
+					ghost_text = true,
 				},
 				view = {
 					name = "custom",
@@ -542,6 +538,14 @@ return {
 					{ name = "emoji", keyword_length = 2 },
 				},
 			})
+
+			cmp.event:on("menu_opened", function()
+				vim.b.copilot_suggestion_hidden = true
+			end)
+
+			cmp.event:on("menu_closed", function()
+				vim.b.copilot_suggestion_hidden = false
+			end)
 
 			cmp.setup.filetype({ "gitcommit", "octo" }, {
 				sources = cmp.config.sources({

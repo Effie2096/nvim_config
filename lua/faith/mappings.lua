@@ -120,13 +120,3 @@ vnoremap(">", ">gv", opts)
 
 -- enter insert mode on next line, with text after cursor on line after that
 inoremap("<M-o>", "<Space><Esc>r<CR>O", opts)
-
--- Delete current buffer without closing split
-nnoremap(
-	"<leader>bc",
-	"<cmd>bp | sp | bn | bd<CR>",
-	desc(
-		opts,
-		"[b]uffer [c]lose: Delete current buffer without closing window."
-	)
-)

@@ -51,11 +51,10 @@ vim.opt.fillchars:append({
 	diff = "╱",
 })
 
--- set format options for each window otherwise it just doens't work for some reason :c
-vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
 	pattern = "*",
-	callback = function(data)
-		local ext = vim.fn.fnamemodify(data.file, ":e")
+	callback = function(_)
+		local ext = vim.fn.fnamemodify(vim.fn.bufname(), ":e")
 
 		if ext == "md" then
 			vim.opt.formatoptions:remove("c")

@@ -214,7 +214,7 @@ local theme_colormaps = {
 			orange_dark = colors.peach,
 			error = colors.red,
 			warn = colors.peach,
-			info = colors.teal,
+			info = colors.sapphire,
 			hint = colors.teal,
 		}
 
@@ -313,7 +313,7 @@ local theme_colormaps = {
 			error = colors.accent1,
 			warn = colors.accent2,
 			info = colors.accent5,
-			hint = colors.accent5,
+			hint = colors.accent6,
 		}
 
 		return color_map
@@ -363,7 +363,7 @@ local theme_colormaps = {
 			error = colors.red,
 			warn = colors.yellow,
 			info = colors.blue,
-			hint = colors.purple,
+			hint = colors.cyan,
 		}
 
 		return color_map
@@ -413,7 +413,7 @@ local theme_colormaps = {
 			error = colors.red.base,
 			warn = colors.yellow.base,
 			info = colors.blue.base,
-			hint = colors.green.base,
+			hint = colors.cyan.base,
 		}
 
 		return color_map
@@ -523,7 +523,7 @@ local theme_colormaps = {
 
 ---@param theme string
 local function apply_theme_overrides(theme, scheme)
-	local scheme = scheme or ""
+	scheme = scheme or ""
 	local color_map = theme_colormaps[theme](scheme)
 
 	local function h(name)
@@ -555,7 +555,7 @@ local function apply_theme_overrides(theme, scheme)
 		bg = color_map.surface_dark,
 	})
 
-	vim.api.nvim_set_hl(0, "LspInlayHint", { link = "Comment" })
+	vim.api.nvim_set_hl(0, "LspInlayHint", { fg = h("Comment").fg })
 
 	vim.api.nvim_set_hl(0, "StatusLine", {
 		fg = color_map.fg,
@@ -565,12 +565,30 @@ local function apply_theme_overrides(theme, scheme)
 		fg = color_map.fg,
 		bg = color_map.bg_light,
 	})
+
+	vim.api.nvim_set_hl(
+		0,
+		"DiagnosticCheck",
+		{ fg = color_map.green, bg = color_map.bg_light }
+	)
+
 	for _, level in pairs({ "Error", "Warn", "Info", "Hint" }) do
+		vim.api.nvim_set_hl(0, "Diagnostic" .. level, {
+			fg = color_map[level:lower()],
+		})
 		vim.api.nvim_set_hl(0, "BarDiag" .. level, {
-			fg = color_map[level:gsub("^%L", string.lower)],
+			link = "Diagnostic" .. level,
 			bg = color_map.bg_light,
 		})
+		vim.api.nvim_set_hl(0, "Diagnostic" .. level .. "Num", {
+			link = "Diagnostic" .. level,
+			bold = true,
+			italic = true,
+		})
 	end
+	vim.api.nvim_set_hl(0, "SessionAuto", {
+		fg = color_map.yellow,
+	})
 
 	vim.api.nvim_set_hl(0, "DiffChange", { bg = "#3d4261" })
 	vim.api.nvim_set_hl(0, "DiffText", {
@@ -584,11 +602,11 @@ local function apply_theme_overrides(theme, scheme)
 		bg = color_map.red,
 	})
 
-	vim.api.nvim_set_hl(
-		0,
-		"YankFlash",
-		{ fg = color_map.surface_dark, bg = color_map.purple_light }
-	)
+	-- vim.api.nvim_set_hl(
+	-- 	0,
+	-- 	"YankFlash",
+	-- 	{ fg = color_map.surface_dark, bg = color_map.purple_light }
+	-- )
 
 	vim.api.nvim_set_hl(
 		0,
@@ -648,12 +666,6 @@ local function apply_theme_overrides(theme, scheme)
 		bg = color_map.red,
 		fg = color_map.bg,
 	})
-
-	vim.api.nvim_set_hl(
-		0,
-		"DiagnosticCheck",
-		{ bg = color_map.bg_light, fg = color_map.green }
-	)
 
 	vim.api.nvim_set_hl(0, "IblScope", { fg = color_map.accent })
 	vim.api.nvim_set_hl(0, "IblWhitespace", { fg = h("Comment").fg })
@@ -1125,11 +1137,11 @@ local function apply_theme_overrides(theme, scheme)
 	local tab_active_fg = color_map.bg
 	local tab_active_bg = color_map.accent
 	local tab_inactive_fg = color_map.fg
-	local tab_inactive_bg = color_map.surface_dark
+	local tab_inactive_bg = color_map.bg_light
 	vim.api.nvim_set_hl(
 		0,
 		"TabLine",
-		{ fg = tab_inactive_fg, bg = tab_inactive_bg, sp = tab_active_bg }
+		{ fg = tab_inactive_fg, bg = tab_inactive_bg }
 	)
 	vim.api.nvim_set_hl(
 		0,
@@ -1139,15 +1151,21 @@ local function apply_theme_overrides(theme, scheme)
 	vim.api.nvim_set_hl(0, "TabLineSel", {
 		fg = tab_active_fg,
 		bg = tab_active_bg,
-		sp = color_map.accent,
-		underline = true,
 	})
 	vim.api.nvim_set_hl(0, "TabLineSelSep", {
 		fg = tab_active_bg,
 		bg = tab_active_fg,
-		sp = color_map.accent,
-		underline = true,
 	})
+	vim.api.nvim_set_hl(
+		0,
+		"TabIndex",
+		{ fg = tab_active_bg, bg = tab_inactive_bg }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"TabIndexSel",
+		{ fg = tab_active_fg, bg = tab_active_bg }
+	)
 
 	vim.api.nvim_set_hl(
 		0,
@@ -1170,6 +1188,37 @@ local function apply_theme_overrides(theme, scheme)
 		"HarpoonNumberInactive",
 		{ bg = tab_inactive_bg, fg = color_map.accent }
 	)
+
+	vim.api.nvim_set_hl(0, "DapBreakpoint", {
+		fg = color_map.red,
+		bg = color_map.bg,
+	})
+	vim.api.nvim_set_hl(0, "DapBreakpointCondition", {
+		fg = color_map.purple,
+		bg = color_map.bg,
+	})
+	vim.api.nvim_set_hl(0, "DapLogPoint", {
+		fg = color_map.yellow,
+		bg = color_map.bg,
+	})
+
+	vim.api.nvim_set_hl(
+		0,
+		"SnacksZenIcon",
+		{ fg = color_map.accent, bg = tab_inactive_bg }
+	)
+	vim.api.nvim_set_hl(0, "SnacksInputNormal", { fg = color_map.accent })
+	vim.api.nvim_set_hl(0, "SnacksInputBorder", { fg = color_map.accent })
+	vim.api.nvim_set_hl(0, "SnacksInputTitle", { fg = color_map.accent })
+	vim.api.nvim_set_hl(0, "SnacksInputIcon", { fg = color_map.green })
+
+	vim.api.nvim_set_hl(0, "UgUndo", { bg = color_map.red_dark })
+	vim.api.nvim_set_hl(0, "UgRedo", { bg = color_map.green_dark })
+	vim.api.nvim_set_hl(0, "UgYank", { bg = color_map.yellow_dark })
+	vim.api.nvim_set_hl(0, "UgPaste", { bg = color_map.cyan_dark })
+	vim.api.nvim_set_hl(0, "UgSearch", { bg = color_map.purple_dark })
+	vim.api.nvim_set_hl(0, "UgComment", { bg = color_map.orange_dark })
+	vim.api.nvim_set_hl(0, "UgCursor", { bg = color_map.pink_dark })
 
 	vim.api.nvim_set_hl(0, "CoverageCovered", { fg = color_map.green })
 	vim.api.nvim_set_hl(0, "CoverageUncovered", { fg = color_map.red })
@@ -1232,7 +1281,7 @@ return {
 		opts = {
 			transparent_background = vim.g.transparent_enabled,
 			terminal_colors = true,
-			devicons = true, -- highlight the icons of `nvim-web-devicons`
+			devicons = false, -- highlight the icons of `nvim-web-devicons`
 		},
 		init = function()
 			vim.api.nvim_create_autocmd("ColorScheme", {
@@ -1472,6 +1521,8 @@ return {
 	{
 		"xiyaowong/nvim-transparent",
 		opts = function()
+			-- require("transparent").clear_prefix("lualine_a")
+			-- require("transparent").clear_prefix("lualine_b")
 			require("transparent").clear_prefix("lualine_c")
 			-- require("transparent").clear_prefix("lualine_c_filetype_DevIcon")
 			local opts = {
@@ -1479,11 +1530,24 @@ return {
 					"Accent",
 					"TabLineSel",
 					"TabLineSelSep",
+
+					"UgUndo",
+					"UgRedo",
+					"UgYank",
+					"UgPaste",
+					"UgSearch",
+					"UgComment",
+					"UgCursor",
 				},
 				extra_groups = {
+					"FoldColumn",
+					"Folded",
+
 					"NormalFloat",
 					"NvimTreeNormal",
 					"NvimTreeWinSeparator",
+
+					"lualine_transparent",
 
 					"WinBar",
 					"TabLine",
@@ -1524,8 +1588,9 @@ return {
 
 					"TreesitterContextBottom",
 					"TreesitterContextLineNumber",
-
-					"lualine_c_normal",
+					"TreesitterContext",
+					"TreesitterContextSeparator",
+					"TreesitterContextLineNumberBottom",
 
 					"barbecue_normal",
 					"barbecue_modified",
@@ -1577,6 +1642,17 @@ return {
 					"GitSignsStagedDeleteNr",
 					"GitSignsStagedTogdeleteNr",
 					"GitSignsStagedTopdelete",
+
+					"ScrollbarHint",
+					"ScrollbarInfo",
+					"ScrollbarMisc",
+					"ScrollbarWarn",
+					"ScrollbarError",
+					"ScrollbarCursor",
+					"ScrollbarGitAdd",
+					"ScrollbarSearch",
+					"ScrollbarGitChange",
+					"ScrollbarGitDelete",
 				},
 			}
 

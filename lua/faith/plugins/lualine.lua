@@ -1,19 +1,145 @@
-M = {}
+local M = {}
 
 local colors = require("catppuccin.palettes").get_palette()
 local icons = require("faith.icons")
-local spinner = require("faith.spinner")
+local spinner = require("faith.ui.spinner")
 
-local ft_ignore = {
-	"dapui_watches",
-	"dapui_breakpoints",
-	"dapui_console",
-	"dapui_stacks",
-	"dapui_scopes",
-	"dap-repl",
+local ui_filetypes = {
+	"help",
+	"packer",
+	"vim-plug",
+	"neogitstatus",
+	"NvimTree",
+	"trouble",
+	"lir",
+	"Outline",
+	"spectre_panel",
+	"toggleterm",
+	"DressingSelect",
+	"TelescopePrompt",
+	"lspinfo",
+	"lsp-installer",
+	"mason",
+	"neo-tree",
+	"lazy",
+	"",
+}
+
+local winbar_ft_ignore = {
+	"Avante",
+	"AvanteInput",
+	"AvanteSelectedFiles",
 	"DiffviewFiles",
 	"Outline",
+	"OverseerList",
+	"dap-repl",
+	"dapui_breakpoints",
+	"dapui_console",
+	"dapui_scopes",
+	"dapui_stacks",
+	"dapui_watches",
+	"fugitive",
+	"help",
+	"neo-tree",
+	"oil",
+	"qf",
+	"undotree",
+	"neotest-summary",
+}
+
+local winbar_bt_ignore = {
+	"nofile",
 	"terminal",
+	"quickfix",
+}
+
+local winbar_ft_icons = {
+	dapui_watches = {
+		hl = "DAPUIWatchesValue",
+		icon = icons.ui.Watches,
+	},
+	dapui_breakpoints = {
+		hl = "DapBreakpoint",
+		icon = icons.ui.Bug,
+	},
+	dapui_stacks = {
+		hl = "DAPUISource",
+		icon = icons.ui.Stacks,
+	},
+	dapui_scopes = {
+		hl = "DAPUIScope",
+		icon = icons.ui.Scopes,
+	},
+	["dap-repl"] = {
+		icon = icons.ui.Repeat,
+		name = "REPL",
+	},
+	dapui_console = {
+		hl = "DevIconTerminal",
+		icon = require("nvim-web-devicons").get_icon_by_filetype(
+			"terminal",
+			{}
+		),
+	},
+	DiffviewFiles = {
+		icon = icons.git.Diff,
+		name = "Diffview",
+	},
+	Outline = {
+		icon = icons.ui.BulletList,
+		name = "Outline",
+	},
+	trouble = {
+		icon = " ",
+		name = "",
+	},
+	toggleterm = {
+		hl = "DiagnosticCheck",
+		icon = icons.ui.Term,
+		name = string.format("Terminal (%s)", vim.b.toggle_number),
+	},
+	terminal = {
+		hl = "DevIconTerminal",
+		icon = require("nvim-web-devicons").get_icon_by_filetype(
+			"terminal",
+			{ default = false }
+		) .. " ",
+		name = "Terminal",
+	},
+	OverseerList = {
+		hl = "DiagnosticCheck",
+		icon = icons.ui.StatusList,
+		name = "Overseer",
+	},
+	undotree = {
+		hl = "DiagnosticCheck",
+		icon = icons.ui.Undo,
+		name = "Undo",
+	},
+	Avante = {
+		icon = icons.ui.Chat,
+		name = "Avante",
+	},
+	AvanteSelectedFiles = {
+		name = "Context",
+	},
+	AvanteInput = {
+		name = "Ask Avante",
+	},
+	["neo-tree"] = {
+		name = "NeoTree",
+	},
+	qf = {},
+	fugitive = {
+		hl = "DevIconGit",
+		icon = require("nvim-web-devicons").get_icon_by_filetype("git", {}),
+		name = "Fugitive",
+	},
+	["neotest-summary"] = {
+		hl = "DiagnosticCheck",
+		icon = icons.ui.Beaker,
+		name = "Tests",
+	},
 }
 
 --- @param trunc_width number trunctates component when screen width is less then trunc_width
@@ -36,9 +162,39 @@ local function trunc(str, trunc_width, trunc_len, hide_width, no_ellipsis)
 	return str
 end
 
+-- check if value in table
+local function contains(t, value)
+	for _, v in pairs(t) do
+		if v == value then
+			return true
+		end
+	end
+	return false
+end
+
+local winbar_ignore = function()
+	return not (
+		contains(winbar_ft_ignore, vim.bo.filetype)
+		or (contains(winbar_bt_ignore, vim.bo.buftype))
+	)
+end
+
+local function format_bubble(str)
+	return string.format(
+		"%s%s%s%s%s%s%s",
+		"%#AccentInverse#",
+		icons.separators.rounded.right,
+		"%#Accent#",
+		str,
+		"%#AccentInverse#",
+		icons.separators.rounded.left,
+		"%*"
+	)
+end
+
 local fileformat = {
 	"fileformat",
-	padding = { left = 1, right = 2 },
+	padding = { left = 1, right = 1 },
 	fmt = function(str)
 		if str == "" then -- only show if *not* unix format
 			return ""
@@ -65,7 +221,6 @@ local trans_flag = {
 			bg = "#5bcffa", --[[fg = '#FF1B8D',]]
 		},
 		padding = 0,
-		separator = { left = "", right = "" },
 	},
 	{
 		'" "',
@@ -97,119 +252,192 @@ local trans_flag = {
 	},
 }
 
--- check if value in table
-local function contains(t, value)
-	for _, v in pairs(t) do
-		if v == value then
-			return true
-		end
-	end
-	return false
-end
-
-local lint_spinner = spinner:new(100)
+local lint_spinner = spinner:new("lualine_lint_spinner", "dots_negative", 1)
+local linger_timer = nil -- Timer to handle lingering names
+local linger_duration = 5000 -- Duration in milliseconds for names to linger
 local lint_progress = {
 	function()
 		local linters = require("lint").get_running()
+
 		if #linters == 0 then
-			return "%#DiagnosticCheck#󰦕%*"
+			lint_spinner:stop()
+
+			-- If no linters are running, start the linger timer if not already active
+			if not linger_timer then
+				linger_timer = vim.uv.new_timer()
+				linger_timer:start(
+					linger_duration,
+					0, -- No repeat
+					vim.schedule_wrap(function()
+						M.linters = nil -- Clear the names after the delay
+						linger_timer:close()
+						linger_timer = nil
+					end)
+				)
+			end
+
+			return "%#DiagnosticCheck#󰦕 %*" .. (M.linters or "")
+		else
+			if linger_timer then
+				linger_timer:stop()
+				linger_timer:close()
+				linger_timer = nil
+			end
+
+			M.linters = table.concat(linters, ", ")
 		end
-		return "%#BarDiagInfo#󱉶 %*"
-			.. table.concat(linters, ", ")
-			.. lint_spinner:update_spinner()
+
+		lint_spinner:start()
+		return string.format("%%#BarDiagInfo#%s %%*", lint_spinner:get_frame())
+			.. M.linters
+	end,
+	cond = function()
+		return require("lint").linters_by_ft[vim.bo.filetype] ~= nil
 	end,
 	padding = { left = 1, right = 0 },
-	separator = { left = "", right = "" },
+	separator = "",
 }
+
+---@diagnostic disable-next-line: unused-function
+local get_clients = function()
+	local clients = vim.lsp.get_clients()
+	local client_names = {}
+
+	-- should just be lsps
+	local names = vim.iter(pairs(clients))
+		:filter(function(_, client)
+			return not client.name:find("anonymous source")
+		end)
+		:map(function(_, client)
+			return client.name
+		end)
+		:totable()
+
+	client_names["lsp"] = vim.iter(names)
+		:filter(function(name)
+			return not name:match("otter")
+		end)
+		:totable()
+	client_names["otter"] = vim.iter(names)
+		:filter(function(name)
+			return name:match("otter")
+		end)
+		:totable()
+	if require("lint").linters_by_ft[vim.bo.filetype] ~= nil then
+		client_names["lint"] = require("lint").linters_by_ft[vim.bo.filetype]
+	end
+
+	return client_names
+end
+
+---@diagnostic disable-next-line: unused-function
+local flatten_clients = function(client_map)
+	local folded = {}
+	if client_map then
+		for client_type, clients in pairs(client_map) do
+			if clients then
+				for _, client in ipairs(clients) do
+					table.insert(folded, client)
+				end
+			end
+		end
+	end
+	return folded
+end
+
+---@diagnostic disable-next-line: unused-function
+local get_formatters = function()
+	if package.loaded.conform ~= nil then
+		return vim.iter(require("conform").list_formatters())
+			:filter(function(formatter)
+				return formatter.available
+			end)
+			:totable()
+	end
+	return {}
+end
 
 local language_server = {
 	function()
 		local buf_ft = vim.bo.filetype
-		local ui_filetypes = {
-			"help",
-			"packer",
-			"vim-plug",
-			"neogitstatus",
-			"NvimTree",
-			"trouble",
-			"lir",
-			"Outline",
-			"spectre_panel",
-			"toggleterm",
-			"DressingSelect",
-			"TelescopePrompt",
-			"lspinfo",
-			"lsp-installer",
-			"mason",
-			"",
-		}
 
 		if contains(ui_filetypes, buf_ft) then
 			if M.language_servers == nil then
 				return ""
 			else
-				return M.language_servers
+				return string.format(
+					"%s%s",
+					icons.ui.Server,
+					#flatten_clients(M.language_servers)
+				)
 			end
 		end
 
-		local clients = vim.lsp.get_clients()
-		local client_names = {}
-
-		-- add client
-		for _, client in pairs(clients) do
-			local name = client.name
-			if name ~= "null-ls" then
-				if client.name.match(client.name, "otter") then
-					name = client.name:gsub("%[%d+%]", "")
-				end
-				table.insert(client_names, name)
-			end
-		end
-
-		if package.loaded.conform ~= nil then
-			local conform_formatters = require("conform").list_formatters()
-			for _, f in pairs(conform_formatters) do
-				if f.available then
-					table.insert(client_names, f.name)
-				end
-			end
-		end
-
-		table.sort(client_names)
+		local clients = get_clients()
+		local client_names = flatten_clients(clients)
 
 		--remove duplicate entries
 		--only want to know which clients are active. not how many times they've attached
-		local hash = {}
-		local res = {}
+		-- local hash = {}
+		-- local res = {}
+		-- for _, v in ipairs(client_names) do
+		-- 	if not hash[v] then
+		-- 		res[#res + 1] = v
+		-- 		hash[v] = true
+		-- 	end
+		-- end
+		--
+		-- client_names = res
 
-		for _, v in ipairs(client_names) do
-			if not hash[v] then
-				res[#res + 1] = v
-				hash[v] = true
-			end
+		if #client_names ~= 0 then
+			M.language_servers = clients
 		end
 
-		client_names = res
-
-		-- join client names with commas
-		local client_names_str = table.concat(client_names, ", ")
-
-		-- check client_names_str if empty
-		local language_servers = ""
-		local client_names_str_len = #client_names_str
-		if client_names_str_len ~= 0 then
-			language_servers = "(" .. client_names_str .. ")"
-		end
-
-		if client_names_str_len == 0 then
+		if #client_names == 0 then
 			return ""
 		else
-			M.language_servers = language_servers
-			return language_servers:gsub(", anonymous source", "")
+			return string.format(
+				"%s%s",
+				icons.ui.Server,
+				#flatten_clients(M.language_servers)
+			)
 		end
 	end,
 	padding = { left = 1, right = 0 },
-	separator = { left = "", right = "" },
+	separator = {
+		left = icons.separators.straight.left,
+		right = "",
+	},
+	color = "@lsp.type.type",
+	-- cond = function()
+	-- 	return #flatten_clients(M.language_servers) ~= 0
+	-- end,
+	on_click = function(_, _, _)
+		local clients = flatten_clients(M.language_servers)
+		table.sort(clients)
+		local msg = vim.iter(clients):join(", ")
+		if msg ~= "" then
+			vim.notify(msg, vim.log.levels.INFO, {
+				title = "Active Clients",
+			})
+		end
+	end,
+}
+
+local lsp = {
+	"lsp_status",
+	icon = "", -- f013
+	symbols = {
+			-- Standard unicode symbols to cycle through for LSP progress:
+			-- stylua: ignore
+			spinner = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏' },
+		-- Standard unicode symbol for when LSP is done:
+		done = "✓",
+		-- Delimiter inserted between LSP names:
+		separator = "  ",
+	},
+	-- List of LSP names to ignore (e.g., `null-ls`):
+	ignore_lsp = { "" },
 }
 
 local asyncrun_status = {
@@ -233,35 +461,72 @@ local git = {
 		)
 	end,
 	padding = { left = 1, right = 1 },
+	separator = {
+		left = icons.separators.straight.left,
+		right = icons.separators.straight.right,
+	},
+	cond = function()
+		return vim.b.gitsigns_head ~= nil
+	end,
+}
+
+local branch = {
+	"branch",
+	icon = { "" },
+	color = "WinBar",
+	padding = { left = 0, right = 1 },
+	separator = {
+		left = "",
+		right = icons.separators.straight.right,
+	},
+	fmt = function(str)
+		return string.format(
+			"on %%#BranchIndicator#%s%s%%*",
+			icons.git.Branch,
+			str
+		)
+	end,
 }
 
 local workspace_diagnostics = {
 	"diagnostics",
 	sources = { "nvim_workspace_diagnostic" },
 	symbols = require("faith.icons").diagnostic,
-	update_in_insert = true,
+	update_in_insert = false,
+	padding = { left = 0, right = 1 },
+	separator = {
+		left = icons.separators.straight.left,
+		right = "",
+	},
 }
 
 local location = {
 	"%11(%l/%L:%c%) ", --'%l/%L:%c'
 }
 
----@diagnostic disable-next-line: unused-local
-local filetype = {
-	"filetype",
-	colored = true,
-	icon = { align = "left" },
-}
-
 local format_on_save = {
 	function()
-		return not (
-					vim.g.disable_autoformat or vim.b.disable_autoformat
-				)
-				and "Format: On"
-			or "Format: Off"
+		local formatters = get_formatters()
+		local names = vim.iter(formatters)
+			:map(function(f)
+				return f.name
+			end)
+			:join(", ")
+		if #formatters > 1 then
+			names = names:format("(%s)")
+		end
+
+		return (
+			not (vim.g.disable_autoformat or vim.b.disable_autoformat)
+			and #get_formatters() ~= 0
+		)
+				and string.format("%s: %%#DiagnosticCheck#On%%*", names)
+			or string.format("%s: %%#DiagnosticError#Off%%*", names)
 	end,
 	padding = 1,
+	cond = function()
+		return #get_formatters() ~= 0
+	end,
 }
 
 local obsession = {
@@ -285,12 +550,16 @@ local obsession = {
 
 local resession = {
 	function()
-		local color = require("resession").get_current_session_info() ~= nil
-				and "%#DiagnosticCheck#"
-			or "%#BarDiagError#"
+		local session_state = require("resession").get_current_session_info()
+		if session_state == nil then
+			return ""
+		end
+		-- if it's auto, make it yellow
+		local color = session_state.dir:find("/auto/") ~= nil
+				and "%#SessionAuto#"
+			or "%#DiagnosticCheck#"
 		return color .. icons.ui.Session .. "%* in"
 	end,
-	separator = { left = "", right = "" },
 	padding = { left = 1, right = 0 },
 	cond = function()
 		return require("resession").get_current_session_info() ~= nil
@@ -302,17 +571,17 @@ local root = {
 		return vim.fn.fnamemodify(vim.fn.getcwd(-1, -1), ":t")
 	end,
 	color = "AccentInverse",
-	separator = { left = "", right = "" },
 	padding = { left = 1, right = 0 },
 }
 
 local buffers = {
 	"buffers",
 	show_filename_only = true, -- Shows shortened relative path when set to false.
-	hide_filename_extension = false, -- Hide filename extension when set to true.
+	hide_filename_extension = true, -- Hide filename extension when set to true.
 	show_modified_status = true, -- Shows indicator when the buffer is modified.
-	icons_enabled = false,
-	padding = { left = 1, right = 1 },
+	icons_enabled = true,
+	padding = { left = 1, right = 0 },
+	separator = { left = "", right = "" },
 	mode = 0,
 	-- 0: Shows buffer name
 	-- 1: Shows buffer index
@@ -341,39 +610,84 @@ local buffers = {
 		active = "TabLineSel", -- Color for active buffer.
 		inactive = "TabLine", -- Color for inactive buffer.
 	},
-
 	symbols = {
-		modified = " " .. icons.ui.Dot, -- Text to show when the buffer is modified
+		modified = icons.ui.Dot, -- Text to show when the buffer is modified
 		alternate_file = "#", -- Text to show to identify the alternate file
 		directory = icons.kind.Folder, -- Text to show when the buffer is a directory
 	},
 	fmt = function(str, ctx)
-		local is_current = ctx.bufnr == vim.api.nvim_get_current_buf()
-		local ft = vim.bo.filetype
+		local is_current = ctx.bufnr == vim.fn.bufnr()
 
 		if str:find("Scratch") then
 			str = "Scratch"
 		elseif str:len() > 20 then
 			-- split filename and extension
 			local name = vim.fn.fnamemodify(str, ":t:r")
-			local ext = vim.fn.fnamemodify(str, ":e:e")
+			-- local ext = vim.fn.fnamemodify(str, ":e:e")
 			-- truncate name so that name + "..." + ext equals 20 chars
-			str = string.format("%s...%s", name:sub(1, 20 - ext:len() - 3), ext)
+			-- str = string.format("%s...%s", name:sub(1, 20 - ext:len() - 3), ext)
+			str = string.format("%s...", name:sub(1, 20 - 3))
 		end
-		local icon, hl = require("nvim-web-devicons").get_icon_by_filetype(
-			ft,
-			{ default = true }
-		)
-		-- merge current tab background highlight with icon foreground highlight
 
 		return string.format(
-			"%%#%s#%s %s %%*%%#%s#%s",
-			(is_current and "TabLineSel" or "AccentInverse"),
-			ctx.buf_index,
-			string.format("%%#%s#%s", (is_current and "TabLineSel" or hl), icon),
+			"%%#%s# %s %%#%s#%s %%*",
 			(is_current and "TabLineSel" or "TabLine"),
-			str
+			str,
+			(is_current and "TabIndexSel" or "TabIndex"),
+			ctx.buf_index
 		)
+	end,
+}
+
+local buffer_count = {
+	function()
+		local buffers_count = 0
+		for b = 1, vim.fn.bufnr("$") do
+			if
+				vim.fn.buflisted(b) ~= 0
+				and vim.api.nvim_buf_get_option(b, "buftype") ~= "quickfix"
+			then
+				buffers_count = buffers_count + 1
+			end
+		end
+		return buffers_count > 0 and format_bubble(buffers_count) or ""
+	end,
+	padding = { left = 1, right = 0 },
+	separator = "",
+}
+
+local alt_buffer = {
+	function()
+		local alt_buf = vim.fn.bufname("#")
+		if alt_buf == "" then
+			return ""
+		end
+
+		local alt_buf_name = vim.fn.fnamemodify(alt_buf, ":t")
+		if alt_buf_name:len() > 20 then
+			alt_buf_name = alt_buf_name:sub(1, 20) .. "..."
+		end
+
+		return alt_buf_name
+	end,
+	color = "AccentInverse",
+	icon = "#",
+	padding = { left = 1, right = 0 },
+	separator = "",
+	cond = function()
+		return vim.fn.bufname("#") ~= ""
+	end,
+}
+
+local tab_count = {
+	function()
+		return string.format("[%s]", vim.fn.tabpagenr("$"))
+	end,
+	color = "AccentInverse",
+	separator = icons.separators.straight.right,
+	padding = 0,
+	cond = function()
+		return vim.fn.tabpagenr("$") > 6
 	end,
 }
 
@@ -389,9 +703,9 @@ local tabs = {
 	-- 3: shows the full path and shorten $HOME to ~
 	path = 0,
 	max_length = function()
-		return math.floor(vim.o.columns * 3 / 3) - 5
-	end, -- Maximum width of buffers component,
-	padding = { left = 1, right = 0 },
+		return math.floor(vim.o.columns * 3 / 2) - 5
+	end,
+	padding = { left = 0, right = 0 },
 	tabs_color = {
 		-- Same values as the general color option can be used here.
 		active = "TabLineSel", -- Color for active tab.
@@ -420,12 +734,13 @@ local tabs = {
 		)
 
 		return string.format(
-			"%%#%s#%s %%*%%#%s#%s%s",
+			"%%#%s# %s %%*%%#%s#%s%s%%#%s#",
 			(is_current and "TabLineSel" or "AccentInverse"),
 			context.tabnr,
 			(is_current and "TabLineSel" or "TabLine"),
 			tab_name,
-			path
+			path,
+			(is_current and "TabLineSel" or "TabLine")
 		)
 	end,
 	-- cond = function()
@@ -564,31 +879,82 @@ local overseer = {
 	unique = true,
 }
 
-local windsurf_spinner = spinner:new(100)
+local windsurf_spinner = spinner:new("windsurf_spinner", "dots")
 local windsurf = {
 	function()
 		local status = require("codeium.virtual_text").status()
 
 		if status.state == "idle" then
 			-- Output was cleared, for example when leaving insert mode
-			return "%#DiagnosticCheck#" .. "✓"
+			windsurf_spinner:stop()
+			return "%#DiagnosticCheck#" .. icons.ui.Brain
 		end
 
 		if status.state == "waiting" then
 			-- Waiting for response
-			return windsurf_spinner:update_spinner() .. " "
+			windsurf_spinner:start()
+			return windsurf_spinner:get_frame() .. " "
 		end
 
 		if status.state == "completions" and status.total > 0 then
+			windsurf_spinner:stop()
 			return string.format("%d/%d", status.current, status.total)
 		end
 
 		return " 0 "
 	end,
-	icon = { icons.ui.Brain, color = "DiagnosticCheck" },
 	cond = function()
-		return package.loaded["codeium"] ~= nil
+		return package.loaded["windsurf"] ~= nil
 	end,
+}
+
+local copilot = {
+	"copilot",
+	-- Default values
+	symbols = {
+		status = {
+			icons = {
+				enabled = " ",
+				sleep = " ", -- auto-trigger disabled
+				disabled = " ",
+				warning = " ",
+				unknown = " ",
+			},
+			hl = {
+				enabled = require("copilot-lualine.colors").get_hl_value(
+					0,
+					"DiagnosticCheck",
+					"fg"
+				),
+				sleep = require("copilot-lualine.colors").get_hl_value(
+					0,
+					"Normal",
+					"fg"
+				),
+				disabled = require("copilot-lualine.colors").get_hl_value(
+					0,
+					"NonText",
+					"fg"
+				),
+				warning = require("copilot-lualine.colors").get_hl_value(
+					0,
+					"DiagnosticWarn",
+					"fg"
+				),
+				unknown = require("copilot-lualine.colors").get_hl_value(
+					0,
+					"DiagnosticError",
+					"fg"
+				),
+			},
+		},
+		spinners = "dots", -- has some premade spinners
+		spinner_color = "#6272A4",
+	},
+	show_colors = true,
+	show_loading = true,
+	separator = "",
+	padding = { left = 1, right = 0 },
 }
 
 local function is_loclist()
@@ -606,102 +972,58 @@ local function qf_title()
 	return vim.fn.getqflist({ title = 0 }).title
 end
 
-local function format_bubble(str)
-	return string.format(
-		"%s%s%s%s%s%s%s",
-		"%#AccentInverse#",
-		icons.separators.rounded.right,
-		"%#Accent#",
-		str,
-		"%#AccentInverse#",
-		icons.separators.rounded.left,
-		"%*"
-	)
+local function parse_control_element(element)
+	local e = element:match("(.*)%%#0#$")
+	local color, action_element = e:match("^(.-)#%%(.+)$")
+	color = color:gsub("^%%#", "")
+	return color, "%" .. action_element
 end
 
-local winbar_ignore = {
-	"Avante",
-	"AvanteInput",
-	"AvanteSelectedFiles",
-	"DiffviewFiles",
-	"Outline",
-	"OverseerList",
-	"dap-repl",
-	"dapui_breakpoints",
-	"dapui_console",
-	"dapui_scopes",
-	"dapui_stacks",
-	"dapui_watches",
-	"fugitive",
-	"help",
-	"neo-tree",
-	"oil",
-	"qf",
-	"undotree",
-}
+local function get_color_codes(name)
+	local hl = vim.api.nvim_get_hl(0, { name = name })
+	local fg = string.format("#%06x", hl.fg and hl.fg or 0)
+	local bg = string.format("#%06x", hl.bg and hl.bg or 0)
+	return fg, bg
+end
 
-local winbar_ft_icons = {
-	dapui_watches = {
-		hl = "DAPUIWatchesValue",
-		icon = icons.ui.Watches,
-	},
-	dapui_breakpoints = {
-		hl = "DapBreakpoint",
-		icon = icons.ui.Bug,
-	},
-	dapui_stacks = {
-		hl = "DAPUISource",
-		icon = icons.ui.Stacks,
-	},
-	dapui_scopes = {
-		hl = "DAPUIScope",
-		icon = icons.ui.Scopes,
-	},
-	["dap-repl"] = {
-		icon = icons.ui.Repeat,
-	},
-	DiffviewFiles = {
-		icon = icons.git.Diff,
-	},
-	Outline = {
-		icon = icons.ui.BulletList,
-	},
-	trouble = {
-		icon = " ",
-	},
-	toggleterm = {
-		hl = "DiagnosticCheck",
-		icon = icons.ui.Term,
-	},
-	OverseerList = {
-		hl = "DiagnosticCheck",
-		icon = icons.ui.StatusList,
-	},
-	undotree = {
-		hl = "DiagnosticCheck",
-		icon = icons.ui.Undo,
-	},
-	Avante = {
-		icon = icons.ui.Chat,
-	},
-	["neo-tree"] = {
-		icon = "",
-	},
-	qf = {
-		icon = "",
-	},
-	dapui_console = {
-		hl = "DevIconTerminal",
-		icon = require("nvim-web-devicons").get_icon_by_filetype(
-			"terminal",
-			{}
-		),
-	},
-	fugitive = {
-		hl = "DevIconGit",
-		icon = require("nvim-web-devicons").get_icon_by_filetype("git", {}),
-	},
-}
+local function merge_colors(foreground, background)
+	local new_name = foreground .. background
+	local fg, _ = get_color_codes(foreground)
+	local _, bg = get_color_codes(background)
+	vim.api.nvim_set_hl(0, new_name, { fg = fg, bg = bg })
+	return string.format("%%#%s#", new_name)
+end
+
+local function inverse_color(name)
+	local fg, bg = get_color_codes(name)
+	local new_name = name .. "_inversed"
+	vim.api.nvim_set_hl(0, new_name, { fg = bg, bg = fg })
+	return string.format("%%#%s#", new_name)
+end
+
+local lualine_color = "WinBar"
+local default_color = lualine_color
+local color_start = "%#"
+local color_end = "#"
+local function get_dap_repl_winbar(separator, active)
+	local background_color = lualine_color
+	local controls_string = color_start .. default_color .. color_end
+	for control_element in require("dapui.controls").controls():gmatch("%S+") do
+		local color, action_element = parse_control_element(control_element)
+		-- local new_color = merge_colors(color, default_color)
+		local out = color_start
+			.. background_color
+			.. color_end
+			.. separator
+			.. color_start
+			.. color
+			.. color_end
+			.. " "
+			.. action_element
+		controls_string = controls_string .. " " .. out
+	end
+	return controls_string
+end
 
 local winbar = {
 	lualine_a = {
@@ -710,17 +1032,15 @@ local winbar = {
 				return format_bubble(vim.api.nvim_win_get_number(0))
 			end,
 			padding = 0,
-			separator = { left = "", right = "" },
 		},
 	},
 	lualine_c = {
 		{ -- fill space to center filename
 			"%=",
-			separator = { left = "", right = "" },
 			padding = { left = 0, right = 0 },
+			separator = "",
 			fmt = function(str)
-				local ft = vim.bo.filetype
-				if contains(winbar_ignore, ft) then
+				if not winbar_ignore() then
 					return " "
 				end
 				return trunc(str, 10, 0, 5, true)
@@ -734,24 +1054,23 @@ local winbar = {
 			-- icon =    {'X', align='right'}
 			-- Icon string ^ in table is ignored in filetype component
 			padding = { left = 0, right = 0 },
-			separator = { left = "", right = "" },
+			separator = "",
 			fmt = function(str)
 				local ft = vim.bo.filetype
+				local bt = vim.bo.buftype
 
-				if contains(winbar_ignore, ft) then
-					local ico = winbar_ft_icons[ft]
+				if winbar_ft_icons[ft] ~= nil or winbar_ft_icons[bt] then
+					local ico = winbar_ft_icons[ft] or winbar_ft_icons[bt]
 					str = string.format(
 						"%s%s%%*",
-						(string.format("%%#%s#", ico.hl) or ""),
-						(ico.icon or "")
+						(string.format("%%#%s#", (ico.hl or "WinBar")) or ""),
+						(ico.icon .. " " or "")
 					)
 				end
 
 				return trunc(str, 10, 0, 5, true)
 			end,
-			cond = function()
-				return not contains(winbar_ignore, vim.bo.filetype)
-			end,
+			cond = winbar_ignore,
 		},
 		{
 			"filename",
@@ -772,61 +1091,34 @@ local winbar = {
 				newfile = "[New]", -- Text to show for newly created file before first write
 			},
 			padding = { left = 0, right = 0 },
-			separator = { left = "", right = "" },
+			separator = "",
 			fmt = function(str)
 				local name = str
 				local ft = vim.bo.filetype
-				if ft == "dap-repl" then
-					name = format_bubble("REPL")
-					goto continue
-				end
-				if ft == "DiffviewFiles" then
-					name = format_bubble("Diffview")
-					goto continue
-				end
-				if ft == "Outline" then
-					name = format_bubble("Outline")
-					goto continue
-				end
-				if ft == "trouble" then
-					name = ""
-					goto continue
-				end
-				if ft == "toggleterm" then
-					name = "Terminal (" .. vim.b.toggle_number .. ")"
-					goto continue
-				end
-				if ft == "fugitive" then
-					name = "Fugitive"
-					goto continue
-				end
-				if ft == "OverseerList" then
-					name = format_bubble("Overseer")
-					goto continue
-				end
-				if ft == "undotree" then
-					name = format_bubble("UndoTree")
-					goto continue
-				end
-				if ft == "neo-tree" then
-					name = format_bubble("NeoTree")
-					goto continue
-				end
-				if ft == "oil" then
-					name = format_bubble("Oil")
-					goto continue
-				end
-				if ft == "Avante" then
-					name = format_bubble("Avante")
-					goto continue
-				end
-				if ft == "AvanteSelectedFiles" then
-					name = format_bubble("Context")
-					goto continue
-				end
-				if ft == "AvanteInput" then
-					name = format_bubble("Ask Avante")
-					goto continue
+				local bt = vim.bo.buftype
+				-- P(winbar_ft_icons[ft])
+				if winbar_ft_icons[ft] ~= nil or winbar_ft_icons[bt] ~= nil then
+					local file_spec = winbar_ft_icons[ft] or winbar_ft_icons[bt]
+
+					if ft == "dap-repl" then
+						name = format_bubble(file_spec.name)
+							.. get_dap_repl_winbar("", true)
+						goto continue
+					end
+
+					if file_spec.name and not file_spec.icon then
+						name = format_bubble(file_spec.name)
+					elseif file_spec.icon then
+						name = string.format(
+							"%s%s%s",
+							("%%#%s #"):format(file_spec.hl or ""),
+							file_spec.icon .. " " or "",
+							format_bubble(file_spec.name)
+						)
+					else
+						name = format_bubble(ft:gsub("^(%l)", string.upper))
+							or ""
+					end
 				end
 				if ft == "qf" then
 					name = string.format(
@@ -834,11 +1126,13 @@ local winbar = {
 						format_bubble(qf_label()),
 						qf_title()
 					)
+					goto continue
 				end
 				if string.match(ft, "dapui") ~= nil then
 					name = format_bubble(
 						string.gsub(ft:gsub("dapui_", ""), "^%l", string.upper)
 					)
+					goto continue
 				end
 				::continue::
 				return trunc(name, 10, 0, 5, true)
@@ -848,14 +1142,10 @@ local winbar = {
 	lualine_x = {
 		"SleuthIndicator",
 		vim.tbl_extend("force", fileformat, {
-			cond = function()
-				return not contains(winbar_ignore, vim.bo.filetype)
-			end,
+			cond = winbar_ignore,
 		}),
 		vim.tbl_extend("force", encoding, {
-			cond = function()
-				return not contains(winbar_ignore, vim.bo.filetype)
-			end,
+			cond = winbar_ignore,
 		}),
 	},
 	lualine_y = {
@@ -878,19 +1168,21 @@ local winbar = {
 			fmt = function(str, ctx)
 				local ft = vim.bo.filetype
 				local bt = vim.bo.buftype
+
+				if
+					contains(winbar_ft_ignore, ft)
+					or contains(winbar_bt_ignore, bt)
+				then
+					return "%#DiagnosticCheck# %*"
+				end
+
 				local total = 0
-				if ctx.last_diagnostics_count[1] then
-					for _, value in pairs(ctx.last_diagnostics_count[1]) do
+				if ctx.last_diagnostics_count[3] then
+					for _, value in pairs(ctx.last_diagnostics_count[3]) do
 						total = total + value
 					end
 				end
 
-				if
-					contains(winbar_ignore, ft)
-					or contains({ "terminal", "nofile", "quickfix" }, bt)
-				then
-					return "%#DiagnosticCheck# %*"
-				end
 				return total == 0
 						and string.format(
 							"%s%s%s",
@@ -900,6 +1192,7 @@ local winbar = {
 						)
 					or str
 			end,
+			separator = { left = "", right = "" },
 		},
 	},
 }
@@ -909,15 +1202,6 @@ return {
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons", lazy = true },
 		init = function()
-			vim.g.lualine_laststatus = vim.o.laststatus
-			if vim.fn.argc(-1) > 0 then
-				-- set an empty statusline till lualine loads
-				vim.o.statusline = " "
-			else
-				-- hide the statusline on the starter page
-				vim.o.laststatus = 0
-			end
-
 			local buf_next = function(next, count)
 				if count ~= 0 then
 					vim.cmd([[LualineBuffersJump! ]] .. count)
@@ -952,47 +1236,48 @@ return {
 						winbar = 100,
 					},
 					disabled_filetypes = {
+						-- 	statusline = {},
 						winbar = {
+							-- "dapui_watches",
+							-- "dapui_breakpoints",
+							-- "dapui_console",
+							-- "dapui_stacks",
+							-- "dapui_scopes",
+							-- "dap-repl",
 							"Avante",
 							"AvanteInput",
 							"AvanteSelectedFiles",
 						},
 					},
-					-- disabled_filetypes = {
-					-- 	statusline = {},
-					-- 	winbar = {
-					-- 		"dapui_watches",
-					-- 		"dapui_breakpoints",
-					-- 		"dapui_console",
-					-- 		"dapui_stacks",
-					-- 		"dapui_scopes",
-					-- 		"dap-repl",
-					-- 	},
-					-- },
 				},
 				sections = {
 					lualine_a = {},
-					lualine_b = {},
-					lualine_c = {
+					lualine_b = {
 						resession,
 						root,
-						git,
+						branch,
+					},
+					lualine_c = {
 						workspace_diagnostics,
 						git_conflict,
-						-- language_server,
-						lint_progress,
+
+						language_server,
 						windsurf,
+						copilot,
+
+						lint_progress,
 						asyncrun_status,
 						overseer,
 					},
 					lualine_x = {
-						buffers,
+						-- buffers,
+						format_on_save,
+						show_macro_recording,
 					},
 					lualine_y = {
-						show_macro_recording,
 						-- location,
 					},
-					lualine_z = {},
+					lualine_z = trans_flag,
 				},
 				inactive_sections = {
 					lualine_a = {},
@@ -1005,24 +1290,27 @@ return {
 				winbar = winbar,
 				inactive_winbar = winbar,
 				tabline = {
-					-- lualine_a = { root },
-					lualine_b = { tabs },
+					lualine_a = { tab_count, tabs },
+					lualine_b = { buffer_count, alt_buffer },
 					lualine_c = {},
 					lualine_x = { harpoon },
 				},
-				inactive_tablines = {},
 				extensions = {
-					"fugitive",
+					-- "fugitive",
 					"lazy",
 					"mason",
-					"neo-tree",
-					"nvim-dap-ui",
+					-- "neo-tree",
+					-- "nvim-dap-ui",
 					"oil",
-					"overseer",
-					"quickfix",
-					"symbols-outline",
-					"toggleterm",
-					"trouble",
+					-- "overseer",
+					-- "quickfix",
+					-- "symbols-outline",
+					-- "toggleterm",
+					-- "trouble",
+					-- require("faith.plugins.statusline.extensions.nvim-dap-ui").setup({
+					-- 	active_separator = ">",
+					-- 	inactive_separator = "|",
+					-- }),
 				},
 			}
 

@@ -7,9 +7,9 @@ local powershell_options = {
 	shellxquote = "",
 }
 
--- for option, value in pairs(powershell_options) do
--- 	vim.opt[option] = value
--- end
+for option, value in pairs(powershell_options) do
+	vim.opt[option] = value
+end
 
-vim.opt.shell = "bash"
-vim.opt.shellcmdflag = "-s"
+-- vim.opt.shell = "bash"
+-- vim.opt.shellcmdflag = "-s"

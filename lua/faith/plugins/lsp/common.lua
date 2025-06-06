@@ -47,18 +47,6 @@ M.lsp_keymaps = function(bufnr)
 		vim.diagnostic.setqflist,
 		"[d]iagnostic [q]uickfix: Add workspace diagnostics to quickfix list."
 	)
-	map("<leader>dd", function()
-		if
-			vim.g.diagnostics_active
-			or vim.fn.exists("diagnostics_active") == 0
-		then
-			vim.g.diagnostics_active = false
-			vim.diagnostic.hide()
-		else
-			vim.g.diagnostics_active = true
-			vim.diagnostic.show()
-		end
-	end)
 	map(
 		"<leader>a",
 		vim.lsp.buf.code_action,

@@ -1,3 +1,80 @@
+local dap_keymaps = function()
+	vim.keymap.set("n", "<Leader>db", function()
+		require("persistent-breakpoints.api").toggle_breakpoint()
+	end, {
+		desc = "[d]ebug [b]reakpoint: Toggle debugger breakpoint on current line.",
+	})
+	vim.keymap.set("n", "<Leader>dB", function()
+		require("persistent-breakpoints.api").set_conditional_breakpoint()
+	end, {
+		desc = "[d]ebug [B]reakpoint conditional: Toggle conditional breakpoint on current line.",
+	})
+	vim.keymap.set("n", "<F6>", function()
+		require("dap").continue()
+	end, {
+		desc = "Debug: Start/Continue",
+	})
+	vim.keymap.set("n", "<F7>", function()
+		require("dap").step_into()
+	end, {
+		desc = "Debug: Step Into",
+	})
+	vim.keymap.set("n", "<F8>", function()
+		require("dap").step_over()
+	end, {
+		desc = "Debug: Step Over",
+	})
+	vim.keymap.set("n", "<F9>", function()
+		require("dap").step_out()
+	end, {
+		desc = "Debug: Step Out",
+	})
+	vim.keymap.set("n", "<Leader>dp", function()
+		require("dap").set_breakpoint(
+			nil,
+			nil,
+			vim.fn.input({ prompt = "Log point message: " })
+		)
+	end, {
+		desc = "[d]ebug log [p]oint: Add logging breakpoint on current line.",
+	})
+	vim.keymap.set("n", "<leader>de", function()
+		require("dapui").eval()
+	end, {
+		desc = "[d]ebug [e]valuate: Evaluate <word> under cursor or selection.",
+	})
+
+	vim.keymap.set("n", "]D", function()
+		require("goto-breakpoints").next()
+	end, {
+		desc = "Next debug breakpoint.",
+	})
+	vim.keymap.set("n", "[D", function()
+		require("goto-breakpoints").prev()
+	end, {
+		desc = "Previous debug breakpoint.",
+	})
+	vim.keymap.set("n", "]S", function()
+		require("goto-breakpoints").stopped()
+	end, {
+		desc = "Goto debug stop point.",
+	})
+	vim.keymap.set("n", "<Leader>do", function()
+		require("dapui").toggle({ reset = true })
+		vim.cmd("DapVirtualTextForceRefresh")
+	end, {
+		desc = "[d]ebug ui [o]pen: Toggle debugger ui.",
+	})
+	vim.keymap.set(
+		"n",
+		"<leader>dt",
+		"<cmd>lua require('dapui').toggle({layout = 2})<CR>",
+		{
+			desc = "[d]ebug [t]est view: Open repl and console for test output.",
+		}
+	)
+end
+
 return {
 	{
 		"mfussenegger/nvim-dap",
@@ -23,105 +100,6 @@ return {
 
 			"leoluz/nvim-dap-go",
 		},
-		keys = {
-			{
-				"<Leader>db",
-				function()
-					require("persistent-breakpoints.api").toggle_breakpoint()
-				end,
-				desc = "[d]ebug [b]reakpoint: Toggle debugger breakpoint on current line.",
-			},
-			{
-				"<Leader>dB",
-				function()
-					require("persistent-breakpoints.api").set_conditional_breakpoint()
-				end,
-				desc = "[d]ebug [B]reakpoint conditional: Toggle conditional breakpoint on current line.",
-			},
-			-- Basic debugging keymaps, feel free to change to your liking!
-			{
-				"<F6>",
-				function()
-					require("dap").continue()
-				end,
-				desc = "Debug: Start/Continue",
-			},
-			{
-				"<F7>",
-				function()
-					require("dap").step_into()
-				end,
-				desc = "Debug: Step Into",
-			},
-			{
-				"<F8>",
-				function()
-					require("dap").step_over()
-				end,
-				desc = "Debug: Step Over",
-			},
-			{
-				"<F9>",
-				function()
-					require("dap").step_out()
-				end,
-				desc = "Debug: Step Out",
-			},
-			{
-				"<Leader>dp",
-				function()
-					require("dap").set_breakpoint(
-						nil,
-						nil,
-						vim.fn.input({ prompt = "Log point message: " })
-					)
-				end,
-				desc = "[d]ebug log [p]oint: Add logging breakpoint on current line.",
-			},
-			{
-				"<leader>de",
-				function()
-					require("dapui").eval()
-				end,
-				desc = "[d]ebug [e]valuate: Evaluate <word> under cursor or selection.",
-				mode = { "n", "v" },
-			},
-
-			{
-				"]D",
-				function()
-					require("goto-breakpoints").next()
-				end,
-				desc = "Next debug breakpoint.",
-			},
-			{
-				"[D",
-				function()
-					require("goto-breakpoints").prev()
-				end,
-				desc = "Previous debug breakpoint.",
-			},
-			{
-				"]S",
-				function()
-					require("goto-breakpoints").stopped()
-				end,
-				desc = "Goto debug stop point.",
-			},
-			{
-				"<Leader>do",
-				function()
-					require("dapui").toggle({ reset = true })
-					vim.cmd("DapVirtualTextForceRefresh")
-				end,
-				desc = "[d]ebug ui [o]pen: Toggle debugger ui.",
-			},
-			{
-				"<leader>dt",
-				"<cmd>lua require('dapui').toggle({layout = 2})<CR>",
-				desc = "[d]ebug [t]est view: Open repl and console for test output.",
-			},
-		},
 		config = function()
 			local dap = require("dap")
 			local dapui = require("dapui")
@@ -136,22 +114,171 @@ return {
 
 				-- You can provide additional configuration to the handlers,
 				-- see mason-nvim-dap README for more information
-				handlers = {},
+				handlers = {
+					-- function(config)
+					-- 	-- all sources with no handler get passed here
+					--
+					-- 	-- Keep original functionality
+					-- 	require("mason-nvim-dap").default_setup(config)
+					-- end,
+					-- codelldb = function(config)
+					-- 	config.configurations = {
+					-- 		{
+					-- 			name = "LLDB: Launch",
+					-- 			type = "codelldb",
+					-- 			program = function()
+					-- 				return vim.ui.input({
+					-- 					prompt = "Path to executable: ",
+					-- 					default = vim.fn.getcwd() .. "/",
+					-- 					completion = "file",
+					-- 				}, function(input) end)
+					-- 			end,
+					-- 			console = "integratedTerminal",
+					-- 		},
+					-- 		{
+					-- 			name = "LLDB: Launch (args)",
+					-- 			program = function()
+					-- 				return vim.ui.input({
+					-- 					prompt = "Path to executable: ",
+					-- 					default = vim.fn.getcwd() .. "/",
+					-- 					completion = "file",
+					-- 				}, function(input) end)
+					-- 			end,
+					-- 			args = function()
+					-- 				return vim.split(
+					-- 					vim.ui.input(
+					-- 						{ prompt = "Args: " },
+					-- 						function(input)
+					-- 							return input or ""
+					-- 						end
+					-- 					),
+					-- 					" +",
+					-- 					{ trimempty = true }
+					-- 				)
+					-- 			end,
+					-- 			console = "integratedTerminal",
+					-- 		},
+					-- 	}
+					-- 	require("mason-nvim-dap").default_setup(config)
+					-- end,
+				},
 
 				-- You'll need to check that you have the required things installed
 				-- online, please don't ask me how to install them :)
 				ensure_installed = {
 					-- Update this to ensure that you have the debuggers for the langs you want
-					"delve",
+					-- "delve",
 				},
 			})
+
+			dap.adapters["pwa-node"] = {
+				type = "server",
+				host = "localhost",
+				port = "${port}",
+				executable = {
+					command = "node",
+					-- 💀 Make sure to update this path to point to your installation
+					args = {
+						require("mason-registry")
+							.get_package("js-debug-adapter")
+							:get_install_path()
+							.. "/js-debug/src/dapDebugServer.js",
+						"${port}",
+					},
+				},
+			}
+
+			-- custom adapter for running tasks before starting debug
+			local custom_adapter = "pwa-node-custom"
+			dap.adapters[custom_adapter] = function(cb, config)
+				if config.preLaunchTask then
+					local async = require("plenary.async")
+					local notify = require("notify").async
+
+					async.run(function()
+						---@diagnostic disable-next-line: missing-parameter
+						notify("Running [" .. config.preLaunchTask .. "]").events.close()
+					end, function()
+						vim.fn.system(config.preLaunchTask)
+						config.type = "pwa-node"
+						dap.run(config)
+					end)
+				end
+			end
+
+			for _, language in ipairs({ "typescript", "javascript" }) do
+				dap.configurations[language] = {
+					{
+						name = "Launch",
+						type = "pwa-node",
+						request = "launch",
+						program = "${file}",
+						rootPath = "${workspaceFolder}",
+						cwd = "${workspaceFolder}",
+						sourceMaps = true,
+						skipFiles = { "<node_internals>/**" },
+						protocol = "inspector",
+						console = "integratedTerminal",
+					},
+					{
+						name = "Attach to node process",
+						type = "pwa-node",
+						request = "attach",
+						rootPath = "${workspaceFolder}",
+						processId = require("dap.utils").pick_process,
+					},
+					{
+						name = "Debug Main Process (Electron)",
+						type = "pwa-node",
+						request = "launch",
+						program = "${workspaceFolder}/node_modules/.bin/electron",
+						args = {
+							"${workspaceFolder}/dist/index.js",
+						},
+						outFiles = {
+							"${workspaceFolder}/dist/*.js",
+						},
+						resolveSourceMapLocations = {
+							"${workspaceFolder}/dist/**/*.js",
+							"${workspaceFolder}/dist/*.js",
+						},
+						rootPath = "${workspaceFolder}",
+						cwd = "${workspaceFolder}",
+						sourceMaps = true,
+						skipFiles = { "<node_internals>/**" },
+						protocol = "inspector",
+						console = "integratedTerminal",
+					},
+					{
+						name = "Compile & Debug Main Process (Electron)",
+						type = custom_adapter,
+						request = "launch",
+						preLaunchTask = "npm run build-ts",
+						program = "${workspaceFolder}/node_modules/.bin/electron",
+						args = {
+							"${workspaceFolder}/dist/index.js",
+						},
+						outFiles = {
+							"${workspaceFolder}/dist/*.js",
+						},
+						resolveSourceMapLocations = {
+							"${workspaceFolder}/dist/**/*.js",
+							"${workspaceFolder}/dist/*.js",
+						},
+						rootPath = "${workspaceFolder}",
+						cwd = "${workspaceFolder}",
+						sourceMaps = true,
+						skipFiles = { "<node_internals>/**" },
+						protocol = "inspector",
+						console = "integratedTerminal",
+					},
+				}
+			end
 
 			-- dap.listeners.after.event_initialized['dapui_config'] = dapui.open
 			-- dap.listeners.before.event_terminated['dapui_config'] = dapui.close
 			-- dap.listeners.before.event_exited['dapui_config'] = dapui.close
-			--
-			--
-			--
+
 			dapui.setup({
 				icons = {
 					expanded = icons.ui.ArrowFillOpen,
@@ -197,8 +324,7 @@ return {
 					},
 				},
 				controls = {
-					-- Requires Neovim nightly (or 0.8 when released)
-					enabled = false,
+					enabled = true,
 					-- Display controls in this element
 					element = "repl",
 					icons = {
@@ -227,7 +353,7 @@ return {
 			})
 
 			persistent_breakpoints.setup({
-				load_breakpoints_event = "BufReadPost",
+				load_breakpoints_event = "LspAttach",
 			})
 
 			require("nvim-dap-repl-highlights").setup()
@@ -245,6 +371,8 @@ return {
 			-- Catppuccin integration
 			local sign = vim.fn.sign_define
 			local icons = require("faith.icons")
+
+			dap_keymaps()
 
 			sign("DapBreakpoint", {
 				text = icons.debug.Breakpoint,

@@ -96,6 +96,10 @@ function M.git_commits()
 	local opts = vim.deepcopy(layouts.default_flex) or {}
 	require("telescope.builtin").git_commits(opts)
 end
+function M.git_branches()
+	local opts = vim.deepcopy(layouts.default_flex) or {}
+	require("telescope.builtin").git_branches(opts)
+end
 
 function M.git_status()
 	local opts = vim.deepcopy(layouts.default_flex) or {}

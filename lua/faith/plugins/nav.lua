@@ -18,7 +18,7 @@ return {
 					):make_relative()
 				return {
 					value = name,
-					context = { tab = vim.api.nvim_get_current_tabpage() },
+					context = { tab = vim.fn.tabpagenr() },
 				}
 			end
 
@@ -30,6 +30,15 @@ return {
 					end,
 				}
 			end
+
+			vim.api.nvim_create_autocmd("TabClosed", {
+				callback = function(args)
+					local tab_name = string.format("%s%d", "tab", args.file)
+					if harpoon:list(tab_name) then
+						harpoon:list(tab_name):clear()
+					end
+				end,
+			})
 
 			harpoon:setup(tab_lists)
 
@@ -174,10 +183,53 @@ return {
 	},
 	{
 		"stevearc/oil.nvim",
+		lazy = false,
+		dependencies = {
+			"nvim-tree/nvim-web-devicons",
+		},
 		opts = {
 			delete_to_trash = true,
+			columns = {
+				"icon",
+				"size",
+				"mtime",
+			},
+			-- Set to false to disable all of the below keymaps
+			use_default_keymaps = false,
+			keymaps = {
+				["g?"] = { "actions.show_help", mode = "n" },
+				["<CR>"] = "actions.select",
+				["<C-s>"] = { "actions.select", opts = { vertical = true } },
+				["<C-x>"] = { "actions.select", opts = { horizontal = true } },
+				["<C-t>"] = { "actions.select", opts = { tab = true } },
+				["<C-p>"] = function()
+					require("oil.actions").preview.callback()
+					vim.defer_fn(function()
+						vim.iter(vim.api.nvim_tabpage_list_wins(0))
+							:filter(vim.api.nvim_win_is_valid)
+							:filter(function(v)
+								return vim.wo[v].previewwindow
+							end)
+							:filter(function(v)
+								return vim.w[v]["oil_preview"]
+							end)
+							:each(function(v)
+								vim.wo[v].winfixwidth = true
+							end)
+					end, 50)
+				end,
+				["<C-c>"] = { "actions.close", mode = "n" },
+				["<C-l>"] = "actions.refresh",
+				["-"] = { "actions.parent", mode = "n" },
+				["_"] = { "actions.open_cwd", mode = "n" },
+				["`"] = { "actions.cd", mode = "n" },
+				["~"] = { "actions.cd", opts = { scope = "tab" }, mode = "n" },
+				["gs"] = { "actions.change_sort", mode = "n" },
+				["gx"] = "actions.open_external",
+				["g."] = { "actions.toggle_hidden", mode = "n" },
+				["g\\"] = { "actions.toggle_trash", mode = "n" },
+			},
 		},
-		lazy = false,
 	},
 	{
 		"mrjones2014/smart-splits.nvim",
@@ -307,6 +359,32 @@ return {
 			},
 			filesystem = {
 				hijack_netrw_behavior = "disabled",
+				commands = {
+					avante_add_files = function(state)
+						local node = state.tree:get_node()
+						local filepath = node:get_id()
+						local relative_path =
+							require("avante.utils").relative_path(filepath)
+
+						local sidebar = require("avante").get()
+
+						local open = sidebar:is_open()
+						-- ensure avante sidebar is open
+						if not open then
+							require("avante.api").ask()
+							sidebar = require("avante").get()
+						end
+
+						sidebar.file_selector:add_selected_file(relative_path)
+
+						-- remove neo tree buffer
+						if not open then
+							sidebar.file_selector:remove_selected_file(
+								"neo-tree filesystem [1]"
+							)
+						end
+					end,
+				},
 				window = {
 					mappings = {
 						["h"] = function(state)
@@ -341,6 +419,7 @@ return {
 								end
 							end
 						end,
+						["oa"] = "avante_add_files",
 					},
 				},
 			},

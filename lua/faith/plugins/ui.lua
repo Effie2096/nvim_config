@@ -2,6 +2,10 @@ local icons = require("faith.icons")
 
 return {
 	{
+		"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+		lazy = false,
+	},
+	{
 		"folke/snacks.nvim",
 		priority = 1000,
 		lazy = false,
@@ -11,17 +15,141 @@ return {
 			-- or leave it empty to use the default settings
 			-- refer to the configuration section below
 			bigfile = { enabled = true },
+			bufdelete = { enable = true },
 			dashboard = { enabled = false },
-			explorer = { enabled = true },
+			explorer = { enabled = false },
 			indent = { enabled = false },
 			input = { enabled = true },
 			picker = { enabled = true },
 			notifier = { enabled = false },
-			quickfile = { enabled = true },
-			scope = { enabled = true },
+			quickfile = { enabled = false },
+			scope = { enabled = false },
 			scroll = { enabled = false },
 			statuscolumn = { enabled = false },
-			words = { enabled = true },
+			words = { enabled = false },
+			toggle = { enables = true },
+			scratch = {
+				filekey = {
+					cwd = true, -- use current working directory
+					branch = false, -- use current branch name
+					count = true, -- use vim.v.count1
+				},
+			},
+			styles = {
+				input = {
+					relative = "editor",
+				},
+				zoom_indicator = {
+					text = " ",
+					minimal = true,
+					enter = false,
+					focusable = false,
+					height = 1,
+					row = 0,
+					col = function()
+						return math.floor((vim.opt.columns:get() - 1) / 2)
+					end,
+					backdrop = false,
+				},
+				scratch = {
+					ft = "markdown",
+					-- position = "right",
+					-- width = function()
+					-- 	local width = math.floor((vim.opt.columns:get() * 0.35))
+					-- 	return width < 50 and 50 or width
+					-- end,
+					-- height = function()
+					-- 	local height = math.floor((vim.opt.lines:get() * 0.3))
+					-- 	return height < 10 and 10 or height
+					-- end,
+				},
+			},
+		},
+		init = function()
+			vim.api.nvim_create_autocmd("User", {
+				pattern = "VeryLazy",
+				callback = function()
+					Snacks.toggle.diagnostics():map("<leader>ud")
+					Snacks.toggle
+						.option("relativenumber", { name = "Relative Number" })
+						:map("<leader>ul")
+					Snacks.toggle
+						.option("background", {
+							off = "light",
+							on = "dark",
+							name = "Dark Background",
+						})
+						:map("<leader>ub")
+					Snacks.toggle
+						.option("wrap", { name = "Wrap" })
+						:map("<leader>uw")
+					Snacks.toggle
+						.option("conceallevel", {
+							off = 0,
+							on = vim.o.conceallevel > 0 and vim.o.conceallevel
+								or 2,
+						})
+						:map("<leader>uc")
+				end,
+			})
+		end,
+		keys = {
+			{
+				"<leader>s.",
+				function()
+					Snacks.scratch()
+				end,
+				desc = "Toggle Scratch Buffer",
+			},
+			{
+				"<leader>sn",
+				function()
+					vim.ui.input({
+						prompt = "Filetype: ",
+						default = (
+							vim.bo.buftype == ""
+							and vim.bo.filetype ~= ""
+						)
+								and vim.bo.filetype
+							or "markdown",
+					}, function(input)
+						if input then
+							Snacks.scratch({ ft = input })
+						else
+							Snacks.scratch()
+						end
+					end)
+				end,
+				desc = "Toggle Scratch Buffer",
+			},
+			{
+				"<leader>S",
+				function()
+					Snacks.scratch.select()
+				end,
+				desc = "Select Scratch Buffer",
+			},
+			{
+				"<leader>Z",
+				function()
+					Snacks.zen.zoom()
+				end,
+				desc = "Toggle Zoom",
+			},
+			{
+				"<leader>sp",
+				function()
+					Snacks.picker.lazy()
+				end,
+				desc = "Search for Plugin Spec",
+			},
+			{
+				"<leader>bc",
+				function()
+					Snacks.bufdelete.delete()
+				end,
+				desc = "[b]uffer [c]lose: Delete current buffer without closing window.",
+			},
 		},
 	},
 	{
@@ -51,7 +179,7 @@ return {
 				exclude = {
 					filetypes = {
 						"fugitive",
-						"Avante",
+						-- "Avante",
 						"AvanteSelectedFiles",
 						"AvanteInput",
 					},
@@ -107,34 +235,43 @@ return {
 				segments = {
 					{
 						sign = {
-							name = { ".*" },
-							maxwidth = 4,
+							name = { "coverage" },
+							maxwidth = 1,
 							colwidth = 1,
 							auto = true,
 							wrap = false,
 						},
-						click = "v:lua.ScSa",
 					},
-					{
-						sign = {
-							namespace = { "diagnostic.signs" },
-							text = { "💡", "🔎" },
-							maxwidth = 1,
-							colwidth = 2,
-							auto = false,
-							foldclosed = true,
-						},
-						click = "v:lua.ScSa",
-					},
+					-- {
+					-- 	sign = {
+					-- 		namespace = { "diagnostic.signs" },
+					-- 		text = { "💡", "🔎" },
+					-- 		maxwidth = 1,
+					-- 		colwidth = 2,
+					-- 		auto = false,
+					-- 		foldclosed = true,
+					-- 	},
+					-- 	click = "v:lua.ScSa",
+					-- },
 					{
 						sign = {
 							namespace = { "gitsigns" },
-							maxwidth = 2,
-							colwidth = 2,
+							maxwidth = 1,
+							colwidth = 1,
 							fillchar = " ",
 							fillcharhl = "SignColumn",
 							auto = true,
 						},
+					},
+					{
+						sign = {
+							name = { ".*" },
+							maxwidth = 4,
+							colwidth = 2,
+							auto = true,
+							wrap = false,
+						},
+						click = "v:lua.ScSa",
 					},
 					{
 						text = { require("statuscol.builtin").lnumfunc, " " },
@@ -333,7 +470,15 @@ return {
 			vim.opt.foldenable = true
 
 			vim.api.nvim_create_autocmd("FileType", {
-				pattern = { "neo-tree" },
+				pattern = {
+					"neo-tree",
+					"dapui_watches",
+					"dapui_breakpoints",
+					"dapui_console",
+					"dapui_stacks",
+					"dapui_scopes",
+					"dap-repl",
+				},
 				callback = function()
 					require("ufo").detach()
 					vim.opt_local.foldenable = false
@@ -351,13 +496,11 @@ return {
 				local newVirtText = {}
 
 				local suffix = (
-					" "
-					.. require("faith.icons").ui.FoldSuffix
-					.. "%d "
-				):format(endLnum - lnum)
+					" " .. require("faith.icons").ui.FoldSuffix -- .. "%d "
+				) -- :format(endLnum - lnum)
 				local sufWidth = vim.fn.strdisplaywidth(suffix)
 
-				local targetWidth = width - sufWidth
+				local targetWidth = (width > 100 and 100 or width) - sufWidth
 
 				local curWidth = 0
 				for _, chunk in ipairs(virtText) do
@@ -383,7 +526,22 @@ return {
 					end
 					curWidth = curWidth + chunkWidth
 				end
+				local fold_length = endLnum - lnum
+				local lines_display = string.format(
+					" (%d line%s)",
+					fold_length,
+					(fold_length > 1) and "s" or ""
+				)
+				local extra_suffix = targetWidth
+					- curWidth
+					- vim.fn.strdisplaywidth(lines_display)
+					- 1
 				table.insert(newVirtText, { suffix, "MoreMsg" })
+				table.insert(newVirtText, {
+					("·"):rep(extra_suffix),
+					"Comment",
+				})
+				table.insert(newVirtText, { lines_display, "MoreMsg" })
 				return newVirtText
 			end
 
@@ -437,6 +595,11 @@ return {
 
 			ufo.setup({
 				open_fold_hl_timeout = 100,
+				close_fold_kinds_for_ft = {
+					default = { "imports", "comment" },
+					json = { "array" },
+					c = { "comment", "region" },
+				},
 				preview = {
 					win_config = {
 						border = {
@@ -505,7 +668,7 @@ return {
 			-- OPTIONAL:
 			--   `nvim-notify` is only needed, if you want to use the notification view.
 			--   If not available, we use `mini` as the fallback
-			-- "rcarriga/nvim-notify",
+			"rcarriga/nvim-notify",
 		},
 		init = function()
 			vim.opt.cmdheight = 0
@@ -540,6 +703,19 @@ return {
 						event = "msg_show",
 						kind = "",
 						find = "written",
+					},
+					opts = { skip = true },
+				},
+				{
+					filter = {
+						event = "notify",
+						kind = "error",
+						any = {
+							{
+								-- undo glow cries about this when transparent is enabled but nothing seems to be actually "broken"
+								find = "Animation type must be one of the builtin or a function",
+							},
+						},
 					},
 					opts = { skip = true },
 				},
@@ -580,7 +756,7 @@ return {
 				"<C-u>",
 				function()
 					require("neoscroll").ctrl_u({
-						duration = 200,
+						duration = 80,
 						easing = "sine",
 					})
 				end,
@@ -589,7 +765,7 @@ return {
 				"<C-d>",
 				function()
 					require("neoscroll").ctrl_d({
-						duration = 200,
+						duration = 80,
 						easing = "sine",
 					})
 				end,
@@ -598,7 +774,7 @@ return {
 				"<C-b>",
 				function()
 					require("neoscroll").ctrl_b({
-						duration = 300,
+						duration = 120,
 						easing = "circular",
 					})
 				end,
@@ -607,7 +783,7 @@ return {
 				"<C-f>",
 				function()
 					require("neoscroll").ctrl_f({
-						duration = 300,
+						duration = 120,
 						easing = "circular",
 					})
 				end,
@@ -617,7 +793,7 @@ return {
 				function()
 					require("neoscroll").scroll(
 						-0.1,
-						{ move_cursor = false, duration = 100 }
+						{ move_cursor = false, duration = 50 }
 					)
 				end,
 			},
@@ -626,7 +802,7 @@ return {
 				function()
 					require("neoscroll").scroll(
 						0.1,
-						{ move_cursor = false, duration = 100 }
+						{ move_cursor = false, duration = 50 }
 					)
 				end,
 			},
@@ -634,7 +810,7 @@ return {
 				"zt",
 				function()
 					require("neoscroll").zt({
-						half_win_duration = 250,
+						half_win_duration = 180,
 						easing = "circular",
 					})
 				end,
@@ -643,7 +819,7 @@ return {
 				"zz",
 				function()
 					require("neoscroll").zz({
-						half_win_duration = 250,
+						half_win_duration = 180,
 						easing = "circular",
 					})
 				end,
@@ -652,7 +828,7 @@ return {
 				"zb",
 				function()
 					require("neoscroll").zb({
-						half_win_duration = 250,
+						half_win_duration = 180,
 						easing = "circular",
 					})
 				end,
@@ -769,30 +945,32 @@ return {
 			animation = {
 				enabled = true,
 				duration = 300,
-				animtion_type = "zoom",
-				window_scoped = true,
+				animtion_type = "spring",
+				easing = "in_out_quad",
+				fps = 60,
+				window_scoped = false,
 			},
 			highlights = {
 				undo = {
-					hl_color = { bg = "#693232" }, -- Dark muted red
+					hl = "UgUndo", -- This will not set new hlgroup, if it's not "UgUndo", we will try to grab the colors of specified hlgroup and apply to "UgUndo"
 				},
 				redo = {
-					hl_color = { bg = "#2F4640" }, -- Dark muted green
+					hl = "UgRedo",
 				},
 				yank = {
-					hl_color = { bg = "#7A683A" }, -- Dark muted yellow
+					hl = "UgYank",
 				},
 				paste = {
-					hl_color = { bg = "#325B5B" }, -- Dark muted cyan
+					hl = "UgPaste",
 				},
 				search = {
-					hl_color = { bg = "#5C475C" }, -- Dark muted purple
+					hl = "UgSearch",
 				},
 				comment = {
-					hl_color = { bg = "#7A5A3D" }, -- Dark muted orange
+					hl = "UgComment",
 				},
 				cursor = {
-					hl_color = { bg = "#793D54" }, -- Dark muted pink
+					hl = "UgCursor",
 				},
 			},
 			priority = 2048 * 3,
@@ -986,127 +1164,104 @@ return {
 		end,
 	},
 	{
-		"petertriho/nvim-scrollbar",
-		dependencies = {
-			"lewis6991/gitsigns.nvim",
-			{
-				"kevinhwang91/nvim-hlslens",
-				dependencies = { "kevinhwang91/nvim-ufo" },
-				config = function()
-					require("hlslens").setup({
-						override_lens = function(
-							render,
-							posList,
-							nearest,
-							idx,
-							relIdx
+		"kevinhwang91/nvim-hlslens",
+		dependencies = { "kevinhwang91/nvim-ufo" },
+		config = function()
+			require("hlslens").setup({
+				override_lens = function(render, posList, nearest, idx, relIdx)
+					local sfw = vim.v.searchforward == 1
+					local indicator, text, chunks
+					local absRelIdx = math.abs(relIdx)
+					if absRelIdx > 1 then
+						indicator = ("%d%s"):format(
+							absRelIdx,
+							sfw ~= (relIdx > 1) and "▲" or "▼"
 						)
-							local sfw = vim.v.searchforward == 1
-							local indicator, text, chunks
-							local absRelIdx = math.abs(relIdx)
-							if absRelIdx > 1 then
-								indicator = ("%d%s"):format(
-									absRelIdx,
-									sfw ~= (relIdx > 1) and "▲" or "▼"
-								)
-							elseif absRelIdx == 1 then
-								indicator = sfw ~= (relIdx == 1) and "▲"
-									or "▼"
-							else
-								indicator = ""
-							end
+					elseif absRelIdx == 1 then
+						indicator = sfw ~= (relIdx == 1) and "▲" or "▼"
+					else
+						indicator = ""
+					end
 
-							local lnum, col = unpack(posList[idx])
-							if nearest then
-								local cnt = #posList
-								if indicator ~= "" then
-									text = ("[%s %d/%d]"):format(
-										indicator,
-										idx,
-										cnt
-									)
-								else
-									text = ("[%d/%d]"):format(idx, cnt)
-								end
-								chunks =
-									{ { " " }, { text, "HlSearchLensNear" } }
-							else
-								text = ("[%s %d]"):format(indicator, idx)
-								chunks = { { " " }, { text, "HlSearchLens" } }
-							end
-							render.setVirt(
-								0,
-								lnum - 1,
-								col - 1,
-								chunks,
-								nearest
-							)
-						end,
-						build_position_cb = function(plist, _, _, _)
-							require("scrollbar.handlers.search").handler.show(
-								plist.start_pos
-							)
-						end,
-					})
+					local lnum, col = unpack(posList[idx])
+					if nearest then
+						local cnt = #posList
+						if indicator ~= "" then
+							text = ("[%s %d/%d]"):format(indicator, idx, cnt)
+						else
+							text = ("[%d/%d]"):format(idx, cnt)
+						end
+						chunks = { { " " }, { text, "HlSearchLensNear" } }
+					else
+						text = ("[%s %d]"):format(indicator, idx)
+						chunks = { { " " }, { text, "HlSearchLens" } }
+					end
+					render.setVirt(0, lnum - 1, col - 1, chunks, nearest)
+				end,
+				build_position_cb = function(plist, _, _, _)
+					require("scrollbar.handlers.search").handler.show(
+						plist.start_pos
+					)
+				end,
+			})
 
-					local kopts = { noremap = true, silent = true }
+			local kopts = { noremap = true, silent = true }
 
-					vim.api.nvim_set_keymap(
-						"n",
-						"n",
-						[[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
-						kopts
-					)
-					vim.api.nvim_set_keymap(
-						"n",
-						"N",
-						[[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
-						kopts
-					)
-					vim.api.nvim_set_keymap(
-						"n",
-						"*",
-						[[*<Cmd>lua require('hlslens').start()<CR>]],
-						kopts
-					)
-					vim.api.nvim_set_keymap(
-						"n",
-						"#",
-						[[#<Cmd>lua require('hlslens').start()<CR>]],
-						kopts
-					)
-					vim.api.nvim_set_keymap(
-						"n",
-						"g*",
-						[[g*<Cmd>lua require('hlslens').start()<CR>]],
-						kopts
-					)
-					vim.api.nvim_set_keymap(
-						"n",
-						"g#",
-						[[g#<Cmd>lua require('hlslens').start()<CR>]],
-						kopts
-					)
+			vim.api.nvim_set_keymap(
+				"n",
+				"n",
+				[[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
+				kopts
+			)
+			vim.api.nvim_set_keymap(
+				"n",
+				"N",
+				[[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
+				kopts
+			)
+			vim.api.nvim_set_keymap(
+				"n",
+				"*",
+				[[*<Cmd>lua require('hlslens').start()<CR>]],
+				kopts
+			)
+			vim.api.nvim_set_keymap(
+				"n",
+				"#",
+				[[#<Cmd>lua require('hlslens').start()<CR>]],
+				kopts
+			)
+			vim.api.nvim_set_keymap(
+				"n",
+				"g*",
+				[[g*<Cmd>lua require('hlslens').start()<CR>]],
+				kopts
+			)
+			vim.api.nvim_set_keymap(
+				"n",
+				"g#",
+				[[g#<Cmd>lua require('hlslens').start()<CR>]],
+				kopts
+			)
 
-					vim.api.nvim_set_keymap(
-						"n",
-						"<Leader>l",
-						"<Cmd>noh<CR>",
-						kopts
-					)
-
-					vim.cmd([[
+			vim.cmd([[
 				augroup scrollbar_search_hide
 				autocmd!
 				autocmd CmdlineLeave : lua require('scrollbar.handlers.search').handler.hide()
 				augroup END
 				]])
-				end,
-			},
+		end,
+	},
+	{
+		"petertriho/nvim-scrollbar",
+		dependencies = {
+			"lewis6991/gitsigns.nvim",
+			"kevinhwang91/nvim-hlslens",
 		},
 		opts = {
 			set_highlights = false,
 			show_in_active_only = true,
+			hide_if_all_visible = true,
 			marks = {
 				GitAdd = {
 					text = icons.git.signs.add,
@@ -1157,6 +1312,7 @@ return {
 			vim.o.winminwidth = 10
 			vim.o.equalalways = false
 			vim.keymap.set("n", "<C-w>m", "<CMD>WindowsMaximize<CR>")
+			vim.keymap.set("n", "<C-w>u", "<CMD>WindowsToggleAutowidth<CR>")
 			require("windows").setup({
 				animation = {
 					enable = true,
@@ -1165,7 +1321,7 @@ return {
 					easing = "in_out_sine",
 				},
 				ignore = {
-					buftype = { "terminal" },
+					buftype = { "terminal", "nofile", "prompt" },
 					filetype = {
 						"toggleterm",
 						"neo-tree",
@@ -1173,6 +1329,8 @@ return {
 						"Avante",
 						"AvanteInput",
 						"AvanteSelectedFiles",
+						"oil_preview",
+						"snacks_input",
 					},
 				},
 			})
@@ -1184,8 +1342,8 @@ return {
 		opts = {
 			preset = "classic",
 			disable = {
-				ft = { "toggleterm" },
-				bt = { "terminal" },
+				ft = { "toggleterm", "snacks_input" },
+				bt = { "terminal", "prompt" },
 			},
 		},
 		keys = {
@@ -1201,12 +1359,12 @@ return {
 	{
 		"kosayoda/nvim-lightbulb",
 		opts = {
-			hide_in_unfocused_buffer = false,
-			code_lenses = false,
+			hide_in_unfocused_buffer = true,
+			code_lenses = true,
 			-- Configuration for various handlers:
 			-- 1. Sign column.
 			sign = {
-				enabled = true,
+				enabled = false,
 				-- Text to show in the sign column.
 				-- Must be between 1-2 characters.
 				text = "💡",
@@ -1234,7 +1392,7 @@ return {
 
 			-- 3. Floating window.
 			float = {
-				enabled = false,
+				enabled = true,
 				-- Text to show in the floating window.
 				text = "💡",
 				lens_text = "🔎",
@@ -1245,6 +1403,8 @@ return {
 				-- Note that some options may be overridden by |open_floating_preview|.
 				win_opts = {
 					focusable = false,
+					anchor_bias = "above",
+					offset_x = -1,
 				},
 			},
 

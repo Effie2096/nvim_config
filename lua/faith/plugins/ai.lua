@@ -15,10 +15,10 @@ return {
 				-- Optionally disable cmp source if using virtual text only
 				enable_cmp_source = false,
 				virtual_text = {
-					enabled = true,
+					enabled = false,
 
 					-- Set to true if you never want completions to be shown automatically.
-					manual = false,
+					manual = true,
 					-- A mapping of filetype to true or false, to enable virtual text.
 					filetypes = {
 						TelescopePrompt = false,
@@ -97,19 +97,22 @@ return {
 			"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
 			{
 				"zbirenbaum/copilot.lua", -- for providers='copilot'
+				dependencies = {
+					{ "AndreM222/copilot-lualine" },
+				},
 				opts = {
 					suggestion = {
 						enabled = true,
-						auto_trigger = false,
-						hide_during_completion = true,
+						auto_trigger = true,
+						hide_during_completion = false,
 						debounce = 75,
-						trigger_on_accept = true,
+						trigger_on_accept = false,
 						keymap = {
-							accept = false,
+							accept = "<Tab>",
 							accept_word = false,
 							accept_line = false,
-							next = false,
-							prev = false,
+							next = "<M-]>",
+							prev = "<M-[>",
 							dismiss = false,
 						},
 					},

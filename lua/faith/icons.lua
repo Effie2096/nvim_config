@@ -169,6 +169,7 @@ local icons = {
 		Table = "",
 		Calendar = "",
 		CloudDownload = "",
+		Server = " ",
 		Stacks = " ",
 		Scopes = "",
 		Watches = "󰍉 ",
@@ -184,6 +185,7 @@ local icons = {
 		Tag = " ",
 		FoldSuffix = "󰁂 ",
 		Undo = "󰕍 ",
+		Beaker = " ",
 	},
 	debug = {
 		Pause = "",

@@ -152,6 +152,7 @@ return {
 	},
 	{
 		"willothy/flatten.nvim",
+		enabled = false,
 		config = true,
 		-- or pass configuration with
 		-- opts = {  }
