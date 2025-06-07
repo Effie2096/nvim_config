@@ -928,7 +928,7 @@ local copilot = {
 				),
 				sleep = require("copilot-lualine.colors").get_hl_value(
 					0,
-					"Normal",
+					"WinBar",
 					"fg"
 				),
 				disabled = require("copilot-lualine.colors").get_hl_value(

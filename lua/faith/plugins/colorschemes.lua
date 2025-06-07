@@ -541,13 +541,29 @@ local function apply_theme_overrides(theme, scheme)
 		{ fg = color_map.accent, bg = color_map.bg_light, bold = true }
 	)
 
+	local sidebar_bg = color_map.bg_light
+	vim.api.nvim_set_hl(0, "SignColumn", {
+		bg = sidebar_bg,
+	})
+	vim.api.nvim_set_hl(0, "EndOfBuffer", {
+		bg = color_map.bg,
+		fg = color_map.bg,
+	})
+	vim.api.nvim_set_hl(0, "LineNr", {
+		fg = h("Comment").fg,
+		bg = sidebar_bg,
+	})
+	vim.api.nvim_set_hl(0, "CursorLineNr", {
+		fg = color_map.accent,
+		bg = sidebar_bg,
+	})
 	vim.api.nvim_set_hl(0, "FoldColumn", {
 		fg = color_map.accent,
-		bg = color_map.bg,
+		bg = sidebar_bg,
 	})
 	vim.api.nvim_set_hl(0, "Folded", {
 		fg = color_map.accent,
-		bg = color_map.bg,
+		bg = sidebar_bg,
 	})
 
 	vim.api.nvim_set_hl(0, "NormalFloat", {
@@ -728,12 +744,12 @@ local function apply_theme_overrides(theme, scheme)
 	vim.api.nvim_set_hl(
 		0,
 		"GitSignsChange",
-		{ fg = color_map.blue, bg = color_map.bg }
+		{ fg = color_map.blue, bg = sidebar_bg }
 	)
 	vim.api.nvim_set_hl(
 		0,
 		"GitSignsChangeNr",
-		{ fg = color_map.blue, bg = color_map.bg }
+		{ fg = color_map.blue, bg = sidebar_bg }
 	)
 
 	-- Telescope
@@ -812,10 +828,10 @@ local function apply_theme_overrides(theme, scheme)
 		bg = ts_context_bg,
 	})
 	vim.api.nvim_set_hl(0, "TreesitterContextLineNumber", {
-		bg = ts_context_bg,
+		bg = sidebar_bg,
 	})
 	vim.api.nvim_set_hl(0, "TreesitterContextLineNumberBottom", {
-		bg = ts_context_bg,
+		bg = sidebar_bg,
 		sp = color_map.accent,
 		underline = ts_bottom,
 	})
@@ -1140,6 +1156,11 @@ local function apply_theme_overrides(theme, scheme)
 	local tab_inactive_bg = color_map.bg_light
 	vim.api.nvim_set_hl(
 		0,
+		"TabLineFill",
+		{ fg = tab_inactive_fg, bg = tab_inactive_bg }
+	)
+	vim.api.nvim_set_hl(
+		0,
 		"TabLine",
 		{ fg = tab_inactive_fg, bg = tab_inactive_bg }
 	)
@@ -1191,15 +1212,15 @@ local function apply_theme_overrides(theme, scheme)
 
 	vim.api.nvim_set_hl(0, "DapBreakpoint", {
 		fg = color_map.red,
-		bg = color_map.bg,
+		bg = sidebar_bg,
 	})
 	vim.api.nvim_set_hl(0, "DapBreakpointCondition", {
 		fg = color_map.purple,
-		bg = color_map.bg,
+		bg = sidebar_bg,
 	})
 	vim.api.nvim_set_hl(0, "DapLogPoint", {
 		fg = color_map.yellow,
-		bg = color_map.bg,
+		bg = sidebar_bg,
 	})
 
 	vim.api.nvim_set_hl(
