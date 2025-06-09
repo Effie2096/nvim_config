@@ -553,11 +553,19 @@ local function apply_theme_overrides(theme, scheme)
 		fg = h("Comment").fg,
 		bg = sidebar_bg,
 	})
+	vim.api.nvim_set_hl(0, "CursorLineSign", {
+		fg = color_map.accent,
+		bg = sidebar_bg,
+	})
 	vim.api.nvim_set_hl(0, "CursorLineNr", {
 		fg = color_map.accent,
 		bg = sidebar_bg,
 	})
 	vim.api.nvim_set_hl(0, "FoldColumn", {
+		fg = color_map.accent,
+		bg = sidebar_bg,
+	})
+	vim.api.nvim_set_hl(0, "CursorLineFold", {
 		fg = color_map.accent,
 		bg = sidebar_bg,
 	})
