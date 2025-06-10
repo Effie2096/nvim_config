@@ -196,9 +196,9 @@ local icons = {
 		Step_back = "",
 		Run_last = "",
 		Terminate = "",
-		Breakpoint = "●",
-		BreakpointCond = "◍",
-		BreakpointLog = "◆",
+		Breakpoint = "󱎕",
+		BreakpointCond = "󱍠",
+		BreakpointLog = "",
 	},
 	characters = {
 		eol = "↲",

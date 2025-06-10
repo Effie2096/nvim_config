@@ -226,6 +226,7 @@ return {
 					"Avante",
 					"AvanteSelectedFiles",
 					"AvanteInput",
+					"neotest-summary",
 				},
 				bt_ignore = { "terminal", "nofile" },
 				thousands = false, -- or line number thousands separator string ("." / ",")
@@ -257,10 +258,11 @@ return {
 						sign = {
 							namespace = { "gitsigns" },
 							maxwidth = 1,
-							colwidth = 1,
+							colwidth = 2,
 							fillchar = " ",
 							fillcharhl = "SignColumn",
 							auto = true,
+							wrap = false,
 						},
 					},
 					{
@@ -287,9 +289,18 @@ return {
 					},
 					{
 						sign = {
+							text = { " " },
+							maxwidth = 1,
+							colwidth = 1,
+							auto = false,
+							wrap = false,
+						},
+					},
+					{
+						sign = {
 							name = { "Dap" },
 							maxwidth = 1,
-							colwidth = 2,
+							colwidth = 1,
 							auto = false,
 						},
 					},

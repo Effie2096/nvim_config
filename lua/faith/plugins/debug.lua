@@ -7,7 +7,7 @@ local dap_keymaps = function()
 	vim.keymap.set("n", "<Leader>dB", function()
 		require("persistent-breakpoints.api").set_conditional_breakpoint()
 	end, {
-		desc = "[d]ebug [B]reakpoint conditional: Toggle conditional breakpoint on current line.",
+		desc = "[d]ebug [B]reakpoint conditional: Toggle conditional debug breakpoint on current line.",
 	})
 	vim.keymap.set("n", "<F6>", function()
 		require("dap").continue()
@@ -36,7 +36,7 @@ local dap_keymaps = function()
 			vim.fn.input({ prompt = "Log point message: " })
 		)
 	end, {
-		desc = "[d]ebug log [p]oint: Add logging breakpoint on current line.",
+		desc = "[d]ebug log [p]oint: Add logging debug breakpoint on current line.",
 	})
 	vim.keymap.set("n", "<leader>de", function()
 		require("dapui").eval()
