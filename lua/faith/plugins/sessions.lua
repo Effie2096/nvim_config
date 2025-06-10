@@ -63,6 +63,23 @@ return {
 					"winfixheight",
 					"winfixwidth",
 				},
+				buf_filter = function(bufnr)
+					local buftype = vim.bo[bufnr].buftype
+					local filetype = vim.bo[bufnr].filetype
+					if buftype == "help" then
+						return true
+					end
+					if buftype ~= "" and buftype ~= "acwrite" then
+						return false
+					end
+					if filetype == "gitcommit" then
+						return false
+					end
+					if vim.api.nvim_buf_get_name(bufnr) == "" then
+						return false
+					end
+					return vim.bo[bufnr].buflisted
+				end,
 				extensions = {
 					quickfix = {},
 					overseer = {},
