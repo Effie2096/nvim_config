@@ -125,6 +125,7 @@ return {
 		version = "*",
 		opts = {
 			commands = true, -- create commands
+			auto_reload = true,
 			highlights = {
 				-- customize highlight groups created by the plugin
 				covered = nil, -- supports style, fg, bg, sp (see :h highlight-gui)
