@@ -22,25 +22,53 @@ return {
 				}
 			end
 
-			local tab_lists = {}
-			for i = 1, 100 do
-				tab_lists["tab" .. i] = {
-					add = function(possible_value)
-						return add_to_tab(possible_value)
-					end,
-				}
+			local new_tab = function(index)
+				local tabs = vim.fn.tabpagenr("$")
+				local new_tab = index
+
+				local tab_name = string.format("%s%d", "tab", new_tab)
+				if harpoon:list(tab_name) then
+					-- if harpoon:list(tab_name).items then
+					local x = tabs - new_tab
+					for i = tabs, (tabs - x) + 1, -1 do
+						local current_tab_name = string.format("%s%d", "tab", i)
+						local previous_list =
+							harpoon:list(string.format("%s%d", "tab", i - 1))
+
+						harpoon:setup({
+							[current_tab_name] = {
+								add = function(possible_value)
+									return add_to_tab(possible_value)
+								end,
+							},
+						})
+						harpoon:list(current_tab_name).name = current_tab_name
+						harpoon:list(current_tab_name).items = previous_list.items
+							or {}
+					end
+					-- end
+				end
+				harpoon:setup({
+					["tab" .. new_tab] = {
+						add = function(possible_value)
+							return add_to_tab(possible_value)
+						end,
+					},
+				})
+				harpoon:list("tab" .. new_tab).items = {}
 			end
 
 			vim.api.nvim_create_autocmd("TabClosed", {
 				callback = function(args)
-					local tab_name = string.format("%s%d", "tab", args.file)
-					if harpoon:list(tab_name) then
-						harpoon:list(tab_name):clear()
-					end
+					require("harpoon"):list("tab" .. args.file):clear()
 				end,
 			})
 
-			harpoon:setup(tab_lists)
+			vim.api.nvim_create_autocmd("TabNew", {
+				callback = function(args)
+					new_tab(vim.fn.tabpagenr())
+				end,
+			})
 
 			local harpoon_extensions = require("harpoon.extensions")
 			harpoon:extend(harpoon_extensions.builtins.highlight_current_file())
@@ -60,123 +88,57 @@ return {
 				end,
 			})
 
-			vim.api.nvim_create_autocmd("TabClosed", {
-				callback = function(args)
-					require("harpoon")
-						:list(string.format("%s%d", "tab", args.file))
-						:clear()
-				end,
-			})
-
 			vim.keymap.set("n", "<leader>ma", function()
 				harpoon
-					:list(
-						string.format(
-							"%s%d",
-							"tab",
-							vim.api.nvim_get_current_tabpage()
-						)
-					)
+					:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
 					:add()
 			end)
 			vim.keymap.set("n", "<leader>me", function()
 				harpoon.ui:toggle_quick_menu(
 					harpoon:list(
-						string.format(
-							"%s%d",
-							"tab",
-							vim.api.nvim_get_current_tabpage()
-						)
+						string.format("%s%d", "tab", vim.fn.tabpagenr())
 					)
 				)
 			end)
 
 			vim.keymap.set("n", "<C-h>", function()
 				harpoon
-					:list(
-						string.format(
-							"%s%d",
-							"tab",
-							vim.api.nvim_get_current_tabpage()
-						)
-					)
+					:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
 					:select(1)
 			end)
 			vim.keymap.set("n", "<C-j>", function()
 				harpoon
-					:list(
-						string.format(
-							"%s%d",
-							"tab",
-							vim.api.nvim_get_current_tabpage()
-						)
-					)
+					:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
 					:select(2)
 			end)
 			vim.keymap.set("n", "<C-k>", function()
 				harpoon
-					:list(
-						string.format(
-							"%s%d",
-							"tab",
-							vim.api.nvim_get_current_tabpage()
-						)
-					)
+					:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
 					:select(3)
 			end)
 			vim.keymap.set("n", "<C-l>", function()
 				harpoon
-					:list(
-						string.format(
-							"%s%d",
-							"tab",
-							vim.api.nvim_get_current_tabpage()
-						)
-					)
+					:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
 					:select(4)
 			end)
 			vim.keymap.set("n", "<C-Left>", function()
 				harpoon
-					:list(
-						string.format(
-							"%s%d",
-							"tab",
-							vim.api.nvim_get_current_tabpage()
-						)
-					)
+					:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
 					:select(5)
 			end)
 			vim.keymap.set("n", "<C-Down>", function()
 				harpoon
-					:list(
-						string.format(
-							"%s%d",
-							"tab",
-							vim.api.nvim_get_current_tabpage()
-						)
-					)
+					:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
 					:select(6)
 			end)
 			vim.keymap.set("n", "<C-Up>", function()
 				harpoon
-					:list(
-						string.format(
-							"%s%d",
-							"tab",
-							vim.api.nvim_get_current_tabpage()
-						)
-					)
+					:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
 					:select(7)
 			end)
 			vim.keymap.set("n", "<C-Right>", function()
 				harpoon
-					:list(
-						string.format(
-							"%s%d",
-							"tab",
-							vim.api.nvim_get_current_tabpage()
-						)
-					)
+					:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
 					:select(8)
 			end)
 		end,

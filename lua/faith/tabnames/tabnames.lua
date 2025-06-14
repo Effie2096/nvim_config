@@ -58,7 +58,7 @@ local remove_tab = function(tabnr)
 		local tabnames_index = get_tabnames_index(tabnr)
 		if tabnames_index then
 			table.remove(M.__tabnames, tabnames_index)
-			vim.api.nvim_tabpage_del_var(tabnr, "tabname")
+			pcall(vim.api.nvim_tabpage_del_var, tabnr, "tabname")
 			M.refresh_tabnames()
 		end
 	end
