@@ -1,8 +1,8 @@
 local tabnames_group = vim.api.nvim_create_augroup("tabnames", { clear = true })
 
-vim.keymap.set("n", "<leader>ttn", function()
+vim.keymap.set("n", "<leader>tta", function()
 	require("faith.tabnames.tabnames").new_tab()
-end, { desc = "[t]ab [n]ew: create new tab." })
+end, { desc = "[t]ab [a]add: create new tab." })
 vim.keymap.set("n", "<leader>ttr", function()
 	require("faith.tabnames.tabnames").rename_tab()
 end, { desc = "[t]ab [r]ename: rename current tab." })
