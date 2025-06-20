@@ -502,6 +502,10 @@ local branch = {
 			str
 		)
 	end,
+	cond = function()
+		return require("lualine.components.branch.git_branch").find_git_dir()
+			~= nil
+	end,
 }
 
 local workspace_diagnostics = {
@@ -1320,14 +1324,6 @@ return {
 						-- location,
 					},
 					lualine_z = trans_flag,
-				},
-				inactive_sections = {
-					lualine_a = {},
-					lualine_b = {},
-					lualine_c = {},
-					lualine_x = {},
-					lualine_y = {},
-					lualine_z = {},
 				},
 				winbar = winbar,
 				inactive_winbar = winbar,
