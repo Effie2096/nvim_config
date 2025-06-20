@@ -772,6 +772,18 @@ local harpoon = {
 
 		local buf = vim.api.nvim_buf_get_name(0)
 
+		local function get_folder_initial(filepath)
+			local parent =
+				vim.fn.fnamemodify(filepath, ":p:h"):gsub(".*[/\\\\]", "")
+			return parent:sub(1, 1)
+		end
+
+		local name_count = {}
+		for _, mark in ipairs(marks) do
+			local name = vim.fn.fnamemodify(mark.value, ":t")
+			name_count[name] = (name_count[name] or 0) + 1
+		end
+
 		local extra_marks = 0
 
 		local keys = {
@@ -813,6 +825,11 @@ local harpoon = {
 						"%s",
 						vim.fn.fnamemodify(mark.value, ":t")
 					)
+
+					if name_count[label] > 1 then
+						local initial = get_folder_initial(mark.value)
+						label = initial .. "/" .. label
+					end
 				end
 
 				if i <= #keys then
