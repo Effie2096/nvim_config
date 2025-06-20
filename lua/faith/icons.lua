@@ -163,6 +163,7 @@ local icons = {
 		Fire = " ",
 		Note = " ",
 		BookMark = " ",
+		Pin = "",
 		Pencil = "󰏫 ",
 		Question = " ",
 		ChevronRight = "",

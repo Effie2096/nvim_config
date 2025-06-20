@@ -1058,6 +1058,16 @@ local function apply_theme_overrides(theme, scheme)
 	)
 	vim.api.nvim_set_hl(
 		0,
+		"ScrollbarMarkHandle",
+		{ fg = color_map.accent, bg = scroll_handle }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"ScrollbarMark",
+		{ fg = color_map.accent, bg = scroll_norm }
+	)
+	vim.api.nvim_set_hl(
+		0,
 		"ScrollbarGitAdd",
 		{ fg = color_map.green, bg = scroll_norm }
 	)

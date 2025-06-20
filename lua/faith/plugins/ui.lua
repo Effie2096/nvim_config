@@ -227,6 +227,7 @@ return {
 					"AvanteSelectedFiles",
 					"AvanteInput",
 					"neotest-summary",
+					"oil",
 				},
 				bt_ignore = { "terminal", "nofile" },
 				thousands = false, -- or line number thousands separator string ("." / ",")
@@ -1268,49 +1269,115 @@ return {
 		dependencies = {
 			"lewis6991/gitsigns.nvim",
 			"kevinhwang91/nvim-hlslens",
-		},
-		opts = {
-			set_highlights = false,
-			show_in_active_only = true,
-			hide_if_all_visible = true,
-			marks = {
-				GitAdd = {
-					text = icons.git.signs.add,
-					priority = 7,
-					gui = nil,
-					color = nil,
-					cterm = nil,
-					color_nr = nil, -- cterm
-					highlight = "GitSignsAdd",
-				},
-				GitChange = {
-					text = icons.git.signs.mod,
-					priority = 7,
-					gui = nil,
-					color = nil,
-					cterm = nil,
-					color_nr = nil, -- cterm
-					highlight = "GitSignsChange",
-				},
-				GitDelete = {
-					text = icons.git.signs.delete,
-					priority = 7,
-					gui = nil,
-					color = nil,
-					cterm = nil,
-					color_nr = nil, -- cterm
-					highlight = "GitSignsDelete",
+			{
+				"chentoast/marks.nvim",
+				event = "VeryLazy",
+				opts = {
+					-- whether to map keybinds or not. default true
+					default_mappings = true,
+					-- which builtin marks to show. default {}
+					-- builtin_marks = { ".", "<", ">", "^" },
+					-- whether movements cycle back to the beginning/end of buffer. default true
+					cyclic = true,
+					-- whether the shada file is updated after modifying uppercase marks. default false
+					force_write_shada = false,
+					-- how often (in ms) to redraw signs/recompute mark positions.
+					-- higher values will have better performance but may cause visual lag,
+					-- while lower values may cause performance penalties. default 150.
+					refresh_interval = 300,
+					-- sign priorities for each type of mark - builtin marks, uppercase marks, lowercase
+					-- marks, and bookmarks.
+					-- can be either a table with all/none of the keys, or a single number, in which case
+					-- the priority applies to all marks.
+					-- default 10.
+					sign_priority = {
+						lower = 10,
+						upper = 15,
+						builtin = 8,
+						bookmark = 20,
+					},
+					-- disables mark tracking for specific filetypes. default {}
+					excluded_filetypes = {},
+					-- disables mark tracking for specific buftypes. default {}
+					excluded_buftypes = {},
+					mappings = {},
 				},
 			},
-			handlers = {
-				cursor = true,
-				diagnostic = true,
-				-- gitsigns = true, -- Requires gitsigns
-				handle = true,
-				search = true, -- Requires hlslens
-				ale = false, -- Requires ALE
-			},
 		},
+		config = function()
+			local opts = {
+				set_highlights = false,
+				show_in_active_only = true,
+				hide_if_all_visible = true,
+				marks = {
+					Misc = {
+						text = { "-", "=" },
+						priority = 6,
+					},
+					Mark = {
+						text = { "", "" },
+						priority = 8,
+						highlight = "ScrollbarMark",
+					},
+					GitAdd = {
+						text = icons.git.signs.add,
+						priority = 7,
+						gui = nil,
+						color = nil,
+						cterm = nil,
+						color_nr = nil, -- cterm
+						highlight = "GitSignsAdd",
+					},
+					GitChange = {
+						text = icons.git.signs.mod,
+						priority = 7,
+						gui = nil,
+						color = nil,
+						cterm = nil,
+						color_nr = nil, -- cterm
+						highlight = "GitSignsChange",
+					},
+					GitDelete = {
+						text = icons.git.signs.delete,
+						priority = 7,
+						gui = nil,
+						color = nil,
+						cterm = nil,
+						color_nr = nil, -- cterm
+						highlight = "GitSignsDelete",
+					},
+				},
+				handlers = {
+					cursor = true,
+					diagnostic = true,
+					-- gitsigns = true, -- Requires gitsigns
+					handle = true,
+					search = true, -- Requires hlslens
+					ale = false, -- Requires ALE
+				},
+			}
+			require("scrollbar").setup(opts)
+
+			require("scrollbar.handlers").register("Marks", function(bufnr)
+				local marks_api = require("marks")
+				local ret = {}
+				if marks_api.mark_state.buffers[bufnr] then
+					for line, marks in
+						pairs(marks_api.mark_state.buffers[bufnr].marks_by_line)
+					do
+						if #marks > 1 then
+							table.sort(marks)
+						end
+						table.insert(ret, {
+							line = line - 1,
+							text = marks[1],
+							type = "Mark",
+						})
+					end
+				end
+				return ret
+			end)
+		end,
 	},
 	{
 		"anuvyklack/windows.nvim",
