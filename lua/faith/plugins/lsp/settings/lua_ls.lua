@@ -1,11 +1,13 @@
 local function find_love()
-	local path_to_love_library = vim.fn.globpath(vim.o.runtimepath, "/library")
-	local library_path = vim.fn.split(vim.fn.expand(path_to_love_library), "\n")[1]
-		or ""
-	if string.find(library_path, "love2d") then
-		return library_path
+	local path_to_love_library =
+		vim.fn.globpath(vim.o.runtimepath, "love2d/library")
+	local library_path =
+		vim.fn.split(vim.fn.expand(path_to_love_library), "\n")[1]
+	if vim.fn.isdirectory(library_path) == 0 then
+		return ""
 	end
-	return ""
+
+	return library_path
 end
 
 return {

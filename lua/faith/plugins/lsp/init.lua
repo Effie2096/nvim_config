@@ -91,6 +91,32 @@ return {
 				end,
 			},
 			"hrsh7th/cmp-nvim-lsp",
+			{
+				"S1M0N38/love2d.nvim",
+				event = "VeryLazy",
+				opts = {
+					path_to_love_bin = "love",
+					-- set to "" to disable auto lsp setup (I'm setting it up manually)
+					path_to_love_library = "", -- vim.fn.globpath(vim.o.runtimepath, "love2d/library"),
+					restart_on_save = false,
+					debug_window_opts = nil,
+				},
+				keys = {
+					{ "<leader>v", ft = "lua", desc = "LOVE" },
+					{
+						"<leader>vv",
+						"<cmd>LoveRun<cr>",
+						ft = "lua",
+						desc = "Run LOVE",
+					},
+					{
+						"<leader>vs",
+						"<cmd>LoveStop<cr>",
+						ft = "lua",
+						desc = "Stop LOVE",
+					},
+				},
+			},
 		},
 		config = function()
 			vim.api.nvim_create_autocmd("LspAttach", {
