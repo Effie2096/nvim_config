@@ -936,8 +936,9 @@ local windsurf = {
 
 		return " 0 "
 	end,
+	separator = "",
 	cond = function()
-		return package.loaded["windsurf"] ~= nil
+		return package.loaded["codeium"] ~= nil
 	end,
 }
 

@@ -15,7 +15,7 @@ return {
 				-- Optionally disable cmp source if using virtual text only
 				enable_cmp_source = false,
 				virtual_text = {
-					enabled = false,
+					enabled = true,
 
 					-- Set to true if you never want completions to be shown automatically.
 					manual = true,
@@ -57,19 +57,28 @@ return {
 	},
 	{
 		"yetone/avante.nvim",
+		build = function()
+			return vim.fn.has("win32") == 1
+					and "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource true"
+				or "bash ./build.sh"
+		end,
 		event = "VeryLazy",
 		version = false, -- Never set this value to "*"! Never!
 		opts = {
 			-- add any opts here
 			-- for example
 			provider = "copilot",
-			openai = {
-				endpoint = "https://api.openai.com/v1",
-				model = "gpt-4o", -- your desired model (or use gpt-4o, etc.)
-				timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
-				temperature = 0,
-				max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
-				--reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
+			providers = {
+				openai = {
+					endpoint = "https://api.openai.com/v1",
+					model = "gpt-4o", -- your desired model (or use gpt-4o, etc.)
+					timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
+					extra_request_body = {
+						temperature = 0,
+						max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
+						--reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
+					},
+				},
 			},
 			windows = {
 				sidebar_header = {
@@ -102,7 +111,7 @@ return {
 				},
 				opts = {
 					suggestion = {
-						enabled = true,
+						enabled = false,
 						auto_trigger = true,
 						hide_during_completion = false,
 						debounce = 75,
