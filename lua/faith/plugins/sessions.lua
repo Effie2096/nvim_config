@@ -82,8 +82,9 @@ return {
 				end,
 				extensions = {
 					quickfix = {},
-					overseer = {},
+					-- overseer = {},
 					scope = {},
+					oil = {},
 					tabnames = {},
 				},
 			})
