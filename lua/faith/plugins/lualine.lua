@@ -96,7 +96,12 @@ local winbar_ft_icons = {
 	toggleterm = {
 		hl = "DiagnosticCheck",
 		icon = icons.ui.Term,
-		name = string.format("Terminal (%s)", vim.b.toggle_number),
+		name = function()
+			local name = {}
+			name.name = "Terminal"
+			name.data = vim.b.toggle_number
+			return name
+		end,
 	},
 	terminal = {
 		hl = "DevIconTerminal",
@@ -139,6 +144,17 @@ local winbar_ft_icons = {
 		hl = "DiagnosticCheck",
 		icon = icons.ui.Beaker,
 		name = "Tests",
+	},
+	oil = {
+		hl = "OilDir",
+		icon = icons.ui.Project,
+		name = function()
+			local name = {}
+			name.name = "Oil"
+			name.data =
+				require("oil").get_url_for_path(nil, false):gsub("oil://", "")
+			return name
+		end,
 	},
 }
 
@@ -1096,7 +1112,7 @@ local winbar = {
 				local name = str
 				local ft = vim.bo.filetype
 				local bt = vim.bo.buftype
-				-- P(winbar_ft_icons[ft])
+
 				if winbar_ft_icons[ft] ~= nil or winbar_ft_icons[bt] ~= nil then
 					local file_spec = winbar_ft_icons[ft] or winbar_ft_icons[bt]
 
@@ -1106,14 +1122,22 @@ local winbar = {
 						goto continue
 					end
 
+					local spec_name = type(file_spec.name) == "function"
+							and string.format(
+								"%s: %s",
+								file_spec.name()["name"],
+								file_spec.name()["data"]
+							)
+						or file_spec.name
+
 					if file_spec.name and not file_spec.icon then
 						name = format_bubble(file_spec.name)
-					elseif file_spec.icon then
+					elseif file_spec.name and file_spec.icon then
 						name = string.format(
 							"%s%s%s",
 							("%%#%s #"):format(file_spec.hl or ""),
 							file_spec.icon .. " " or "",
-							format_bubble(file_spec.name)
+							format_bubble(spec_name)
 						)
 					else
 						name = format_bubble(ft:gsub("^(%l)", string.upper))
