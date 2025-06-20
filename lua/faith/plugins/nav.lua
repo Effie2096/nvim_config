@@ -197,12 +197,27 @@ return {
 		end,
 	},
 	{
+		"JezerM/oil-lsp-diagnostics.nvim",
+		dependencies = "stevearc/oil.nvim",
+		opts = {},
+	},
+	{
+		"refractalize/oil-git-status.nvim",
+		dependencies = "stevearc/oil.nvim",
+		opts = {
+			show_ignored = true,
+		},
+	},
+	{
 		"stevearc/oil.nvim",
 		lazy = false,
 		dependencies = {
 			"nvim-tree/nvim-web-devicons",
 		},
 		opts = {
+			win_options = {
+				signcolumn = "yes:2",
+			},
 			delete_to_trash = true,
 			columns = {
 				"icon",
@@ -243,6 +258,15 @@ return {
 				["gx"] = "actions.open_external",
 				["g."] = { "actions.toggle_hidden", mode = "n" },
 				["g\\"] = { "actions.toggle_trash", mode = "n" },
+				["<leader>p"] = function()
+					local oil = require("oil")
+					local filename = oil.get_cursor_entry().name
+					local dir = oil.get_current_dir()
+					oil.close()
+
+					local img_clip = require("img-clip")
+					img_clip.paste_image({}, dir .. filename)
+				end,
 			},
 		},
 	},
