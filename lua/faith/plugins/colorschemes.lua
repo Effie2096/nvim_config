@@ -1560,9 +1560,12 @@ return {
 	{
 		"xiyaowong/nvim-transparent",
 		opts = function()
-			-- require("transparent").clear_prefix("lualine_a")
-			-- require("transparent").clear_prefix("lualine_b")
+			require("transparent").clear_prefix("lualine_a")
+			require("transparent").clear_prefix("lualine_b")
 			require("transparent").clear_prefix("lualine_c")
+			require("transparent").clear_prefix("lualine_x")
+			require("transparent").clear_prefix("lualine_y")
+			-- require("transparent").clear_prefix("lualine_z")
 			-- require("transparent").clear_prefix("lualine_c_filetype_DevIcon")
 			local opts = {
 				exclude_groups = {
@@ -1580,7 +1583,9 @@ return {
 				},
 				extra_groups = {
 					"FoldColumn",
+					"CursorLineFold",
 					"Folded",
+					"CursorLineSign",
 
 					"NormalFloat",
 					"NvimTreeNormal",
@@ -1692,6 +1697,8 @@ return {
 					"ScrollbarSearch",
 					"ScrollbarGitChange",
 					"ScrollbarGitDelete",
+
+					"ScrollbarMark",
 				},
 			}
 
