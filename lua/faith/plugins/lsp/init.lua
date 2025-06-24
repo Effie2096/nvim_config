@@ -86,7 +86,10 @@ return {
 						json = { "biome" },
 						jsonc = { "biome" },
 						js = { "biome" },
+						jsx = { "biome" },
 						ts = { "biome" },
+						tsx = { "biome" },
+						css = { "biome" },
 					}
 				end,
 			},

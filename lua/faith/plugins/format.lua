@@ -19,6 +19,8 @@ return { -- Autoformat
 			tsx = { "biome" },
 			html = { "prettierd" },
 			json = { "biome" },
+			jsonc = { "biome" },
+			css = { "biome" },
 			python = { "black", "isort" },
 			ocaml = { "ocamlformat" },
 			charp = { "charpier" },
