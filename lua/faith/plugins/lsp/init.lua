@@ -57,7 +57,23 @@ return {
 			},
 			{
 				"mfussenegger/nvim-lint",
-				init = function()
+				config = function()
+					require("lint").linters_by_ft = {
+						lua = { "luacheck" },
+						python = { "flake8" },
+						sh = { "shellcheck" },
+						vim = { "vint" },
+						yaml = { "yamllint" },
+						html = { "htmlhint" },
+						json = { "biomejs" },
+						jsonc = { "biomejs" },
+						js = { "biomejs" },
+						jsx = { "biomejs" },
+						ts = { "biomejs" },
+						tsx = { "biomejs" },
+						css = { "biomejs" },
+					}
+
 					vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 						callback = function()
 							-- try_lint without arguments runs the linters defined in `linters_by_ft`
@@ -74,23 +90,6 @@ return {
 							end,
 						}
 					)
-				end,
-				config = function()
-					require("lint").linters_by_ft = {
-						lua = { "luacheck" },
-						python = { "flake8" },
-						sh = { "shellcheck" },
-						vim = { "vint" },
-						yaml = { "yamllint" },
-						html = { "htmlhint" },
-						json = { "biome" },
-						jsonc = { "biome" },
-						js = { "biome" },
-						jsx = { "biome" },
-						ts = { "biome" },
-						tsx = { "biome" },
-						css = { "biome" },
-					}
 				end,
 			},
 			"hrsh7th/cmp-nvim-lsp",
