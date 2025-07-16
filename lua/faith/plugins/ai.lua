@@ -13,7 +13,7 @@ return {
 			windsurf.setup({
 				enable_chat = true,
 				-- Optionally disable cmp source if using virtual text only
-				enable_cmp_source = false,
+				enable_cmp_source = true,
 				virtual_text = {
 					enabled = true,
 
