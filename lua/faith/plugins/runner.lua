@@ -91,66 +91,6 @@ return {
 		end,
 	},
 	{
-		"akinsho/toggleterm.nvim",
-		opts = {},
-		init = function()
-			local term_opts = function()
-				local direction = vim.o.columns > 180 and "vertical"
-					or "horizontal"
-				local size = 16
-				if direction == "horizontal" then
-					local term_win_height = math.floor(vim.o.lines * 0.2)
-					size = term_win_height > 120 and term_win_height or 10
-				elseif direction == "vertical" then
-					local term_win_width = math.floor(vim.o.columns * 0.4)
-					size = term_win_width > 81 and term_win_width or 81
-				end
-				return { size = size, direction = direction }
-			end
-			vim.keymap.set("n", "<c-\\>", function()
-				local opts = term_opts()
-				vim.api.nvim_cmd({
-					cmd = "ToggleTerm",
-					args = {
-						"size=" .. opts.size,
-						"direction=" .. opts.direction,
-					},
-					count = 1,
-				}, { output = false })
-			end)
-			vim.keymap.set("i", "<c-\\>", function()
-				local opts = term_opts()
-				vim.api.nvim_cmd({
-					cmd = "ToggleTerm",
-					args = {
-						"size=" .. opts.size,
-						"direction=" .. opts.direction,
-					},
-					count = 1,
-				}, { output = false })
-			end)
-
-			vim.api.nvim_create_autocmd("TermEnter", {
-				pattern = "term://*toggleterm#*",
-				callback = function(args)
-					vim.schedule(function()
-						vim.cmd("startinsert")
-					end)
-					vim.keymap.set("t", "<c-t>", function()
-						vim.api.nvim_cmd({
-							cmd = "ToggleTerm",
-							args = {
-								"size=16",
-								"direction=horizontal",
-							},
-							count = 1,
-						}, {})
-					end, { buffer = args.buf })
-				end,
-			})
-		end,
-	},
-	{
 		"willothy/flatten.nvim",
 		enabled = false,
 		config = true,

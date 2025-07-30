@@ -22,12 +22,6 @@ nnoremap("<C-u>", "<C-u>zz", opts)
 nnoremap("n", "nzzzv", opts)
 nnoremap("N", "Nzzzv", opts)
 
-tnoremap("<ESC>", "<C-\\><C-n>", opts)
-inoremap("<C-w>k", "<Esc><C-w>k", opts)
-
--- Terminal go back to normal mode
-tnoremap("<Esc>", "<C-\\><C-n>")
-tnoremap(":q!", "<C-\\><C-n>:q!<CR>")
 -- set more standard shortcut for saving
 nnoremap("<C-s>", "<cmd>w<CR>", opts)
 
