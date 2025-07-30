@@ -842,7 +842,17 @@ local function apply_theme_overrides(theme, scheme)
 
 	vim.api.nvim_set_hl(0, "NormalFloat", {
 		fg = color_map.fg,
-		bg = color_map.surface_dark,
+		bg = color_map.float,
+	})
+	vim.api.nvim_set_hl(0, "FloatBorder", {
+		fg = color_map.accent,
+		bg = color_map.float,
+	})
+
+	vim.api.nvim_set_hl(0, "LspSignatureActiveParameter", {
+		fg = color_map.bg,
+		bg = color_map.accent,
+		italic = true,
 	})
 
 	vim.api.nvim_set_hl(0, "LspInlayHint", { fg = h("Comment").fg })
@@ -1112,6 +1122,25 @@ local function apply_theme_overrides(theme, scheme)
 
 	vim.api.nvim_set_hl(0, "WinBar", { bg = color_map.bg_light })
 
+	local cmp_bg = color_map.float
+	vim.api.nvim_set_hl(0, "Pmenu", { fg = color_map.fg, bg = cmp_bg })
+	vim.api.nvim_set_hl(0, "PmenuSel", { fg = color_map.accent, bg = cmp_bg })
+	vim.api.nvim_set_hl(0, "PmenuSbar", { fg = color_map.accent, bg = cmp_bg })
+	vim.api.nvim_set_hl(
+		0,
+		"CmpItemKindDefault",
+		{ fg = color_map.bg, bg = color_map.purple_dark }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"CmpItemAbbrDefault",
+		{ fg = color_map.bg, bg = color_map.purple_dark }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"CmpItemMenuDefault",
+		{ fg = color_map.bg, bg = color_map.purple_dark }
+	)
 	vim.api.nvim_set_hl(
 		0,
 		"CmpItemKindSnippet",

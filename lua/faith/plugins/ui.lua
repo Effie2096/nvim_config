@@ -690,6 +690,17 @@ return {
 				"<cmd>Noice dismiss<CR>",
 				{ noremap = true, silent = true }
 			)
+			vim.keymap.set({ "n", "i", "s" }, "<c-f>", function()
+				if not require("noice.lsp").scroll(4) then
+					return "<c-f>"
+				end
+			end, { silent = true, expr = true })
+
+			vim.keymap.set({ "n", "i", "s" }, "<c-b>", function()
+				if not require("noice.lsp").scroll(-4) then
+					return "<c-b>"
+				end
+			end, { silent = true, expr = true })
 		end,
 		opts = {
 			lsp = {
@@ -700,7 +711,16 @@ return {
 					enabled = true,
 				},
 				signature = {
-					enabled = true,
+					enabled = false,
+					auto_open = {
+						enabled = true,
+						trigger = true, -- Automatically show signature help when typing a trigger character from the LSP
+						luasnip = true, -- Will open signature help when jumping to Luasnip insert nodes
+						throttle = 50, -- Debounce lsp signature help request by 50ms
+					},
+					view = nil, -- when nil, use defaults from documentation
+					---@type NoiceViewOptions
+					opts = {}, -- merged with defaults from documentation
 				},
 				-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
 				override = {
