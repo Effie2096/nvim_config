@@ -50,6 +50,13 @@ local themes = {
 				vim.o.background = "dark"
 			]],
 		},
+		{
+			name = "Sakura Dark",
+			colorscheme = "sakura",
+			before = [[
+				vim.o.background = "dark"
+			]],
+		},
 	},
 
 	-- Light
@@ -78,6 +85,13 @@ local themes = {
 		{
 			name = "Nightfox Day",
 			colorscheme = "dayfox",
+			before = [[
+				vim.o.background = "light"
+			]],
+		},
+		{
+			name = "Sakura Light",
+			colorscheme = "sakura",
 			before = [[
 				vim.o.background = "light"
 			]],
@@ -517,6 +531,149 @@ local theme_colormaps = {
 			hint = components.hint,
 		}
 
+		return color_map
+	end,
+	["sakura"] = function(scheme)
+		local lush = require("lush")
+		local hsluv = lush.hsluv
+		local hex = require("faith.plugins.color.hsl.convert").hsl_to_hex
+
+		local palette = {
+			dark = {
+				bg0 = hex(hsluv(300, 6, 8)),
+				bg1 = hex(hsluv(300, 6, 14)),
+				bg2 = hex(hsluv(300, 8, 18)),
+				bg3 = hex(hsluv(300, 8, 36)),
+
+				vs0 = hex(hsluv(310, 12, 20)),
+				vs1 = hex(hsluv(310, 6, 12)),
+
+				fg0 = hex(hsluv(0, 25, 80)),
+				fg1 = hex(hsluv(0, 25, 70)),
+				fg8 = hex(hsluv(0, 15, 65)),
+				fg9 = hex(hsluv(0, 10, 55)),
+
+				er0 = hex(hsluv(7, 55, 50)),
+				er9 = hex(hsluv(7, 55, 20)),
+
+				yl0 = hex(hsluv(40, 40, 60)),
+				yl8 = hex(hsluv(40, 40, 30)),
+				yl9 = hex(hsluv(40, 40, 20)),
+
+				sr0 = hex(hsluv(300, 40, 65)),
+				sr1 = hex(hsluv(300, 35, 55)),
+				sr9 = hex(hsluv(300, 35, 20)),
+
+				gr0 = hex(hsluv(150, 35, 60)),
+				gr9 = hex(hsluv(150, 35, 20)),
+
+				gb0 = hex(hsluv(260, 35, 60)),
+				gb1 = hex(hsluv(260, 35, 50)),
+				gb9 = hex(hsluv(260, 35, 20)),
+
+				gp0 = hex(hsluv(270, 50, 65)),
+				gp1 = hex(hsluv(270, 40, 55)),
+				gp9 = hex(hsluv(270, 35, 20)),
+
+				sa0 = hex(hsluv(340, 35, 65)),
+				sa1 = hex(hsluv(340, 35, 55)),
+				sa2 = hex(hsluv(340, 30, 45)),
+
+				pi0 = hex(hsluv(310, 15, 60)),
+				pi1 = hex(hsluv(310, 15, 45)),
+			},
+			light = {
+				bg0 = hex(hsluv(300, 6, 90)),
+				bg1 = hex(hsluv(300, 6, 86)),
+				bg2 = hex(hsluv(300, 8, 82)),
+				bg3 = hex(hsluv(300, 8, 64)),
+
+				vs0 = hex(hsluv(310, 15, 75)),
+				vs1 = hex(hsluv(310, 5, 85)),
+
+				fg0 = hex(hsluv(0, 25, 35)),
+				fg1 = hex(hsluv(0, 25, 40)),
+				fg8 = hex(hsluv(0, 15, 45)),
+				fg9 = hex(hsluv(0, 10, 50)),
+
+				er0 = hex(hsluv(7, 55, 45)),
+				er9 = hex(hsluv(7, 45, 70)),
+
+				yl0 = hex(hsluv(40, 45, 45)),
+				yl8 = hex(hsluv(40, 45, 70)),
+				yl9 = hex(hsluv(40, 40, 75)),
+
+				sr0 = hex(hsluv(300, 45, 45)),
+				sr1 = hex(hsluv(300, 45, 50)),
+				sr9 = hex(hsluv(300, 35, 55)),
+
+				gr0 = hex(hsluv(150, 35, 45)),
+				gr9 = hex(hsluv(150, 35, 70)),
+
+				gb0 = hex(hsluv(260, 35, 45)),
+				gb1 = hex(hsluv(260, 35, 50)),
+				gb9 = hex(hsluv(260, 35, 55)),
+
+				gp0 = hex(hsluv(270, 50, 45)),
+				gp1 = hex(hsluv(270, 40, 50)),
+				gp9 = hex(hsluv(270, 35, 55)),
+
+				sa0 = hex(hsluv(340, 40, 50)),
+				sa1 = hex(hsluv(340, 35, 55)),
+				sa2 = hex(hsluv(340, 30, 60)),
+
+				pi0 = hex(hsluv(310, 20, 45)),
+				pi1 = hex(hsluv(310, 15, 50)),
+			},
+		}
+
+		---@type ColorMap
+		local color_map = {
+			bg = palette[scheme].bg0,
+			bg_light = palette[scheme].bg2,
+			bg_dark = palette[scheme].bg1,
+			fg = palette[scheme].fg0,
+			fg_light = palette[scheme].fg8,
+			fg_dark = palette[scheme].fg1,
+			float = palette[scheme].vs0,
+			float_light = palette[scheme].vs0,
+			float_dark = palette[scheme].vs1,
+			surface = palette[scheme].pi1,
+			surface_light = palette[scheme].pi1,
+			surface_dark = palette[scheme].pi0,
+			accent = palette[scheme].sa0,
+			red = palette[scheme].er0,
+			red_light = palette[scheme].er0,
+			red_dark = palette[scheme].er9,
+			green = palette[scheme].gr0,
+			green_light = palette[scheme].gr0,
+			green_dark = palette[scheme].gr9,
+			blue = palette[scheme].gb1,
+			blue_light = palette[scheme].gb0,
+			blue_dark = palette[scheme].gb9,
+			cyan = palette[scheme].gb1,
+			cyan_light = palette[scheme].gb0,
+			cyan_dark = palette[scheme].gb9,
+			pink = palette[scheme].sa1,
+			pink_light = palette[scheme].sa0,
+			pink_dark = palette[scheme].sa9,
+			purple = palette[scheme].gp1,
+			purple_light = palette[scheme].gp0,
+			purple_dark = palette[scheme].gp9,
+			yellow = palette[scheme].yl0,
+			yellow_light = palette[scheme].yl8,
+			yellow_dark = palette[scheme].yl9,
+			orange = palette[scheme].yl0,
+			orange_light = palette[scheme].yl8,
+			orange_dark = palette[scheme].yl9,
+			error = palette[scheme].er0,
+			warn = palette[scheme].yl0,
+			info = palette[scheme].gp1,
+			hint = palette[scheme].gr0,
+		}
+
+		return color_map
+	end,
 		return color_map
 	end,
 }
@@ -1553,6 +1710,18 @@ return {
 				pattern = { "midnight" },
 				callback = function()
 					apply_theme_overrides("midnight")
+				end,
+			})
+		end,
+	},
+	{
+		"anAcc22/sakura.nvim",
+		dependencies = "rktjmp/lush.nvim",
+		init = function()
+			vim.api.nvim_create_autocmd("ColorScheme", {
+				pattern = { "sakura" },
+				callback = function()
+					apply_theme_overrides("sakura", vim.o.background)
 				end,
 			})
 		end,
