@@ -1528,6 +1528,27 @@ local function apply_theme_overrides(theme, scheme)
 	vim.api.nvim_set_hl(0, "CoverageCovered", { fg = color_map.green })
 	vim.api.nvim_set_hl(0, "CoverageUncovered", { fg = color_map.red })
 	vim.api.nvim_set_hl(0, "CoveragePartial", { fg = color_map.yellow })
+
+	vim.api.nvim_set_hl(
+		0,
+		"NeoTreeTabInactive",
+		{ bg = color_map.bg_light, fg = tab_inactive_fg }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"NeoTreeTabActive",
+		{ bg = color_map.accent, fg = tab_active_fg }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"NeoTreeTabSeparatorInactive",
+		{ bg = color_map.bg_light, fg = tab_inactive_fg }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"NeoTreeTabSeparatorActive",
+		{ bg = color_map.bg_light, fg = color_map.accent }
+	)
 end
 
 vim.api.nvim_create_autocmd("ColorScheme", {

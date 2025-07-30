@@ -4,6 +4,11 @@ local colors = require("catppuccin.palettes").get_palette()
 local icons = require("faith.icons")
 local spinner = require("faith.ui.spinner")
 
+_G.__cached_neo_tree_selector = nil
+_G.__get_selector = function()
+	return _G.__cached_neo_tree_selector
+end
+
 local ui_filetypes = {
 	"help",
 	"packer",
@@ -132,7 +137,7 @@ local winbar_ft_icons = {
 		name = "Ask Avante",
 	},
 	["neo-tree"] = {
-		name = "NeoTree",
+		name = string.format(" %s ", "%{%v:lua.__get_selector()%}"),
 	},
 	qf = {},
 	fugitive = {
@@ -665,7 +670,8 @@ local buffer_count = {
 		for b = 1, vim.fn.bufnr("$") do
 			if
 				vim.fn.buflisted(b) ~= 0
-				and vim.api.nvim_buf_get_option(b, "buftype") ~= "quickfix"
+				and vim.api.nvim_get_option_value("buftype", { buf = b })
+					~= "quickfix"
 			then
 				buffers_count = buffers_count + 1
 			end
@@ -1141,6 +1147,11 @@ local winbar = {
 					if ft == "dap-repl" then
 						name = format_bubble(file_spec.name)
 							.. get_dap_repl_winbar("", true)
+						goto continue
+					end
+
+					if ft == "neo-tree" then
+						name = file_spec.name
 						goto continue
 					end
 

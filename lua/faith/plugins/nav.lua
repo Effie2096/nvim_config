@@ -366,6 +366,18 @@ return {
 		---@module "neo-tree"
 		---@type neotree.Config?
 		opts = {
+			source_selector = {
+				content_layout = "center",
+				tabs_layout = "equal",
+				padding = 0,
+				separator = { left = "", right = "" }, -- string | { left: string, right: string, override: string | nil }
+				separator_active = nil, -- string | { left: string, right: string, override: string | nil } | nil
+				highlight_tab = "NeoTreeTabInactive",
+				highlight_tab_active = "NeoTreeTabActive",
+				highlight_background = "NeoTreeTabInactive",
+				highlight_separator = "NeoTreeTabSeparatorInactive",
+				highlight_separator_active = "NeoTreeTabSeparatorActive",
+			},
 			default_component_configs = {
 				indent = {
 					with_expanders = true,
@@ -397,7 +409,13 @@ return {
 				},
 			},
 			filesystem = {
+				follow_current_file = {
+					enabled = true, -- This will find and focus the file in the active buffer every time
+					--               -- the current file is changed while the tree is open.
+					leave_dirs_open = false, -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
+				},
 				hijack_netrw_behavior = "disabled",
+				use_libuv_file_watcher = false,
 				commands = {
 					avante_add_files = function(state)
 						local node = state.tree:get_node()
@@ -460,6 +478,38 @@ return {
 						end,
 						["oa"] = "avante_add_files",
 					},
+				},
+			},
+			event_handlers = {
+				{
+					event = "neo_tree_buffer_enter",
+					handler = function()
+						vim.cmd("highlight! Cursor blend=100")
+					end,
+				},
+				{
+					event = "neo_tree_buffer_leave",
+					handler = function()
+						vim.cmd("highlight! Cursor guibg=#5f87af blend=0")
+					end,
+				},
+				{
+					event = "after_render",
+					handler = function(state)
+						if
+							state.current_position == "left"
+							or state.current_position == "right"
+						then
+							vim.api.nvim_win_call(state.winid, function()
+								local str =
+									require("neo-tree.ui.selector").get()
+								if str then
+									_G.__cached_neo_tree_selector =
+										string.gsub(str, "%s+", " ")
+								end
+							end)
+						end
+					end,
 				},
 			},
 		},
