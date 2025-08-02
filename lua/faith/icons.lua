@@ -187,6 +187,8 @@ local icons = {
 		FoldSuffix = "󰁂 ",
 		Undo = "󰕍 ",
 		Beaker = " ",
+		ArcChart = "󰄦 ",
+		Star = " ",
 	},
 	debug = {
 		Pause = "",
