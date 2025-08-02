@@ -1578,6 +1578,32 @@ local function apply_theme_overrides(theme, scheme)
 		"NeoTreeTabSeparatorActive",
 		{ bg = color_map.bg_light, fg = color_map.accent }
 	)
+
+	local prog_fill = color_map.accent
+	local prog_empty = color_map.fg
+	vim.api.nvim_set_hl(0, "CodeStatsIcon", { fg = color_map.yellow })
+	vim.api.nvim_set_hl(
+		0,
+		"ProgressFilled",
+		{ fg = prog_fill, bg = prog_fill, bold = true }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"ProgressEmpty",
+		{ fg = prog_empty, bg = prog_empty }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"TextFilled",
+		{ fg = "#000000", bg = prog_fill, bold = true }
+	) -- same bg as filled bar
+	vim.api.nvim_set_hl(
+		0,
+		"TextEmpty",
+		{ fg = "#000000", bg = prog_empty, bold = true }
+	) -- same bg as empty bar
+	vim.api.nvim_set_hl(0, "ProgressBorder", { fg = "#aaaaaa", bg = "#000000" })
+
 end
 
 vim.api.nvim_create_autocmd("ColorScheme", {

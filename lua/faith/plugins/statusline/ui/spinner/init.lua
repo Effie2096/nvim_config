@@ -1,7 +1,7 @@
 local Spinner = {}
 Spinner.__index = Spinner
 
-local patterns = require("faith.ui.patterns")
+local patterns = require("faith.plugins.statusline.ui.spinner.patterns")
 
 local uv = vim.uv -- Use Neovim's event loop for timers
 
