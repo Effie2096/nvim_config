@@ -43,9 +43,21 @@ return {
 			{
 				"j-hui/fidget.nvim",
 				opts = {
+					progress = {
+						display = {
+							done_style = "FidgetDone",
+							progress_style = "FidgetProgress",
+							group_style = "FidgetGroupName",
+							icon_style = "FidgetGroupIcon",
+						},
+					},
 					notification = {
+						view = {
+							group_separator_hl = "FidgetSep",
+						},
 						window = {
 							winblend = 0, -- needs 0 for catppuccin integration
+							normal_hl = "FidgetWindow",
 						},
 					},
 					integration = {

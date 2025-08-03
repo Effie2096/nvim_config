@@ -27,7 +27,7 @@ local winbar = {
 		components.filename,
 	},
 	lualine_x = {
-		"SleuthIndicator",
+		components.guessindent,
 		components.fileformat,
 		components.encoding,
 	},
@@ -76,7 +76,7 @@ return {
 						statusline = 100,
 						tabline = 100,
 						winbar = 100,
-						refresh_time = 16,
+						-- refresh_time = 16,
 					},
 					disabled_filetypes = {
 						winbar = {

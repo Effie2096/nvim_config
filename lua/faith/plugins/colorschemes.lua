@@ -1604,6 +1604,43 @@ local function apply_theme_overrides(theme, scheme)
 	) -- same bg as empty bar
 	vim.api.nvim_set_hl(0, "ProgressBorder", { fg = "#aaaaaa", bg = "#000000" })
 
+	local fidget_bg = color_map.bg
+	local fidget_ns = vim.api.nvim_create_namespace("fidget-window")
+	vim.api.nvim_set_hl(
+		fidget_ns,
+		"FidgetDone",
+		{ fg = color_map.green, bg = fidget_bg }
+	)
+	vim.api.nvim_set_hl(
+		fidget_ns,
+		"FidgetProgress",
+		{ fg = color_map.yellow, bg = fidget_bg }
+	)
+	vim.api.nvim_set_hl(
+		fidget_ns,
+		"FidgetGroupName",
+		{ fg = color_map.accent, bg = fidget_bg }
+	)
+	vim.api.nvim_set_hl(
+		fidget_ns,
+		"FidgetGroupIcon",
+		{ fg = color_map.accent, bg = fidget_bg }
+	)
+	vim.api.nvim_set_hl(
+		fidget_ns,
+		"FidgetSep",
+		{ fg = color_map.accent, bg = fidget_bg }
+	)
+	vim.api.nvim_set_hl(
+		fidget_ns,
+		"FidgetWindow",
+		{ fg = color_map.fg_dark, bg = fidget_bg }
+	)
+	vim.api.nvim_set_hl(
+		fidget_ns,
+		"NormalFloat",
+		{ fg = color_map.fg_dark, bg = fidget_bg }
+	)
 end
 
 vim.api.nvim_create_autocmd("ColorScheme", {

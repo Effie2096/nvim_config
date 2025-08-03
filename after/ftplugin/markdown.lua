@@ -1,6 +1,6 @@
-local indentWidth = 2
-vim.opt_local.tabstop = 4
-vim.opt_local.shiftwidth = indentWidth -- Change the number of space characters inserted for indentation
+-- local indentWidth = 2
+-- vim.opt_local.tabstop = 4
+-- vim.opt_local.shiftwidth = indentWidth -- Change the number of space characters inserted for indentation
 -- vim.opt_local.textwidth = 80
 vim.opt_local.conceallevel = 2
 
