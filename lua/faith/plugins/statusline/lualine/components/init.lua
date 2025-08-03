@@ -27,10 +27,12 @@ end
 M.get_components = function()
 	return vim.iter(
 		vim.split(
-			vim.fn.glob(
-				vim.fn.stdpath("config")
-					.. "/lua/faith/plugins/statusline/lualine/components/*.lua"
-			),
+			vim.fn
+				.glob(
+					vim.fn.stdpath("config")
+						.. "/lua/faith/plugins/statusline/lualine/components/*.lua"
+				)
+				:gsub(vim.fn.stdpath("config") .. "[\\\\/]lua[\\\\/]", ""),
 			"\n"
 		)
 	)
@@ -38,10 +40,7 @@ M.get_components = function()
 			return v:find("init.lua", -8) == nil
 		end)
 		:map(function(v)
-			return (
-				v:gsub(vim.fn.stdpath("config") .. "/lua/", "")
-					:gsub("%.lua", "")
-			)
+			return vim.fn.fnamemodify(v, ":r")
 		end)
 		:map(function(v)
 			return {
