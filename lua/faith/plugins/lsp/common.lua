@@ -13,59 +13,59 @@ M.lsp_keymaps = function(bufnr)
 		end
 	end)
 	map(
-		"<leader>ld",
+		"grd",
 		vim.lsp.buf.definition,
 		"[l]sp [d]efinition: Jump to symbol definition."
 	)
 	map(
-		"<leader>lt",
+		"grt",
 		vim.lsp.buf.type_definition,
 		"[l]sp [t]ype definition: Jump to symbol type definition."
 	)
 	map(
-		"<leader>lD",
+		"grD",
 		vim.lsp.buf.declaration,
 		"[l]sp [D]eclaration: Jump to symbol declaration."
 	)
-	map(
-		"<leader>li",
-		vim.lsp.buf.implementation,
-		"[l]sp [i]mplementation: Jump to symbol implementation."
-	)
-	map(
-		"<leader>lr",
-		vim.lsp.buf.references,
-		"[l]sp [r]eferences: List references of symbol under cursor."
-	)
-	map(
-		"<leader>ls",
-		vim.lsp.buf.signature_help,
-		"[l]sp [s]ignature: Show function signature."
-	)
+	-- map(
+	-- 	"<leader>li",
+	-- 	vim.lsp.buf.implementation,
+	-- 	"[l]sp [i]mplementation: Jump to symbol implementation."
+	-- )
+	-- map(
+	-- 	"<leader>lr",
+	-- 	vim.lsp.buf.references,
+	-- 	"[l]sp [r]eferences: List references of symbol under cursor."
+	-- )
+	-- map(
+	-- 	"<leader>ls",
+	-- 	vim.lsp.buf.signature_help,
+	-- 	"[l]sp [s]ignature: Show function signature."
+	-- )
 	map(
 		"<leader>dq",
 		vim.diagnostic.setqflist,
 		"[d]iagnostic [q]uickfix: Add workspace diagnostics to quickfix list."
 	)
-	map(
-		"<leader>a",
-		vim.lsp.buf.code_action,
-		"code [a]ction: List code actions available at cursor's position."
-	)
-	map(
-		"<leader>a",
-		vim.lsp.buf.code_action,
-		"code [a]ction: List code actions available for selection.",
-		{ "v" }
-	)
+	-- map(
+	-- 	"<leader>a",
+	-- 	vim.lsp.buf.code_action,
+	-- 	"code [a]ction: List code actions available at cursor's position."
+	-- )
+	-- map(
+	-- 	"<leader>a",
+	-- 	vim.lsp.buf.code_action,
+	-- 	"code [a]ction: List code actions available for selection.",
+	-- 	{ "v" }
+	-- )
 	map("<leader>dl", function()
 		vim.diagnostic.open_float()
 	end, "[d]iagnostic [l]ist: Open float listing all diagnostics on line.")
-	map(
-		"<leader>rn",
-		vim.lsp.buf.rename,
-		"[r]e[n]ame: Rename symbol under cursor."
-	)
+	-- map(
+	-- 	"<leader>rn",
+	-- 	vim.lsp.buf.rename,
+	-- 	"[r]e[n]ame: Rename symbol under cursor."
+	-- )
 end
 
 M.on_attach = function(client_id, bufnr)
@@ -166,6 +166,24 @@ M.on_attach = function(client_id, bufnr)
 				end,
 			}
 		)
+	end
+
+	if
+		client
+		and client_supports_method(
+			client,
+			vim.lsp.protocol.Methods.workspace_didChangeWatchedFiles,
+			bufnr
+		)
+	then
+		client.capabilities =
+			vim.tbl_deep_extend("force", client.capabilities, {
+				workspace = {
+					didChangeWatchedFiles = {
+						dynamicRegistration = true,
+					},
+				},
+			})
 	end
 end
 

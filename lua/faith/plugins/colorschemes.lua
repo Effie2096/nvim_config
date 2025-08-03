@@ -941,6 +941,8 @@ local function apply_theme_overrides(theme, scheme)
 	vim.api.nvim_set_hl(0, "CodeBlock", { bg = color_map.bg_dark })
 	vim.api.nvim_set_hl(0, "RenderMarkdownCode", { bg = color_map.bg_dark })
 	vim.api.nvim_set_hl(0, "HeadingBullet", { fg = color_map.surface_dark })
+	vim.api.nvim_set_hl(0, "Conceal", { bg = color_map.bg })
+	vim.api.nvim_set_hl(0, "RenderMarkdownDash", { bg = color_map.bg })
 
 	vim.api.nvim_set_hl(0, "RenderMarkdownH1Bg", {
 		bg = color_map.green,

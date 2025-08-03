@@ -57,11 +57,9 @@ return {
 	},
 	{
 		"yetone/avante.nvim",
-		build = function()
-			return vim.fn.has("win32") == 1
-					and "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource true"
-				or "bash ./build.sh"
-		end,
+		build = vim.fn.has("win32") ~= 0
+				and "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
+			or "make",
 		event = "VeryLazy",
 		version = false, -- Never set this value to "*"! Never!
 		opts = {
@@ -89,13 +87,6 @@ return {
 				},
 			},
 		},
-		-- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-		build = function()
-			return vim.fn.has("win32")
-					and "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource true"
-				or "make"
-		end,
-		-- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter",
 			-- "stevearc/dressing.nvim",

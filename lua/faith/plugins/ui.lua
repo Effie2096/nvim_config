@@ -1317,7 +1317,7 @@ return {
 						bookmark = 20,
 					},
 					-- disables mark tracking for specific filetypes. default {}
-					excluded_filetypes = {},
+					excluded_filetypes = { "neo-tree" },
 					-- disables mark tracking for specific buftypes. default {}
 					excluded_buftypes = {},
 					mappings = {},
@@ -1456,6 +1456,7 @@ return {
 	},
 	{
 		"kosayoda/nvim-lightbulb",
+		enabled = false,
 		opts = {
 			hide_in_unfocused_buffer = true,
 			code_lenses = true,
@@ -1621,7 +1622,10 @@ return {
 			end
 
 			require("symbol-usage").setup({
+				disable = { lsp = {}, filetypes = { "markdown" }, cond = {} },
 				text_format = text_format,
+				references = { enabled = true, include_declaration = false },
+				definition = { enabled = false },
 			})
 		end,
 	},

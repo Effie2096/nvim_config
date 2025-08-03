@@ -13,7 +13,6 @@ M.on_post_load = function(_)
 	-- This is run after the buffers, windows, and tabs are restored
 	vim.iter(ipairs(require("faith.tabnames.tabnames").get_tabnames()))
 		:each(function(_, v)
-			P(v)
 			vim.fn.settabvar(v.tabnr, "tabname", v.name)
 		end)
 end

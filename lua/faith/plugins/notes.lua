@@ -74,6 +74,13 @@ return {
 					require("otter").activate()
 				end,
 			})
+			vim.api.nvim_create_autocmd({ "FileType" }, {
+				pattern = { "toml" },
+				group = vim.api.nvim_create_augroup("EmbedToml", {}),
+				callback = function()
+					require("otter").activate()
+				end,
+			})
 		end,
 	},
 	{
@@ -125,7 +132,8 @@ return {
 			indent = {
 				enabled = false,
 				skip_heading = true,
-				-- icon = " ",
+				per_level = vim.o.shiftwidth,
+				icon = " ",
 			},
 			bullet = {
 				enabled = true,
@@ -170,9 +178,21 @@ return {
 			code = {
 				width = "block",
 				min_width = 78,
-				left_pad = 2,
-				language_pad = 2,
-				highlight_inline = "",
+				left_margin = 2,
+				left_pad = 1,
+				language_pad = 1,
+				-- Used above code blocks for thin border.
+				above = "▄",
+				-- Used below code blocks for thin border.
+				below = "▀",
+				inline = true,
+				-- Icon to add to the left of inline code.
+				inline_left = "",
+				-- Icon to add to the right of inline code.
+				inline_right = "",
+				-- Padding to add to the left & right of inline code.
+				inline_pad = 1,
+				-- highlight_inline = "",
 			},
 			sign = {
 				-- Turn on / off sign rendering.

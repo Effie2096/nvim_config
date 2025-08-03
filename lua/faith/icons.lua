@@ -147,6 +147,7 @@ local icons = {
 		Session = " ",
 		Dashboard = " ",
 		History = " ",
+		Clock = " ",
 		Comment = " ",
 		Chat = "󰭹 ",
 		Bug = " ",
@@ -213,7 +214,7 @@ local icons = {
 		tab = "|->",
 		trail = "×",
 		indent = "▏",
-		indent_focus = "▎",
+		indent_focus = "▍",
 	},
 	diagnostic = {
 		error = "󰅙 ",
