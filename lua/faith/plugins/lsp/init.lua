@@ -153,18 +153,21 @@ return {
 				capabilities,
 				require("cmp_nvim_lsp").default_capabilities()
 			)
-
 			-- for UFO
 			capabilities.textDocument.foldingRange = {
 				dynamicRegistration = false,
 				lineFoldingOnly = true,
 			}
 
-			local servers = {
+			vim.lsp.config("*", {
+				capabilities = capabilities,
+			})
+
+			local managed_servers = {
 				angularls = {},
 				basedpyright = {},
 				bashls = require("faith.plugins.lsp.settings.bashls"),
-				biome = {},
+				-- biome = {},
 				clangd = {},
 				cmake = {},
 				css_variables = {},
@@ -190,8 +193,12 @@ return {
 				yamlls = {},
 			}
 
-			local ensure_installed = vim.tbl_keys(servers or {})
-			vim.list_extend(ensure_installed, {
+			vim.iter(vim.tbl_keys(managed_servers)):each(function(server)
+				vim.lsp.config(server, managed_servers[server])
+			end)
+
+			local ensure_installed = vim.tbl_keys(managed_servers or {})
+			vim.tbl_deep_extend("force", ensure_installed, {
 				"stylua",
 				"prettierd",
 			})
@@ -202,22 +209,10 @@ return {
 			require("mason-lspconfig").setup({
 				ensure_installed = {}, -- explicitly set to an empty table (populates installs via mason-tool-installer)
 				automatic_installation = false,
-				handlers = {
-					function(server_name)
-						local server = servers[server_name] or {}
-						-- This handles overriding only values explicitly passed
-						-- by the server configuration above. Useful when disabling
-						-- certain features of an LSP (for example, turning off formatting for ts_ls)
-						server.capabilities = vim.tbl_deep_extend(
-							"force",
-							{},
-							capabilities,
-							server.capabilities or {}
-						)
-						if server_name ~= "rust_analyzer" then
-							require("lspconfig")[server_name].setup(server)
-						end
-					end,
+				automatic_enable = {
+					exclude = {
+						"rust_analyzer",
+					},
 				},
 			})
 
