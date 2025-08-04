@@ -40,7 +40,7 @@
   "lazy.nvim": { "branch": "main", "commit": "6c3bda4aca61a13a9c63f1c1d1b16b9d3be90d7a" },
   "lazydev.nvim": { "branch": "main", "commit": "2367a6c0a01eb9edb0464731cc0fb61ed9ab9d2c" },
   "live-preview.nvim": { "branch": "main", "commit": "2a9b193ad7cc54034ddba3f4df3f1aebd0951731" },
-  "love2d.nvim": { "branch": "main", "commit": "a290eae5170246d71cd26dde76a1c0efeb4bd2fb" },
+  "love2d.nvim": { "branch": "main", "commit": "ad3f00ace4db7b50f5e7293afb7e8c91949742eb" },
   "lsp_signature.nvim": { "branch": "master", "commit": "62cadce83aaceed677ffe7a2d6a57141af7131ea" },
   "lspkind.nvim": { "branch": "master", "commit": "d79a1c3299ad0ef94e255d045bed9fa26025dab6" },
   "lualine.nvim": { "branch": "master", "commit": "a94fc68960665e54408fe37dcf573193c4ce82c9" },
