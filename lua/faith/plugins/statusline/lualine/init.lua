@@ -15,14 +15,17 @@ local winbar = {
 		{ -- fill space to center filename
 			"%=",
 			padding = { left = 0, right = 0 },
+			color = "Winbar",
 			separator = "",
 			fmt = function(str)
 				if not winbar_ignore() then
 					return " "
 				end
-				return trunc(str, 10, 0, 5, true)
+				return str
 			end,
 		},
+	},
+	lualine_c = {
 		components.filetype,
 		components.filename,
 	},

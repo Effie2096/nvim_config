@@ -202,9 +202,9 @@ local theme_colormaps = {
 			fg = colors.text,
 			fg_light = colors.subtext1,
 			fg_dark = colors.subtext0,
-			float = colors.overlay1,
-			float_light = colors.overlay2,
-			float_dark = colors.overlay0,
+			float = colors.surface1,
+			float_light = colors.surface2,
+			float_dark = colors.surface0,
 			surface = colors.surface1,
 			surface_light = colors.surface2,
 			surface_dark = colors.surface0,
@@ -812,7 +812,7 @@ local function apply_theme_overrides(theme, scheme)
 		bg = sidebar_bg,
 	})
 	vim.api.nvim_set_hl(0, "EndOfBuffer", {
-		bg = color_map.bg,
+		bg = "NONE",
 		fg = color_map.bg,
 	})
 	vim.api.nvim_set_hl(0, "LineNr", {
@@ -942,7 +942,11 @@ local function apply_theme_overrides(theme, scheme)
 	vim.api.nvim_set_hl(0, "RenderMarkdownCode", { bg = color_map.bg_dark })
 	vim.api.nvim_set_hl(0, "HeadingBullet", { fg = color_map.surface_dark })
 	vim.api.nvim_set_hl(0, "Conceal", { bg = color_map.bg })
-	vim.api.nvim_set_hl(0, "RenderMarkdownDash", { bg = color_map.bg })
+	vim.api.nvim_set_hl(
+		0,
+		"RenderMarkdownDash",
+		{ bg = "NONE", fg = color_map.fg }
+	)
 
 	vim.api.nvim_set_hl(0, "RenderMarkdownH1Bg", {
 		bg = color_map.green,
@@ -1421,9 +1425,9 @@ local function apply_theme_overrides(theme, scheme)
 		{ fg = h("@keyword").fg, bg = h("CursorLine").bg, italic = true }
 	)
 
-	local avante_bg = h("NormalFloat").bg
+	local avante_bg = color_map.float
 	local avante_tit_bg = color_map.accent
-	local avante_tit_fg = color_map.bg
+	local avante_tit_fg = color_map.float
 	local avante_sub_bg = color_map.cyan
 	local avante_ter_bg = color_map.green
 
@@ -1463,6 +1467,16 @@ local function apply_theme_overrides(theme, scheme)
 		0,
 		"AvanteReversedThirdTitle",
 		{ fg = avante_ter_bg, bg = avante_bg }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"AvantePromptInputBorder",
+		{ fg = avante_bg, bg = avante_bg }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"AvanteInputPromptSign",
+		{ fg = color_map.accent, bg = avante_bg }
 	)
 
 	local tab_active_fg = color_map.bg
