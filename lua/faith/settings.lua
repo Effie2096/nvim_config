@@ -176,7 +176,7 @@ augroup END
 
 -- Indentation {
 local indentWidth = 2
--- vim.opt.tabstop = indentWidth
+vim.opt.tabstop = indentWidth
 -- vim.opt.softtabstop = 0
 -- vim.opt.shiftwidth = indentWidth
 vim.opt.smarttab = true
