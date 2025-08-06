@@ -56,7 +56,7 @@ return {
 							group_separator_hl = "FidgetSep",
 						},
 						window = {
-							winblend = 0, -- needs 0 for catppuccin integration
+							winblend = 100, -- needs 0 for catppuccin integration
 							normal_hl = "FidgetWindow",
 						},
 					},

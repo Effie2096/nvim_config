@@ -62,6 +62,12 @@ return {
 			or "make",
 		event = "VeryLazy",
 		version = false, -- Never set this value to "*"! Never!
+		init = function()
+			vim.fn.sign_define("AvanteInputPromptSign", {
+				text = icons.ui.Prompt,
+				texthl = "AvanteInputPromptSign",
+			})
+		end,
 		opts = {
 			-- add any opts here
 			-- for example

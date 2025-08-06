@@ -155,27 +155,20 @@ return {
 	{
 		"lukas-reineke/indent-blankline.nvim",
 		name = "ibl",
-		config = function()
-			local highlight = {
-				"RainbowGreen",
-				"RainbowBlue",
-				"RainbowCyan",
-				"RainbowViolet",
-				"RainbowYellow",
-				"RainbowOrange",
+		main = "ibl",
+		---@module "ibl"
+		---@type ibl.config
+		opts = function()
+			local highlights = {
 				"RainbowRed",
+				"RainbowYellow",
+				"RainbowBlue",
+				"RainbowOrange",
+				"RainbowGreen",
+				"RainbowViolet",
+				"RainbowCyan",
 			}
-			local ibl = require("ibl")
-			local mocha = require("catppuccin.palettes").get_palette("mocha")
-			vim.api.nvim_set_hl(0, "RainbowRed", { fg = mocha.red })
-			vim.api.nvim_set_hl(0, "RainbowYellow", { fg = mocha.peach })
-			vim.api.nvim_set_hl(0, "RainbowBlue", { fg = mocha.sapphire })
-			vim.api.nvim_set_hl(0, "RainbowOrange", { fg = mocha.yellow })
-			vim.api.nvim_set_hl(0, "RainbowGreen", { fg = mocha.green })
-			vim.api.nvim_set_hl(0, "RainbowViolet", { fg = mocha.mauve })
-			vim.api.nvim_set_hl(0, "RainbowCyan", { fg = mocha.teal })
-
-			ibl.setup({
+			return {
 				exclude = {
 					filetypes = {
 						"fugitive",
@@ -188,7 +181,11 @@ return {
 					char = icons.characters.indent,
 					smart_indent_cap = true,
 					repeat_linebreak = true,
-					highlight = highlight,
+					highlight = highlights,
+				},
+				whitespace = {
+					highlight = highlights,
+					remove_blankline_trail = false,
 				},
 				scope = {
 					enabled = true,
@@ -196,7 +193,7 @@ return {
 					show_end = true,
 					char = icons.characters.indent_focus,
 				},
-			})
+			}
 		end,
 	},
 	{
@@ -1838,6 +1835,37 @@ return {
 						end
 					end,
 				},
+			},
+		},
+	},
+	{
+		"nvim-zh/colorful-winsep.nvim",
+		event = "WinLeave",
+		opts = {
+			-- Symbols for separator lines, the order:
+			-- horizontal, vertical, top left, top right, bottom left, bottom right.
+			-- symbols = { "━", "┃", "┏", "┓", "┗", "┛" },
+			events = { "WinEnter", "WinResized", "SessionLoadPost" },
+			-- #70: https://github.com/nvim-zh/colorful-winsep.nvim/discussions/70
+			only_line_seq = false,
+			symbols = {
+				icons.borders.square_thick.top,
+				icons.borders.square_thick.left,
+				icons.borders.square_thick.top_left,
+				icons.borders.square_thick.top_right,
+				icons.borders.square_thick.bottom_left,
+				icons.borders.square_thick.bottom_right,
+			},
+			no_exec_files = {
+				"packer",
+				"TelescopePrompt",
+				"mason",
+				"CompetiTest",
+				"NvimTree",
+				"neo-tree",
+				"Avante",
+				"AvanteSelectedFiles",
+				"AvanteInput",
 			},
 		},
 	},

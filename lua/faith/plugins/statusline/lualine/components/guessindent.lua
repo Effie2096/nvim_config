@@ -1,4 +1,7 @@
 local icons = require("faith.icons")
+local winbar_ignore = require(
+	"faith.plugins.statusline.lualine.components.winbar"
+).ignore.winbar_ignore
 local histr = require("faith.plugins.statusline.utils").histr
 
 local gi = require("guess-indent")
@@ -21,36 +24,8 @@ return {
 		end
 		return out
 	end,
-	-- fmt = function(str)
-	-- return str:format("%s%s", icons.ui.Tab)
-	-- if not str then
-	-- 	return "erm"
-	-- end
-	--
-	-- if str == "tabs" then
-	-- 	return icons.ui.Tabs
-	-- end
-	--
-	-- if type(str) == "number" then
-	-- 	return (" %d%s "):format(str, icons.ui.Space)
-	-- end
-
-	-- local is_tabs = str:match("tabs") ~= nil
-	-- P(is_tabs)
-	-- P(histr(icons.ui.Tabs, "TabLine", true))
-	-- P(histr(("%s%s"):format(str, icons.ui.Space), "TabLine", true))
-
-	-- return histr(
-	-- 	string.format(
-	-- 		"%s%s",
-	-- 		str,
-	-- 		(is_tabs and icons.ui.Tabs or icons.ui.Space)
-	-- 	),
-	-- 	"TabLine",
-	-- 	true
-	-- )
-	-- end,
-	-- cond = function()
-	-- 	return gi.guess_from_buffer() ~= nil
-	-- end,
+	padding = 0,
+	cond = function()
+		return gi.guess_from_buffer() ~= nil and winbar_ignore()
+	end,
 }
