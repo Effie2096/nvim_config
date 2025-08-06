@@ -7,6 +7,36 @@ local winbar_ignore = require(
 ).ignore.winbar_ignore
 local trunc = require("faith.plugins.statusline.utils").trunc
 
+local sections = {
+	lualine_a = { components.vanity.trans_flag },
+	lualine_b = {
+		components.resession,
+		components.root,
+		components.branch,
+	},
+	lualine_c = {
+		components.diagnostics_ws,
+		components.git_conflict,
+
+		components.language_server,
+		components.windsurf,
+		components.copilot,
+
+		components.lint_progress,
+		components.asyncrun,
+		components.overseer,
+	},
+	lualine_x = {
+		-- buffers,
+		components.format_on_save,
+		components.show_macro_recording,
+	},
+	lualine_y = {
+		components.codestats.total_xp,
+	},
+	lualine_z = {},
+}
+
 local winbar = {
 	lualine_a = {
 		components.winnumber,
@@ -89,34 +119,8 @@ return {
 						},
 					},
 				},
-				sections = {
-					lualine_a = {},
-					lualine_b = {
-						components.root,
-						components.branch,
-					},
-					lualine_c = {
-						components.diagnostics_ws,
-						components.git_conflict,
-
-						components.language_server,
-						components.windsurf,
-						components.copilot,
-
-						components.lint_progress,
-						components.asyncrun,
-						components.overseer,
-					},
-					lualine_x = {
-						-- buffers,
-						components.format_on_save,
-						components.show_macro_recording,
-					},
-					lualine_y = {
-						components.codestats.total_xp,
-					},
-					lualine_z = components.vanity.trans_flag,
-				},
+				sections = sections,
+				inactive_sections = sections,
 				winbar = winbar,
 				inactive_winbar = winbar,
 				tabline = {

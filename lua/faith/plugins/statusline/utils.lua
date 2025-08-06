@@ -9,7 +9,7 @@ local M = {}
 M.histr = function(str, highlight, close)
 	str = str or ""
 	highlight = highlight or ""
-	close = close or false
+	close = close or true
 
 	return string.format(
 		"%s%s%s%s%s",

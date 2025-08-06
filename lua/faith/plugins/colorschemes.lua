@@ -804,8 +804,12 @@ local function apply_theme_overrides(theme, scheme)
 	vim.api.nvim_set_hl(
 		0,
 		"AccentInverse",
-		{ fg = color_map.accent, bg = color_map.bg_light, bold = true }
+		{ fg = color_map.accent, bold = true }
 	)
+
+	vim.api.nvim_set_hl(0, "TransB", { bg = "#5bcffa" })
+	vim.api.nvim_set_hl(0, "TransP", { bg = "#ffb5cd" })
+	vim.api.nvim_set_hl(0, "TransW", { bg = "#ffffff" })
 
 	local sidebar_bg = color_map.bg_light
 	vim.api.nvim_set_hl(0, "SignColumn", {
@@ -870,11 +874,7 @@ local function apply_theme_overrides(theme, scheme)
 		bg = color_map.bg_light,
 	})
 
-	vim.api.nvim_set_hl(
-		0,
-		"DiagnosticCheck",
-		{ fg = color_map.green, bg = color_map.bg_light }
-	)
+	vim.api.nvim_set_hl(0, "DiagnosticCheck", { fg = color_map.green })
 
 	for _, level in pairs({ "Error", "Warn", "Info", "Hint" }) do
 		vim.api.nvim_set_hl(0, "Diagnostic" .. level, {
@@ -882,7 +882,6 @@ local function apply_theme_overrides(theme, scheme)
 		})
 		vim.api.nvim_set_hl(0, "BarDiag" .. level, {
 			link = "Diagnostic" .. level,
-			bg = color_map.bg_light,
 		})
 		vim.api.nvim_set_hl(0, "Diagnostic" .. level .. "Num", {
 			link = "Diagnostic" .. level,

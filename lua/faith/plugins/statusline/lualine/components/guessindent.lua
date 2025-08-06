@@ -24,6 +24,7 @@ return {
 		end
 		return out
 	end,
+	padding = 0,
 	cond = function()
 		return gi.guess_from_buffer() ~= nil and winbar_ignore()
 	end,
