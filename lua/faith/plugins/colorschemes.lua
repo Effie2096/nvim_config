@@ -848,6 +848,10 @@ local function apply_theme_overrides(theme, scheme)
 		fg = color_map.accent,
 		bg = color_map.float,
 	})
+	vim.api.nvim_set_hl(0, "WinSeparator", {
+		fg = color_map.accent,
+		bg = sidebar_bg,
+	})
 
 	vim.api.nvim_set_hl(0, "LspSignatureActiveParameter", {
 		fg = color_map.bg,
@@ -1656,6 +1660,12 @@ local function apply_theme_overrides(theme, scheme)
 		fidget_ns,
 		"NormalFloat",
 		{ fg = color_map.fg_dark, bg = fidget_bg }
+	)
+
+	vim.api.nvim_set_hl(
+		0,
+		"NvimSeparator",
+		{ fg = color_map.accent, bg = sidebar_bg }
 	)
 end
 

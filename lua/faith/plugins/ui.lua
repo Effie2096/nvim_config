@@ -1838,4 +1838,35 @@ return {
 			},
 		},
 	},
+	{
+		"nvim-zh/colorful-winsep.nvim",
+		event = "WinLeave",
+		opts = {
+			-- Symbols for separator lines, the order:
+			-- horizontal, vertical, top left, top right, bottom left, bottom right.
+			-- symbols = { "━", "┃", "┏", "┓", "┗", "┛" },
+			events = { "WinEnter", "WinResized", "SessionLoadPost" },
+			-- #70: https://github.com/nvim-zh/colorful-winsep.nvim/discussions/70
+			only_line_seq = false,
+			symbols = {
+				icons.borders.square_thick.top,
+				icons.borders.square_thick.left,
+				icons.borders.square_thick.top_left,
+				icons.borders.square_thick.top_right,
+				icons.borders.square_thick.bottom_left,
+				icons.borders.square_thick.bottom_right,
+			},
+			no_exec_files = {
+				"packer",
+				"TelescopePrompt",
+				"mason",
+				"CompetiTest",
+				"NvimTree",
+				"neo-tree",
+				"Avante",
+				"AvanteSelectedFiles",
+				"AvanteInput",
+			},
+		},
+	},
 }
