@@ -537,6 +537,173 @@ return {
 
 			local luasnip = require("luasnip")
 
+			-- Utility: truncate by display width (handles multibyte / wide chars)
+			local function truncate_display(s, max_width)
+				if s == nil then
+					return s
+				end
+				-- use Neovim API for display width
+				local width = vim.fn.strdisplaywidth(s)
+				if width <= max_width then
+					return s
+				end
+				-- strcharpart works with character count, not display width,
+				-- but it's usually fine as a simple truncation. We aim for an approximate.
+				local truncated = vim.fn.strcharpart(s, 0, max_width - 1)
+					.. "…"
+				return truncated
+			end
+
+			-- Normalise: read a printable label from item (tries several common fields)
+			local function get_label_field(item)
+				if item == nil then
+					return nil, nil
+				end
+				if item.abbr ~= nil then
+					return item.abbr, "abbr"
+				end
+				if item.label ~= nil then
+					return item.label, "label"
+				end
+				if item.word ~= nil then
+					return item.word, "word"
+				end
+				-- fallback: serialize something sensible (rare)
+				return tostring(item), nil
+			end
+
+			-- Helper that will mutate the appropriate field on `item`
+			local function set_label_field(item, field_name, value)
+				if not field_name then
+					-- best-effort: put in abbr if present, otherwise label, otherwise word
+					if item.abbr ~= nil then
+						item.abbr = value
+					elseif item.label ~= nil then
+						item.label = value
+					elseif item.word ~= nil then
+						item.word = value
+					end
+				else
+					item[field_name] = value
+				end
+			end
+
+			-- Factory: returns a formatter function(entry, item)
+			-- opts = { max_width = 30, truncate = true, before = fn, after = fn, custom_truncate = fn }
+			local function make_formatter(opts)
+				opts = opts or {}
+				local max_w = opts.max_width or 40
+				local do_truncate = opts.truncate == nil and true
+					or opts.truncate
+
+				return function(entry, item)
+					-- defensive: plugin might call with nil
+					if item == nil then
+						-- nothing to format — keep plugin's expectation (return nil or item)
+						return item
+					end
+
+					-- allow 'before' hook to run (optional)
+					if type(opts.before) == "function" then
+						-- allow it to mutate or return a new item
+						local ok, res = pcall(opts.before, entry, item)
+						if ok and res ~= nil then
+							item = res
+						end
+					end
+
+					-- perform truncation (either custom or default)
+					if do_truncate then
+						if type(opts.custom_truncate) == "function" then
+							-- custom_truncate(entry, item, max_w) expected to mutate item or return it
+							pcall(opts.custom_truncate, entry, item, max_w)
+						else
+							local label, field = get_label_field(item)
+							if label and max_w and max_w > 0 then
+								local new_label = truncate_display(label, max_w)
+								if new_label ~= label then
+									set_label_field(item, field, new_label)
+								end
+							end
+						end
+					end
+
+					-- allow 'after' hook to run (optional)
+					if type(opts.after) == "function" then
+						local ok, res = pcall(opts.after, entry, item)
+						if ok and res ~= nil then
+							item = res
+						end
+					end
+
+					return item
+				end
+			end
+
+			local make_kind = function(entry, item)
+				local kind = require("lspkind").cmp_format({
+					mode = "symbol_text",
+					maxwidth = 40,
+					menu = {
+						buffer = "[buf]",
+						nvim_lsp = "[LSP]",
+						path = "[path]",
+						luasnip = "[snip]",
+						dap = "[dap]",
+						calc = "[maff]",
+						git = "[git]",
+						codeium = "[ai]",
+						tags = "[tag]",
+						emoji = "[emoji]",
+						cmdline = "[cmd]",
+					},
+					ellipsis_char = "...",
+				})(entry, item)
+
+				if entry.source.name == "codeium" then
+					local icon = require("faith.icons").ui.Wand
+					item.kind = icon
+					item.kind_hl_group = "CmpItemKindSnippet"
+				end
+				if entry.source.name == "calc" then
+					item.kind = require("faith.icons").ui.Calc
+					item.kind_hl_group = "CmpItemKindFunction"
+				end
+				if entry.source.name == "tags" then
+					item.kind = require("faith.icons").ui.Tag
+					item.kind_hl_group = "CmpItemKindFunction"
+				end
+				if entry.source.name == "cmdline" then
+					item.kind = require("faith.icons").ui.Term
+					item.kind_hl_group = "CmpItemKindText"
+				end
+
+				local strings = vim.split(kind.kind, "%s", { trimempty = true })
+				kind.kind = " " .. (strings[1] or "") .. " "
+
+				return kind
+			end
+
+			local get_ws = function(max, len)
+				return (" "):rep(max - len)
+			end
+
+			local pad_width = function(_, item)
+				local ELLIPSIS_CHAR = "."
+				local MAX_LABEL_WIDTH = 52
+
+				local content = item.abbr
+
+				if #content > MAX_LABEL_WIDTH then
+					item.abbr = vim.fn.strcharpart(content, 0, MAX_LABEL_WIDTH)
+						.. ELLIPSIS_CHAR
+				else
+					item.abbr = content .. get_ws(MAX_LABEL_WIDTH, #content)
+				end
+
+				return item
+			end
+
 			cmp.setup({
 				mapping = cmp.mapping.preset.insert({
 					["<C-n>"] = cmp.mapping.select_next_item({
@@ -548,10 +715,23 @@ return {
 					["<C-d>"] = cmp.mapping.scroll_docs(-4),
 					["<C-f>"] = cmp.mapping.scroll_docs(4),
 					["<C-e>"] = cmp.mapping.abort(),
-					["<CR>"] = cmp.mapping.confirm({
-						behavior = cmp.ConfirmBehavior.Replace,
-						select = false,
-					}, { "i", "c" }),
+					["<CR>"] = cmp.mapping({
+						i = function(fallback)
+							if cmp.visible() and cmp.get_active_entry() then
+								cmp.confirm({
+									behavior = cmp.ConfirmBehavior.Replace,
+									select = false,
+								})
+							else
+								fallback()
+							end
+						end,
+						s = cmp.mapping.confirm({ select = false }),
+						c = cmp.mapping.confirm({
+							behavior = cmp.ConfirmBehavior.Replace,
+							select = false,
+						}),
+					}),
 					["<c-y>"] = cmp.mapping({
 						i = cmp.mapping.complete(),
 						c = function(
@@ -583,42 +763,9 @@ return {
 				},
 				formatting = {
 					fields = { "kind", "abbr", "menu" },
-					format = function(entry, vim_item)
-						local kind = require("lspkind").cmp_format({
-							mode = "symbol_text",
-							maxwidth = 40,
-							menu = {
-								buffer = "[buf]",
-								nvim_lsp = "[LSP]",
-								path = "[path]",
-								luasnip = "[snip]",
-								dap = "[dap]",
-								calc = "[maff]",
-								git = "[git]",
-								codeium = "[ai]",
-								tags = "[tag]",
-								emoji = "[emoji]",
-							},
-							ellipsis_char = "...",
-						})(entry, vim_item)
-						if entry.source.name == "codeium" then
-							local icon = require("faith.icons").ui.Wand
-							vim_item.kind = icon
-							vim_item.kind_hl_group = "CmpItemKindSnippet"
-						end
-						if entry.source.name == "calc" then
-							vim_item.kind = require("faith.icons").ui.Calc
-							vim_item.kind_hl_group = "CmpItemKindFunction"
-						end
-						if entry.source.name == "tags" then
-							vim_item.kind = require("faith.icons").ui.Tag
-							vim_item.kind_hl_group = "CmpItemKindFunction"
-						end
-						local strings =
-							vim.split(kind.kind, "%s", { trimempty = true })
-						kind.kind = " " .. (strings[1] or "") .. " "
-						return kind
-					end,
+					format = make_formatter({
+						before = make_kind,
+					}),
 				},
 				sorting = {
 					comparators = {
@@ -651,6 +798,9 @@ return {
 						border = "none",
 						col_offset = -3,
 						side_padding = 0,
+					},
+					documentation = {
+						max_width = 81,
 					},
 					-- completion = cmp.config.window.bordered(),
 					-- documentation = cmp.config.window.bordered(),
@@ -709,7 +859,13 @@ return {
 			cmp.setup.cmdline(":", {
 				mapping = cmp.mapping.preset.cmdline(),
 				sources = cmp.config.sources({
+					{ name = "codeium" },
+					{ name = "cmdline" },
 					{ name = "path" },
+					{ name = "ecolog" },
+					{ name = "luasnip" }, -- For luasnip users.
+					{ name = "buffer" },
+					{ name = "calc" },
 				}, {
 					{
 						name = "cmdline",
@@ -718,6 +874,18 @@ return {
 						},
 					},
 				}),
+				matching = { disallow_symbol_nonprefix_matching = false },
+				window = {
+					completion = {
+						scrollbar = false,
+					},
+				},
+				formatting = {
+					format = make_formatter({
+						before = make_kind,
+						after = pad_width,
+					}),
+				},
 				--[[ view = {
 					entries = { name = "wildmenu", separator = "|" },
 				}, ]]
