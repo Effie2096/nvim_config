@@ -1,7 +1,7 @@
 vim.opt.title = true
 vim.opt.confirm = true
 vim.opt.titlestring = "Nvim: %t%( %M%)%( %a%)"
-vim.opt.iskeyword:remove({ "-" })
+vim.opt.iskeyword:append({ "-" })
 vim.opt.termguicolors = true
 vim.opt.cmdheight = 1
 vim.opt.conceallevel = 2
