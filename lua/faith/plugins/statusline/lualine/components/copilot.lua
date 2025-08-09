@@ -41,6 +41,7 @@ return {
 		spinners = "dots", -- has some premade spinners
 		spinner_color = "#6272A4",
 	},
+	color = "WinBar",
 	show_colors = true,
 	show_loading = true,
 	separator = "",

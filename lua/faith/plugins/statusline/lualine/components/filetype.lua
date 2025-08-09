@@ -26,5 +26,6 @@ return {
 
 		return trunc(str, 10, 0, 5, true)
 	end,
+	color = "WinBar",
 	cond = winbar_ignore,
 }
