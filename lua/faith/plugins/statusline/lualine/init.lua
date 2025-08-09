@@ -86,10 +86,10 @@ return {
 			end
 
 			local opts = { noremap = true, silent = true }
-			vim.keymap.set("n", "<Tab>", function()
+			vim.keymap.set("n", "<leader>.", function()
 				buf_next(true, vim.v.count)
 			end, opts)
-			vim.keymap.set("n", "<S-Tab>", function()
+			vim.keymap.set("n", "<leader>,", function()
 				buf_next(false, vim.v.count)
 			end, opts)
 		end,
