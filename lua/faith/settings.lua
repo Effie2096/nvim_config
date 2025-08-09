@@ -29,11 +29,23 @@ vim.opt.timeoutlen = 300
 vim.opt.hidden = true
 vim.opt.textwidth = 100
 vim.opt.wrap = false
+
+-- Indentation {
+local indentWidth = 2
+vim.opt.tabstop = indentWidth
+vim.opt.softtabstop = 0
+vim.opt.shiftwidth = indentWidth
+vim.opt.smarttab = true
+vim.opt.expandtab = false
+vim.opt.smartindent = false
+vim.opt.autoindent = false
+-- } Indentation
+
 vim.opt.linebreak = true
-vim.opt.showbreak = "▉ "
+vim.opt.showbreak = "▉" .. (string.rep(" ", indentWidth - 1) or "")
 vim.opt.breakat = " ^I!@;:,./?([{"
 vim.opt.breakindent = true
-vim.opt.breakindentopt = "shift:4"
+vim.opt.breakindentopt = { "shift:" .. ((indentWidth * 2) - 1), "sbr" }
 vim.opt.showmode = false
 vim.opt.pumheight = 20
 vim.opt.encoding = "utf-8"
@@ -173,17 +185,6 @@ augroup END
 
 -- command! -complete=option -nargs=+ SetAll call s:set_all(<f-args>)
 -- ]]
-
--- Indentation {
-local indentWidth = 2
-vim.opt.tabstop = indentWidth
--- vim.opt.softtabstop = 0
--- vim.opt.shiftwidth = indentWidth
-vim.opt.smarttab = true
-vim.opt.expandtab = false
-vim.opt.smartindent = false
-vim.opt.autoindent = false
--- } Indentation
 
 -- searching {
 vim.opt.inccommand = "split"
