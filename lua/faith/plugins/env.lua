@@ -22,6 +22,7 @@ return {
 				nvim_cmp = true, -- If you dont plan to use nvim_cmp set to false, enabled by default
 				-- If you are planning to use blink cmp uncomment this line
 				-- blink_cmp = true,
+				lsp = true,
 			},
 			-- Enables shelter mode for sensitive values
 			shelter = {
@@ -45,8 +46,8 @@ return {
 					cmp = true, -- Enabled to mask values in completion
 					peek = false, -- Enable to mask values in peek view
 					files = true, -- Enabled to mask values in file buffers
-					telescope = false, -- Enable to mask values in telescope integration
-					telescope_previewer = false, -- Enable to mask values in telescope preview buffers
+					telescope = true, -- Enable to mask values in telescope integration
+					telescope_previewer = true, -- Enable to mask values in telescope preview buffers
 					fzf = false, -- Enable to mask values in fzf picker
 					fzf_previewer = false, -- Enable to mask values in fzf preview buffers
 					snacks_previewer = false, -- Enable to mask values in snacks previewer

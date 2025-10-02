@@ -4,11 +4,15 @@ return {
 			-- enable clippy on save
 			checkOnSave = {
 				features = "all",
-				command = "clippy",
-				--[[ overrideCommand = {
-					'cargo', 'clippy', '--workspace', '--message-format=json',
-					'--all-targets', '--all-features'
-				} ]]
+				-- command = "clippy",
+				overrideCommand = {
+					"cargo",
+					"clippy",
+					"--workspace",
+					"--message-format=json",
+					"--all-targets",
+					"--all-features",
+				},
 			},
 			hover = {
 				actions = {

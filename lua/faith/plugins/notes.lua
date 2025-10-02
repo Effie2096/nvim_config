@@ -83,17 +83,10 @@ return {
 			})
 		end,
 	},
-	{
-		"bullets-vim/bullets.vim",
-		init = function()
-			vim.g.bullets_enabled_file_types =
-				{ "markdown", "text", "gitcommit" }
-			vim.g.bullets_enable_in_empty_buffers = 0 -- default = 1
-		end,
-	},
 	"godlygeek/tabular",
 	{
 		"Kicamon/markdown-table-mode.nvim",
+		ft = "markdown",
 		cmd = "Mtm",
 		opts = {
 			filetype = {
@@ -347,11 +340,6 @@ return {
 				},
 			},
 		},
-	},
-	{
-		"luizribeiro/vim-cooklang",
-		enabled = false,
-		ft = "cook",
 	},
 	{
 		"epwalsh/obsidian.nvim",

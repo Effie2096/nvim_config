@@ -2,14 +2,14 @@ local themes = require("faith.plugins.color.themes")
 local apply_theme_overrides =
 	require("faith.plugins.color.overrides").apply_theme_overrides
 
-vim.api.nvim_create_autocmd("ColorScheme", {
-	pattern = { "*" },
-	callback = function()
-		if vim.g.transparent_enabled then
-			require("transparent").clear_prefix("lualine_c")
-		end
-	end,
-})
+-- vim.api.nvim_create_autocmd("ColorScheme", {
+-- 	pattern = { "*" },
+-- 	callback = function()
+-- 		if vim.g.transparent_enabled then
+-- 			require("transparent").clear_prefix("lualine_c")
+-- 		end
+-- 	end,
+-- })
 
 return {
 	{
@@ -26,6 +26,7 @@ return {
 					)
 				),
 			})
+			require("faith.plugins.color.background")
 		end,
 	},
 	{
@@ -297,6 +298,8 @@ return {
 	},
 	{
 		"anAcc22/sakura.nvim",
+		lazy = false,
+		priority = 1000,
 		dependencies = "rktjmp/lush.nvim",
 		init = function()
 			vim.api.nvim_create_autocmd("ColorScheme", {
@@ -309,6 +312,8 @@ return {
 	},
 	{
 		"yorumicolors/yorumi.nvim",
+		lazy = false,
+		priority = 1000,
 		init = function()
 			vim.api.nvim_create_autocmd("ColorScheme", {
 				pattern = { "yorumi" },
@@ -328,11 +333,27 @@ return {
 			require("transparent").clear_prefix("lualine_y")
 			-- require("transparent").clear_prefix("lualine_z")
 			-- require("transparent").clear_prefix("lualine_c_filetype_DevIcon")
+
+			require("transparent").clear_prefix("NeoTree")
+
 			local opts = {
 				exclude_groups = {
 					"Accent",
 					"TabLineSel",
 					"TabLineSelSep",
+
+					"NormalFloat",
+
+					"PmenuMatchSel",
+					"PmenuExtraSel",
+					"PmenuKindSel",
+					"PmenuThumb",
+					"PmenuMatch",
+					"PmenuExtra",
+					"PmenuSbar",
+					"PmenuKind",
+					"PmenuSel",
+					"Pmenu",
 
 					"UgUndo",
 					"UgRedo",
@@ -348,15 +369,15 @@ return {
 					"Folded",
 					"CursorLineSign",
 
-					"NormalFloat",
-					"NvimTreeNormal",
-					"NvimTreeWinSeparator",
+					"WinSeparator",
+					"ColorfulWinSep",
 
 					"lualine_transparent",
 
 					"WinBar",
 					"TabLine",
 					"TabLineSep",
+					"TabLineFill",
 
 					"HarpoonSeparator",
 					"HarpoonInactive",
@@ -366,6 +387,12 @@ return {
 
 					"FidgetTitle",
 					"FidgetTask",
+					"FidgetDone",
+					"FidgetProgress",
+					"FidgetGroupName",
+					"FidgetGroupIcon",
+					"FidgetSep",
+					"FidgetWindow",
 
 					"BufferCurrent",
 					"BufferCurrentIndex",

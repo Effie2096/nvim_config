@@ -99,8 +99,8 @@ return {
 					icons_enabled = true,
 					theme = "auto",
 					component_separators = {
-						left = icons.separators.straight.left,
-						right = icons.separators.straight.right,
+						left = "",
+						right = "",
 					},
 					section_separators = { left = "", right = "" },
 					always_divide_middle = true,

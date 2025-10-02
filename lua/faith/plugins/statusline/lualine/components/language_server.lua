@@ -115,10 +115,6 @@ return {
 		end
 	end,
 	padding = { left = 1, right = 0 },
-	separator = {
-		left = icons.separators.straight.left,
-		right = "",
-	},
 	color = "@lsp.type.type",
 	-- cond = function()
 	-- 	return #flatten_clients(M.language_servers) ~= 0

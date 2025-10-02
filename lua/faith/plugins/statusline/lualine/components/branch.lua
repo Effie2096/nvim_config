@@ -5,11 +5,7 @@ return {
 	"branch",
 	icon = { "" },
 	color = "WinBar",
-	padding = { left = 0, right = 1 },
-	separator = {
-		left = "",
-		right = icons.separators.straight.right,
-	},
+	padding = { left = 0, right = 0 },
 	fmt = function(str)
 		return string.format(
 			"on %s",

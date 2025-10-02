@@ -302,23 +302,6 @@ return {
 		end,
 	},
 	{
-		"hedyhli/outline.nvim",
-		opts = {
-			relative_width = false,
-			keymaps = {
-				up_and_jump = "<C-p>",
-				down_and_jump = "<C-n>",
-			},
-		},
-		keys = {
-			{
-				"<leader>lo",
-				"<cmd>Outline<cr>",
-				desc = "[l]sp [o]utline: Open outline.",
-			},
-		},
-	},
-	{
 		"nvim-neo-tree/neo-tree.nvim",
 		branch = "v3.x",
 		dependencies = {
@@ -518,44 +501,6 @@ return {
 				"<leader>ef",
 				"<cmd>Neotree filesystem toggle left<cr>",
 				desc = "[e]xplore [f]iles: Open file explorer.",
-			},
-		},
-	},
-	---@type LazySpec
-	{
-		"mikavilpas/yazi.nvim",
-		event = "VeryLazy",
-		dependencies = {
-			-- check the installation instructions at
-			-- https://github.com/folke/snacks.nvim
-			"folke/snacks.nvim",
-		},
-		keys = {
-			-- 👇 in this section, choose your own keymappings!
-			{
-				"<leader>-",
-				mode = { "n", "v" },
-				"<cmd>Yazi<cr>",
-				desc = "Open yazi at the current file",
-			},
-			{
-				-- Open in the current working directory
-				"<leader>cw",
-				"<cmd>Yazi cwd<cr>",
-				desc = "Open the file manager in nvim's working directory",
-			},
-			{
-				"<leader><up>",
-				"<cmd>Yazi toggle<cr>",
-				desc = "Resume the last yazi session",
-			},
-		},
-		---@type YaziConfig | {}
-		opts = {
-			-- if you want to open yazi instead of netrw, see below for more info
-			open_for_directories = false,
-			keymaps = {
-				show_help = "<f1>",
 			},
 		},
 	},

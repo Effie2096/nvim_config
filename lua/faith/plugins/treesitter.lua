@@ -8,12 +8,11 @@ return {
 			{
 				"romgrk/nvim-treesitter-context",
 				opts = function()
-					local context_height = math.floor(vim.o.lines / 4)
 					local opts = {
 						enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
 						multiwindow = true,
 						throttle = true, -- Throttles plugin updates (may improve performance)
-						max_lines = context_height, -- How many lines the window should span. Values <= 0 mean no limit.
+						max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
 						mode = "topline",
 						patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
 							-- For all filetypes
@@ -42,29 +41,7 @@ return {
 							-- exactly match "impl_item" only)
 							-- rust = true,
 						},
-						on_attach = function(bufnr)
-							vim.api.nvim_create_augroup(
-								"ts-context-height",
-								{ clear = true }
-							)
-							vim.api.nvim_create_autocmd(
-								{ "VimResized", "WinResized", "BufWinEnter" },
-								{
-									group = "ts-context-height",
-									buffer = bufnr,
-									callback = function()
-										local height = math.floor(
-											vim.api.nvim_win_get_height(0) / 4
-										)
-
-										require("treesitter-context").setup({
-											max_lines = height == 0 and 4
-												or height,
-										})
-									end,
-								}
-							)
-						end,
+						-- on_attach = function(bufnr) end,
 					}
 					return opts
 				end,
@@ -97,6 +74,7 @@ return {
 				end,
 				{ force = true, all = false }
 			)
+			vim.treesitter.language.register("scheme", "kanata")
 		end,
 		opts = {
 			ensure_installed = {

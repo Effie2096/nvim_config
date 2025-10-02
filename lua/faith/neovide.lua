@@ -35,3 +35,5 @@ end, { silent = true })
 vim.keymap.set({ "n", "i" }, "<C-=>", function()
 	resize(true)
 end, { silent = true })
+
+vim.cmd.cd(os.getenv("HOME") .. "/Documents")

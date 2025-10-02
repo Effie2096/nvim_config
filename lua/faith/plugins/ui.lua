@@ -6,6 +6,22 @@ return {
 		lazy = false,
 	},
 	{
+		"HiPhish/rainbow-delimiters.nvim",
+		init = function()
+			vim.g.rainbow_delimiters = {
+				highlight = {
+					"RainbowRed",
+					"RainbowYellow",
+					"RainbowBlue",
+					"RainbowOrange",
+					"RainbowGreen",
+					"RainbowViolet",
+					"RainbowCyan",
+				},
+			}
+		end,
+	},
+	{
 		"folke/snacks.nvim",
 		priority = 1000,
 		lazy = false,
@@ -642,24 +658,6 @@ return {
 		end,
 	},
 	{
-		"norcalli/nvim-colorizer.lua",
-		enabled = false,
-		config = function()
-			local colorizer = require("colorizer")
-			colorizer.setup({ "*" }, {
-				RGB = true, -- #RGB hex codes
-				RRGGBB = true, -- #RRGGBB hex codes
-				names = true, -- "Name" codes like Blue
-				RRGGBBAA = true, -- #RRGGBBAA hex codes
-				rgb_fn = true, -- CSS rgb() and rgba() functions
-				hsl_fn = true, -- CSS hsl() and hsla() functions
-				css = true, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
-				css_fn = true, -- Enable all CSS *functions*: rgb_fn, hsl_fn
-				mode = "background",
-			})
-		end,
-	},
-	{
 		"rcarriga/nvim-notify",
 		opts = {
 			background_colour = "#000000",
@@ -700,15 +698,16 @@ return {
 			end, { silent = true, expr = true })
 		end,
 		opts = {
+			presets = {},
 			lsp = {
 				progress = {
 					enabled = false,
 				},
 				hover = {
-					enabled = true,
+					enabled = false,
 				},
 				signature = {
-					enabled = false,
+					enabled = true,
 					auto_open = {
 						enabled = true,
 						trigger = true, -- Automatically show signature help when typing a trigger character from the LSP
@@ -751,6 +750,10 @@ return {
 			},
 			views = {
 				cmdline_popup = {
+					position = {
+						row = "4",
+						col = "50%",
+					},
 					border = {
 						style = "none",
 						padding = { 1, 2 },
@@ -915,8 +918,8 @@ return {
 					font = "+6",
 				},
 				wezterm = {
-					enabled = false,
-					font = "+12",
+					enabled = true,
+					font = "+4",
 				},
 				neovide = {
 					enabled = true,
@@ -950,11 +953,6 @@ return {
 		},
 	},
 	{
-		"folke/trouble.nvim",
-		opts = {}, -- for default options, refer to the configuration section for custom setup.
-		cmd = "Trouble",
-	},
-	{
 		"mcauley-penney/visual-whitespace.nvim",
 		opts = function()
 			local opts = {
@@ -967,325 +965,139 @@ return {
 		end,
 	},
 	{
-		"y3owk1n/undo-glow.nvim",
-		event = { "VeryLazy" },
-		---@type UndoGlow.Config
-		opts = {
-			animation = {
-				enabled = true,
-				duration = 300,
-				animtion_type = "spring",
-				easing = "in_out_quad",
-				fps = 60,
-				window_scoped = false,
-			},
-			highlights = {
-				undo = {
-					hl = "UgUndo", -- This will not set new hlgroup, if it's not "UgUndo", we will try to grab the colors of specified hlgroup and apply to "UgUndo"
-				},
-				redo = {
-					hl = "UgRedo",
-				},
-				yank = {
-					hl = "UgYank",
-				},
-				paste = {
-					hl = "UgPaste",
-				},
-				search = {
-					hl = "UgSearch",
-				},
-				comment = {
-					hl = "UgComment",
-				},
-				cursor = {
-					hl = "UgCursor",
-				},
-			},
-			priority = 2048 * 3,
-		},
-		keys = {
-			{
-				"u",
-				function()
-					require("undo-glow").undo()
-				end,
-				mode = "n",
-				desc = "Undo with highlight",
-				noremap = true,
-			},
-			{
-				"U",
-				function()
-					require("undo-glow").redo()
-				end,
-				mode = "n",
-				desc = "Redo with highlight",
-				noremap = true,
-			},
-			{
-				"p",
-				function()
-					require("undo-glow").paste_below()
-				end,
-				mode = "n",
-				desc = "Paste below with highlight",
-				noremap = true,
-			},
-			{
-				"P",
-				function()
-					require("undo-glow").paste_above()
-				end,
-				mode = "n",
-				desc = "Paste above with highlight",
-				noremap = true,
-			},
-			{
-				"n",
-				function()
-					require("undo-glow").search_next({
-						animation = {
-							animation_type = "strobe",
-						},
-					})
-				end,
-				mode = "n",
-				desc = "Search next with highlight",
-				noremap = true,
-			},
-			{
-				"N",
-				function()
-					require("undo-glow").search_prev({
-						animation = {
-							animation_type = "strobe",
-						},
-					})
-				end,
-				mode = "n",
-				desc = "Search prev with highlight",
-				noremap = true,
-			},
-			{
-				"*",
-				function()
-					require("undo-glow").search_star({
-						animation = {
-							animation_type = "strobe",
-						},
-					})
-				end,
-				mode = "n",
-				desc = "Search star with highlight",
-				noremap = true,
-			},
-			{
-				"#",
-				function()
-					require("undo-glow").search_hash({
-						animation = {
-							animation_type = "strobe",
-						},
-					})
-				end,
-				mode = "n",
-				desc = "Search hash with highlight",
-				noremap = true,
-			},
-			{
-				"gc",
-				function()
-					-- This is an implementation to preserve the cursor position
-					local pos = vim.fn.getpos(".")
-					vim.schedule(function()
-						vim.fn.setpos(".", pos)
-					end)
-					return require("undo-glow").comment()
-				end,
-				mode = { "n", "x" },
-				desc = "Toggle comment with highlight",
-				expr = true,
-				noremap = true,
-			},
-			{
-				"gc",
-				function()
-					require("undo-glow").comment_textobject()
-				end,
-				mode = "o",
-				desc = "Comment textobject with highlight",
-				noremap = true,
-			},
-			{
-				"gcc",
-				function()
-					return require("undo-glow").comment_line()
-				end,
-				mode = "n",
-				desc = "Toggle comment line with highlight",
-				expr = true,
-				noremap = true,
-			},
-		},
-		init = function()
-			vim.api.nvim_create_autocmd("TextYankPost", {
-				desc = "Highlight when yanking (copying) text",
-				callback = function()
-					require("undo-glow").yank()
-				end,
-			})
-
-			-- This only handles neovim instance and do not highlight when switching panes in tmux
-			vim.api.nvim_create_autocmd("CursorMoved", {
-				desc = "Highlight when cursor moved significantly",
-				callback = function()
-					require("undo-glow").cursor_moved({
-						animation = {
-							animation_type = "slide",
-						},
-					})
-				end,
-			})
-
-			-- This will handle highlights when focus gained, including switching panes in tmux
-			vim.api.nvim_create_autocmd("FocusGained", {
-				desc = "Highlight when focus gained",
-				callback = function()
-					---@type UndoGlow.CommandOpts
-					local opts = {
-						animation = {
-							animation_type = "slide",
-						},
-					}
-
-					opts = require("undo-glow.utils").merge_command_opts(
-						"UgCursor",
-						opts
-					)
-					local pos =
-						require("undo-glow.utils").get_current_cursor_row()
-
-					require("undo-glow").highlight_region(
-						vim.tbl_extend("force", opts, {
-							s_row = pos.s_row,
-							s_col = pos.s_col,
-							e_row = pos.e_row,
-							e_col = pos.e_col,
-							force_edge = opts.force_edge == nil and true
-								or opts.force_edge,
-						})
-					)
-				end,
-			})
-
-			vim.api.nvim_create_autocmd("CmdLineLeave", {
-				pattern = { "/", "?" },
-				desc = "Highlight when search cmdline leave",
-				callback = function()
-					require("undo-glow").search_cmd({
-						animation = {
-							animation_type = "fade",
-						},
-					})
-				end,
-			})
-		end,
-	},
-	{
-		"kevinhwang91/nvim-hlslens",
-		dependencies = { "kevinhwang91/nvim-ufo" },
-		config = function()
-			require("hlslens").setup({
-				override_lens = function(render, posList, nearest, idx, relIdx)
-					local sfw = vim.v.searchforward == 1
-					local indicator, text, chunks
-					local absRelIdx = math.abs(relIdx)
-					if absRelIdx > 1 then
-						indicator = ("%d%s"):format(
-							absRelIdx,
-							sfw ~= (relIdx > 1) and "▲" or "▼"
-						)
-					elseif absRelIdx == 1 then
-						indicator = sfw ~= (relIdx == 1) and "▲" or "▼"
-					else
-						indicator = ""
-					end
-
-					local lnum, col = unpack(posList[idx])
-					if nearest then
-						local cnt = #posList
-						if indicator ~= "" then
-							text = ("[%s %d/%d]"):format(indicator, idx, cnt)
-						else
-							text = ("[%d/%d]"):format(idx, cnt)
-						end
-						chunks = { { " " }, { text, "HlSearchLensNear" } }
-					else
-						text = ("[%s %d]"):format(indicator, idx)
-						chunks = { { " " }, { text, "HlSearchLens" } }
-					end
-					render.setVirt(0, lnum - 1, col - 1, chunks, nearest)
-				end,
-				build_position_cb = function(plist, _, _, _)
-					require("scrollbar.handlers.search").handler.show(
-						plist.start_pos
-					)
-				end,
-			})
-
-			local kopts = { noremap = true, silent = true }
-
-			vim.api.nvim_set_keymap(
-				"n",
-				"n",
-				[[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
-				kopts
-			)
-			vim.api.nvim_set_keymap(
-				"n",
-				"N",
-				[[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
-				kopts
-			)
-			vim.api.nvim_set_keymap(
-				"n",
-				"*",
-				[[*<Cmd>lua require('hlslens').start()<CR>]],
-				kopts
-			)
-			vim.api.nvim_set_keymap(
-				"n",
-				"#",
-				[[#<Cmd>lua require('hlslens').start()<CR>]],
-				kopts
-			)
-			vim.api.nvim_set_keymap(
-				"n",
-				"g*",
-				[[g*<Cmd>lua require('hlslens').start()<CR>]],
-				kopts
-			)
-			vim.api.nvim_set_keymap(
-				"n",
-				"g#",
-				[[g#<Cmd>lua require('hlslens').start()<CR>]],
-				kopts
-			)
-
-			vim.cmd([[
-				augroup scrollbar_search_hide
-				autocmd!
-				autocmd CmdlineLeave : lua require('scrollbar.handlers.search').handler.hide()
-				augroup END
-				]])
-		end,
-	},
-	{
 		"petertriho/nvim-scrollbar",
 		dependencies = {
 			"lewis6991/gitsigns.nvim",
-			"kevinhwang91/nvim-hlslens",
+			{
+				"kevinhwang91/nvim-hlslens",
+				dependencies = { "kevinhwang91/nvim-ufo" },
+				config = function()
+					require("hlslens").setup({
+						override_lens = function(
+							render,
+							posList,
+							nearest,
+							idx,
+							relIdx
+						)
+							local sfw = vim.v.searchforward == 1
+							local indicator, text, chunks
+							local absRelIdx = math.abs(relIdx)
+							if absRelIdx > 1 then
+								indicator = ("%d%s"):format(
+									absRelIdx,
+									sfw ~= (relIdx > 1) and "▲" or "▼"
+								)
+							elseif absRelIdx == 1 then
+								indicator = sfw ~= (relIdx == 1) and "▲"
+									or "▼"
+							else
+								indicator = ""
+							end
+
+							local lnum, col = unpack(posList[idx])
+							if nearest then
+								local cnt = #posList
+								if indicator ~= "" then
+									text = ("[%s %d/%d]"):format(
+										indicator,
+										idx,
+										cnt
+									)
+								else
+									text = ("[%d/%d]"):format(idx, cnt)
+								end
+								chunks =
+									{ { " " }, { text, "HlSearchLensNear" } }
+							else
+								text = ("[%s %d]"):format(indicator, idx)
+								chunks = { { " " }, { text, "HlSearchLens" } }
+							end
+							render.setVirt(
+								0,
+								lnum - 1,
+								col - 1,
+								chunks,
+								nearest
+							)
+						end,
+						build_position_cb = function(plist, _, _, _)
+							require("scrollbar.handlers.search").handler.show(
+								plist.start_pos
+							)
+						end,
+					})
+
+					local kopts = { noremap = true, silent = true }
+
+					-- vim.api.nvim_set_keymap(
+					-- 	"n",
+					-- 	"n",
+					-- 	[[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
+					-- 	kopts
+					-- )
+					-- vim.api.nvim_set_keymap(
+					-- 	"n",
+					-- 	"N",
+					-- 	[[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
+					-- 	kopts
+					-- )
+					local function nN(char)
+						local ok, winid = require("hlslens").nNPeekWithUFO(char)
+						if ok and winid then
+							-- Safe to override buffer scope keymaps remapped by ufo,
+							-- ufo will restore previous buffer keymaps before closing preview window
+							-- Type <CR> will switch to preview window and fire `trace` action
+							vim.keymap.set("n", "<CR>", function()
+								return "<Tab><CR>"
+							end, {
+								buffer = true,
+								remap = true,
+								expr = true,
+							})
+						end
+					end
+
+					vim.keymap.set({ "n", "x" }, "n", function()
+						nN("n")
+					end)
+					vim.keymap.set({ "n", "x" }, "N", function()
+						nN("N")
+					end)
+
+					vim.api.nvim_set_keymap(
+						"n",
+						"*",
+						[[*<Cmd>lua require('hlslens').start()<CR>]],
+						kopts
+					)
+					vim.api.nvim_set_keymap(
+						"n",
+						"#",
+						[[#<Cmd>lua require('hlslens').start()<CR>]],
+						kopts
+					)
+					vim.api.nvim_set_keymap(
+						"n",
+						"g*",
+						[[g*<Cmd>lua require('hlslens').start()<CR>]],
+						kopts
+					)
+					vim.api.nvim_set_keymap(
+						"n",
+						"g#",
+						[[g#<Cmd>lua require('hlslens').start()<CR>]],
+						kopts
+					)
+
+					vim.cmd([[
+						augroup scrollbar_search_hide
+						autocmd!
+						autocmd CmdlineLeave : lua require('scrollbar.handlers.search').handler.hide()
+						augroup END
+					]])
+				end,
+			},
 			{
 				"chentoast/marks.nvim",
 				event = "VeryLazy",
@@ -1314,7 +1126,7 @@ return {
 						bookmark = 20,
 					},
 					-- disables mark tracking for specific filetypes. default {}
-					excluded_filetypes = { "neo-tree" },
+					excluded_filetypes = {},
 					-- disables mark tracking for specific buftypes. default {}
 					excluded_buftypes = {},
 					mappings = {},
@@ -1326,6 +1138,9 @@ return {
 				set_highlights = false,
 				show_in_active_only = true,
 				hide_if_all_visible = true,
+				excluded_filetypes = {
+					"neo-tree",
+				},
 				marks = {
 					Misc = {
 						text = { "-", "=" },
@@ -1400,17 +1215,20 @@ return {
 		"anuvyklack/windows.nvim",
 		dependencies = {
 			"anuvyklack/middleclass",
-			"anuvyklack/animation.nvim",
+			-- "anuvyklack/animation.nvim",
 		},
 		config = function()
-			vim.o.winwidth = 10
-			vim.o.winminwidth = 10
-			vim.o.equalalways = false
+			-- vim.o.winwidth = 10
+			-- vim.o.winminwidth = 10
+			-- vim.o.equalalways = false
 			vim.keymap.set("n", "<C-w>m", "<CMD>WindowsMaximize<CR>")
 			vim.keymap.set("n", "<C-w>u", "<CMD>WindowsToggleAutowidth<CR>")
 			require("windows").setup({
+				autowidth = {
+					enable = false,
+				},
 				animation = {
-					enable = true,
+					enable = false,
 					duration = 100,
 					fps = 60,
 					easing = "in_out_sine",
@@ -1448,97 +1266,6 @@ return {
 					require("which-key").show({ global = false })
 				end,
 				desc = "Buffer Local Keymaps (which-key)",
-			},
-		},
-	},
-	{
-		"kosayoda/nvim-lightbulb",
-		enabled = false,
-		opts = {
-			hide_in_unfocused_buffer = true,
-			code_lenses = true,
-			-- Configuration for various handlers:
-			-- 1. Sign column.
-			sign = {
-				enabled = false,
-				-- Text to show in the sign column.
-				-- Must be between 1-2 characters.
-				text = "💡",
-				lens_text = "🔎",
-				-- Highlight group to highlight the sign column text.
-				hl = "LightBulbSign",
-			},
-
-			-- 2. Virtual text.
-			virtual_text = {
-				enabled = false,
-				-- Text to show in the virt_text.
-				text = "💡",
-				lens_text = "🔎",
-				-- Position of virtual text given to |nvim_buf_set_extmark|.
-				-- Can be a number representing a fixed column (see `virt_text_pos`).
-				-- Can be a string representing a position (see `virt_text_win_col`).
-				pos = "eol",
-				-- Highlight group to highlight the virtual text.
-				hl = "LightBulbVirtualText",
-				-- How to combine other highlights with text highlight.
-				-- See `hl_mode` of |nvim_buf_set_extmark|.
-				hl_mode = "combine",
-			},
-
-			-- 3. Floating window.
-			float = {
-				enabled = true,
-				-- Text to show in the floating window.
-				text = "💡",
-				lens_text = "🔎",
-				-- Highlight group to highlight the floating window.
-				hl = "LightBulbFloatWin",
-				-- Window options.
-				-- See |vim.lsp.util.open_floating_preview| and |nvim_open_win|.
-				-- Note that some options may be overridden by |open_floating_preview|.
-				win_opts = {
-					focusable = false,
-					anchor_bias = "above",
-					offset_x = -1,
-				},
-			},
-
-			-- 4. Status text.
-			-- When enabled, will allow using |NvimLightbulb.get_status_text|
-			-- to retrieve the configured text.
-			status_text = {
-				enabled = false,
-				-- Text to set if a lightbulb is available.
-				text = "💡",
-				lens_text = "🔎",
-				-- Text to set if a lightbulb is unavailable.
-				text_unavailable = "",
-			},
-
-			-- 5. Number column.
-			number = {
-				enabled = false,
-				-- Highlight group to highlight the number column if there is a lightbulb.
-				hl = "LightBulbNumber",
-			},
-
-			-- 6. Content line.
-			line = {
-				enabled = false,
-				-- Highlight group to highlight the line if there is a lightbulb.
-				hl = "LightBulbLine",
-			},
-			autocmd = {
-				-- Whether or not to enable autocmd creation.
-				enabled = true,
-				-- See |updatetime|.
-				-- Set to a negative value to avoid setting the updatetime.
-				updatetime = -1,
-				-- See |nvim_create_autocmd|.
-				events = { "CursorHold", "CursorHoldI" },
-				-- See |nvim_create_autocmd| and |autocmd-pattern|.
-				pattern = { "*" },
 			},
 		},
 	},
@@ -1625,248 +1352,5 @@ return {
 				definition = { enabled = false },
 			})
 		end,
-	},
-	{
-		"akinsho/bufferline.nvim",
-		enabled = false,
-		version = "*",
-		dependencies = "nvim-tree/nvim-web-devicons",
-		opts = {
-			options = {
-				themeable = true,
-				mode = "tabs",
-				numbers = "ordinal",
-				indicator = {
-					style = "underline",
-				},
-				show_buffer_icons = true,
-				color_icons = true,
-				show_buffer_close_icons = false,
-				show_close_icon = false,
-				show_duplicate_prefix = false,
-				separator_style = "slant",
-				truncate_names = false,
-				hover = {
-					enabled = true,
-				},
-				diagnostics = false,
-				offsets = {
-					{
-						filetype = "neo-tree",
-						text = "Explorer",
-						text_align = "center",
-						separator = false,
-					},
-				},
-				name_formatter = function(ctx)
-					local ft = vim.bo[ctx.bufnr].filetype
-
-					local fts = {
-						fugitive = "Fugitive",
-						TelescopePrompt = "Telescope",
-					}
-					local found = vim.iter(fts):find(function(v)
-						return v == ft
-					end)
-					if found ~= nil then
-						return fts[found]
-					end
-
-					local tab_dir = vim.fn.fnamemodify(
-						vim.fn.getcwd(-1, ctx.tabnr or 0),
-						":t"
-					)
-					local show_dir = tab_dir --[[ tab has different dir ]]
-						~= vim.fn.fnamemodify(vim.fn.getcwd(-1, -1), ":t")
-					local taboo = (
-						vim.fn.exists("g:loaded_taboo")
-						and vim.fn.TabooTabName(ctx.tabnr) ~= ""
-					)
-							and string.format(
-								" [%s]",
-								vim.fn.TabooTabName(ctx.tabnr)
-							)
-						or ""
-
-					local title = string.format(
-						"%s%s%s",
-						ctx.name,
-						(
-							show_dir
-								and string.format(
-									" %s %s/",
-									icons.kind.Folder,
-									tab_dir
-								)
-							or ""
-						),
-						string.upper(taboo)
-					)
-
-					return title
-				end,
-				get_element_icon = function(element)
-					local function fetch_icon(filetype)
-						return require("nvim-web-devicons").get_icon_by_filetype(
-							filetype,
-							{ default = false }
-						)
-					end
-					local fts = {
-						fugitive = "git",
-						TelescopePrompt = {
-							icon = icons.ui.Telescope,
-							hl = "BufferLinePick",
-						},
-					}
-					local found = vim.iter(fts):find(function(v)
-						return v == element.filetype
-					end)
-					if found ~= nil then
-						if type(fts[found]) == "table" then
-							return fts[found].icon, fts[found].hl
-						else
-							return fetch_icon(fts[found])
-						end
-					end
-				end,
-				custom_areas = {
-					right = function()
-						local harpoon = require("harpoon")
-						local marks = harpoon:list(
-							string.format(
-								"%s%d",
-								"tab",
-								vim.api.nvim_get_current_tabpage()
-							)
-						).items or {}
-
-						local buf = vim.api.nvim_buf_get_name(0)
-
-						local extra_marks = 0
-
-						local keys = {
-							[1] = "h",
-							[2] = "j",
-							[3] = "k",
-							[4] = "l",
-							[5] = icons.arrows.left,
-							[6] = icons.arrows.down,
-							[7] = icons.arrows.up,
-							[8] = icons.arrows.right,
-						}
-						local result = {}
-
-						if next(marks) ~= nil then
-							table.insert(result, {
-								text = " " .. icons.ui.BookMark,
-								link = "HarpoonNumberActive",
-							})
-
-							for i, mark in ipairs(marks) do
-								local is_current = (
-									(
-										vim.fn.glob(
-											vim.fn.fnamemodify(buf, ":p:.")
-										) -- relative
-										== vim.fn.glob(mark.value)
-									)
-									or (
-										vim.fn.glob(
-											vim.fn.fnamemodify(buf, ":p")
-										)
-										== vim.fn.glob(mark.value)
-									) -- or absolute
-								)
-
-								local label
-								if
-									mark.value == ""
-									or mark.value == "(empty)"
-								then
-									label = "(empty)"
-									is_current = false
-								else
-									label = string.format(
-										"%s",
-										vim.fn.fnamemodify(mark.value, ":t")
-									)
-								end
-
-								if i <= #keys then
-									if not is_current then
-										table.insert(result, {
-											text = (
-												i == 1 and " "
-												or icons.separators.bar.left
-											),
-											link = "HarpoonSeparator",
-										})
-									end
-									table.insert(result, {
-										text = string.format(
-											"%s%s",
-											(is_current and " " or ""),
-											keys[i]
-										),
-										link = is_current
-												and "HarpoonNumberActive"
-											or "HarpoonNumberInactive",
-									})
-									table.insert(result, {
-										text = string.format(" %s ", label),
-										link = is_current and "HarpoonActive"
-											or "HarpoonInactive",
-									})
-								else
-									extra_marks = extra_marks + 1
-									table.insert(result, {
-										text = string.format(
-											" %s%s ",
-											"+",
-											extra_marks
-										),
-										link = "HarpoonNumberActive",
-									})
-								end
-							end
-
-							return result
-						end
-					end,
-				},
-			},
-		},
-	},
-	{
-		"nvim-zh/colorful-winsep.nvim",
-		event = "WinLeave",
-		opts = {
-			-- Symbols for separator lines, the order:
-			-- horizontal, vertical, top left, top right, bottom left, bottom right.
-			-- symbols = { "━", "┃", "┏", "┓", "┗", "┛" },
-			events = { "WinEnter", "WinResized", "SessionLoadPost" },
-			-- #70: https://github.com/nvim-zh/colorful-winsep.nvim/discussions/70
-			only_line_seq = false,
-			symbols = {
-				icons.borders.square_thick.top,
-				icons.borders.square_thick.left,
-				icons.borders.square_thick.top_left,
-				icons.borders.square_thick.top_right,
-				icons.borders.square_thick.bottom_left,
-				icons.borders.square_thick.bottom_right,
-			},
-			no_exec_files = {
-				"packer",
-				"TelescopePrompt",
-				"mason",
-				"CompetiTest",
-				"NvimTree",
-				"neo-tree",
-				"Avante",
-				"AvanteSelectedFiles",
-				"AvanteInput",
-			},
-		},
 	},
 }

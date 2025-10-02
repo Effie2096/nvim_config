@@ -15,17 +15,17 @@ M.lsp_keymaps = function(bufnr)
 	map(
 		"grd",
 		vim.lsp.buf.definition,
-		"[l]sp [d]efinition: Jump to symbol definition."
+		"lsp [d]efinition: Jump to symbol definition."
 	)
 	map(
 		"grt",
 		vim.lsp.buf.type_definition,
-		"[l]sp [t]ype definition: Jump to symbol type definition."
+		"lsp [t]ype definition: Jump to symbol type definition."
 	)
 	map(
 		"grD",
 		vim.lsp.buf.declaration,
-		"[l]sp [D]eclaration: Jump to symbol declaration."
+		"lsp [D]eclaration: Jump to symbol declaration."
 	)
 	-- map(
 	-- 	"<leader>li",
@@ -37,11 +37,11 @@ M.lsp_keymaps = function(bufnr)
 	-- 	vim.lsp.buf.references,
 	-- 	"[l]sp [r]eferences: List references of symbol under cursor."
 	-- )
-	-- map(
-	-- 	"<leader>ls",
-	-- 	vim.lsp.buf.signature_help,
-	-- 	"[l]sp [s]ignature: Show function signature."
-	-- )
+	map(
+		"grs",
+		vim.lsp.buf.signature_help,
+		"lsp [s]ignature: Show function signature."
+	)
 	map(
 		"<leader>dq",
 		vim.diagnostic.setqflist,
@@ -76,11 +76,7 @@ M.on_attach = function(client_id, bufnr)
 	---@param bufnr? integer some lsp support methods only in specific files
 	---@return boolean
 	local function client_supports_method(client, method, bufnr)
-		if vim.fn.has("nvim-0.11") == 1 then
-			return client:supports_method(method, bufnr)
-		else
-			return client.supports_method(method, { bufnr = bufnr })
-		end
+		return client:supports_method(method, bufnr)
 	end
 
 	-- The following two autocommands are used to highlight references of the

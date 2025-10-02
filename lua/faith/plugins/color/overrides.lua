@@ -71,6 +71,10 @@ M.apply_theme_overrides = function(theme, scheme)
 		fg = color_map.accent,
 		bg = sidebar_bg,
 	})
+	vim.api.nvim_set_hl(0, "ColorfulWinSep", {
+		fg = color_map.accent,
+		bg = sidebar_bg,
+	})
 
 	vim.api.nvim_set_hl(0, "LspSignatureActiveParameter", {
 		fg = color_map.bg,
@@ -346,10 +350,25 @@ M.apply_theme_overrides = function(theme, scheme)
 
 	vim.api.nvim_set_hl(0, "WinBar", { bg = color_map.bg_light })
 
-	local cmp_bg = color_map.float
-	vim.api.nvim_set_hl(0, "Pmenu", { fg = color_map.fg, bg = cmp_bg })
-	vim.api.nvim_set_hl(0, "PmenuSel", { fg = color_map.accent, bg = cmp_bg })
-	vim.api.nvim_set_hl(0, "PmenuSbar", { fg = color_map.accent, bg = cmp_bg })
+	local pmenu_bg = color_map.float_dark
+	local pmenu_sel_bg = color_map.float
+
+	vim.api.nvim_set_hl(0, "Pmenu", { fg = color_map.fg, bg = pmenu_bg })
+	vim.api.nvim_set_hl(0, "PmenuThumb", { bg = pmenu_bg })
+	vim.api.nvim_set_hl(0, "PmenuMatch", { bold = true })
+	vim.api.nvim_set_hl(0, "PmenuExtra", { bg = pmenu_bg })
+	vim.api.nvim_set_hl(
+		0,
+		"PmenuSbar",
+		{ fg = color_map.bg_dark, bg = pmenu_bg }
+	)
+	vim.api.nvim_set_hl(0, "PmenuKind", { link = "Pmenu" })
+
+	vim.api.nvim_set_hl(0, "PmenuSel", { bg = pmenu_sel_bg })
+	vim.api.nvim_set_hl(0, "PmenuMatchSel", { bold = true, bg = pmenu_sel_bg })
+	vim.api.nvim_set_hl(0, "PmenuExtraSel", { bold = true, bg = pmenu_sel_bg })
+	vim.api.nvim_set_hl(0, "PmenuKindSel", { link = "PmenuSel" })
+
 	vim.api.nvim_set_hl(
 		0,
 		"CmpItemKindDefault",
