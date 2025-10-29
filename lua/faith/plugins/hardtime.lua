@@ -5,6 +5,10 @@ return {
 		dependencies = { "MunifTanjim/nui.nvim" },
 		opts = {
 			disable_mouse = false,
+			disabled_keys = {
+				["<Up>"] = false,
+				["<Down>"] = false,
+			},
 		},
 	},
 }

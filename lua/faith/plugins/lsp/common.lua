@@ -181,6 +181,15 @@ M.on_attach = function(client_id, bufnr)
 				},
 			})
 	end
+	if client and client.name == "svelte" then
+		vim.api.nvim_create_autocmd("BufWritePost", {
+			-- pattern = { "*.js", "*.ts" },
+			buffer = bufnr,
+			callback = function(ctx)
+				client:notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
+			end,
+		})
+	end
 end
 
 return M

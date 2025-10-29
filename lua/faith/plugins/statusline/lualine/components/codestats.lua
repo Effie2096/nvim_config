@@ -2,6 +2,10 @@ local icons = require("faith.icons")
 local progress_bar = require("faith.plugins.statusline.ui.progress_bar")
 local histr = require("faith.plugins.statusline.utils").histr
 
+local winbar_ignore = require(
+	"faith.plugins.statusline.lualine.components.winbar"
+).ignore.winbar_ignore
+
 local M = {}
 
 local LEVEL_FACTOR = 0.025
@@ -63,6 +67,9 @@ M.buf_xp = {
 				)
 			)
 		end
+	end,
+	cond = function()
+		return winbar_ignore() and vim.o.filetype ~= ""
 	end,
 }
 

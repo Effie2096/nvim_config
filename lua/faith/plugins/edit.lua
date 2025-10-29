@@ -242,10 +242,30 @@ return {
 			vim.g.bullets_enabled_file_types =
 				{ "markdown", "text", "gitcommit" }
 			vim.g.bullets_enable_in_empty_buffers = 0 -- default = 1
+
+			local opts = { silent = true }
 		end,
 	},
 	{
 		"nmac427/guess-indent.nvim",
 		opts = {},
 	},
+	-- {
+	-- 	"romgrk/equal.operator",
+	-- 	init = function()
+	-- 		vim.g.equal_operator_default_mappings = 0
+
+	--      local opts = { silent = true }
+
+	-- 		-- vim.keymap.set("o", "il", "<Plug>(operator-rhs)")
+	-- 		vim.keymap.set("o", "ihe", "<Plug>(operator-lhs)")
+	-- 		-- vim.keymap.set("o", "al", "<Plug>(operator-Rhs)")
+	-- 		vim.keymap.set("o", "ahe", "<Plug>(operator-Lhs)")
+
+	-- 		-- vim.keymap.set("x", "il", "<Plug>(visual-rhs)")
+	-- 		vim.keymap.set("x", "ihe", "<Plug>(visual-lhs)")
+	-- 		-- vim.keymap.set("x", "al", "<Plug>(visual-Rhs)")
+	-- 		vim.keymap.set("x", "ahe", "<Plug>(visual-Lhs)")
+	-- 	end,
+	-- },
 }

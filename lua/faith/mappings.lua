@@ -114,3 +114,6 @@ vnoremap(">", ">gv", opts)
 
 -- enter insert mode on next line, with text after cursor on line after that
 inoremap("<M-o>", "<Space><Esc>r<CR>O", opts)
+
+-- nnoremap("che", "<cmd>norm f=c^<CR>", opts)
+-- nnoremap("cle", "<cmd>norm f=c$<CR>", opts)

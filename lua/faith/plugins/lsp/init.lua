@@ -164,7 +164,7 @@ return {
 			})
 
 			local managed_servers = {
-				angularls = {},
+				angularls = require("faith.plugins.lsp.settings.angularls"),
 				basedpyright = {},
 				bashls = require("faith.plugins.lsp.settings.bashls"),
 				-- biome = {},
@@ -177,7 +177,8 @@ return {
 				dockerls = {},
 				emmet_ls = require("faith.plugins.lsp.settings.emmet_ls"),
 				gopls = {},
-				html = require("faith.plugins.lsp.settings.html"),
+				-- html = require("faith.plugins.lsp.settings.html"),
+				superhtml = {},
 				jsonls = require("faith.plugins.lsp.settings.jsonls"),
 				kotlin_language_server = require(
 					"faith.plugins.lsp.settings.kotlin_language_server"
@@ -191,6 +192,7 @@ return {
 				taplo = {},
 				ts_ls = require("faith.plugins.lsp.settings.tsserver"),
 				yamlls = {},
+				svelte = {},
 			}
 
 			vim.iter(vim.tbl_keys(managed_servers)):each(function(server)
@@ -202,9 +204,9 @@ return {
 				"stylua",
 				"prettierd",
 			})
-			require("mason-tool-installer").setup({
-				ensure_installed = ensure_installed,
-			})
+			-- require("mason-tool-installer").setup({
+			-- 	ensure_installed = ensure_installed,
+			-- })
 
 			require("mason-lspconfig").setup({
 				ensure_installed = {}, -- explicitly set to an empty table (populates installs via mason-tool-installer)
@@ -334,6 +336,22 @@ return {
 			}
 		end,
 	},
+	-- {
+	-- 	"pmizio/typescript-tools.nvim",
+	-- 	dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+	-- 	opts = {
+	-- 		on_attach = require("faith.plugins.lsp.common").on_attach,
+	-- 		settings = {
+	-- 			tsserver_file_preferences = function(ft)
+	-- 				return require("faith.plugins.lsp.settings.tsserver").settings[ft].inlayHints
+	-- 			end,
+	-- 			-- tsserver_format_options = {
+	-- 			-- 	allowIncompleteCompletions = false,
+	-- 			-- 	allowRenameOfImportPath = false,
+	-- 			-- },
+	-- 		},
+	-- 	},
+	-- },
 	{ -- Autocompletion
 		"hrsh7th/nvim-cmp",
 		event = "InsertEnter",
@@ -341,9 +359,6 @@ return {
 			{
 				"L3MON4D3/LuaSnip",
 				build = "make install_jsregexp",
-				dependencies = {
-					"rafamadriz/friendly-snippets",
-				},
 				config = function()
 					local ls = require("luasnip")
 					local types = require("luasnip.util.types")
@@ -627,7 +642,7 @@ return {
 							if cmp.visible() and cmp.get_active_entry() then
 								cmp.confirm({
 									behavior = cmp.ConfirmBehavior.Replace,
-									select = false,
+									select = true, -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 								})
 							else
 								fallback()
@@ -701,7 +716,7 @@ return {
 				select = false,
 			}, ]]
 				experimental = {
-					ghost_text = true,
+					ghost_text = false,
 				},
 				view = {
 					name = "custom",
@@ -742,13 +757,13 @@ return {
 				}),
 			})
 
-			cmp.event:on("menu_opened", function()
-				vim.b.copilot_suggestion_hidden = true
-			end)
+			-- cmp.event:on("menu_opened", function()
+			-- 	vim.b.copilot_suggestion_hidden = true
+			-- end)
 
-			cmp.event:on("menu_closed", function()
-				vim.b.copilot_suggestion_hidden = false
-			end)
+			-- cmp.event:on("menu_closed", function()
+			-- 	vim.b.copilot_suggestion_hidden = false
+			-- end)
 
 			cmp.setup.filetype({ "gitcommit", "octo" }, {
 				sources = cmp.config.sources({
@@ -776,19 +791,17 @@ return {
 				mapping = cmp.mapping.preset.cmdline(),
 				sources = cmp.config.sources({
 					{ name = "codeium" },
-					{ name = "cmdline" },
-					{ name = "path" },
-					{ name = "ecolog" },
-					{ name = "luasnip" }, -- For luasnip users.
-					{ name = "buffer" },
-					{ name = "calc" },
-				}, {
 					{
 						name = "cmdline",
 						option = {
 							ignore_cmds = { "Man", "!" },
 						},
 					},
+					{ name = "path" },
+					{ name = "ecolog" },
+					{ name = "luasnip" }, -- For luasnip users.
+					{ name = "buffer" },
+					{ name = "calc" },
 				}),
 				matching = { disallow_symbol_nonprefix_matching = false },
 				window = {
@@ -831,6 +844,14 @@ return {
 				},
 			})
 		end,
+	},
+	{
+		"rafamadriz/friendly-snippets",
+	},
+	{
+		"nvim-svelte/nvim-svelte-snippets",
+		dependencies = "L3MON4D3/LuaSnip",
+		opts = {},
 	},
 	require("faith.plugins.lsp.rust"),
 	{

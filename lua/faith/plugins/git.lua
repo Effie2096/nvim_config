@@ -191,7 +191,7 @@ return {
 						gs.diffthis("~")
 					end, { desc = "[g]it [D]iff upstream" })
 					-- map('n', '<leader>td', gs.toggle_deleted)
-					map({ "o", "x" }, "ih", gs.select_hunk)
+					-- map({ "o", "x" }, "ih", gs.select_hunk)
 				end,
 			}
 

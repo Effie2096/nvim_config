@@ -681,7 +681,7 @@ return {
 			vim.opt.cmdheight = 0
 			vim.keymap.set(
 				{ "n", "i", "v" },
-				"<M-;>",
+				"<M-.>",
 				"<cmd>Noice dismiss<CR>",
 				{ noremap = true, silent = true }
 			)

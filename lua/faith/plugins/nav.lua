@@ -154,45 +154,35 @@ return {
 				)
 			end)
 
-			vim.keymap.set("n", "<C-h>", function()
+			vim.keymap.set("n", "<M-h>", function()
 				harpoon
 					:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
 					:select(1)
 			end)
-			vim.keymap.set("n", "<C-j>", function()
+			vim.keymap.set("n", "<M-j>", function()
 				harpoon
 					:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
 					:select(2)
 			end)
-			vim.keymap.set("n", "<C-k>", function()
+			vim.keymap.set("n", "<M-k>", function()
 				harpoon
 					:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
 					:select(3)
 			end)
-			vim.keymap.set("n", "<C-l>", function()
+			vim.keymap.set("n", "<M-l>", function()
 				harpoon
 					:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
 					:select(4)
 			end)
-			vim.keymap.set("n", "<C-Left>", function()
+			vim.keymap.set("n", "<M-;>", function()
 				harpoon
 					:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
 					:select(5)
 			end)
-			vim.keymap.set("n", "<C-Down>", function()
+			vim.keymap.set("n", "<M-'>", function()
 				harpoon
 					:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
 					:select(6)
-			end)
-			vim.keymap.set("n", "<C-Up>", function()
-				harpoon
-					:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
-					:select(7)
-			end)
-			vim.keymap.set("n", "<C-Right>", function()
-				harpoon
-					:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
-					:select(8)
 			end)
 		end,
 	},
@@ -285,18 +275,22 @@ return {
 			-- moving between splits
 			vim.keymap.set(
 				"n",
-				"<M-h>",
+				"<M-Left>",
 				require("smart-splits").move_cursor_left
 			)
 			vim.keymap.set(
 				"n",
-				"<M-j>",
+				"<M-Down>",
 				require("smart-splits").move_cursor_down
 			)
-			vim.keymap.set("n", "<M-k>", require("smart-splits").move_cursor_up)
 			vim.keymap.set(
 				"n",
-				"<M-l>",
+				"<M-Up>",
+				require("smart-splits").move_cursor_up
+			)
+			vim.keymap.set(
+				"n",
+				"<M-Right>",
 				require("smart-splits").move_cursor_right
 			)
 		end,

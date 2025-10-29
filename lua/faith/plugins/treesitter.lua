@@ -14,6 +14,7 @@ return {
 						throttle = true, -- Throttles plugin updates (may improve performance)
 						max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
 						mode = "topline",
+						multiline_threshold = 1,
 						patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
 							-- For all filetypes
 							-- Note that setting an entry here replaces all other patterns for this entry.
@@ -131,6 +132,11 @@ return {
 						["ib"] = "@block.inner",
 						["ad"] = "@comment.outer",
 						["id"] = "@comment.inner",
+						["he"] = "@assignment.lhs",
+						["le"] = "@assignment.rhs",
+						-- ["ae"] = "@assignment.outer",
+						-- ["ie"] = "@assignment.inner",
+						["as"] = "@statement.outer",
 					},
 					selection_modes = {
 						["@parameter.outer"] = "v",

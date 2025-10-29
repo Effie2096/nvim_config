@@ -1,3 +1,37 @@
+local formatters_by_ft = {
+	sh = { "beautysh" },
+	lua = { "stylua" },
+	rust = { "rustfmt" },
+	html = { "superhtml" },
+	javascript = { "biome", "biome-check" },
+	jsx = { "biome", "biome-check" },
+	typescript = { "biome", "biome-check" },
+	tsx = { "biome", "biome-check" },
+	css = { "biome", "biome-check" },
+	json = { "biome" },
+	jsonc = { "biome" },
+	python = { "black", "isort" },
+	ocaml = { "ocamlformat" },
+	cs = { "csharpier" },
+	go = { "gofumpt" },
+}
+
+local formatters = {
+	-- "codespell",
+}
+
+formatters_by_ft = vim.iter(formatters_by_ft)
+	:map(function(k, v)
+		vim.iter(formatters):each(function(f)
+			table.insert(v, f)
+		end)
+		return { k, v }
+	end)
+	:fold({}, function(acc, k)
+		acc[k[1]] = k[2]
+		return acc
+	end)
+
 return { -- Autoformat
 	"stevearc/conform.nvim",
 	opts = {
@@ -9,23 +43,7 @@ return { -- Autoformat
 			end
 			return { lsp_format = "fallback", timeout_ms = 500 }
 		end,
-		formatters_by_ft = {
-			sh = { "beautysh" },
-			lua = { "stylua" },
-			rust = { "rustfmt" },
-			html = { "prettierd" },
-			javascript = { "biome", "biome-check" },
-			jsx = { "biome", "biome-check" },
-			typescript = { "biome", "biome-check" },
-			tsx = { "biome", "biome-check" },
-			css = { "biome", "biome-check" },
-			json = { "biome" },
-			jsonc = { "biome" },
-			python = { "black", "isort" },
-			ocaml = { "ocamlformat" },
-			charp = { "charpier" },
-			go = { "gofumpt" },
-		},
+		formatters_by_ft = formatters_by_ft,
 		formatters = {
 			prettierd = {
 				prepend_args = function()

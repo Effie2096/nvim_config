@@ -29,10 +29,8 @@ return {
 			[2] = "j",
 			[3] = "k",
 			[4] = "l",
-			[5] = icons.arrows.left,
-			[6] = icons.arrows.down,
-			[7] = icons.arrows.up,
-			[8] = icons.arrows.right,
+			[5] = ";",
+			[6] = "'",
 		}
 		local result = {}
 
