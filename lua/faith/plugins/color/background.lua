@@ -1,3 +1,8 @@
+-- return if astronomy file doesn't exist
+if vim.fn.filereadable("astronomy.json") == 0 then
+  return
+end
+
 local uv = vim.loop
 
 local function read_json(path)
