@@ -748,6 +748,7 @@ return {
 							},
 						},
 					},
+					{ name = "renpy" },
 					{ name = "render-markdown" },
 					{ name = "ecolog" },
 					{ name = "path" },
