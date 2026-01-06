@@ -38,6 +38,7 @@
   "ibl": { "branch": "master", "commit": "005b56001b2cb30bfa61b7986bc50657816ba4ba" },
   "img-clip.nvim": { "branch": "main", "commit": "f33f3af9ba50f99d70f8fcb1a8575750ada4ea4a" },
   "lazy.nvim": { "branch": "main", "commit": "6c3bda4aca61a13a9c63f1c1d1b16b9d3be90d7a" },
+  "kotlin.nvim": { "branch": "main", "commit": "6fbef4dfc3b59e0c08c7fcdb244352ed729c0c1e" },
   "lazydev.nvim": { "branch": "main", "commit": "258d2a5ef4a3e3d6d9ba9da72c9725c53e9afcbd" },
   "live-preview.nvim": { "branch": "main", "commit": "35ddc5a99499d1d2f4adefb7e92d0c537353fdec" },
   "love2d.nvim": { "branch": "main", "commit": "25715394680590f56aab90390d430cab0dc46808" },

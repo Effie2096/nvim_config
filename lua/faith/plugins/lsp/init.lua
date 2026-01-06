@@ -84,6 +84,7 @@ return {
 						ts = { "biomejs" },
 						tsx = { "biomejs" },
 						css = { "biomejs" },
+						kotlin = { "ktlint" },
 					}
 
 					vim.api.nvim_create_autocmd({ "BufWritePost" }, {
@@ -180,9 +181,7 @@ return {
 				-- html = require("faith.plugins.lsp.settings.html"),
 				superhtml = {},
 				jsonls = require("faith.plugins.lsp.settings.jsonls"),
-				kotlin_language_server = require(
-					"faith.plugins.lsp.settings.kotlin_language_server"
-				),
+				-- kotlin_lsp = {},
 				lemminx = require("faith.plugins.lsp.settings.lemminx"),
 				lua_ls = require("faith.plugins.lsp.settings.lua_ls"),
 				marksman = {},
@@ -855,6 +854,7 @@ return {
 		opts = {},
 	},
 	require("faith.plugins.lsp.rust"),
+	require("faith.plugins.lsp.kotlin"),
 	{
 		"uga-rosa/ccc.nvim",
 		lazy = false,

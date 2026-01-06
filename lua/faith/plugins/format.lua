@@ -14,6 +14,7 @@ local formatters_by_ft = {
 	ocaml = { "ocamlformat" },
 	cs = { "csharpier" },
 	go = { "gofumpt" },
+	kotlin = { "ktlint" },
 }
 
 local formatters = {
