@@ -1,18 +1,22 @@
 return {
 	settings = {
 		["rust-analyzer"] = {
+			diagnostics = {
+				enable = false,
+			},
 			-- enable clippy on save
 			checkOnSave = {
+				enable = false,
 				features = "all",
 				-- command = "clippy",
-				overrideCommand = {
-					"cargo",
-					"clippy",
-					"--workspace",
-					"--message-format=json",
-					"--all-targets",
-					"--all-features",
-				},
+				-- overrideCommand = {
+				-- 	"cargo",
+				-- 	"clippy",
+				-- 	"--workspace",
+				-- 	"--message-format=json",
+				-- 	"--all-targets",
+				-- 	"--all-features",
+				-- },
 			},
 			hover = {
 				actions = {

@@ -166,6 +166,12 @@ return {
 
 			local managed_servers = {
 				angularls = require("faith.plugins.lsp.settings.angularls"),
+				bacon_ls = {
+					init_options = {
+						updateOnSave = true,
+						updateOnSaveWaitMillis = 1000,
+					},
+				},
 				basedpyright = {},
 				bashls = require("faith.plugins.lsp.settings.bashls"),
 				-- biome = {},
@@ -286,7 +292,7 @@ return {
 						[vim.diagnostic.severity.INFO] = "DiagnosticInfoNum",
 					},
 				},
-				update_in_insert = false,
+				update_in_insert = true,
 				underline = true,
 				severity_sort = true,
 				float = float_config,
