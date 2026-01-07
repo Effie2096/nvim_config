@@ -36,9 +36,6 @@
 ---@field orange string
 ---@field orange_light string
 ---@field orange_dark string
----@field pale string
----@field pale_light string
----@field pale_dark string
 ---@field error string
 ---@field warn string
 ---@field hint string
@@ -91,6 +88,55 @@ return {
 			warn = colors.peach,
 			info = colors.sapphire,
 			hint = colors.teal,
+		}
+
+		return color_map
+	end,
+	["eldritch"] = function(scheme)
+		local colors = require("eldritch.colors")
+		---@type ColorMap
+		local color_map = {
+			bg = colors[scheme].bg,
+			bg_light = colors[scheme].bg_highlight,
+			bg_dark = colors[scheme].bg_dark,
+			fg = colors[scheme].fg,
+			fg_light = colors[scheme].fg_gutter_light,
+			fg_dark = colors[scheme].fg_gutter,
+			float = colors[scheme].bg_float,
+			float_light = colors[scheme].bg_popup,
+			float_dark = colors[scheme].bg_float,
+			surface = colors[scheme].bg_dark,
+			surface_light = colors[scheme].bg_float,
+			surface_dark = colors[scheme].bg_popup,
+			accent = colors[scheme].magenta2,
+			red = colors[scheme].red,
+			red_light = colors[scheme].bright_red,
+			red_dark = colors[scheme].red,
+			green = colors[scheme].green,
+			green_light = colors[scheme].bright_green,
+			green_dark = colors[scheme].dark_green,
+			blue = colors[scheme].cyan,
+			blue_light = colors[scheme].bright_cyan,
+			blue_dark = colors[scheme].dark_cyan,
+			cyan = colors[scheme].cyan,
+			cyan_light = colors[scheme].bright_cyan,
+			cyan_dark = colors[scheme].dark_cyan,
+			pink = colors[scheme].pink,
+			pink_light = colors[scheme].magenta2,
+			pink_dark = colors[scheme].magenta2,
+			purple = colors[scheme].purple,
+			purple_light = colors[scheme].magenta,
+			purple_dark = colors[scheme].magenta3,
+			yellow = colors[scheme].yellow,
+			yellow_light = colors[scheme].yellow,
+			yellow_dark = colors[scheme].dark_yellow,
+			orange = colors[scheme].orange,
+			orange_light = colors[scheme].orange,
+			orange_dark = colors[scheme].orange,
+			error = colors[scheme].error,
+			warn = colors[scheme].warning,
+			info = colors[scheme].info,
+			hint = colors[scheme].hint,
 		}
 
 		return color_map

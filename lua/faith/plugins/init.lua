@@ -1,4 +1,4 @@
 return {
-	"tpope/vim-abolish",
-	"kevinhwang91/promise-async",
+  'tpope/vim-abolish',
+  'kevinhwang91/promise-async',
 }

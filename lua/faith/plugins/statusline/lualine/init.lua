@@ -1,10 +1,8 @@
-local components =
-	require("faith.plugins.statusline.lualine.components").components()
+local components = require("faith.plugins.statusline.lualine.components").components()
 local icons = require("faith.icons")
 
-local winbar_ignore = require(
-	"faith.plugins.statusline.lualine.components.winbar"
-).ignore.winbar_ignore
+local winbar_ignore =
+	require("faith.plugins.statusline.lualine.components.winbar").ignore.winbar_ignore
 local trunc = require("faith.plugins.statusline.utils").trunc
 
 local sections = {
@@ -20,7 +18,6 @@ local sections = {
 
 		components.language_server,
 		components.windsurf,
-		components.copilot,
 
 		components.lint_progress,
 		components.asyncrun,

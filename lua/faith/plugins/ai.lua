@@ -1,11 +1,11 @@
-local icons = require("faith.icons")
 return {
+
 	{
 		"Exafunction/windsurf.nvim",
 		-- enabled = false,
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			"hrsh7th/nvim-cmp",
+			"saghen/blink.cmp",
 		},
 		config = function()
 			local windsurf = require("codeium")
@@ -13,7 +13,7 @@ return {
 			windsurf.setup({
 				enable_chat = true,
 				-- Optionally disable cmp source if using virtual text only
-				enable_cmp_source = true,
+				enable_cmp_source = false,
 				virtual_text = {
 					enabled = true,
 
@@ -54,95 +54,5 @@ return {
 				},
 			})
 		end,
-	},
-	{
-		"yetone/avante.nvim",
-		build = vim.fn.has("win32") ~= 0
-				and "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
-			or "make",
-		event = "VeryLazy",
-		version = false, -- Never set this value to "*"! Never!
-		init = function()
-			vim.fn.sign_define("AvanteInputPromptSign", {
-				text = icons.ui.Prompt,
-				texthl = "AvanteInputPromptSign",
-			})
-		end,
-		opts = {
-			-- add any opts here
-			-- for example
-			provider = "copilot",
-			providers = {
-				openai = {
-					endpoint = "https://api.openai.com/v1",
-					model = "gpt-4o", -- your desired model (or use gpt-4o, etc.)
-					timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
-					extra_request_body = {
-						temperature = 0,
-						max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
-						--reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
-					},
-				},
-			},
-			windows = {
-				sidebar_header = {
-					enabled = true,
-				},
-				input = {
-					prefix = icons.ui.Prompt,
-				},
-			},
-		},
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter",
-			-- "stevearc/dressing.nvim",
-			"nvim-lua/plenary.nvim",
-			"MunifTanjim/nui.nvim",
-			"nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-			"hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
-			"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-			{
-				"zbirenbaum/copilot.lua", -- for providers='copilot'
-				dependencies = {
-					{ "AndreM222/copilot-lualine" },
-				},
-				opts = {
-					suggestion = {
-						enabled = false,
-						auto_trigger = true,
-						hide_during_completion = false,
-						debounce = 75,
-						trigger_on_accept = false,
-						keymap = {
-							accept = "<Tab>",
-							accept_word = false,
-							accept_line = false,
-							next = "<M-]>",
-							prev = "<M-[>",
-							dismiss = false,
-						},
-					},
-				},
-			},
-			{
-				-- support for image pasting
-				"HakonHarnes/img-clip.nvim",
-				event = "VeryLazy",
-				opts = {
-					-- recommended settings
-					default = {
-						embed_image_as_base64 = false,
-						prompt_for_file_name = false,
-						drag_and_drop = {
-							insert_mode = true,
-						},
-						-- required for Windows users
-						use_absolute_path = true,
-					},
-				},
-			},
-			-- Make sure to set this up properly if you have lazy=true
-			"MeanderingProgrammer/render-markdown.nvim",
-		},
 	},
 }

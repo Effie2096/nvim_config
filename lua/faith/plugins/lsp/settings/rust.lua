@@ -1,22 +1,24 @@
+local has_bacon = vim.fn.executable("bacon") == 1
+
 return {
 	settings = {
 		["rust-analyzer"] = {
 			diagnostics = {
-				enable = false,
+				enable = not has_bacon,
 			},
 			-- enable clippy on save
-			checkOnSave = {
-				enable = false,
+			checkOnSave = not has_bacon,
+			check = {
 				features = "all",
-				-- command = "clippy",
-				-- overrideCommand = {
-				-- 	"cargo",
-				-- 	"clippy",
-				-- 	"--workspace",
-				-- 	"--message-format=json",
-				-- 	"--all-targets",
-				-- 	"--all-features",
-				-- },
+				command = "clippy",
+				overrideCommand = {
+					"cargo",
+					"clippy",
+					"--workspace",
+					"--message-format=json",
+					"--all-targets",
+					"--all-features",
+				},
 			},
 			hover = {
 				actions = {

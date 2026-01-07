@@ -1,5 +1,0 @@
-# syntax = "Lua51"
-column_width = 80
-
-[sort_requires]
-enabled = true

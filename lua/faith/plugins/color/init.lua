@@ -1,6 +1,5 @@
 local themes = require("faith.plugins.color.themes")
-local apply_theme_overrides =
-	require("faith.plugins.color.overrides").apply_theme_overrides
+local apply_theme_overrides = require("faith.plugins.color.overrides").apply_theme_overrides
 
 -- vim.api.nvim_create_autocmd("ColorScheme", {
 -- 	pattern = { "*" },
@@ -20,13 +19,31 @@ return {
 			require("themery").setup({
 				themes = vim.list_extend(
 					themes.dark,
-					vim.list_extend(
-						themes.light,
-						vim.list_extend({}, themes.color)
-					)
+					vim.list_extend(themes.light, vim.list_extend({}, themes.color))
 				),
 			})
 			require("faith.plugins.color.background")
+		end,
+	},
+	{
+		"eldritch-theme/eldritch.nvim",
+		lazy = false,
+		priority = 1000,
+		opts = {},
+		init = function()
+			vim.api.nvim_create_autocmd("ColorScheme", {
+				pattern = {
+					"eldritch",
+					"eldritch-dark",
+					"eldritch-minimal",
+				},
+				callback = function(args)
+					local scheme = args.match:find("eldritch%-")
+					local filter = scheme == nil and "default"
+						or (args.match:find("dark") == nil and "minimal" or "darker")
+					apply_theme_overrides("eldritch", filter)
+				end,
+			})
 		end,
 	},
 	{
@@ -43,10 +60,7 @@ return {
 					"tokyonight-moon",
 				},
 				callback = function(args)
-					apply_theme_overrides(
-						"tokyonight",
-						args.match:gsub("tokyonight%-", "")
-					)
+					apply_theme_overrides("tokyonight", args.match:gsub("tokyonight%-", ""))
 				end,
 			})
 		end,
@@ -146,17 +160,12 @@ return {
 			vim.api.nvim_create_autocmd("ColorScheme", {
 				pattern = { "catppuccin*" },
 				callback = function(args)
-					apply_theme_overrides(
-						"catppuccin",
-						args.match:gsub("catppuccin%-", "")
-					)
+					apply_theme_overrides("catppuccin", args.match:gsub("catppuccin%-", ""))
 				end,
 			})
 		end,
 		opts = {
-			compile_path = vim.fn.glob(
-				vim.fn.stdpath("cache") .. "/catppuccin"
-			),
+			compile_path = vim.fn.glob(vim.fn.stdpath("cache") .. "/catppuccin"),
 			transparent_background = vim.g.transparent_enabled,
 			term_colors = true,
 			dim_inactive = {

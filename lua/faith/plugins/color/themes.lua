@@ -2,6 +2,14 @@ local themes = {
 	-- Dark
 	dark = {
 		{
+			name = "Eldritch Darker",
+			colorscheme = "eldritch-dark",
+		},
+		{
+			name = "Eldritch Default",
+			colorscheme = "eldritch",
+		},
+		{
 			name = "Catppuccin Mocha",
 			colorscheme = "catppuccin-mocha",
 		},
@@ -93,17 +101,20 @@ local function setBackground(theme, background)
 	)
 end
 
-themes.dark = vim.iter(themes.dark)
+themes.dark = vim
+	.iter(themes.dark)
 	:map(function(theme)
 		return setBackground(theme, "dark")
 	end)
 	:totable()
-themes.color = vim.iter(themes.color)
+themes.color = vim
+	.iter(themes.color)
 	:map(function(theme)
 		return setBackground(theme, "dark")
 	end)
 	:totable()
-themes.light = vim.iter(themes.light)
+themes.light = vim
+	.iter(themes.light)
 	:map(function(theme)
 		return setBackground(theme, "light")
 	end)
