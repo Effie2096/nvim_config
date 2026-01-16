@@ -150,18 +150,15 @@ M.on_attach = function(client_id, bufnr)
 		vim.lsp.codelens.refresh({ bufnr = bufnr })
 		local auto_refresh_codelens =
 			vim.api.nvim_create_augroup("RefreshCodelens", { clear = false })
-		vim.api.nvim_create_autocmd(
-			{ "BufEnter", "InsertLeave", "BufWritePost" },
-			{
-				group = auto_refresh_codelens,
-				buffer = bufnr,
-				callback = function()
-					vim.lsp.codelens.refresh({
-						bufnr = bufnr,
-					})
-				end,
-			}
-		)
+		vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "BufWritePost" }, {
+			group = auto_refresh_codelens,
+			buffer = bufnr,
+			callback = function()
+				vim.lsp.codelens.refresh({
+					bufnr = bufnr,
+				})
+			end,
+		})
 	end
 
 	if
@@ -172,14 +169,13 @@ M.on_attach = function(client_id, bufnr)
 			bufnr
 		)
 	then
-		client.capabilities =
-			vim.tbl_deep_extend("force", client.capabilities, {
-				workspace = {
-					didChangeWatchedFiles = {
-						dynamicRegistration = true,
-					},
+		client.capabilities = vim.tbl_deep_extend("force", client.capabilities, {
+			workspace = {
+				didChangeWatchedFiles = {
+					dynamicRegistration = true,
 				},
-			})
+			},
+		})
 	end
 	if client and client.name == "svelte" then
 		vim.api.nvim_create_autocmd("BufWritePost", {

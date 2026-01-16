@@ -107,6 +107,9 @@ return {
 
 			local icons = require("faith.icons")
 
+			require("overseer").enable_dap()
+
+			require("mason").setup()
 			require("mason-nvim-dap").setup({
 				-- Makes a best effort to setup the various debuggers with
 				-- reasonable debug configurations
@@ -115,12 +118,12 @@ return {
 				-- You can provide additional configuration to the handlers,
 				-- see mason-nvim-dap README for more information
 				handlers = {
-					-- function(config)
-					-- 	-- all sources with no handler get passed here
-					--
-					-- 	-- Keep original functionality
-					-- 	require("mason-nvim-dap").default_setup(config)
-					-- end,
+					function(config)
+						-- all sources with no handler get passed here
+
+						-- Keep original functionality
+						require("mason-nvim-dap").default_setup(config)
+					end,
 					-- codelldb = function(config)
 					-- 	config.configurations = {
 					-- 		{
@@ -170,6 +173,39 @@ return {
 					-- "delve",
 				},
 			})
+
+			dap.adapters["local-lua"] = {
+				type = "executable",
+				command = "node",
+				args = {
+					vim.fn.expand(
+						"$MASON/share/local-lua-debugger-vscode/extension/debugAdapter.js"
+					),
+				},
+				enrich_config = function(config, on_config)
+					if not config["extensionPath"] then
+						local c = vim.deepcopy(config)
+						-- 💀 If this is missing or wrong you'll see
+						-- "module 'lldebugger' not found" errors in the dap-repl when trying to launch a debug session
+						c.extensionPath =
+							vim.fn.expand("$MASON/share/local-lua-debugger-vscode")
+						on_config(c)
+					else
+						on_config(config)
+					end
+				end,
+			}
+			dap.configurations.lua = {
+				{
+					name = "Local Lua Debugger: Run Love Project",
+					type = "local-lua",
+					request = "launch",
+					cwd = "${workspaceFolder}",
+					program = { command = "love" },
+					args = { "." },
+					scriptRoots = { "game" },
+				},
+			}
 
 			dap.adapters["pwa-node"] = {
 				type = "server",
@@ -359,15 +395,6 @@ return {
 			})
 
 			require("nvim-dap-repl-highlights").setup()
-
-			-- Install golang specific config
-			require("dap-go").setup({
-				delve = {
-					-- On Windows delve must be run attached or it crashes.
-					-- See https://github.com/leoluz/nvim-dap-go/blob/main/README.md#configuring
-					detached = vim.fn.has("win32") == 0,
-				},
-			})
 		end,
 		init = function()
 			-- Catppuccin integration
@@ -406,8 +433,7 @@ return {
 				group = luadev_group,
 				pattern = { "*.lua" },
 				callback = function(args)
-					local opts =
-						{ silent = true, noremap = true, buffer = args.buf }
+					local opts = { silent = true, noremap = true, buffer = args.buf }
 					vim.keymap.set(
 						{ "n" },
 						"<M-e>",

@@ -110,6 +110,11 @@ return {
 
 			capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
 
+			capabilities.textDocument.foldingRange = {
+				dynamicRegistration = false,
+				lineFoldingOnly = true,
+			}
+
 			vim.lsp.config("*", {
 				capabilities = capabilities,
 			})
@@ -193,7 +198,18 @@ return {
 				end,
 			})
 
+			local virtual_text = {
+				spacing = 0,
+				virt_text_pos = "eol",
+				prefix = "",
+				format = function(diagnostic)
+					return icons.diagnostic[diagnostic.severity]
+				end,
+				hl_mode = "combine",
+			}
+			---@type vim.diagnostic.Opts
 			local config = {
+				virtual_text = false,
 				virtual_lines = {
 					current_line = true,
 					source = true,
@@ -222,10 +238,10 @@ return {
 				},
 				signs = {
 					text = {
-						[vim.diagnostic.severity.ERROR] = "",
-						[vim.diagnostic.severity.WARN] = "",
-						[vim.diagnostic.severity.HINT] = "",
-						[vim.diagnostic.severity.INFO] = "",
+						[vim.diagnostic.severity.ERROR] = icons.diagnostic.error,
+						[vim.diagnostic.severity.WARN] = icons.diagnostic.warn,
+						[vim.diagnostic.severity.HINT] = icons.diagnostic.hint,
+						[vim.diagnostic.severity.INFO] = icons.diagnostic.info,
 					},
 					linehl = {
 						[vim.diagnostic.severity.ERROR] = "NONE", -- "DiagnosticSignError",
@@ -242,7 +258,7 @@ return {
 				},
 				update_in_insert = true,
 				underline = true,
-				severity_sort = true,
+				severity_sort = false,
 				float = float_config,
 			}
 
@@ -329,12 +345,12 @@ return {
 					-- `friendly-snippets` contains a variety of premade snippets.
 					--    See the README about individual language/framework/plugin snippets:
 					--    https://github.com/rafamadriz/friendly-snippets
-					-- {
-					--   'rafamadriz/friendly-snippets',
-					--   config = function()
-					--     require('luasnip.loaders.from_vscode').lazy_load()
-					--   end,
-					-- },
+					{
+						"rafamadriz/friendly-snippets",
+						config = function()
+							require("luasnip.loaders.from_vscode").lazy_load()
+						end,
+					},
 				},
 				config = function()
 					local ls = require("luasnip")
@@ -344,7 +360,9 @@ return {
 					require("luasnip.loaders.from_lua").load({
 						paths = vim.fn.glob(snippet_path),
 					})
-					require("luasnip.loaders.from_vscode").lazy_load()
+					require("luasnip.loaders.from_vscode").lazy_load({
+						paths = snippet_path .. "/vscode",
+					})
 
 					ls.config.set_config({
 						-- This tells LuaSnip to remember to keep around the last snippet.
@@ -395,7 +413,23 @@ return {
 			},
 			"xzbdmw/colorful-menu.nvim",
 			"folke/lazydev.nvim",
+			{ "yus-works/csc.nvim", opts = {} },
 		},
+		-- init = function()
+		-- 	vim.api.nvim_create_autocmd("User", {
+		-- 		pattern = "BlinkCmpMenuOpen",
+		-- 		callback = function()
+		-- 			require("codeium.virtual_text").clear()
+		-- 		end,
+		-- 	})
+
+		-- 	vim.api.nvim_create_autocmd("User", {
+		-- 		pattern = "BlinkCmpMenuClose",
+		-- 		callback = function()
+		-- 			require("codeium.virtual_text").complete()
+		-- 		end,
+		-- 	})
+		-- end,
 		--- @module 'blink.cmp'
 		--- @type blink.cmp.Config
 		opts = {
@@ -443,7 +477,7 @@ return {
 			},
 
 			completion = {
-				ghost_text = { enabled = true },
+				ghost_text = { enabled = true, show_with_menu = true },
 				list = {
 					selection = {
 						preselect = true,
@@ -451,6 +485,7 @@ return {
 					},
 				},
 				menu = {
+					auto_show = true,
 					direction_priority = function()
 						local ctx = require("blink.cmp").get_context()
 						local item = require("blink.cmp").get_selected_item()
@@ -478,6 +513,7 @@ return {
 							{ "kind_icon" },
 							{ "label", gap = 1, "source_name" },
 						},
+						padding = { 0, 0 },
 						components = {
 							kind_icon = {
 								text = function(ctx)
@@ -498,23 +534,23 @@ return {
 										end
 									end
 
-									return icon .. ctx.icon_gap
+									return (" %s "):format(icon) .. ctx.icon_gap
 								end,
 
 								-- Optionally, use the highlight groups from nvim-web-devicons
 								-- You can also add the same function for `kind.highlight` if you want to
 								-- keep the highlight groups in sync with the icons.
-								highlight = function(ctx)
-									local hl = ctx.kind_hl
-									if vim.tbl_contains({ "Path" }, ctx.source_name) then
-										local dev_icon, dev_hl =
-											require("nvim-web-devicons").get_icon(ctx.label)
-										if dev_icon then
-											hl = dev_hl
-										end
-									end
-									return hl
-								end,
+								-- highlight = function(ctx)
+								-- 	local hl = ctx.kind_hl
+								-- 	if vim.tbl_contains({ "Path" }, ctx.source_name) then
+								-- 		local dev_icon, dev_hl =
+								-- 			require("nvim-web-devicons").get_icon(ctx.label)
+								-- 		if dev_icon then
+								-- 			hl = dev_hl
+								-- 		end
+								-- 	end
+								-- 	return hl
+								-- end,
 							},
 							label = {
 								text = function(ctx)
@@ -526,6 +562,11 @@ return {
 									)
 								end,
 							},
+							source_name = {
+								text = function(ctx)
+									return ("(%s)"):format(ctx.source_name)
+								end,
+							},
 						},
 					},
 				},
@@ -535,13 +576,32 @@ return {
 			},
 
 			sources = {
-				default = { "lsp", "path", "snippets", "lazydev", "buffer", "codeium" },
+				default = {
+					"ecolog",
+					"lsp",
+					"path",
+					"snippets",
+					"lazydev",
+					"buffer",
+					-- "codeium",
+				},
 				providers = {
 					lazydev = {
 						module = "lazydev.integrations.blink",
 						score_offset = 100,
 					},
-					codeium = { name = "Codeium", module = "codeium.blink", async = true },
+					-- codeium = { name = "Codeium", module = "codeium.blink", async = true },
+					ecolog = {
+						name = "ecolog",
+						module = "ecolog.integrations.cmp.blink_cmp",
+					},
+					path = {
+						opts = {
+							get_cwd = function(_)
+								return vim.fn.getcwd()
+							end,
+						},
+					},
 				},
 			},
 
@@ -552,9 +612,6 @@ return {
 			-- Shows a signature help window while you type arguments for a function
 			signature = { enabled = true },
 		},
-	},
-	{
-		"rafamadriz/friendly-snippets",
 	},
 	{
 		"nvim-svelte/nvim-svelte-snippets",

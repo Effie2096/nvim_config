@@ -3,10 +3,10 @@ return {
 		"folke/which-key.nvim",
 		event = "VimEnter",
 		opts = {
-			delay = 0,
+			delay = 100,
 			icons = {
 				mappings = true,
-				keys = {}
+				keys = {},
 			},
 			disable = {
 				ft = { "toggleterm", "snacks_input" },
@@ -22,5 +22,5 @@ return {
 				desc = "Buffer Local Keymaps (which-key)",
 			},
 		},
-	}
+	},
 }

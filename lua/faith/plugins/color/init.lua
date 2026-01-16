@@ -1,5 +1,6 @@
 local themes = require("faith.plugins.color.themes")
-local apply_theme_overrides = require("faith.plugins.color.overrides").apply_theme_overrides
+local apply_theme_overrides =
+	require("faith.plugins.color.overrides").apply_theme_overrides
 
 -- vim.api.nvim_create_autocmd("ColorScheme", {
 -- 	pattern = { "*" },
@@ -29,7 +30,9 @@ return {
 		"eldritch-theme/eldritch.nvim",
 		lazy = false,
 		priority = 1000,
-		opts = {},
+		opts = {
+			dim_inactive = false, -- dims inactive windows, transparent must be false for this to work
+		},
 		init = function()
 			vim.api.nvim_create_autocmd("ColorScheme", {
 				pattern = {
@@ -60,7 +63,10 @@ return {
 					"tokyonight-moon",
 				},
 				callback = function(args)
-					apply_theme_overrides("tokyonight", args.match:gsub("tokyonight%-", ""))
+					apply_theme_overrides(
+						"tokyonight",
+						args.match:gsub("tokyonight%-", "")
+					)
 				end,
 			})
 		end,
@@ -160,7 +166,10 @@ return {
 			vim.api.nvim_create_autocmd("ColorScheme", {
 				pattern = { "catppuccin*" },
 				callback = function(args)
-					apply_theme_overrides("catppuccin", args.match:gsub("catppuccin%-", ""))
+					apply_theme_overrides(
+						"catppuccin",
+						args.match:gsub("catppuccin%-", "")
+					)
 				end,
 			})
 		end,

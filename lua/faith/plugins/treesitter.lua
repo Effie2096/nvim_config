@@ -173,11 +173,13 @@ return {
 						method = "popup",
 						fullwidth = 1,
 						syntax_hl = 1,
+						highlight = "TreesitterContext",
 						border = 0,
 					}
 					vim.g.matchup_transmute_enabled = 1
 					vim.g.matchup_matchparen_deferred = 0
 					vim.g.matchup_matchparen_hi_surround_always = 0
+					vim.g.matchup_treesitter_disable_virtual_text = false
 				end,
 			},
 		},
@@ -206,6 +208,8 @@ return {
 				"query",
 				"vim",
 				"vimdoc",
+				"regex",
+				"dap_repl",
 			},
 			-- Autoinstall languages that are not installed
 			auto_install = true,

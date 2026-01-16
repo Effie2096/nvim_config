@@ -1,0 +1,14 @@
+{
+	"name": "faith-snippets",
+	"engines": {
+		"vscode": "^1.11.0"
+	},
+	"contributes": {
+		"snippets": [
+			{
+				"language": ["lua"],
+				"path": "./lua/prism.json"
+			}
+		]
+	}
+}

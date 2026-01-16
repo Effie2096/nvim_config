@@ -1,5 +1,8 @@
 require("faith.globals")
 require("faith.options")
 require("faith.mappings")
+require("faith.views")
+require("faith.filetypes")
 require("faith.bootstrap")
+require("faith.tabnames")
 require("faith.neovide")

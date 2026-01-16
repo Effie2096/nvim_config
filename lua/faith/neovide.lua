@@ -3,6 +3,7 @@ if not vim.g.neovide then
 end
 
 vim.o.guifont = "Iosevka_NFP:h10"
+vim.g.neovide_underline_stroke_scale = 3.5
 
 vim.g.neovide_cursor_animation_length = 0.05
 vim.g.neovide_cursor_trail_size = 0.2

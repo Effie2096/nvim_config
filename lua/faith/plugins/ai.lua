@@ -2,7 +2,7 @@ return {
 
 	{
 		"Exafunction/windsurf.nvim",
-		-- enabled = false,
+		enabled = false,
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"saghen/blink.cmp",
@@ -15,7 +15,7 @@ return {
 				-- Optionally disable cmp source if using virtual text only
 				enable_cmp_source = false,
 				virtual_text = {
-					enabled = true,
+					enabled = false,
 
 					-- Set to true if you never want completions to be shown automatically.
 					manual = true,

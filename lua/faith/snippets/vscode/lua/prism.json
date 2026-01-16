@@ -1,0 +1,89 @@
+{
+  "Component": {
+    "prefix": "NewComponent",
+    "description": "Boilerplate for Components",
+    "isFileTemplate": true,
+    "body": [
+      "--- @class $1 : Component",
+      "--- @overload fun($2): $1",
+      "local $1 = prism.Component:extend \"$1\"",
+      "",
+      "function $1:__new($2)",
+      "\t$3",
+      "end",
+      "",
+      "return $1"
+    ]
+  },
+  "Actor": {
+    "prefix": "NewActor",
+    "description": "Boilerplate for Actors",
+    "isFileTemplate": true,
+    "body": [
+      "prism.registerActor(\"$1\", function()",
+      "\treturn prism.Actor.fromComponents {",
+      "\t\tprism.components.Name(\"$1\"),",
+      "\t\t$2",
+      "\t}",
+      "end)"
+    ]
+  },
+  "Cell": {
+    "prefix": "NewCell",
+    "description": "Boilerplate for Cells",
+    "isFileTemplate": true,
+    "body": [
+      "prism.registerCell(\"$1\", function()",
+      "\treturn prism.Cell.fromComponents {",
+      "\t\tprism.components.Name(\"$1\"),",
+      "\t\t$2",
+      "\t}",
+      "end)"
+    ]
+  },
+  "Action": {
+    "prefix": "NewAction",
+    "description": "Boilerplate for Actions",
+    "isFileTemplate": true,
+    "body": [
+      "--- @class $1 : Action",
+      "local $1 = prism.Action:extend \"$1\"",
+      "$1.targets = { $2 }",
+      "",
+      "--- @param level Level",
+      "function $1:canPerform(level, $3)",
+      "\t$4",
+      "end",
+      "",
+      "--- @param level Level",
+      "function $1:perform(level, $5)",
+      "\t$6",
+      "end",
+      "",
+      "return $1"
+    ]
+  },
+  "Target": {
+    "prefix": "NewTarget",
+    "description": "Boilerplate for Target",
+    "isFileTemplate": true,
+    "body": [
+      "prism.registerTarget(\"$1\", function()",
+      "\treturn prism.Target($2):$3",
+      "end)"
+    ]
+  },
+  "System": {
+    "prefix": "NewSystem",
+    "description": "Boilerplate for Systems",
+    "isFileTemplate": true,
+    "body": [
+      "--- @class $1 : System",
+      "local $1 = prism.System:extend \"$1\"",
+      "",
+      "$2",
+      "",
+      "return $1"
+    ]
+  }
+}

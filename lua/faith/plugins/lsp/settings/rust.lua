@@ -4,11 +4,11 @@ return {
 	settings = {
 		["rust-analyzer"] = {
 			diagnostics = {
-				enable = not has_bacon,
+				enable = true,
 			},
 			-- enable clippy on save
-			checkOnSave = not has_bacon,
-			check = {
+			checkOnSave = {
+				enable = true,
 				features = "all",
 				command = "clippy",
 				overrideCommand = {

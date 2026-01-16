@@ -94,19 +94,20 @@ return {
 	end,
 	["eldritch"] = function(scheme)
 		local colors = require("eldritch.colors")
+
 		---@type ColorMap
 		local color_map = {
 			bg = colors[scheme].bg,
 			bg_light = colors[scheme].bg_highlight,
 			bg_dark = colors[scheme].bg_dark,
 			fg = colors[scheme].fg,
-			fg_light = colors[scheme].fg_gutter_light,
+			fg_light = colors[scheme].fg_dark,
 			fg_dark = colors[scheme].fg_gutter,
-			float = colors[scheme].bg_float,
-			float_light = colors[scheme].bg_popup,
-			float_dark = colors[scheme].bg_float,
+			float = colors[scheme].bg_dark,
+			float_light = colors[scheme].bg_highlight,
+			float_dark = colors[scheme].bg_highlight,
 			surface = colors[scheme].bg_dark,
-			surface_light = colors[scheme].bg_float,
+			surface_light = colors[scheme].bg_dark,
 			surface_dark = colors[scheme].bg_popup,
 			accent = colors[scheme].magenta2,
 			red = colors[scheme].red,

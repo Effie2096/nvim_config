@@ -44,17 +44,6 @@ return {
 							wrap = false,
 						},
 					},
-					-- {
-					-- 	sign = {
-					-- 		namespace = { "diagnostic.signs" },
-					-- 		text = { "💡", "🔎" },
-					-- 		maxwidth = 1,
-					-- 		colwidth = 2,
-					-- 		auto = false,
-					-- 		foldclosed = true,
-					-- 	},
-					-- 	click = "v:lua.ScSa",
-					-- },
 					{
 						sign = {
 							namespace = { "gitsigns" },
@@ -62,9 +51,20 @@ return {
 							colwidth = 2,
 							fillchar = " ",
 							fillcharhl = "SignColumn",
-							auto = true,
+							auto = false,
 							wrap = false,
 						},
+					},
+					{
+						sign = {
+							namespace = { "diagnostic.signs" },
+							text = { "💡", "🔎" },
+							maxwidth = 1,
+							colwidth = 2,
+							auto = false,
+							foldclosed = true,
+						},
+						click = "v:lua.ScSa",
 					},
 					{
 						sign = {

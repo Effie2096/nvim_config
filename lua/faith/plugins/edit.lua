@@ -12,9 +12,8 @@ return {
 			},
 		},
 		config = function()
-			local tcc = require(
-				"ts_context_commentstring.integrations.comment_nvim"
-			).create_pre_hook()
+			local tcc =
+				require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook()
 			local opts = {
 				opleader = {
 					line = "gc",
@@ -63,28 +62,20 @@ return {
 			vim.keymap.set(
 				{ "n" },
 				"g<b",
-				require("Comment.api").call(
-					"uncomment.blockwise.current",
-					"g@$"
-				),
+				require("Comment.api").call("uncomment.blockwise.current", "g@$"),
 				{ expr = true, desc = "Uncomment current block" }
 			)
 
-			local esc =
-				vim.api.nvim_replace_termcodes("<ESC>", true, false, true)
+			local esc = vim.api.nvim_replace_termcodes("<ESC>", true, false, true)
 
 			vim.keymap.set({ "x" }, "g>", function()
 				vim.api.nvim_feedkeys(esc, "nx", false)
-				require("Comment.api").locked("comment.linewise")(
-					vim.fn.visualmode()
-				)
+				require("Comment.api").locked("comment.linewise")(vim.fn.visualmode())
 			end, { desc = "Comment region linewise (visual)" })
 
 			vim.keymap.set({ "x" }, "g<", function()
 				vim.api.nvim_feedkeys(esc, "nx", false)
-				require("Comment.api").locked("uncomment.linewise")(
-					vim.fn.visualmode()
-				)
+				require("Comment.api").locked("uncomment.linewise")(vim.fn.visualmode())
 			end, { desc = "Uncomment region linewise (visual)" })
 		end,
 	},
@@ -115,11 +106,12 @@ return {
 	"tpope/vim-repeat",
 	{
 		"ThePrimeagen/refactoring.nvim",
+		branch = "develop",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-treesitter/nvim-treesitter",
 		},
-		event = { "BufReadPre", "BufNewFile" },
+		lazy = false,
 		opts = {
 			prompt_func_return_type = {
 				go = false,
@@ -141,7 +133,7 @@ return {
 			},
 			printf_statements = {},
 			print_var_statements = {},
-			show_success_message = false,
+			show_success_message = true,
 		},
 		config = function()
 			local map = function(keys, func, desc, mode)
@@ -239,8 +231,7 @@ return {
 		ft = { "markdown", "text", "gitcommit" },
 		"bullets-vim/bullets.vim",
 		init = function()
-			vim.g.bullets_enabled_file_types =
-				{ "markdown", "text", "gitcommit" }
+			vim.g.bullets_enabled_file_types = { "markdown", "text", "gitcommit" }
 			vim.g.bullets_enable_in_empty_buffers = 0 -- default = 1
 
 			local opts = { silent = true }
