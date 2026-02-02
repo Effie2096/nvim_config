@@ -1,5 +1,6 @@
 return {
 	"AlexandrosAlexiou/kotlin.nvim",
+	enabled = false,
 	ft = { "kotlin" },
 	dependencies = { "mason.nvim", "mason-lspconfig.nvim", "oil.nvim" },
 	config = function()

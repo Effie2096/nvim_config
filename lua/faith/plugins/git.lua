@@ -83,7 +83,7 @@ return {
 					follow_files = true,
 				},
 				attach_to_untracked = true,
-				current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
+				current_line_blame = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
 				current_line_blame_opts = {
 					virt_text = true,
 					virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
@@ -131,18 +131,8 @@ return {
 					end, { desc = "Previous hunk" })
 
 					-- Actions
-					map(
-						"n",
-						"<leader>hs",
-						gs.stage_hunk,
-						{ desc = "[h]unk [s]tage" }
-					)
-					map(
-						"n",
-						"<leader>hr",
-						gs.reset_hunk,
-						{ desc = "[h]unk [r]eset" }
-					)
+					map("n", "<leader>hs", gs.stage_hunk, { desc = "[h]unk [s]tage" })
+					map("n", "<leader>hr", gs.reset_hunk, { desc = "[h]unk [r]eset" })
 					map("v", "<leader>hs", function()
 						gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
 					end, { desc = "[h]unk [s]tage" })
@@ -155,24 +145,14 @@ return {
 						gs.stage_buffer,
 						{ desc = "[h]unk [S]tage buffer" }
 					)
-					map(
-						"n",
-						"<leader>hu",
-						gs.undo_stage_hunk,
-						{ desc = "[h]unk [u]ndo" }
-					)
+					map("n", "<leader>hu", gs.undo_stage_hunk, { desc = "[h]unk [u]ndo" })
 					map(
 						"n",
 						"<leader>hR",
 						gs.reset_buffer,
 						{ desc = "[h]unk [R]eset buffer" }
 					)
-					map(
-						"n",
-						"<leader>hp",
-						gs.preview_hunk,
-						{ desc = "[h]unk [p]review" }
-					)
+					map("n", "<leader>hp", gs.preview_hunk, { desc = "[h]unk [p]review" })
 					map(
 						"n",
 						"<leader>hi",
@@ -181,12 +161,7 @@ return {
 					)
 					-- map('n', '<leader>hb', function() gs.blame_line{full=true} end)
 					-- map('n', '<leader>tb', gs.toggle_current_line_blame)
-					map(
-						"n",
-						"<leader>gd",
-						gs.diffthis,
-						{ desc = "[g]it [d]iff" }
-					)
+					map("n", "<leader>gd", gs.diffthis, { desc = "[g]it [d]iff" })
 					map("n", "<leader>gD", function()
 						gs.diffthis("~")
 					end, { desc = "[g]it [D]iff upstream" })

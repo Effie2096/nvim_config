@@ -2,14 +2,15 @@ local constants = require("overseer.constants")
 local TAG = constants.TAG
 
 ---@param opts overseer.SearchParams
----@return string
+---@return nil|string
 local get_root_dir = function(opts)
-	local git_root =
-		vim.fs.dirname(vim.fs.find(".git", { path = opts.dir, upward = true })[1])
-	if git_root then
-		return git_root
+	local love_root = vim.fs.find(
+		{ "main.lua", "conf.lua" },
+		{ path = opts.dir, upward = true }
+	)
+	if #love_root == 2 then
+		return vim.fs.dirname(love_root[1])
 	end
-	return vim.fn.getcwd()
 end
 
 ---@param opts overseer.SearchParams

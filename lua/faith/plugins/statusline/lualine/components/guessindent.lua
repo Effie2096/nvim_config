@@ -5,6 +5,7 @@ local winbar_ignore = require(
 local histr = require("faith.plugins.statusline.utils").histr
 
 local gi = require("guess-indent")
+local highlight = "AccentInverse"
 
 return {
 	function()
@@ -13,13 +14,9 @@ return {
 		if indent ~= nil then
 			local is_tabs = indent ~= nil and type(indent) ~= "number"
 			if is_tabs then
-				out = histr(icons.ui.Tab, "AccentInverse", true)
+				out = histr(icons.ui.Tab, highlight, true)
 			else
-				out = histr(
-					("%s%s"):format(indent, icons.ui.Space),
-					"AccentInverse",
-					true
-				)
+				out = histr(("%s%s"):format(indent, icons.ui.Space), highlight, true)
 			end
 		end
 		return out

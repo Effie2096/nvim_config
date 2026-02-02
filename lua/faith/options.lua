@@ -11,7 +11,6 @@ vim.opt.backspace = "indent,eol,start"
 vim.opt.backup = false
 vim.opt.breakindent = true
 vim.opt.cmdheight = 1
-vim.opt.colorcolumn = "80"
 vim.opt.conceallevel = 2
 vim.opt.confirm = true
 vim.opt.cursorline = true
@@ -33,11 +32,10 @@ vim.opt.listchars = {
 	nbsp = icons.characters.nbsp,
 }
 vim.opt.mouse = "a"
-vim.opt.mouse = "nvi"
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.scrolloff = 8
-vim.opt.shortmess = vim.opt.shortmess + "c"
+vim.opt.shortmess:append({ c = true })
 vim.opt.showmode = false
 vim.opt.showtabline = 1
 vim.opt.signcolumn = "yes:3"
@@ -46,47 +44,48 @@ vim.opt.splitbelow = false
 vim.opt.splitright = true
 vim.opt.swapfile = false
 vim.opt.termguicolors = true
-vim.opt.textwidth = 100
+vim.opt.textwidth = 80
+vim.opt.colorcolumn = "+0"
 vim.opt.timeoutlen = 300
 vim.opt.undofile = true
 vim.opt.updatetime = 250
 vim.opt.winminheight = 0
 vim.opt.winminwidth = 20
 vim.opt.equalalways = false
-vim.opt.wrap = false
+vim.opt.wrap = true
 vim.opt.writebackup = false
 vim.opt.numberwidth = 3
 
 -- Indentation {
 local indentWidth = 2
 -- vim.opt.tabstop = indentWidth
-vim.opt.softtabstop = 0
--- vim.opt.shiftwidth = indentWidth
-vim.opt.smarttab = true
-vim.opt.expandtab = false
-vim.opt.smartindent = false
-vim.opt.autoindent = false
+-- vim.opt.softtabstop = 0 -- 0 means this is Off
+vim.opt.shiftwidth = indentWidth
+-- vim.opt.smarttab = true
+-- vim.opt.expandtab = false
+-- vim.opt.smartindent = true
+-- vim.opt.autoindent = true
 -- } Indentation
 
 vim.opt.linebreak = true
-vim.opt.showbreak = "▉" .. (string.rep(" ", indentWidth - 1) or "")
-vim.opt.breakat = " ^I!@;:,./?([{"
+vim.opt.showbreak = "▋" .. (string.rep(" ", indentWidth) or "")
+vim.opt.breakat = " ^!@;:,./?([{"
 vim.opt.breakindent = true
-vim.opt.breakindentopt = { "shift:" .. ((indentWidth * 2) - 1), "sbr" }
+vim.opt.breakindentopt = { "shift:" .. (indentWidth * 2), "sbr" }
 vim.opt.pumheight = 20
 vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8"
 vim.opt.fileformat = "unix"
 vim.opt.nrformats = "alpha,hex,bin"
 vim.opt.fillchars:append({
-	horiz = " ", -- "─",
-	horizup = "│", -- "┴",
-	horizdown = " ", -- "┬",
-	vert = "│",
-	vertleft = "│", -- "┤",
-	vertright = "│", -- "├",
-	verthoriz = "│", -- "┼",
-	diff = "╱",
+	horiz = icons.borders.square.top, -- "─",
+	horizup = icons.borders.square.inter_bottom, -- "┴",
+	horizdown = icons.borders.square.inter_top, -- "┬",
+	vert = icons.borders.square.left,
+	vertleft = icons.borders.square.inter_right, -- "┤",
+	vertright = icons.borders.square.inter_left, -- "├",
+	verthoriz = icons.borders.square.center, -- "┼",
+	diff = icons.git.signs.diff,
 })
 
 vim.api.nvim_create_autocmd({ "FileType" }, {

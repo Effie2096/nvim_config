@@ -4,5 +4,5 @@ return {
 	function()
 		return format_bubble(vim.api.nvim_win_get_number(0))
 	end,
-	padding = 0,
+	padding = { left = 0, right = 1 },
 }

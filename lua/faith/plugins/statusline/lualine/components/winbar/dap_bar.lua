@@ -1,6 +1,6 @@
 local histr = require("faith.plugins.statusline.utils").histr
 
-local lualine_color = "WinBar"
+local lualine_color = "StatusLine"
 local default_color = lualine_color
 local color_start = "%#"
 local color_end = "#"

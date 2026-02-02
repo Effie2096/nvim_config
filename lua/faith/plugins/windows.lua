@@ -22,7 +22,7 @@ return {
 					easing = "in_out_sine",
 				},
 				ignore = {
-					buftype = { "terminal", "nofile", "prompt" },
+					buftype = { "terminal", "nofile", "prompt", "quickfix" },
 					filetype = {
 						"toggleterm",
 						"neo-tree",
@@ -32,6 +32,7 @@ return {
 						"AvanteSelectedFiles",
 						"oil_preview",
 						"snacks_input",
+						"qf",
 					},
 				},
 			})

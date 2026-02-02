@@ -30,19 +30,14 @@ return {
 				"tiagovla/scope.nvim",
 				lazy = false,
 				init = function()
-					vim.keymap.set(
-						"n",
-						"<leader>ttm",
-						function()
-							vim.api.nvim_cmd({
-								cmd = "ScopeMoveBuf",
-								args = vim.v.count ~= 0 and {
-									vim.v.count,
-								} or {},
-							}, {})
-						end,
-						{ desc = "{n}[t]ab [m]ove buffer: move buffer to tab." }
-					)
+					vim.keymap.set("n", "<leader>ttm", function()
+						vim.api.nvim_cmd({
+							cmd = "ScopeMoveBuf",
+							args = vim.v.count ~= 0 and {
+								vim.v.count,
+							} or {},
+						}, {})
+					end, { desc = "{n}[t]ab [m]ove buffer: move buffer to tab." })
 				end,
 				config = true,
 			},
@@ -82,7 +77,7 @@ return {
 				end,
 				extensions = {
 					quickfix = {},
-					-- overseer = {},
+					overseer = {},
 					scope = {},
 					oil = {},
 					tabnames = {},
@@ -91,8 +86,7 @@ return {
 
 			local function get_session_name()
 				local name = vim.fn.getcwd()
-				local branch =
-					vim.trim(vim.fn.system("git branch --show-current"))
+				local branch = vim.trim(vim.fn.system("git branch --show-current"))
 				if vim.v.shell_error == 0 then
 					return name .. branch
 				else

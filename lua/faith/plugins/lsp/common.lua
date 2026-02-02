@@ -177,6 +177,17 @@ M.on_attach = function(client_id, bufnr)
 			},
 		})
 	end
+
+	if
+		client
+		and client_supports_method(
+			client,
+			vim.lsp.protocol.Methods.textDocument_documentSymbol
+		)
+	then
+		require("nvim-navic").attach(client, bufnr)
+	end
+
 	if client and client.name == "svelte" then
 		vim.api.nvim_create_autocmd("BufWritePost", {
 			-- pattern = { "*.js", "*.ts" },

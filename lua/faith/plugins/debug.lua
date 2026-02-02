@@ -341,7 +341,7 @@ return {
 							"stacks",
 							{ id = "scopes", size = 0.5 },
 						},
-						size = 0.33,
+						size = 0.25,
 						position = "right",
 					},
 					{
@@ -357,12 +357,12 @@ return {
 							"watches",
 							{ id = "breakpoints", size = 0.5 },
 						},
-						size = 0.2,
+						size = 0.30,
 						position = "left",
 					},
 				},
 				controls = {
-					enabled = true,
+					enabled = false,
 					-- Display controls in this element
 					element = "repl",
 					icons = {
@@ -391,7 +391,7 @@ return {
 			})
 
 			persistent_breakpoints.setup({
-				load_breakpoints_event = "LspAttach",
+				load_breakpoints_event = "BufReadPost",
 			})
 
 			require("nvim-dap-repl-highlights").setup()

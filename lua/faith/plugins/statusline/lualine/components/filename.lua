@@ -13,7 +13,7 @@ local histr = utils.histr
 
 return {
 	"filename",
-	file_status = true, -- Displays file status (readonly status, modified status)
+	file_status = false, -- Displays file status (readonly status, modified status)
 	newfile_status = true, -- Display new file status (new file means no write after created)
 	path = 4, -- 0: Just the filename
 	-- 1: Relative path
@@ -24,12 +24,13 @@ return {
 	shorting_target = 40, -- Shortens path to leave 40 spaces in the window
 	-- for other components. (terrible name, any suggestions?)
 	symbols = {
-		modified = histr(icons.ui.Dot, "BarDiagError"), -- Text to show when the file is modified.
+		modified = "", -- histr(icons.ui.Dot, "BarDiagError"), -- Text to show when the file is modified.
 		readonly = histr(icons.ui.Lock, "BarDiagError"), -- Text to show when the file is non-modifiable or readonly.
 		unnamed = "[No Name]", -- Text to show for unnamed buffers.
 		newfile = "[New]", -- Text to show for newly created file before first write
 	},
 	padding = { left = 0, right = 0 },
+	color = "WinBar",
 	separator = "",
 	fmt = function(str)
 		local name = str
@@ -68,18 +69,19 @@ return {
 			else
 				name = format_bubble(ft:gsub("^(%l)", string.upper)) or ""
 			end
+		else
+			name = histr(name, vim.bo.modified and "BarDiagError" or "WinBar")
 		end
 		if ft == "qf" then
 			name = string.format("%s %s", format_bubble(qf_label()), qf_title())
 			goto continue
 		end
 		if string.match(ft, "dapui") ~= nil then
-			name = format_bubble(
-				string.gsub(ft:gsub("dapui_", ""), "^%l", string.upper)
-			)
+			name =
+				format_bubble(string.gsub(ft:gsub("dapui_", ""), "^%l", string.upper))
 			goto continue
 		end
 		::continue::
-		return trunc(name, 10, 0, 5, true)
+		return trunc(name, 10, 0, 5, false)
 	end,
 }

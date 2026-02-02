@@ -46,26 +46,23 @@ return {
 
 			local handler = function(virtText, lnum, endLnum, width, truncate)
 				local newVirtText = {}
-
-				local suffix = (
-					" " .. require("faith.icons").ui.FoldSuffix -- .. "%d "
-				) -- :format(endLnum - lnum)
+				local line_count = endLnum - lnum
+				local fold_lines = ("(%d line%s)"):format(
+					line_count,
+					line_count > 1 and "s" or ""
+				)
+				local suffix = (" %s%s "):format(icons.ui.FoldSuffix, fold_lines)
 				local sufWidth = vim.fn.strdisplaywidth(suffix)
-
-				local targetWidth = (width > 100 and 100 or width) - sufWidth
-
+				local targetWidth = width - sufWidth
 				local curWidth = 0
 				for _, chunk in ipairs(virtText) do
 					local chunkText = chunk[1]
 					local chunkWidth = vim.fn.strdisplaywidth(chunkText)
-
 					if targetWidth > curWidth + chunkWidth then
 						table.insert(newVirtText, chunk)
 					else
 						chunkText = truncate(chunkText, targetWidth - curWidth)
-
-						local hlGroup = chunk[2]
-						table.insert(newVirtText, { chunkText, hlGroup })
+						table.insert(newVirtText, chunk)
 						chunkWidth = vim.fn.strdisplaywidth(chunkText)
 						-- str width returned from truncate() may less than 2nd argument, need padding
 						if curWidth + chunkWidth < targetWidth then
@@ -75,22 +72,7 @@ return {
 					end
 					curWidth = curWidth + chunkWidth
 				end
-				local fold_length = endLnum - lnum
-				local lines_display = string.format(
-					" (%d line%s)",
-					fold_length,
-					(fold_length > 1) and "s" or ""
-				)
-				local extra_suffix = targetWidth
-					- curWidth
-					- vim.fn.strdisplaywidth(lines_display)
-					- 1
 				table.insert(newVirtText, { suffix, "MoreMsg" })
-				table.insert(newVirtText, {
-					("·"):rep(extra_suffix),
-					"Comment",
-				})
-				table.insert(newVirtText, { lines_display, "MoreMsg" })
 				return newVirtText
 			end
 
@@ -152,14 +134,14 @@ return {
 				preview = {
 					win_config = {
 						border = {
-							"",
+							icons.borders.square.top_left,
 							icons.borders.square.top,
-							"",
-							"",
-							"",
+							icons.borders.square.top_right,
+							icons.borders.square.right,
+							icons.borders.square.bottom_right,
 							icons.borders.square.bottom,
-							"",
-							"",
+							icons.borders.square.bottom_left,
+							icons.borders.square.left,
 						},
 						winhighlight = "Normal:Folded",
 						winblend = 0,

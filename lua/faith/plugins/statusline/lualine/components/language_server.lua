@@ -28,7 +28,8 @@ local get_clients = function()
 	local client_names = {}
 
 	-- should just be lsps
-	local names = vim.iter(pairs(clients))
+	local names = vim
+		.iter(pairs(clients))
 		:filter(function(_, client)
 			return not client.name:find("anonymous source")
 		end)
@@ -37,12 +38,14 @@ local get_clients = function()
 		end)
 		:totable()
 
-	client_names["lsp"] = vim.iter(names)
+	client_names["lsp"] = vim
+		.iter(names)
 		:filter(function(name)
 			return not name:match("otter")
 		end)
 		:totable()
-	client_names["otter"] = vim.iter(names)
+	client_names["otter"] = vim
+		.iter(names)
 		:filter(function(name)
 			return name:match("otter")
 		end)
@@ -115,7 +118,7 @@ return {
 		end
 	end,
 	padding = { left = 1, right = 0 },
-	color = "@lsp.type.type",
+	color = "BarDiagWarn",
 	-- cond = function()
 	-- 	return #flatten_clients(M.language_servers) ~= 0
 	-- end,

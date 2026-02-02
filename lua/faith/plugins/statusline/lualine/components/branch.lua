@@ -13,7 +13,6 @@ return {
 		)
 	end,
 	cond = function()
-		return require("lualine.components.branch.git_branch").find_git_dir()
-			~= nil
+		return require("lualine.components.branch.git_branch").find_git_dir() ~= nil
 	end,
 }

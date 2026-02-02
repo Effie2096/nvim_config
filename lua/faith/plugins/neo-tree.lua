@@ -18,6 +18,7 @@ return {
 					require("lsp-file-operations").setup()
 				end,
 			},
+			"saifulapm/neotree-file-nesting-config",
 		},
 		lazy = false, -- neo-tree will lazily load itself
 		---@module "neo-tree"
@@ -33,6 +34,8 @@ return {
 				{ event = events.FILE_RENAMED, handler = on_move },
 			})
 			return {
+				hide_root_node = true,
+				retain_hidden_root_indent = true,
 				enable_git_status = true,
 				enable_diagnostics = true,
 				source_selector = {
@@ -79,9 +82,16 @@ return {
 				},
 				filesystem = {
 					follow_current_file = {
-						enabled = false, -- This will find and focus the file in the active buffer every time
+						enabled = true, -- This will find and focus the file in the active buffer every time
 						--               -- the current file is changed while the tree is open.
 						leave_dirs_open = false, -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
+					},
+					group_empty_dirs = true,
+					filtered_items = {
+						show_hidden_count = false,
+						never_show = {
+							".DS_Store",
+						},
 					},
 					hijack_netrw_behavior = "disabled",
 					use_libuv_file_watcher = true,
@@ -178,6 +188,10 @@ return {
 					},
 				},
 			}
+		end,
+		config = function(_, opts)
+			opts.nesting_rules = require("neotree-file-nesting-config").nesting_rules
+			require("neo-tree").setup(opts)
 		end,
 		keys = {
 			{

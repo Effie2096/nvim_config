@@ -11,7 +11,7 @@ return {
 		if status.state == "idle" then
 			-- Output was cleared, for example when leaving insert mode
 			windsurf_spinner:stop()
-			return histr(icons.ui.Brain, "DiagnosticCheck")
+			return histr(icons.ui.Brain, "BarDiagInfo")
 		end
 
 		if status.state == "waiting" then
@@ -22,7 +22,10 @@ return {
 
 		if status.state == "completions" and status.total > 0 then
 			windsurf_spinner:stop()
-			return string.format("%d/%d", status.current, status.total)
+			return histr(
+				string.format("%s %d/%d", icons.ui.Brain, status.current, status.total),
+				"BarDiagInfo"
+			)
 		end
 
 		return " 0 "

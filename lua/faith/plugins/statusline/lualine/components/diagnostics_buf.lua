@@ -21,23 +21,22 @@ return {
 	colored = true, -- Displays diagnostics status in color if set to true.
 	update_in_insert = true, -- Update diagnostics in insert mode.
 	always_visible = false, -- Show diagnostics even if there are none.
+	color = "WinBar",
 	fmt = function(str, ctx)
-		local ft = vim.bo.filetype
-		local bt = vim.bo.buftype
+		local buf = vim.api.nvim_get_current_buf()
 
 		if not winbar_ignore() then
 			return histr(" ", "DiagnosticCheck", true)
 		end
 
 		local total = 0
-		if ctx.last_diagnostics_count[3] then
-			for _, value in pairs(ctx.last_diagnostics_count[3]) do
+		if ctx.last_diagnostics_count[buf] then
+			for _, value in pairs(ctx.last_diagnostics_count[buf]) do
 				total = total + value
 			end
 		end
 
-		return total == 0 and histr(icons.ui.Check, "DiagnosticCheck", true)
-			or str
+		return total == 0 and histr(icons.ui.Check, "DiagnosticCheck", true) or str
 	end,
 	separator = { left = "", right = "" },
 }

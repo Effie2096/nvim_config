@@ -25,7 +25,11 @@ return {
 				disabled_filetypes = {},
 				-- see the defaults:
 				-- https://github.com/Saghen/blink.pairs/blob/main/lua/blink/pairs/config/mappings.lua#L14
-				pairs = {},
+				pairs = {
+					["|"] = {
+						{ "|", languages = { "rust", "supercollider" } },
+					},
+				},
 			},
 			highlights = {
 				enabled = true,

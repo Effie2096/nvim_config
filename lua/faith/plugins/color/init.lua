@@ -390,9 +390,10 @@ return {
 					"WinSeparator",
 					"ColorfulWinSep",
 
+					"FloatBorder",
+
 					"lualine_transparent",
 
-					"WinBar",
 					"TabLine",
 					"TabLineSep",
 					"TabLineFill",

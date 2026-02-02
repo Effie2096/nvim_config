@@ -6,7 +6,7 @@ return {
 		config = function()
 			local opts = {
 				auto_enable = true,
-				auto_resize_height = true, -- highly recommended enable
+				auto_resize_height = false, -- highly recommended enable
 				preview = {
 					win_height = 12,
 					win_vheight = 12,
@@ -108,7 +108,7 @@ return {
 			vim.o.qftf = "{info -> v:lua._G.qftf(info)}"
 
 			-- Adapt fzf's delimiter in nvim-bqf
-			require("bqf").setup(vim.tbl_deep_extend("force", opts, {
+			opts = vim.tbl_deep_extend("force", opts, {
 				filter = {
 					fzf = {
 						extra_opts = {
@@ -119,7 +119,9 @@ return {
 						},
 					},
 				},
-			}))
+			})
+
+			require("bqf").setup(opts)
 		end,
 	},
 }

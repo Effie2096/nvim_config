@@ -2,6 +2,7 @@ local icons = require("faith.icons")
 
 return {
 	-- LSP Plugins
+	require("faith.plugins.lsp.json_schema"),
 	{
 		-- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
 		-- used for completion, annotations and signatures of Neovim apis
@@ -151,8 +152,9 @@ return {
 				powershell_es = {},
 				taplo = {},
 				ts_ls = require("faith.plugins.lsp.settings.tsserver"),
-				yamlls = {},
+				yamlls = require("faith.plugins.lsp.settings.yamlls"),
 				svelte = {},
+				wgsl_analyzer = require("faith.plugins.lsp.settings.wgsl_analyzer"),
 			}
 
 			vim.iter(vim.tbl_keys(managed_servers)):each(function(server)
@@ -174,6 +176,7 @@ return {
 				automatic_enable = {
 					exclude = {
 						"rust_analyzer",
+						"jdtls",
 					},
 				},
 			})
@@ -415,21 +418,21 @@ return {
 			"folke/lazydev.nvim",
 			{ "yus-works/csc.nvim", opts = {} },
 		},
-		-- init = function()
-		-- 	vim.api.nvim_create_autocmd("User", {
-		-- 		pattern = "BlinkCmpMenuOpen",
-		-- 		callback = function()
-		-- 			require("codeium.virtual_text").clear()
-		-- 		end,
-		-- 	})
+		init = function()
+			vim.api.nvim_create_autocmd("User", {
+				pattern = "BlinkCmpMenuOpen",
+				callback = function()
+					require("codeium.virtual_text").clear()
+				end,
+			})
 
-		-- 	vim.api.nvim_create_autocmd("User", {
-		-- 		pattern = "BlinkCmpMenuClose",
-		-- 		callback = function()
-		-- 			require("codeium.virtual_text").complete()
-		-- 		end,
-		-- 	})
-		-- end,
+			vim.api.nvim_create_autocmd("User", {
+				pattern = "BlinkCmpMenuClose",
+				callback = function()
+					require("codeium.virtual_text").complete()
+				end,
+			})
+		end,
 		--- @module 'blink.cmp'
 		--- @type blink.cmp.Config
 		opts = {
@@ -458,7 +461,10 @@ return {
 				preset = "default",
 				["<C-space>"] = {},
 				["<C-y>"] = { "show", "select_and_accept", "fallback" },
+				["<C-u>"] = { "scroll_signature_up", "fallback" },
+				["<C-d>"] = { "scroll_signature_down", "fallback" },
 				["<C-k>"] = {},
+				["<Tab>"] = {},
 				-- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
 				--    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
 			},
@@ -467,7 +473,7 @@ return {
 				keymap = { preset = "inherit" },
 				completion = {
 					menu = { auto_show = true },
-					ghost_text = { enabled = true },
+					ghost_text = { enabled = false },
 				},
 			},
 			appearance = {
@@ -477,7 +483,7 @@ return {
 			},
 
 			completion = {
-				ghost_text = { enabled = true, show_with_menu = true },
+				ghost_text = { enabled = false, show_with_menu = false },
 				list = {
 					selection = {
 						preselect = true,
@@ -485,7 +491,7 @@ return {
 					},
 				},
 				menu = {
-					auto_show = true,
+					auto_show = false,
 					direction_priority = function()
 						local ctx = require("blink.cmp").get_context()
 						local item = require("blink.cmp").get_selected_item()
@@ -513,7 +519,7 @@ return {
 							{ "kind_icon" },
 							{ "label", gap = 1, "source_name" },
 						},
-						padding = { 0, 0 },
+						padding = { 0, 1 },
 						components = {
 							kind_icon = {
 								text = function(ctx)
@@ -610,7 +616,12 @@ return {
 			fuzzy = { implementation = "prefer_rust_with_warning" },
 
 			-- Shows a signature help window while you type arguments for a function
-			signature = { enabled = true },
+			signature = {
+				enabled = true,
+				window = {
+					show_documentation = true,
+				},
+			},
 		},
 	},
 	{
@@ -618,8 +629,9 @@ return {
 		dependencies = "L3MON4D3/LuaSnip",
 		opts = {},
 	},
+	require("faith.plugins.lsp.java"),
+	-- require("faith.plugins.lsp.kotlin"),
 	require("faith.plugins.lsp.rust"),
-	require("faith.plugins.lsp.kotlin"),
 	{
 		"uga-rosa/ccc.nvim",
 		lazy = false,

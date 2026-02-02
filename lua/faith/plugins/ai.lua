@@ -2,7 +2,7 @@ return {
 
 	{
 		"Exafunction/windsurf.nvim",
-		enabled = false,
+		-- enabled = false,
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"saghen/blink.cmp",
@@ -15,10 +15,10 @@ return {
 				-- Optionally disable cmp source if using virtual text only
 				enable_cmp_source = false,
 				virtual_text = {
-					enabled = false,
+					enabled = true,
 
 					-- Set to true if you never want completions to be shown automatically.
-					manual = true,
+					manual = false,
 					-- A mapping of filetype to true or false, to enable virtual text.
 					filetypes = {
 						TelescopePrompt = false,
@@ -39,7 +39,7 @@ return {
 					-- Key bindings for managing completions in virtual text mode.
 					key_bindings = {
 						-- Accept the current completion.
-						accept = "<Tab>",
+						accept = "<M-y>",
 						-- Accept the next word.
 						accept_word = false,
 						-- Accept the next line.
@@ -53,6 +53,9 @@ return {
 					},
 				},
 			})
+			require("codeium.util").get_newline = function()
+				return "\n"
+			end
 		end,
 	},
 }

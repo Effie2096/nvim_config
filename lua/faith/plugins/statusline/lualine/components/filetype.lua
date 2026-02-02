@@ -15,6 +15,7 @@ return {
 	-- Icon string ^ in table is ignored in filetype component
 	padding = { left = 0, right = 0 },
 	separator = "",
+	color = "WinBar",
 	fmt = function(str)
 		local ft = vim.bo.filetype
 		local bt = vim.bo.buftype
@@ -26,6 +27,5 @@ return {
 
 		return trunc(str, 10, 0, 5, true)
 	end,
-	color = "WinBar",
 	cond = winbar_ignore,
 }

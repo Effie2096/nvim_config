@@ -154,7 +154,7 @@ return {
 			fg_dark = colors.fg_dark,
 			float = colors.bg_float,
 			float_light = colors.bg_popup,
-			float_dark = colors.bg_float,
+			float_dark = colors.bg_dark1,
 			surface = colors.bg_dark,
 			surface_light = colors.bg_float,
 			surface_dark = colors.bg_dark1,
@@ -285,7 +285,7 @@ return {
 			error = colors.red,
 			warn = colors.yellow,
 			info = colors.blue,
-			hint = colors.cyan,
+			hint = colors.purple,
 		}
 
 		return color_map

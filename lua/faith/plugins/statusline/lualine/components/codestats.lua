@@ -46,6 +46,7 @@ M.buf_xp = {
 	function()
 		return require("codestats").get_xp(0)
 	end,
+	color = "WinBar",
 	fmt = function(s)
 		if s and (s ~= "0" or nil) then
 			local level = calculate_level(s)
@@ -59,12 +60,7 @@ M.buf_xp = {
 			return string.format(
 				"%s %s",
 				histr(level .. icons.ui.Star, "CodeStatsIcon"),
-				progress_bar(
-					current,
-					total,
-					7,
-					string.format("%.1f%%", percent * 100)
-				)
+				progress_bar(current, total, 7, string.format("%.1f%%", percent * 100))
 			)
 		end
 	end,

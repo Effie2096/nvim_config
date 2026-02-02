@@ -106,7 +106,7 @@ return {
 	"tpope/vim-repeat",
 	{
 		"ThePrimeagen/refactoring.nvim",
-		branch = "develop",
+		-- branch = "develop",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-treesitter/nvim-treesitter",
@@ -136,94 +136,101 @@ return {
 			show_success_message = true,
 		},
 		config = function()
-			local map = function(keys, func, desc, mode)
+			local map = function(keys, func, desc, mode, opts)
 				mode = mode or "n"
-				vim.keymap.set(mode, keys, func, { desc = desc })
+				if opts then
+					opts = vim.tbl_extend("force", { desc = desc, expr = true }, opts)
+				else
+					opts = { desc = desc, expr = true }
+				end
+				vim.keymap.set(mode, keys, func, opts)
 			end
 
 			-- Remaps for the refactoring operations currently offered by the plugin
 			map("<leader>rr", function()
-				require("telescope").extensions.refactoring.refactors()
+				return require("telescope").extensions.refactoring.refactors()
 			end, "[r]efactor [r]efactors: List refactors.", { "n", "x" })
 			map(
-				"<leader>re",
-				"<Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>",
-				"[r]efactor [e]xtract: Extract selection to new function.",
-				{ "v" }
+				"<leader>ref",
+				function()
+					return require("refactoring").refactor("Extract Function")
+				end,
+				"[r]efactor [e]xtract [f]unction: Extract selection to new function.",
+				{ "n", "x" }
 			)
 			map(
-				"<leader>rf",
-				[[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function To File')<CR>]],
-				"[r]efactor to [f]ile: Extract selection to new function in new file.",
-				{ "v" }
+				"<leader>reF",
+				function()
+					return require("refactoring").refactor("Extract Function To File")
+				end,
+				"[r]efactor [e]xtract to [f]ile: Extract selection to new function in new file.",
+				{ "n", "x" }
 			)
 			map(
-				"<leader>rv",
-				[[ <Esc><Cmd>lua require('refactoring').refactor('Extract Variable')<CR>]],
-				"[r]efactor [v]ariable: Extract selected variable.",
-				{ "v" }
+				"<leader>rev",
+				function()
+					return require("refactoring").refactor("Extract Variable")
+				end,
+				"[r]efactor [e]xtract [v]ariable: Extract selected variable.",
+				{ "n", "x" }
 			)
 			map(
-				"<leader>ri",
-				[[ <Esc><Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
-				"[r]efactor [i]nline: Inline selected variable.",
-				{ "v" }
+				"<leader>riv",
+				function()
+					return require("refactoring").refactor("Inline Variable")
+				end,
+				"[r]efactor [i]nline [v]ariable: Inline selected variable.",
+				{ "n", "x" }
+			)
+			map(
+				"<leader>rif",
+				function()
+					return require("refactoring").refactor("Inline Function")
+				end,
+				"[r]efactor [i]line [f]unction: Inline selected function call.",
+				{ "n", "x" }
 			)
 
-			-- Extract block doesn't need visual mode
 			map(
 				"<leader>rb",
-				[[ <Cmd>lua require('refactoring').refactor('Extract Block')<CR>]],
-				"[r]efactor [b]lock: Extract surrounding block to new function.",
-				{ "n" }
+				function()
+					return require("refactoring").refactor("Extract Block")
+				end,
+				"[r]efactor [e]xtract [b]lock: Extract selection to new block.",
+				{ "n", "x" }
 			)
 			map(
-				"<leader>rbf",
-				[[ <Cmd>lua require('refactoring').refactor('Extract Block To File')<CR>]],
-				"[r]efactor [b]lock to [f]ile: Extract surrounding block to new function in new file.",
-				{ "n" }
+				"<leader>reB",
+				function()
+					return require("refactoring").refactor("Extract Block To File")
+				end,
+				"[r]efactor [e]xtract [B]lock to file: Extract selection to new block in new file.",
+				{ "n", "x" }
 			)
 
-			-- Inline variable can also pick up the identifier currently under the cursor without visual mode
-			map(
-				"<leader>ri",
-				[[ <Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
-				"[r]efactor [i]nline: Inline variable under cursor.",
-				{ "n" }
-			)
 			-- You can also use below = true here to to change the position of the printf
 			-- statement (or set two remaps for either one). This remap must be made in normal mode.
-			map(
-				"<leader>rpo",
-				"<cmd>lua require('refactoring').debug.printf({below = true})<CR>",
-				"[r]efactor [p]rint [o]utline: Create print statement outlining current location in file.",
-				{ "n" }
-			)
+			vim.keymap.set({ "n" }, "<leader>rpo", function()
+				require("refactoring").debug.printf({ below = true })
+			end, {
+				desc = "[r]efactor [p]rint [o]utline: Create print statement outlining current location in file.",
+			})
 
 			-- Print var
 
 			-- Remap in normal mode and passing { normal = true } will automatically find the variable under the cursor and print it
-			map(
-				"<leader>rpv",
-				"<cmd>lua require('refactoring').debug.print_var({ normal = true })<CR>",
-				"[r]efactor [p]rint [v]ariable: Create print statement for variable under cursor.",
-				{ "n" }
-			)
-			-- Remap in visual mode will print whatever is in the visual selection
-			map(
-				"<leader>rpv",
-				"<cmd>lua require('refactoring').debug.print_var({})<CR>",
-				"[r]efactor [p]rint [v]ariable: Create print statement for first variable/function in selection.",
-				{ "v" }
-			)
+			vim.keymap.set({ "n", "x" }, "<leader>rpv", function()
+				require("refactoring").debug.print_var({})
+			end, {
+				desc = "[r]efactor [p]rint [v]ariable: Create print statement for variable.",
+			})
 
 			-- Cleanup function: this remap should be made in normal mode
-			map(
-				"<leader>rpc",
-				"<cmd>lua require('refactoring').debug.cleanup({})<CR>",
-				"[r]efactor [p]rint [c]leanup: Automated cleanup of all print statements generated by refactor binds.",
-				{ "n" }
-			)
+			vim.keymap.set({ "n" }, "<leader>rpc", function()
+				require("refactoring").debug.cleanup({})
+			end, {
+				desc = "[r]efactor [p]rint [c]leanup: Automated cleanup of all print statements generated by refactor binds.",
+			})
 		end,
 	},
 	"tpope/vim-abolish",
@@ -239,7 +246,17 @@ return {
 	},
 	{
 		"nmac427/guess-indent.nvim",
-		opts = {},
+		opts = {
+			on_tab_options = {
+				["expandtab"] = false,
+			},
+			on_space_options = {
+				["expandtab"] = true,
+				["tabstop"] = "detected",
+				["softtabstop"] = "detected",
+				["shiftwidth"] = "detected",
+			},
+		},
 	},
 	-- {
 	-- 	"romgrk/equal.operator",

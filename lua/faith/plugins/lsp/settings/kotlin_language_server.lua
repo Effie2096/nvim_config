@@ -11,7 +11,7 @@ return {
 				ktfmt = {
 					style = "facebook",
 					indent = 4,
-					maxWidth = 100,
+					maxWidth = vim.opt.textwidth:get(),
 					continuationIndent = 0,
 					removeUnusedImports = true,
 				},

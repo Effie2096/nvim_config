@@ -5,20 +5,30 @@ return {
 		config = function()
 			local lint = require("lint")
 			lint.linters_by_ft = {
+				css = { "biomejs" },
+				dotenv = { "dotenv_linter" },
+				html = { "htmlhint" },
+				js = { "biomejs" },
+				json = { "biomejs" },
+				jsonc = { "biomejs" },
+				jsx = { "biomejs" },
+				-- kotlin = { "ktlint" },
 				lua = { "luacheck" },
 				python = { "ruff" },
 				sh = { "shellcheck" },
-				vim = { "vint" },
-				yaml = { "yamllint" },
-				html = { "htmlhint" },
-				json = { "biomejs" },
-				jsonc = { "biomejs" },
-				js = { "biomejs" },
-				jsx = { "biomejs" },
 				ts = { "biomejs" },
 				tsx = { "biomejs" },
-				css = { "biomejs" },
-				kotlin = { "ktlint" },
+				vim = { "vint" },
+				yaml = { "yamllint" },
+			}
+
+			local yamllint = require("lint").linters.yamllint
+			yamllint.args = {
+				"-d",
+				"{extends: default, rules: {comments-indentation: disable}}",
+				"--format",
+				"parsable",
+				"-",
 			}
 
 			-- Create autocommand which carries out the actual linting

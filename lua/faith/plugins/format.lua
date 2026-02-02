@@ -1,13 +1,15 @@
+-- stylua: ignore start
 local formatters_by_ft = {
 	cs = { "csharpier" },
 	css = { "biome", "biome-check" },
 	go = { "gofumpt" },
 	html = { "superhtml" },
+	java = { "google-java-format" },
 	javascript = { "biome", "biome-check" },
 	json = { "biome" },
 	jsonc = { "biome" },
 	jsx = { "biome", "biome-check" },
-	kotlin = { "ktlint" },
+	-- kotlin = { "ktlint" },
 	lua = { "stylua" },
 	ocaml = { "ocamlformat" },
 	python = { "ruff_format", "ruff_organize_imprts" },
@@ -17,6 +19,7 @@ local formatters_by_ft = {
 	tsx = { "biome", "biome-check" },
 	typescript = { "biome", "biome-check" },
 }
+-- stylua: ignore end
 
 local formatters = {
 	-- "codespell",
@@ -68,52 +71,52 @@ return {
 				},
 				black = {
 					prepend_args = function()
-						return { "--line-length", "80" }
+						return { "--line-length", vim.o.textwidth }
 					end,
 				},
 				isort = {
 					prepend_args = function()
-						return { "--line-length", "80", "--multi-line", "3" }
+						return { "--line-length", vim.o.textwidth, "--multi-line", "3" }
 					end,
 				},
 				stylua = {
 					prepend_args = function()
-						return { "--column-width", "80" }
+						return { "--column-width", vim.o.textwidth }
 					end,
 				},
 			},
-			init = function()
-				vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
-
-				local opts = {
-					title = "Formatting",
-				}
-
-				vim.api.nvim_create_user_command("Format", function()
-					require("conform").format({ async = true })
-				end, {
-					desc = "Format current buffer",
-				})
-				vim.api.nvim_create_user_command("FormatDisable", function(args)
-					if args.bang then
-						-- FormatDisable! will disable formatting just for this buffer
-						vim.b.disable_autoformat = true
-					else
-						vim.g.disable_autoformat = true
-					end
-					vim.notify("Auto-format on save disabled.", vim.log.levels.INFO, opts)
-				end, {
-					desc = "Disable autoformat-on-save",
-					bang = true,
-				})
-				vim.api.nvim_create_user_command("FormatEnable", function()
-					vim.b.disable_autoformat = false
-					vim.g.disable_autoformat = false
-					vim.notify("Auto-format on save enabled.", vim.log.levels.INFO, opts)
-				end, {
-					desc = "Re-enable autoformat-on-save",
-				})
-			end,
 		},
+		init = function()
+			vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+
+			local opts = {
+				title = "Formatting",
+			}
+
+			vim.api.nvim_create_user_command("Format", function()
+				require("conform").format({ async = true })
+			end, {
+				desc = "Format current buffer",
+			})
+			vim.api.nvim_create_user_command("FormatDisable", function(args)
+				if args.bang then
+					-- FormatDisable! will disable formatting just for this buffer
+					vim.b.disable_autoformat = true
+				else
+					vim.g.disable_autoformat = true
+				end
+				vim.notify("Auto-format on save disabled.", vim.log.levels.INFO, opts)
+			end, {
+				desc = "Disable autoformat-on-save",
+				bang = true,
+			})
+			vim.api.nvim_create_user_command("FormatEnable", function()
+				vim.b.disable_autoformat = false
+				vim.g.disable_autoformat = false
+				vim.notify("Auto-format on save enabled.", vim.log.levels.INFO, opts)
+			end, {
+				desc = "Re-enable autoformat-on-save",
+			})
+		end,
 	},
 }

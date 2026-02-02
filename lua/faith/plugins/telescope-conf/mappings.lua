@@ -50,6 +50,7 @@ map_tele("<leader>fd", "diagnostics")
 map_tele("<leader>fm", "harpoon")
 map_tele("<leader>;", "commands")
 map_tele("<leader>fq", "quickfix")
+map_tele("<leader>f;", "resume")
 
 -- extensions
 map_tele("<leader>ft", "todo")
