@@ -202,7 +202,18 @@ end
 
 function M.quickfix()
 	local opts = vim.deepcopy(layouts.default_bottom) or {}
+	opts = vim.tbl_deep_extend("force", opts, {
+		prompt_title = vim.fn.getqflist({ title = 0 }).title,
+	})
 	require("telescope.builtin").quickfix(opts)
+end
+
+function M.loclist()
+	local opts = vim.deepcopy(layouts.default_bottom) or {}
+	opts = vim.tbl_deep_extend("force", opts, {
+		prompt_title = vim.fn.getloclist(0, { title = 0 }).title,
+	})
+	require("telescope.builtin").loclist(opts)
 end
 
 function M.resume()

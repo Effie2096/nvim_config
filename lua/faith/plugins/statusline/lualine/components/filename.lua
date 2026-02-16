@@ -70,7 +70,13 @@ return {
 				name = format_bubble(ft:gsub("^(%l)", string.upper)) or ""
 			end
 		else
-			name = histr(name, vim.bo.modified and "BarDiagError" or "WinBar")
+			-- split on last slash in path, keeping the slash
+
+			local relative =
+				vim.fn.fnamemodify(name, ":h"):gsub("/\\", icons.ui.ChevronRight .. " ")
+			local file_name = str:gsub(".*[/\\]", "")
+			name = histr(relative .. icons.ui.ChevronRight .. " ", "Comment")
+				.. histr(file_name, vim.bo.modified and "BarDiagError" or "WinBar")
 		end
 		if ft == "qf" then
 			name = string.format("%s %s", format_bubble(qf_label()), qf_title())
@@ -82,6 +88,6 @@ return {
 			goto continue
 		end
 		::continue::
-		return trunc(name, 10, 0, 5, false)
+		return trunc(name, 10, 0, 5, false, true)
 	end,
 }

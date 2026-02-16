@@ -3,6 +3,7 @@ local icons = require("faith.icons")
 return {
 	{
 		"lukas-reineke/indent-blankline.nvim",
+		event = "VeryLazy",
 		main = "ibl",
 		opts = function()
 			local highlights = {
@@ -23,6 +24,7 @@ return {
 						-- "Avante",
 						"AvanteSelectedFiles",
 						"AvanteInput",
+						"markdown",
 					},
 				},
 				indent = {

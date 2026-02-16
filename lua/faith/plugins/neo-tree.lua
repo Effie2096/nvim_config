@@ -3,6 +3,13 @@ local icons = require("faith.icons")
 return {
 	{
 		"nvim-neo-tree/neo-tree.nvim",
+		keys = {
+			{
+				"<leader>ef",
+				"<cmd>Neotree filesystem toggle left<cr>",
+				desc = "[e]xplore [f]iles: Open file explorer.",
+			},
+		},
 		branch = "v3.x",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
@@ -44,11 +51,11 @@ return {
 					padding = 0,
 					separator = { left = "", right = "" }, -- string | { left: string, right: string, override: string | nil }
 					separator_active = nil, -- string | { left: string, right: string, override: string | nil } | nil
-					highlight_tab = "NeoTreeTabInactive",
-					highlight_tab_active = "NeoTreeTabActive",
-					highlight_background = "NeoTreeTabInactive",
-					highlight_separator = "NeoTreeTabSeparatorInactive",
-					highlight_separator_active = "NeoTreeTabSeparatorActive",
+					highlight_tab = "MyNeoTreeTabInactive",
+					highlight_tab_active = "MyNeoTreeTabActive",
+					highlight_background = "MyNeoTreeTabInactive",
+					highlight_separator = "MyNeoTreeTabSeparatorInactive",
+					highlight_separator_active = "MyNeoTreeTabSeparatorActive",
 				},
 				default_component_configs = {
 					indent = {
@@ -193,12 +200,5 @@ return {
 			opts.nesting_rules = require("neotree-file-nesting-config").nesting_rules
 			require("neo-tree").setup(opts)
 		end,
-		keys = {
-			{
-				"<leader>ef",
-				"<cmd>Neotree filesystem toggle left<cr>",
-				desc = "[e]xplore [f]iles: Open file explorer.",
-			},
-		},
 	},
 }

@@ -56,6 +56,7 @@ local winbar = {
 			"%=",
 			color = "WinBar",
 		},
+		components.location,
 		components.guessindent,
 		components.fileformat,
 		components.encoding,
@@ -72,7 +73,7 @@ return {
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons", lazy = true },
-		lazy = false,
+		event = "VeryLazy",
 		priority = 900, -- Load right after colorschemes/highlights set
 		init = function()
 			local buf_next = function(next, count)

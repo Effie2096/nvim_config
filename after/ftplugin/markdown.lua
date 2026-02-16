@@ -1,19 +1,20 @@
--- local indentWidth = 2
--- vim.opt_local.tabstop = 4
--- vim.opt_local.shiftwidth = indentWidth -- Change the number of space characters inserted for indentation
+local indentWidth = 2
+vim.opt_local.tabstop = 2
+vim.opt_local.shiftwidth = indentWidth -- Change the number of space characters inserted for indentation
 -- vim.opt_local.textwidth = 80
 vim.opt_local.conceallevel = 2
+vim.opt_local.colorcolumn = "0"
 
-vim.api.nvim_create_augroup("markdown_format", { clear = true })
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-	group = "markdown_format",
-	pattern = "*.md",
-	command = [[
-	:execute "normal! m'"
-	g!/^|\|\[\[.*\]\]\|\[.*\](.*)/normal gqq
-	:execute "normal! `'"
-	]],
-})
+-- vim.api.nvim_create_augroup("markdown_format", { clear = true })
+-- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+-- 	group = "markdown_format",
+-- 	pattern = "*.md",
+-- 	command = [[
+-- 	:execute "normal! m'"
+-- 	g!/^|\|\[\[.*\]\]\|\[.*\](.*)/normal gqq
+-- 	:execute "normal! `'"
+-- 	]],
+-- })
 
 vim.cmd(
 	'let g:mkdp_images_path = "'

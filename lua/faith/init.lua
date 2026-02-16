@@ -1,8 +1,12 @@
 require("faith.globals")
+require("faith.shell")
 require("faith.options")
 require("faith.mappings")
+require("faith.bootstrap")
 require("faith.views")
 require("faith.filetypes")
-require("faith.bootstrap")
 require("faith.tabnames")
+require("faith.plugins.telescope-conf")
+require("faith.plugins.telescope-conf.mappings")
+
 require("faith.neovide")

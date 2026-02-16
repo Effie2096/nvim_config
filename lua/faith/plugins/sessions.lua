@@ -81,6 +81,7 @@ return {
 					scope = {},
 					oil = {},
 					tabnames = {},
+					aerial = {},
 				},
 			})
 

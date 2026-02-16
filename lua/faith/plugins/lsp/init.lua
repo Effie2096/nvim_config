@@ -1,5 +1,43 @@
 local icons = require("faith.icons")
 
+local managed_servers = {
+	angularls = require("faith.plugins.lsp.settings.angularls"),
+	bacon_ls = {
+		init_options = {
+			updateOnSave = true,
+			updateOnSaveWaitMillis = 1000,
+		},
+	},
+	basedpyright = {},
+	bashls = require("faith.plugins.lsp.settings.bashls"),
+	-- biome = {},
+	clangd = {},
+	cmake = {},
+	css_variables = {},
+	cssls = {},
+	cssmodules_ls = {},
+	docker_compose_language_service = {},
+	dockerls = {},
+	emmet_language_server = {},
+	gopls = {},
+	-- html = require("faith.plugins.lsp.settings.html"),
+	jdtls = require("faith.plugins.lsp.settings.jdtls"),
+	superhtml = {},
+	jsonls = require("faith.plugins.lsp.settings.jsonls"),
+	-- kotlin_lsp = {},
+	lemminx = require("faith.plugins.lsp.settings.lemminx"),
+	lua_ls = require("faith.plugins.lsp.settings.lua_ls"),
+	markdown_oxide = {},
+	-- ocamllsp = require("faith.plugins.lsp.settings.ocamllsp"),
+	omnisharp = require("faith.plugins.lsp.settings.omnisharp"),
+	powershell_es = {},
+	tombi = {},
+	ts_ls = require("faith.plugins.lsp.settings.tsserver"),
+	yamlls = require("faith.plugins.lsp.settings.yamlls"),
+	svelte = {},
+	wgsl_analyzer = require("faith.plugins.lsp.settings.wgsl_analyzer"),
+}
+
 return {
 	-- LSP Plugins
 	require("faith.plugins.lsp.json_schema"),
@@ -120,43 +158,6 @@ return {
 				capabilities = capabilities,
 			})
 
-			local managed_servers = {
-				angularls = require("faith.plugins.lsp.settings.angularls"),
-				bacon_ls = {
-					init_options = {
-						updateOnSave = true,
-						updateOnSaveWaitMillis = 1000,
-					},
-				},
-				basedpyright = {},
-				bashls = require("faith.plugins.lsp.settings.bashls"),
-				-- biome = {},
-				clangd = {},
-				cmake = {},
-				css_variables = {},
-				cssls = {},
-				cssmodules_ls = {},
-				docker_compose_language_service = {},
-				dockerls = {},
-				emmet_ls = require("faith.plugins.lsp.settings.emmet_ls"),
-				gopls = {},
-				-- html = require("faith.plugins.lsp.settings.html"),
-				superhtml = {},
-				jsonls = require("faith.plugins.lsp.settings.jsonls"),
-				-- kotlin_lsp = {},
-				lemminx = require("faith.plugins.lsp.settings.lemminx"),
-				lua_ls = require("faith.plugins.lsp.settings.lua_ls"),
-				marksman = {},
-				-- ocamllsp = require("faith.plugins.lsp.settings.ocamllsp"),
-				omnisharp = require("faith.plugins.lsp.settings.omnisharp"),
-				powershell_es = {},
-				taplo = {},
-				ts_ls = require("faith.plugins.lsp.settings.tsserver"),
-				yamlls = require("faith.plugins.lsp.settings.yamlls"),
-				svelte = {},
-				wgsl_analyzer = require("faith.plugins.lsp.settings.wgsl_analyzer"),
-			}
-
 			vim.iter(vim.tbl_keys(managed_servers)):each(function(server)
 				vim.lsp.config(server, managed_servers[server])
 			end)
@@ -164,7 +165,6 @@ return {
 			local ensure_installed = vim.tbl_keys(managed_servers or {})
 			vim.tbl_deep_extend("force", ensure_installed, {
 				"stylua",
-				"prettierd",
 			})
 			-- require("mason-tool-installer").setup({
 			-- 	ensure_installed = ensure_installed,
@@ -176,7 +176,7 @@ return {
 				automatic_enable = {
 					exclude = {
 						"rust_analyzer",
-						"jdtls",
+						-- "jdtls",
 					},
 				},
 			})
@@ -192,14 +192,14 @@ return {
 				width = 60,
 			}
 
-			vim.api.nvim_create_augroup("diagnostics", { clear = true })
+			-- vim.api.nvim_create_augroup("diagnostics", { clear = true })
 
-			vim.api.nvim_create_autocmd("DiagnosticChanged", {
-				group = "diagnostics",
-				callback = function()
-					vim.diagnostic.setloclist({ open = false })
-				end,
-			})
+			-- vim.api.nvim_create_autocmd("DiagnosticChanged", {
+			-- 	group = "diagnostics",
+			-- 	callback = function()
+			-- 		vim.diagnostic.setloclist({ open = false })
+			-- 	end,
+			-- })
 
 			local virtual_text = {
 				spacing = 0,
@@ -626,88 +626,11 @@ return {
 	},
 	{
 		"nvim-svelte/nvim-svelte-snippets",
+		ft = "svelte",
 		dependencies = "L3MON4D3/LuaSnip",
 		opts = {},
 	},
 	require("faith.plugins.lsp.java"),
 	-- require("faith.plugins.lsp.kotlin"),
 	require("faith.plugins.lsp.rust"),
-	{
-		"uga-rosa/ccc.nvim",
-		lazy = false,
-		config = function()
-			local ccc = require("ccc")
-			local opts = {
-				lsp = true,
-				highlight_mode = "bg",
-				highlighter = {
-					auto_enable = true,
-					lsp = true,
-					excludes = {
-						"fugitive",
-					},
-					update_insert = true,
-				},
-				virtual_pos = "inline-left",
-				virtual_symbol = require("faith.icons").ui.Circle,
-				inputs = {
-					ccc.input.rgb,
-					ccc.input.hsl,
-					ccc.input.hwb,
-					ccc.input.lab,
-					ccc.input.lch,
-					ccc.input.oklab,
-					ccc.input.oklch,
-					ccc.input.cmyk,
-					ccc.input.hsluv,
-					ccc.input.okhsl,
-					ccc.input.hsv,
-					ccc.input.okhsv,
-					ccc.input.xyz,
-				},
-				outputs = {
-					ccc.output.hex,
-					ccc.output.hex_short,
-					ccc.output.css_rgb,
-					ccc.output.css_rgba,
-					ccc.output.css_hsl,
-					ccc.output.css_hwb,
-					ccc.output.css_lab,
-					ccc.output.css_lch,
-					ccc.output.css_oklab,
-					ccc.output.css_oklch,
-					ccc.output.float,
-				},
-				pickers = {
-					ccc.picker.hex,
-					ccc.picker.hex_long,
-					ccc.picker.hex_short,
-					ccc.picker.css_rgb,
-					ccc.picker.css_hsl,
-					ccc.picker.css_hwb,
-					ccc.picker.css_lab,
-					ccc.picker.css_lch,
-					ccc.picker.css_oklab,
-					ccc.picker.css_oklch,
-					ccc.picker.css_name,
-					ccc.picker.defaults,
-				},
-			}
-
-			ccc.setup(opts)
-		end,
-		keys = {
-			{
-				"<Leader>cp",
-				"<cmd>CccPick<cr>",
-				desc = "[c]olor [p]icker: Open color picker.",
-			},
-			{
-				"<M-c>",
-				"<cmd>CccPick<cr>",
-				desc = "[c]olor picker: Open color picker.",
-				mode = "i",
-			},
-		},
-	},
 }

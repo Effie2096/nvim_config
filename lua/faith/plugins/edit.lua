@@ -80,14 +80,8 @@ return {
 		end,
 	},
 	{
-		"folke/todo-comments.nvim",
-		-- cmd = { "TodoQuickfix", "TodoTelescope" },
-		opts = {
-			sign_priority = 15,
-		},
-	},
-	{
 		"kylechui/nvim-surround",
+		event = "VeryLazy",
 		opts = {
 			hightlight = {
 				duration = 40,
@@ -95,23 +89,29 @@ return {
 		},
 	},
 	{
-		"nat-418/boole.nvim",
-		opts = {
-			mappings = {
-				increment = "<C-a>",
-				decrement = "<C-x>",
-			},
+		"monaqa/dial.nvim",
+		keys = {
+			-- stylua: ignore start
+			{ "<C-a>",function() require("dial.map").manipulate("increment", "normal") end, {"n"} },
+			{ "<C-x>",function() require("dial.map").manipulate("decrement", "normal") end, {"n"} },
+			{ "g<C-a>",function() require("dial.map").manipulate("increment", "gnormal") end, {"n"} },
+			{ "g<C-x>",function() require("dial.map").manipulate("decrement", "gnormal") end, {"n"} },
+			{ "<C-a>",function() require("dial.map").manipulate("increment", "visual") end, {"x"} },
+			{ "<C-x>",function() require("dial.map").manipulate("decrement", "visual") end, {"x"} },
+			{ "g<C-a>",function() require("dial.map").manipulate("increment", "gvisual") end, {"x"} },
+			{ "g<C-x>",function() require("dial.map").manipulate("decrement", "gvisual") end, {"x"} },
+			-- stylua: ignore end
 		},
 	},
 	"tpope/vim-repeat",
 	{
 		"ThePrimeagen/refactoring.nvim",
+		cmd = "Refactor",
 		-- branch = "develop",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-treesitter/nvim-treesitter",
 		},
-		lazy = false,
 		opts = {
 			prompt_func_return_type = {
 				go = false,
@@ -135,103 +135,112 @@ return {
 			print_var_statements = {},
 			show_success_message = true,
 		},
-		config = function()
-			local map = function(keys, func, desc, mode, opts)
-				mode = mode or "n"
-				if opts then
-					opts = vim.tbl_extend("force", { desc = desc, expr = true }, opts)
-				else
-					opts = { desc = desc, expr = true }
-				end
-				vim.keymap.set(mode, keys, func, opts)
-			end
-
-			-- Remaps for the refactoring operations currently offered by the plugin
-			map("<leader>rr", function()
-				return require("telescope").extensions.refactoring.refactors()
-			end, "[r]efactor [r]efactors: List refactors.", { "n", "x" })
-			map(
+		keys = {
+			{
+				"<leader>rr",
+				function()
+					return require("telescope").extensions.refactoring.refactors()
+				end,
+				{ "n", "x" },
+				desc = "[r]efactor [r]efactors: List refactors.",
+				expr = true,
+			},
+			{
 				"<leader>ref",
 				function()
 					return require("refactoring").refactor("Extract Function")
 				end,
-				"[r]efactor [e]xtract [f]unction: Extract selection to new function.",
-				{ "n", "x" }
-			)
-			map(
+				desc = "[r]efactor [e]xtract [f]unction: Extract selection to new function.",
+				expr = true,
+			},
+			{
 				"<leader>reF",
 				function()
 					return require("refactoring").refactor("Extract Function To File")
 				end,
-				"[r]efactor [e]xtract to [f]ile: Extract selection to new function in new file.",
-				{ "n", "x" }
-			)
-			map(
+				desc = "[r]efactor [e]xtract to [f]ile: Extract selection to new function in new file.",
+				expr = true,
+			},
+			{
 				"<leader>rev",
 				function()
 					return require("refactoring").refactor("Extract Variable")
 				end,
-				"[r]efactor [e]xtract [v]ariable: Extract selected variable.",
-				{ "n", "x" }
-			)
-			map(
+				desc = "[r]efactor [e]xtract [v]ariable: Extract selected variable.",
+				expr = true,
+			},
+			{
 				"<leader>riv",
 				function()
 					return require("refactoring").refactor("Inline Variable")
 				end,
-				"[r]efactor [i]nline [v]ariable: Inline selected variable.",
-				{ "n", "x" }
-			)
-			map(
+				desc = "[r]efactor [i]nline [v]ariable: Inline selected variable.",
+				expr = true,
+			},
+			{
 				"<leader>rif",
 				function()
 					return require("refactoring").refactor("Inline Function")
 				end,
-				"[r]efactor [i]line [f]unction: Inline selected function call.",
-				{ "n", "x" }
-			)
+				desc = "[r]efactor [i]line [f]unction: Inline selected function call.",
+				expr = true,
+			},
 
-			map(
+			{
 				"<leader>rb",
 				function()
 					return require("refactoring").refactor("Extract Block")
 				end,
-				"[r]efactor [e]xtract [b]lock: Extract selection to new block.",
-				{ "n", "x" }
-			)
-			map(
+				desc = "[r]efactor [e]xtract [b]lock: Extract selection to new block.",
+				expr = true,
+			},
+			{
 				"<leader>reB",
 				function()
 					return require("refactoring").refactor("Extract Block To File")
 				end,
-				"[r]efactor [e]xtract [B]lock to file: Extract selection to new block in new file.",
-				{ "n", "x" }
-			)
+				{ "n", "x" },
+				desc = "[r]efactor [e]xtract [B]lock to file: Extract selection to new block in new file.",
+				expr = true,
+			},
 
 			-- You can also use below = true here to to change the position of the printf
 			-- statement (or set two remaps for either one). This remap must be made in normal mode.
-			vim.keymap.set({ "n" }, "<leader>rpo", function()
-				require("refactoring").debug.printf({ below = true })
-			end, {
+			{
+				"<leader>rpo",
+				function()
+					require("refactoring").debug.printf({ below = true })
+				end,
+				{ "n" },
 				desc = "[r]efactor [p]rint [o]utline: Create print statement outlining current location in file.",
-			})
+				expr = true,
+			},
 
 			-- Print var
 
 			-- Remap in normal mode and passing { normal = true } will automatically find the variable under the cursor and print it
-			vim.keymap.set({ "n", "x" }, "<leader>rpv", function()
-				require("refactoring").debug.print_var({})
-			end, {
+			{
+				"<leader>rpv",
+				function()
+					require("refactoring").debug.print_var({})
+				end,
+				{ "n", "x" },
+
 				desc = "[r]efactor [p]rint [v]ariable: Create print statement for variable.",
-			})
+				expr = true,
+			},
 
 			-- Cleanup function: this remap should be made in normal mode
-			vim.keymap.set({ "n" }, "<leader>rpc", function()
-				require("refactoring").debug.cleanup({})
-			end, {
+			{
+				"<leader>rpc",
+				function()
+					require("refactoring").debug.cleanup({})
+				end,
+				{ "n" },
 				desc = "[r]efactor [p]rint [c]leanup: Automated cleanup of all print statements generated by refactor binds.",
-			})
-		end,
+				expr = true,
+			},
+		},
 	},
 	"tpope/vim-abolish",
 	{
@@ -246,6 +255,7 @@ return {
 	},
 	{
 		"nmac427/guess-indent.nvim",
+		event = "VeryLazy",
 		opts = {
 			on_tab_options = {
 				["expandtab"] = false,

@@ -296,8 +296,8 @@ return {
 		---@type ColorMap
 		local color_map = {
 			bg = colors.bg2,
-			bg_light = colors.bg0,
-			bg_dark = colors.bg1,
+			bg_light = colors.bg1,
+			bg_dark = colors.bg0,
 			fg = colors.fg1,
 			fg_light = colors.fg0,
 			fg_dark = colors.fg2,

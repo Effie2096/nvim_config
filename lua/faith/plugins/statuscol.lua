@@ -1,6 +1,7 @@
 return {
 	{
 		"luukvbaal/statuscol.nvim",
+		event = "VeryLazy",
 		config = function()
 			local statuscol = require("statuscol")
 			statuscol.setup({
@@ -46,28 +47,6 @@ return {
 					},
 					{
 						sign = {
-							namespace = { "gitsigns" },
-							maxwidth = 1,
-							colwidth = 2,
-							fillchar = " ",
-							fillcharhl = "SignColumn",
-							auto = false,
-							wrap = false,
-						},
-					},
-					{
-						sign = {
-							namespace = { "diagnostic.signs" },
-							text = { "💡", "🔎" },
-							maxwidth = 1,
-							colwidth = 2,
-							auto = false,
-							foldclosed = true,
-						},
-						click = "v:lua.ScSa",
-					},
-					{
-						sign = {
 							name = { ".*" },
 							maxwidth = 4,
 							colwidth = 2,
@@ -77,12 +56,35 @@ return {
 						click = "v:lua.ScSa",
 					},
 					{
-						text = { require("statuscol.builtin").lnumfunc, " " },
+						sign = {
+							namespace = { "diagnostic.signs" },
+							text = { "💡", "🔎" },
+							name = { "todo%-sign%-.*" },
+							maxwidth = 1,
+							colwidth = 2,
+							auto = false,
+							foldclosed = true,
+						},
+						click = "v:lua.ScSa",
+					},
+					{
+						text = { require("statuscol.builtin").lnumfunc },
 						condition = {
 							true,
 							require("statuscol.builtin").not_empty,
 						},
 						click = "v:lua.ScLa",
+					},
+					{
+						sign = {
+							namespace = { "gitsigns" },
+							maxwidth = 1,
+							colwidth = 1,
+							fillchar = " ",
+							fillcharhl = "SignColumn",
+							auto = false,
+							wrap = false,
+						},
 					},
 					{
 						text = { require("statuscol.builtin").foldfunc },

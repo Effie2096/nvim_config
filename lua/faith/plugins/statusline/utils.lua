@@ -35,7 +35,14 @@ end
 --- @param hide_width number hides component when window width is smaller then hide_width
 --- @param no_ellipsis boolean whether to disable adding '...' at end after truncation
 --- return function that can format the component accordingly
-M.trunc = function(str, trunc_width, trunc_len, hide_width, no_ellipsis)
+M.trunc = function(
+	str,
+	trunc_width,
+	trunc_len,
+	hide_width,
+	no_ellipsis,
+	reverse
+)
 	local win_width = vim.fn.winwidth(0)
 	if hide_width and win_width < hide_width then
 		return ""
@@ -45,6 +52,9 @@ M.trunc = function(str, trunc_width, trunc_len, hide_width, no_ellipsis)
 		and win_width < trunc_width
 		and #str > trunc_len
 	then
+		if reverse then
+			return str:sub(-trunc_len) .. (no_ellipsis and "" or "...")
+		end
 		return str:sub(1, trunc_len) .. (no_ellipsis and "" or "...")
 	end
 	return str

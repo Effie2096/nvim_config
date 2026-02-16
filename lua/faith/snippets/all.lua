@@ -13,24 +13,35 @@ local c = ls.choice_node
 -- local fmta = require("luasnip.extras.fmt").fmta
 -- local rep = require("luasnip.extras").rep
 
-local timestamp = function()
-	return os.date("%Y-%m-%dT%H:%M:%S.000")
-end
-
-local rfc = function()
-	return os.date("%a, %d %b %Y %H:%M:%S")
+---@param name string context that triggers snippet
+---@param format string lua date format string
+---@param nodes? LuaSnip.Node[] | nil extra nodes
+---@return LuaSnip.Snippet
+local make_date = function(name, format, nodes)
+	nodes = nodes or {}
+	table.insert(
+		nodes,
+		1,
+		f(function()
+			return os.date(format)
+		end)
+	)
+	table.insert(nodes, i(0))
+	return s(name, nodes)
 end
 
 -- TODO: calculate BST based on date ig lol <20-05-25>
 return {
-	s("timestamp", {
-		f(timestamp, {}),
-		c(1, { t("+01:00"), t("Z") }),
-		i(0),
-	}),
-	s("rfc822", {
-		f(rfc, {}),
-		c(1, { t(" +0100"), t(" GMT") }),
-		i(0),
-	}),
+	make_date(
+		"timestamp",
+		"%Y-%m-%dT%H:%M:%S.000",
+		{ c(1, { t("+01:00"), t("Z") }) }
+	),
+	make_date(
+		"rfc822",
+		"%a, %d %b %Y %H:%M:%S",
+		{ c(1, { t(" +0100"), t(" GMT") }) }
+	),
+	make_date("date", "%Y-%m-%d"),
+	make_date("now", "%H:%M:%S"),
 }

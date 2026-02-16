@@ -1,11 +1,13 @@
 return {
 	{
 		"JezerM/oil-lsp-diagnostics.nvim",
+		lazy = true,
 		dependencies = "stevearc/oil.nvim",
 		opts = {},
 	},
 	{
 		"refractalize/oil-git-status.nvim",
+		lazy = true,
 		dependencies = "stevearc/oil.nvim",
 		opts = {
 			show_ignored = true,
@@ -13,6 +15,7 @@ return {
 	},
 	{
 		"stevearc/oil.nvim",
+		-- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
 		lazy = false,
 		dependencies = {
 			"nvim-tree/nvim-web-devicons",

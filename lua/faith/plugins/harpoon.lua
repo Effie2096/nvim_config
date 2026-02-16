@@ -10,7 +10,8 @@ return {
 
 			local add_to_tab = function(name)
 				name = name
-					or Path:new(vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())):make_relative()
+					or Path:new(vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf()))
+						:make_relative()
 				return {
 					value = name,
 					context = { tab = vim.fn.tabpagenr() },
@@ -39,7 +40,8 @@ return {
 					local x = tabs - new_tab
 					for i = tabs, (tabs - x) + 1, -1 do
 						local current_tab_name = string.format("%s%d", "tab", i)
-						local previous_list = harpoon:list(string.format("%s%d", "tab", i - 1))
+						local previous_list =
+							harpoon:list(string.format("%s%d", "tab", i - 1))
 
 						harpoon_tab_setup(current_tab_name, previous_list.items)
 					end
@@ -73,7 +75,8 @@ return {
 				if start_tab > count then
 					for i = start_tab, count + 1, -1 do
 						local current_tab_name = string.format("%s%d", "tab", i)
-						local previous_list = harpoon:list(string.format("%s%d", "tab", i - 1)).items
+						local previous_list =
+							harpoon:list(string.format("%s%d", "tab", i - 1)).items
 
 						harpoon_tab_setup(current_tab_name, previous_list)
 					end
@@ -82,7 +85,8 @@ return {
 				else
 					for i = start_tab, count - 1 do
 						local current_tab_name = string.format("%s%d", "tab", i)
-						local previous_list = harpoon:list(string.format("%s%d", "tab", i + 1)).items
+						local previous_list =
+							harpoon:list(string.format("%s%d", "tab", i + 1)).items
 
 						harpoon_tab_setup(current_tab_name, previous_list)
 					end
@@ -124,32 +128,82 @@ return {
 					end, { buffer = cx.bufnr })
 				end,
 			})
-
-			vim.keymap.set("n", "<leader>ma", function()
-				harpoon:list(string.format("%s%d", "tab", vim.fn.tabpagenr())):add()
-			end)
-			vim.keymap.set("n", "<leader>me", function()
-				harpoon.ui:toggle_quick_menu(harpoon:list(string.format("%s%d", "tab", vim.fn.tabpagenr())))
-			end)
-
-			vim.keymap.set("n", "<M-h>", function()
-				harpoon:list(string.format("%s%d", "tab", vim.fn.tabpagenr())):select(1)
-			end)
-			vim.keymap.set("n", "<M-j>", function()
-				harpoon:list(string.format("%s%d", "tab", vim.fn.tabpagenr())):select(2)
-			end)
-			vim.keymap.set("n", "<M-k>", function()
-				harpoon:list(string.format("%s%d", "tab", vim.fn.tabpagenr())):select(3)
-			end)
-			vim.keymap.set("n", "<M-l>", function()
-				harpoon:list(string.format("%s%d", "tab", vim.fn.tabpagenr())):select(4)
-			end)
-			vim.keymap.set("n", "<M-;>", function()
-				harpoon:list(string.format("%s%d", "tab", vim.fn.tabpagenr())):select(5)
-			end)
-			vim.keymap.set("n", "<M-'>", function()
-				harpoon:list(string.format("%s%d", "tab", vim.fn.tabpagenr())):select(6)
-			end)
 		end,
+		keys = {
+			{
+				"<leader>ma",
+				function()
+					require("harpoon")
+						:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
+						:add()
+				end,
+				{ "n" },
+			},
+			{
+				"<leader>me",
+				function()
+					require("harpoon").ui:toggle_quick_menu(
+						require("harpoon"):list(
+							string.format("%s%d", "tab", vim.fn.tabpagenr())
+						)
+					)
+				end,
+				{ "n" },
+			},
+			{
+				"<M-h>",
+				function()
+					require("harpoon")
+						:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
+						:select(1)
+				end,
+				{ "n" },
+			},
+			{
+				"<M-j>",
+				function()
+					require("harpoon")
+						:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
+						:select(2)
+				end,
+				{ "n" },
+			},
+			{
+				"<M-k>",
+				function()
+					require("harpoon")
+						:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
+						:select(3)
+				end,
+				{ "n" },
+			},
+			{
+				"<M-l>",
+				function()
+					require("harpoon")
+						:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
+						:select(4)
+				end,
+				{ "n" },
+			},
+			{
+				"<M-;>",
+				function()
+					require("harpoon")
+						:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
+						:select(5)
+				end,
+				{ "n" },
+			},
+			{
+				"<M-'>",
+				function()
+					require("harpoon")
+						:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
+						:select(6)
+				end,
+				{ "n" },
+			},
+		},
 	},
 }

@@ -3,6 +3,7 @@ local icons = require("faith.icons")
 return {
 	{
 		"kevinhwang91/nvim-ufo",
+		event = "VeryLazy",
 		dependencies = {
 			"kevinhwang91/promise-async",
 		},
@@ -130,6 +131,7 @@ return {
 					default = { "imports", "comment" },
 					json = { "array" },
 					c = { "comment", "region" },
+					java = { "import_declaration", "line_comment" },
 				},
 				preview = {
 					win_config = {

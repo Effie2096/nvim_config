@@ -1,16 +1,20 @@
 return {
 	{
 		"anuvyklack/windows.nvim",
+		event = "VeryLazy",
 		dependencies = {
 			"anuvyklack/middleclass",
 			"anuvyklack/animation.nvim",
 		},
 		config = function()
-			-- vim.o.winwidth = 10
-			-- vim.o.winminwidth = 10
-			-- vim.o.equalalways = false
+			vim.o.winwidth = 5
+			vim.o.winminwidth = 5
+			vim.o.equalalways = false
 			vim.keymap.set("n", "<C-w>m", "<CMD>WindowsMaximize<CR>")
 			vim.keymap.set("n", "<C-w>u", "<CMD>WindowsToggleAutowidth<CR>")
+			vim.keymap.set("n", "<C-w>|", "<CMD>WindowsMaximizeVertically<CR>")
+			vim.keymap.set("n", "<C-w>_", "<CMD>WindowsMaximizeHorizontally<CR>")
+			vim.keymap.set("n", "<C-w>=", "<CMD>WindowsEqualize<CR>")
 			require("windows").setup({
 				autowidth = {
 					enable = true,
@@ -24,15 +28,17 @@ return {
 				ignore = {
 					buftype = { "terminal", "nofile", "prompt", "quickfix" },
 					filetype = {
-						"toggleterm",
-						"neo-tree",
-						"OverseerList",
 						"Avante",
 						"AvanteInput",
 						"AvanteSelectedFiles",
+						"OverseerList",
+						"aerial",
+						"neo-tree",
 						"oil_preview",
-						"snacks_input",
 						"qf",
+						"snacks_input",
+						"toggleterm",
+						"undotree",
 					},
 				},
 			})

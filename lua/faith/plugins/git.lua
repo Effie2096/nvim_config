@@ -11,6 +11,7 @@ return {
 	},
 	{
 		"lewis6991/gitsigns.nvim",
+		event = "VeryLazy",
 		opts = function()
 			vim.api.nvim_create_user_command("GitSignsToggleAll", function()
 				require("gitsigns").toggle_linehl()
@@ -29,14 +30,14 @@ return {
 					},
 					delete = {
 						text = require("faith.icons").git.signs.delete,
-						show_count = true,
+						show_count = false,
 					},
 					topdelete = {
 						text = require("faith.icons").git.signs.top_delete,
 					},
 					changedelete = {
 						text = require("faith.icons").git.signs.change_delete,
-						show_count = true,
+						show_count = false,
 					},
 					untracked = {
 						text = require("faith.icons").git.signs.untracked,
@@ -62,18 +63,18 @@ return {
 						text = require("faith.icons").git.signs.untracked,
 					},
 				},
-				count_chars = {
-					"₁",
-					"₂",
-					"₃",
-					"₄",
-					"₅",
-					"₆",
-					"₇",
-					"₈",
-					"₉",
-					["+"] = ">",
-				},
+				-- count_chars = {
+				-- 	"₁",
+				-- 	"₂",
+				-- 	"₃",
+				-- 	"₄",
+				-- 	"₅",
+				-- 	"₆",
+				-- 	"₇",
+				-- 	"₈",
+				-- 	"₉",
+				-- 	["+"] = ">",
+				-- },
 				signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
 				numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
 				linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
@@ -197,6 +198,15 @@ return {
 	},
 	{
 		"sindrets/diffview.nvim",
+		cmd = {
+			"DiffviewOpen",
+			"DiffviewClose",
+			"DiffviewToggleFiles",
+			"DiffviewFocusFiles",
+			"DiffviewFileHistory",
+			"DiffviewLog",
+			"DiffviewRefresh",
+		},
 		opts = {},
 	},
 }

@@ -44,15 +44,16 @@ map_tele("<leader>fS", "lsp_workspace_symbols")
 map_tele("<leader>fgc", "git_commits")
 map_tele("<leader>fgb", "git_branches")
 map_tele("<leader>fgs", "git_status")
-map_tele("<leader>fgw", "git_worktrees")
 map_tele("<leader>fi", "spell_suggest")
 map_tele("<leader>fd", "diagnostics")
-map_tele("<leader>fm", "harpoon")
 map_tele("<leader>;", "commands")
-map_tele("<leader>fq", "quickfix")
+map_tele("<leader>fq", "loclist")
+map_tele("<leader>fQ", "quickfix")
 map_tele("<leader>f;", "resume")
 
 -- extensions
 map_tele("<leader>ft", "todo")
+map_tele("<leader>fm", "harpoon")
+-- map_tele("<leader>fgw", "git_worktrees")
 
 return map_tele

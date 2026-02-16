@@ -1,6 +1,7 @@
 return {
 	{
 		"uga-rosa/ccc.nvim",
+		event = "VeryLazy",
 		lazy = false,
 		config = function()
 			local ccc = require("ccc")
@@ -11,7 +12,9 @@ return {
 					auto_enable = true,
 					lsp = true,
 					excludes = {
+						"",
 						"fugitive",
+						"cook",
 					},
 					update_insert = true,
 				},

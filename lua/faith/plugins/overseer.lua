@@ -1,3 +1,27 @@
+---@type overseer.Action[]
+local actions = {
+	add_env = {
+		run = function(task)
+			local env = task.env or {}
+			local input = vim.fn.input("KEY=value", "")
+			if input then
+				local key = vim.fn.trim(input:match("^([^=]+)"))
+				local value = vim.fn.trim(input:match("([^=]+)$"))
+				env[key] = value
+			end
+			task.env = env
+		end,
+	},
+	show_env = {
+		condition = function(task)
+			return task.env and not vim.tbl_isempty(task.env)
+		end,
+		run = function(task)
+			vim.notify(vim.inspect(task.env), vim.log.levels.INFO)
+		end,
+	},
+}
+
 return {
 	{
 		"stevearc/overseer.nvim",
@@ -22,7 +46,7 @@ return {
 				"builtin",
 				"faith",
 			},
-
+			actions = actions,
 			task_list = {
 				-- Default detail level for tasks. Can be 1-3.
 				default_detail = 1,
@@ -34,6 +58,7 @@ return {
 				-- min_width = { 40, 0.1 },
 				-- optionally define an integer/float for the exact width of the task list
 				width = 40,
+				min_width = 40,
 				max_height = { 20, 0.1 },
 				min_height = 8,
 				height = nil,
@@ -42,9 +67,6 @@ return {
 				-- Default direction. Can be "left", "right", or "bottom"
 				direction = "bottom",
 			},
-			-- strategy = {
-			-- 	"toggleterm",
-			-- },
 		},
 		keys = {
 			{

@@ -26,12 +26,20 @@ return {
 			require("faith.plugins.color.background")
 		end,
 	},
-	{
+	{ -- eldritch
 		"eldritch-theme/eldritch.nvim",
 		lazy = false,
 		priority = 1000,
 		opts = {
 			dim_inactive = false, -- dims inactive windows, transparent must be false for this to work
+			styles = {
+				-- Style to be applied to different syntax groups
+				-- Value is any valid attr-list value for `:help nvim_set_hl`
+				comments = { italic = true },
+				keywords = {},
+				functions = {},
+				variables = {},
+			},
 		},
 		init = function()
 			vim.api.nvim_create_autocmd("ColorScheme", {
@@ -49,7 +57,7 @@ return {
 			})
 		end,
 	},
-	{
+	{ -- tokyonight
 		"folke/tokyonight.nvim",
 		lazy = false,
 		priority = 1000,
@@ -72,7 +80,7 @@ return {
 		end,
 		opts = {},
 	},
-	{
+	{ -- monokai
 		"loctvl842/monokai-pro.nvim",
 		lazy = false,
 		priority = 1000,
@@ -100,7 +108,7 @@ return {
 			})
 		end,
 	},
-	{
+	{ -- tokyodark
 		"tiagovla/tokyodark.nvim",
 		lazy = false,
 		priority = 1000,
@@ -117,7 +125,7 @@ return {
 			})
 		end,
 	},
-	{
+	{ -- nightfox
 		"EdenEast/nightfox.nvim",
 		lazy = false,
 		priority = 1000,
@@ -157,7 +165,7 @@ return {
 			})
 		end,
 	},
-	{
+	{ -- catppuccin
 		"catppuccin/nvim",
 		name = "catppuccin",
 		lazy = false,
@@ -183,7 +191,7 @@ return {
 				percentage = 0.15,
 			},
 			styles = {
-				comments = {},
+				comments = { "italic" },
 				conditionals = { "bold" },
 				loops = { "bold" },
 				functions = {},
@@ -282,7 +290,7 @@ return {
 			},
 		},
 	},
-	{
+	{ -- matrix
 		"iruzo/matrix-nvim",
 		lazy = false,
 		priority = 1000,
@@ -301,7 +309,7 @@ return {
 			})
 		end,
 	},
-	{
+	{ -- midnight
 		"dasupradyumna/midnight.nvim",
 		lazy = false,
 		priority = 1000,
@@ -314,7 +322,7 @@ return {
 			})
 		end,
 	},
-	{
+	{ -- sakura
 		"anAcc22/sakura.nvim",
 		lazy = false,
 		priority = 1000,
@@ -328,7 +336,7 @@ return {
 			})
 		end,
 	},
-	{
+	{ -- yorumi
 		"yorumicolors/yorumi.nvim",
 		lazy = false,
 		priority = 1000,
@@ -341,8 +349,13 @@ return {
 			})
 		end,
 	},
-	{
+	{ -- nvim-transparent
 		"xiyaowong/nvim-transparent",
+		cmd = {
+			"TransparentToggle",
+			"TransparentEnable",
+			"TransparentDisable",
+		},
 		opts = function()
 			require("transparent").clear_prefix("lualine_a")
 			require("transparent").clear_prefix("lualine_b")
