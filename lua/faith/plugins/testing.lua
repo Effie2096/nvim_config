@@ -77,6 +77,9 @@ return {
 		config = function()
 			local neotest = require("neotest")
 			local opts = {
+				consumers = {
+					overseer = require("neotest.consumers.overseer"),
+				},
 				adapters = {
 					-- require("neotest-busted")(),
 					require("neotest-plenary")({
