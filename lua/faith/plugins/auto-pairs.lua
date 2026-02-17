@@ -54,7 +54,7 @@ return {
 					cmdline = false,
 					-- also include pairs not on top of the cursor, but surrounding the cursor
 					include_surrounding = true,
-					group = "Accent",
+					group = "BlinkPairsMatchParen",
 					priority = 250,
 				},
 			},

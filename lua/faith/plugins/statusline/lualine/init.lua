@@ -1,11 +1,5 @@
 local components =
 	require("faith.plugins.statusline.lualine.components").components()
-local icons = require("faith.icons")
-
-local winbar_ignore = require(
-	"faith.plugins.statusline.lualine.components.winbar"
-).ignore.winbar_ignore
-local trunc = require("faith.plugins.statusline.utils").trunc
 
 local sections = {
 	lualine_a = { components.vanity.trans_flag },
@@ -46,16 +40,8 @@ local winbar = {
 	},
 	lualine_c = {
 		components.breadcrumbs,
-		{
-			"%=",
-			color = "WinBar",
-		},
 	},
 	lualine_x = {
-		{
-			"%=",
-			color = "WinBar",
-		},
 		components.location,
 		components.guessindent,
 		components.fileformat,

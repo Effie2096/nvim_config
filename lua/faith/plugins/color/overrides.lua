@@ -88,13 +88,14 @@ M.apply_theme_overrides = function(theme, scheme)
 		{ fg = h("Comment").fg, italic = true }
 	)
 
+	local statusline_bg = sidebar_bg
 	vim.api.nvim_set_hl(0, "StatusLine", {
 		fg = color_map.fg,
-		bg = color_map.bg_light,
+		bg = statusline_bg,
 	})
 	vim.api.nvim_set_hl(0, "StatusLineNC", {
 		fg = color_map.fg,
-		bg = color_map.bg_light,
+		bg = statusline_bg,
 	})
 	vim.api.nvim_set_hl(0, "WinBar", {
 		link = "StatusLine",
@@ -272,7 +273,7 @@ M.apply_theme_overrides = function(theme, scheme)
 	vim.api.nvim_set_hl(
 		0,
 		"BlinkPairsMatchParen",
-		{ fg = color_map.bg, bg = color_map.green, bold = true }
+		{ fg = color_map.bg, bg = color_map.accent, bold = true }
 	)
 
 	vim.api.nvim_set_hl(0, "BranchIndicator", { fg = color_map.blue })
@@ -758,7 +759,7 @@ M.apply_theme_overrides = function(theme, scheme)
 	local tab_active_fg = color_map.bg
 	local tab_active_bg = color_map.accent
 	local tab_inactive_fg = color_map.fg
-	local tab_inactive_bg = color_map.bg_light
+	local tab_inactive_bg = statusline_bg
 	vim.api.nvim_set_hl(
 		0,
 		"TabLineFill",
@@ -853,7 +854,7 @@ M.apply_theme_overrides = function(theme, scheme)
 	vim.api.nvim_set_hl(
 		0,
 		"MyNeoTreeTabInactive",
-		{ bg = color_map.bg_light, fg = tab_inactive_fg }
+		{ bg = statusline_bg, fg = tab_inactive_fg }
 	)
 	vim.api.nvim_set_hl(
 		0,
@@ -863,12 +864,12 @@ M.apply_theme_overrides = function(theme, scheme)
 	vim.api.nvim_set_hl(
 		0,
 		"MyNeoTreeTabSeparatorInactive",
-		{ bg = color_map.bg_light, fg = tab_inactive_fg }
+		{ bg = statusline_bg, fg = tab_inactive_fg }
 	)
 	vim.api.nvim_set_hl(
 		0,
 		"MyNeoTreeTabSeparatorActive",
-		{ bg = color_map.bg_light, fg = color_map.accent }
+		{ bg = statusline_bg, fg = color_map.accent }
 	)
 
 	local prog_fill = color_map.accent
@@ -991,6 +992,50 @@ M.apply_theme_overrides = function(theme, scheme)
 	vim.api.nvim_set_hl(0, "SymbolUsageRef", { fg=color_map.yellow, bg=usage_bg })
 	vim.api.nvim_set_hl(0, "SymbolUsageDef", { fg=color_map.purple, bg=usage_bg })
 	--stylua: ignore end
+
+	require("lualine.config").apply_configuration({
+		options = {
+			theme = {
+				normal = {
+					a = { bg = statusline_bg, fg = color_map.fg },
+					b = { bg = statusline_bg, fg = color_map.fg },
+					c = { bg = statusline_bg, fg = color_map.fg },
+				},
+
+				insert = {
+					a = { bg = statusline_bg, fg = color_map.fg },
+					b = { bg = statusline_bg, fg = color_map.fg },
+				},
+
+				command = {
+					a = { bg = statusline_bg, fg = color_map.fg },
+					b = { bg = statusline_bg, fg = color_map.fg },
+				},
+
+				visual = {
+					a = { bg = statusline_bg, fg = color_map.fg },
+					b = { bg = statusline_bg, fg = color_map.fg },
+				},
+
+				replace = {
+					a = { bg = statusline_bg, fg = color_map.fg },
+					b = { bg = statusline_bg, fg = color_map.fg },
+				},
+
+				terminal = {
+					a = { bg = statusline_bg, fg = color_map.fg },
+					b = { bg = statusline_bg, fg = color_map.fg },
+				},
+
+				inactive = {
+					a = { bg = statusline_bg, fg = color_map.fg },
+					b = { bg = statusline_bg, fg = color_map.fg },
+					c = { bg = statusline_bg, fg = color_map.fg },
+				},
+			},
+		},
+	})
+	-- require("lualine").refresh()
 end
 
 return M
