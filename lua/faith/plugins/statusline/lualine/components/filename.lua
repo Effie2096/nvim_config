@@ -33,6 +33,10 @@ return {
 	color = "WinBar",
 	separator = "",
 	fmt = function(str)
+		if str == "[No Name]" or str == "[New]" then
+			return str
+		end
+
 		local name = str
 		local ft = vim.bo.filetype
 		local bt = vim.bo.buftype
@@ -70,10 +74,9 @@ return {
 				name = format_bubble(ft:gsub("^(%l)", string.upper)) or ""
 			end
 		else
-			-- split on last slash in path, keeping the slash
-
-			local relative =
-				vim.fn.fnamemodify(name, ":h"):gsub("/\\", icons.ui.ChevronRight .. " ")
+			local relative = vim.fn
+				.fnamemodify(name, ":h")
+				:gsub("[/\\]", icons.ui.ChevronRight .. " ")
 			local file_name = str:gsub(".*[/\\]", "")
 			name = histr(relative .. icons.ui.ChevronRight .. " ", "Comment")
 				.. histr(file_name, vim.bo.modified and "BarDiagError" or "WinBar")
