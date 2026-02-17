@@ -23,7 +23,7 @@ return {
 				cmdline = true,
 				-- or disable with `vim.g.pairs = false` (global) and `vim.b.pairs = false` (per-buffer)
 				-- and/or with `vim.g.blink_pairs = false` and `vim.b.blink_pairs = false`
-				disabled_filetypes = {},
+				disabled_filetypes = { "markdown", "markdown_inline" },
 				-- see the defaults:
 				-- https://github.com/Saghen/blink.pairs/blob/main/lua/blink/pairs/config/mappings.lua#L14
 				pairs = {
