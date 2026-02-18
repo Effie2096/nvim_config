@@ -14,6 +14,14 @@ vim.opt.cmdheight = 1
 vim.opt.conceallevel = 2
 vim.opt.confirm = true
 vim.opt.cursorline = true
+vim.opt.guicursor = {
+	"v-c:block",
+	"i-ci-ve:ver20",
+	"r-cr:hor20",
+	"o:hor50",
+	"a:blinkwait700-blinkoff400-blinkon250-inverse/reverse",
+	"sm:block-blinkwait175-blinkoff150-blinkon175",
+}
 vim.opt.cursorlineopt = "line,number"
 vim.opt.hidden = true
 vim.opt.history = 5000
