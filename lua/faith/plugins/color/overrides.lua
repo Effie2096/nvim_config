@@ -482,6 +482,8 @@ M.apply_theme_overrides = function(theme, scheme)
 	vim.api.nvim_set_hl(0, "LspKindVariable",{ fg = variable })
 
 
+	vim.api.nvim_set_hl(0, "BlinkCmpKindCopilot", { fg = color_map.bg, bg = color_map.green_light })
+
 	vim.api.nvim_set_hl(0, "BlinkCmpKind", { fg = color_map.bg, bg = color_map.purple_dark })
 	vim.api.nvim_set_hl(0, "BlinkCmpKindArray", { fg = color_map.bg, bg = h("LspKindArray").fg})
 	vim.api.nvim_set_hl(0, "BlinkCmpKindBoolean", { fg = color_map.bg, bg = h("LspKindBoolean").fg})
@@ -517,7 +519,6 @@ M.apply_theme_overrides = function(theme, scheme)
 	vim.api.nvim_set_hl(0, "BlinkCmpKindUnit",{ fg = color_map.bg, bg = h("LspKindUnit").fg})
 	vim.api.nvim_set_hl(0, "BlinkCmpKindValue",{ fg = color_map.bg, bg = h("LspKindValue").fg})
 	vim.api.nvim_set_hl(0, "BlinkCmpKindVariable",{ fg = color_map.bg, bg = h("LspKindVariable").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindCopilot", { fg = color_map.bg, bg = color_map.green_light })
 
 
 	vim.api.nvim_set_hl(0, "NavicText",               { fg = h("Comment").fg, force = true })

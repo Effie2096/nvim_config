@@ -140,6 +140,7 @@ local icons = {
 		Close = "",
 		NewFile = " ",
 		Search = " ",
+		FileSearch = "󰱼",
 		Multi_Select = " ",
 		Caret_Arrow = " ",
 		Lightbulb = "",
@@ -192,6 +193,7 @@ local icons = {
 		ArcChart = "󰄦 ",
 		Star = " ",
 		Block = "█",
+		Recording = "󰑋",
 	},
 	debug = {
 		Pause = "",

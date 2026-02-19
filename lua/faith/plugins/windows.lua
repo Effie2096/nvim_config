@@ -7,9 +7,10 @@ return {
 			"anuvyklack/animation.nvim",
 		},
 		config = function()
-			vim.o.winwidth = 5
-			vim.o.winminwidth = 5
-			vim.o.equalalways = false
+			vim.opt.winwidth = 5
+			vim.opt.winminwidth = 5
+
+			vim.opt.equalalways = false
 			vim.keymap.set("n", "<C-w>m", "<CMD>WindowsMaximize<CR>")
 			vim.keymap.set("n", "<C-w>u", "<CMD>WindowsToggleAutowidth<CR>")
 			vim.keymap.set("n", "<C-w>|", "<CMD>WindowsMaximizeVertically<CR>")
@@ -18,6 +19,7 @@ return {
 			require("windows").setup({
 				autowidth = {
 					enable = true,
+					winwidth = 0.1,
 				},
 				animation = {
 					enable = true,

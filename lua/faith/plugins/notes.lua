@@ -40,41 +40,222 @@ local checkboxes = {
 	},
 }
 
+local obsidian_maps = {
+	{
+		lhs = "<leader>on",
+		rhs = function()
+			vim.api.nvim_cmd(
+				{ cmd = "Obsidian", args = { "new" } },
+				{ output = false }
+			)
+		end,
+		mode = "n",
+		opts = { desc = "[o]bsidian [n]ew: Create new note." },
+	},
+	{
+		lhs = "<leader>oq",
+		rhs = function()
+			vim.api.nvim_cmd(
+				{ cmd = "Obsidian", args = { "quick_switch" } },
+				{ output = false }
+			)
+		end,
+		mode = "n",
+		opts = { desc = "[o]bsidian [q]uickswitch: Switch to note." },
+	},
+	{
+		lhs = "<leader>os",
+		rhs = function()
+			vim.api.nvim_cmd(
+				{ cmd = "Obsidian", args = { "search" } },
+				{ output = false }
+			)
+		end,
+		mode = "n",
+		opts = { desc = "[o]bsidian [s]earch: Search (or create) note." },
+	},
+	{
+		lhs = "<leader>ofw",
+		rhs = function()
+			vim.api.nvim_cmd(
+				{ cmd = "Obsidian", args = { "workspace" } },
+				{ output = false }
+			)
+		end,
+		mode = "n",
+		opts = { desc = "[o]bsidian [w]orkspace: Open picker listing workspaces." },
+	},
+	{
+		lhs = "<leader>ol",
+		rhs = function()
+			vim.api.nvim_cmd(
+				{ cmd = "Obsidian", args = { "link" } },
+				{ output = true }
+			)
+		end,
+		mode = "v",
+		opts = {
+			desc = "[o]bsidian [l]ink: Link to note (if any) that match text under cursor or selection.",
+		},
+	},
+	{
+		mode = "v",
+		lhs = "<leader>oL",
+		rhs = function()
+			local viz = require("faith.func").get_selection()
+			if #viz ~= 1 then
+				vim.notify(
+					"Selection can't span multiple lines",
+					vim.log.levels.ERROR,
+					{ title = "Obsidian.nvim Link New" }
+				)
+				return
+			end
+
+			local title = vim.fn.input({
+				prompt = "Creating note. (Cancel to abort).",
+				default = viz[1],
+			})
+
+			if title == "" then
+				vim.notify(
+					"Aborted making new note!",
+					vim.log.levels.INFO,
+					{ title = "Obsidian.nvim Link New" }
+				)
+				return
+			end
+
+			vim.api.nvim_cmd(
+				{ cmd = "Obsidian", args = { "link_new", title } },
+				{ output = false }
+			)
+		end,
+		opts = { desc = "[o]bsidian [L]ink: Link selected text to new note." },
+	},
+	{
+		lhs = "<leader>oo",
+		rhs = function()
+			vim.api.nvim_cmd(
+				{ cmd = "Obsidian", args = { "open" } },
+				{ output = false }
+			)
+		end,
+		mode = "n",
+		opts = {
+			desc = "[o]bsidian [o]pen: Open current note in Obsidian app.",
+		},
+	},
+	{
+		lhs = "<leader>ofb",
+		rhs = function()
+			vim.api.nvim_cmd(
+				{ cmd = "Obsidian", args = { "backlinks" } },
+				{ output = false }
+			)
+		end,
+		mode = "n",
+		opts = {
+			desc = "[o]bsidian [b]acklinks: Search references to current note.",
+		},
+	},
+	{
+		lhs = "<leader>ofl",
+		rhs = function()
+			vim.api.nvim_cmd(
+				{ cmd = "Obsidian", args = { "links" } },
+				{ output = false }
+			)
+		end,
+		mode = "n",
+		opts = {
+			desc = "[o]bsidian [f]ind [l]inks: List all links in current note.",
+		},
+	},
+	{
+		lhs = "<leader>oft",
+		rhs = function()
+			vim.api.nvim_cmd(
+				{ cmd = "Obsidian", args = { "tags" } },
+				{ output = false }
+			)
+		end,
+		mode = "n",
+		opts = {
+			desc = "[o]bsidian [f]ind [t]ags: List all tags in vault.",
+		},
+	},
+	{
+		lhs = "<leader>ot",
+		rhs = function()
+			vim.api.nvim_cmd(
+				{ cmd = "Obsidian", args = { "template" } },
+				{ output = false }
+			)
+		end,
+		mode = "n",
+		opts = {
+			desc = "[o]bsidian [t]emplate: Insert template from templates folder.",
+		},
+	},
+	{
+		lhs = "<leader>oT",
+		rhs = function()
+			vim.api.nvim_cmd(
+				{ cmd = "Obsidian", args = { "new_from_template" } },
+				{ output = false }
+			)
+		end,
+		mode = "n",
+		opts = {
+			desc = "[o]bsidian [T]emplate: Create new note from template from templates folder.",
+		},
+	},
+	{
+		lhs = "<leader>op",
+		rhs = function()
+			local title = vim.fn.input({
+				prompt = "Creating note. (Cancel to abort).",
+			})
+			if title == "" then
+				vim.notify(
+					"Aborted pasting image!",
+					vim.log.levels.INFO,
+					{ title = "Obsidian.nvim Paste Image" }
+				)
+				return
+			end
+
+			vim.api.nvim_cmd(
+				{ cmd = "Obsidian", args = { "paste_img", title } },
+				{ output = false }
+			)
+		end,
+		mode = "n",
+		opts = {
+			desc = "[o]bsidian [p]aste: Paste image from clipboard and save it to vault.",
+		},
+	},
+	{
+		lhs = "gf",
+		rhs = function()
+			vim.api.nvim_cmd(
+				{ cmd = "Obsidian", args = { "follow_link", "vsplit_force" } },
+				{ output = false }
+			)
+		end,
+		mode = "n",
+		opts = {
+			desc = "[g]o [f]ile: Open linked note in split",
+		},
+	},
+}
+
 local function md(raw)
 	return ("[%s]"):format(raw)
 end
 
 return {
-	{
-		"3rd/image.nvim",
-		enabled = false,
-		build = false, -- so that it doesn't build the rock https://github.com/3rd/image.nvim/issues/91#issuecomment-2453430239
-		opts = {
-			processor = "magick_rock",
-			hijack_file_patterns = {
-				"*.png",
-				"*.jpg",
-				"*.jpeg",
-				"*.gif",
-				"*.webp",
-				"*.bmp",
-			}, -- render image files as images when opened
-			max_height = 15,
-			window_overlap_clear_enabled = true,
-			integrations = {
-				markdown = {
-					only_render_image_at_cursor = true,
-					resolve_image_path = function(document_path, image_path, fallback)
-						local cwd = vim.fn.getcwd()
-						if vim.fn.filereadable(cwd .. "/" .. image_path) then
-							return cwd .. "/" .. image_path
-						end
-						return fallback(document_path, image_path)
-					end,
-				},
-			},
-		},
-	},
 	{
 		"jmbuhr/otter.nvim",
 		ft = { "markdown" },
@@ -410,6 +591,14 @@ return {
 		"obsidian-nvim/obsidian.nvim",
 		version = "*", -- recommended, use latest release instead of latest commit
 		ft = "markdown",
+		keys = function()
+			return vim
+				.iter(obsidian_maps)
+				:map(function(map)
+					return { map.lhs }
+				end)
+				:totable()
+		end,
 		dependencies = {
 			-- Required.
 			"nvim-lua/plenary.nvim",
@@ -538,116 +727,9 @@ return {
 			}
 			require("obsidian").setup(opts)
 
-			vim.keymap.set("n", "<leader>on", function()
-				vim.api.nvim_cmd(
-					{ cmd = "Obsidian", args = { "new" } },
-					{ output = false }
-				)
-			end, { desc = "[o]bsidian [n]ew: Create new note." })
-			vim.keymap.set("n", "<leader>oq", function()
-				vim.api.nvim_cmd(
-					{ cmd = "Obsidian", args = { "quick_switch" } },
-					{ output = false }
-				)
-			end, { desc = "[o]bsidian [q]uickswitch: Switch to note." })
-			vim.keymap.set("n", "<leader>os", function()
-				vim.api.nvim_cmd(
-					{ cmd = "Obsidian", args = { "search" } },
-					{ output = false }
-				)
-			end, { desc = "[o]bsidian [s]earch: Search (or create) note." })
-			vim.keymap.set("n", "<leader>ofw", function()
-				vim.api.nvim_cmd(
-					{ cmd = "Obsidian", args = { "workspace" } },
-					{ output = false }
-				)
-			end, {
-				desc = "[o]bsidian [w]orkspace: Open picker listing workspaces.",
-			})
-			vim.keymap.set({ "v" }, "<leader>ol", function()
-				vim.api.nvim_cmd(
-					{ cmd = "Obsidian", args = { "link" } },
-					{ output = true }
-				)
-			end, {
-				desc = "[o]bsidian [l]ink: Link to note (if any) that match text under cursor or selection.",
-			})
-			vim.keymap.set({ "v" }, "<leader>oL", function()
-				local viz = require("faith.func").get_selection()
-				if #viz ~= 1 then
-					vim.notify(
-						"Selection can't span multiple lines",
-						vim.log.levels.ERROR,
-						{ title = "Obsidian.nvim Link New" }
-					)
-					return
-				end
-
-				local title = vim.fn.input({
-					prompt = "Creating note. (Cancel to abort).",
-					default = viz[1],
-				})
-
-				if title == "" then
-					vim.notify(
-						"Aborted making new note!",
-						vim.log.levels.INFO,
-						{ title = "Obsidian.nvim Link New" }
-					)
-					return
-				end
-
-				vim.api.nvim_cmd(
-					{ cmd = "Obsidian", args = { "link_new" } },
-					{ output = false }
-				)
-			end, { desc = "[o]bsidian [L]ink: Link selected text to new note." })
-
-			vim.keymap.set({ "n" }, "<leader>oo", function()
-				vim.api.nvim_cmd(
-					{ cmd = "Obsidian", args = { "open" } },
-					{ output = false }
-				)
-			end, {
-				buffer = true,
-				desc = "[o]bsidian [o]pen: Open current note in Obsidian app.",
-			})
-			vim.keymap.set({ "n" }, "<leader>ofb", function()
-				vim.api.nvim_cmd(
-					{ cmd = "Obsidian", args = { "backlinks" } },
-					{ output = false }
-				)
-			end, {
-				buffer = true,
-				desc = "[o]bsidian [b]acklinks: Search references to current note.",
-			})
-			vim.keymap.set({ "n" }, "<leader>ofl", function()
-				vim.api.nvim_cmd(
-					{ cmd = "Obsidian", args = { "links" } },
-					{ output = false }
-				)
-			end, {
-				buffer = true,
-				desc = "[o]bsidian [f]ind [l]inks: List all links in current note.",
-			})
-			vim.keymap.set({ "n" }, "<leader>ot", function()
-				vim.api.nvim_cmd(
-					{ cmd = "Obsidian", args = { "template" } },
-					{ output = false }
-				)
-			end, {
-				buffer = true,
-				desc = "[o]bsidian [t]emplate: Insert template from templates folder.",
-			})
-			vim.keymap.set({ "n" }, "<leader>oT", function()
-				vim.api.nvim_cmd(
-					{ cmd = "Obsidian", args = { "new_from_template" } },
-					{ output = false }
-				)
-			end, {
-				buffer = true,
-				desc = "[o]bsidian [T]emplate: Create new note from template from templates folder.",
-			})
+			vim.iter(obsidian_maps):each(function(map)
+				vim.keymap.set(map.mode, map.lhs, map.rhs, map.opts)
+			end)
 		end,
 	},
 	{

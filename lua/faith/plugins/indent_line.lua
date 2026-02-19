@@ -38,7 +38,6 @@ return {
 						-- "Avante",
 						"AvanteSelectedFiles",
 						"AvanteInput",
-						"markdown",
 					},
 				},
 				indent = {

@@ -15,7 +15,7 @@ return {
 	"filename",
 	file_status = false, -- Displays file status (readonly status, modified status)
 	newfile_status = true, -- Display new file status (new file means no write after created)
-	path = 4, -- 0: Just the filename
+	path = 0, -- 0: Just the filename
 	-- 1: Relative path
 	-- 2: Absolute path
 	-- 3: Absolute path, with tilde as the home directory
@@ -74,12 +74,7 @@ return {
 				name = format_bubble(ft:gsub("^(%l)", string.upper)) or ""
 			end
 		else
-			local relative = vim.fn
-				.fnamemodify(name, ":h")
-				:gsub("[/\\]", icons.ui.ChevronRight .. " ")
-			local file_name = str:gsub(".*[/\\]", "")
-			name = histr(relative .. icons.ui.ChevronRight .. " ", "Comment")
-				.. histr(file_name, vim.bo.modified and "BarDiagError" or "WinBar")
+			name = histr(name, vim.bo.modified and "BarDiagError" or "WinBar")
 		end
 		if ft == "qf" then
 			name = string.format("%s %s", format_bubble(qf_label()), qf_title())

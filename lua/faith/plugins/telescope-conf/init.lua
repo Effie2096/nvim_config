@@ -17,13 +17,17 @@ local function merge_ext_options(local_options, ext_options)
 	return vim.tbl_deep_extend("force", local_options, ext_options)
 end
 
-function M.find_files()
+function M.find_files(options)
 	local opts = vim.deepcopy(layouts.default_flex) or {}
 	opts = vim.tbl_deep_extend("force", opts, {
 		hidden = true,
 		no_ignore = true,
 		file_ignore_patterns = {},
 	})
+
+	if options then
+		opts = merge_ext_options(opts, options)
+	end
 
 	require("telescope.builtin").find_files(opts)
 end
@@ -36,6 +40,15 @@ function M.project_files()
 		-- file_ignore_patterns = require("faith.plugins.telescope-conf.layouts").file_ignore.file_ignore_patterns,
 	})
 	require("telescope.builtin").find_files(opts)
+end
+
+function M.oldfiles()
+	local opts = vim.deepcopy(layouts.default_flex)
+	opts = vim.tbl_deep_extend("force", opts, {
+		prompt_title = "Recent Files",
+		cwd = require("lspconfig.util").root_pattern(".git")(vim.fn.expand("%:p")),
+	})
+	require("telescope.builtin").oldfiles(opts)
 end
 
 local buffers_maps = function(_, map)

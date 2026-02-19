@@ -24,11 +24,9 @@ end
 return {
 	{
 		"stevearc/resession.nvim",
-		lazy = false,
 		dependencies = {
 			{
 				"tiagovla/scope.nvim",
-				lazy = false,
 				init = function()
 					vim.keymap.set("n", "<leader>ttm", function()
 						vim.api.nvim_cmd({
@@ -81,7 +79,6 @@ return {
 					scope = {},
 					oil = {},
 					tabnames = {},
-					aerial = {},
 				},
 			})
 
@@ -89,25 +86,35 @@ return {
 				local name = vim.fn.getcwd()
 				local branch = vim.trim(vim.fn.system("git branch --show-current"))
 				if vim.v.shell_error == 0 then
-					return name .. branch
+					return ("%s%s"):format(name, branch)
 				else
 					return name
 				end
 			end
-			-- Only load the session if nvim was started with no args
-			if vim.fn.argc(-1) == 0 then
-				require("resession").load(get_session_name(), {
-					dir = "sessions/auto/",
-					silence_errors = true,
-				})
-			end
 
+			vim.api.nvim_create_autocmd("VimEnter", {
+				callback = function()
+					-- Only load the session if nvim was started with no args
+					if vim.fn.argc(-1) == 0 and not vim.g.using_stdin then
+						require("resession").load(get_session_name(), {
+							dir = "sessions/auto/",
+							silence_errors = true,
+						})
+					end
+				end,
+			})
 			vim.api.nvim_create_autocmd("VimLeavePre", {
 				callback = function()
 					require("resession").save(get_session_name(), {
 						dir = "sessions/auto/",
 						notify = false,
 					})
+				end,
+			})
+			vim.api.nvim_create_autocmd("StdinReadPre", {
+				callback = function()
+					-- Store this for later
+					vim.g.using_stdin = true
 				end,
 			})
 
@@ -122,51 +129,6 @@ return {
 			vim.keymap.set("n", "<leader>sd", function()
 				require("resession").delete()
 			end, { desc = "[s]ession [d]elete: delete session." })
-		end,
-	},
-	{
-		"tpope/vim-obsession",
-		enabled = false,
-		init = function()
-			vim.opt.sessionoptions =
-				"blank,buffers,curdir,folds,help,tabpages,globals,winsize"
-		end,
-		config = function()
-			vim.keymap.set({ "n" }, "<leader>ss", function()
-				local root = vim.fn.fnamemodify(vim.fn.getcwd(-1, -1), ":t")
-				vim.cmd("Obsess " .. session_dir .. root .. ".vim")
-			end, {
-				desc = "[s]ession [s]tart: start recording session to a centralized location.",
-			})
-
-			vim.keymap.set({ "n" }, "<leader>sd", function()
-				vim.cmd([[Obsess!]])
-			end, { desc = "[s]ession [d]elete: delete session." })
-
-			vim.keymap.set({ "n" }, "<leader>sl", function()
-				local root = vim.fn.fnamemodify(vim.fn.getcwd(-1, -1), ":t")
-				local session_exists = vim.fn.empty(
-					vim.fn.glob(session_dir .. root .. ".vim")
-				) == 0
-				local session_loaded = vim.fn.empty(vim.g.this_obsession) == 0
-				if session_exists then
-					if not session_loaded then
-						vim.cmd("source " .. session_dir .. root .. ".vim")
-					else
-						vim.notify(
-							"Session already active.",
-							vim.log.levels.INFO,
-							notify_opts
-						)
-					end
-				else
-					vim.notify(
-						'Session for "' .. root .. '" does not exist.',
-						vim.log.levels.INFO,
-						notify_opts
-					)
-				end
-			end, { desc = "[s]ession [l]oad: load session." })
 		end,
 	},
 }

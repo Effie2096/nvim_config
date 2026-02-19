@@ -13,7 +13,7 @@ return {
 	icon = { align = "right" }, -- Display filetype icon on the right hand side
 	-- icon =    {'X', align='right'}
 	-- Icon string ^ in table is ignored in filetype component
-	padding = { left = 0, right = 0 },
+	padding = { left = 1, right = 0 },
 	separator = "",
 	color = "WinBar",
 	fmt = function(str)

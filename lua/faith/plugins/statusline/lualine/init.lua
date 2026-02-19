@@ -4,7 +4,7 @@ local components =
 local sections = {
 	lualine_a = { components.vanity.trans_flag },
 	lualine_b = {
-		components.resession,
+		-- components.resession,
 		components.root,
 		components.branch,
 	},
@@ -23,6 +23,7 @@ local sections = {
 		-- buffers,
 		components.format_on_save,
 		components.show_macro_recording,
+		components.search_count,
 	},
 	lualine_y = {
 		components.codestats.total_xp,
@@ -35,6 +36,7 @@ local winbar = {
 		components.winnumber,
 	},
 	lualine_b = {
+		components.filepath,
 		components.filetype,
 		components.filename,
 	},
