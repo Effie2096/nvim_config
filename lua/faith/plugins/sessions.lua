@@ -86,7 +86,7 @@ return {
 				local name = vim.fn.getcwd()
 				local branch = vim.trim(vim.fn.system("git branch --show-current"))
 				if vim.v.shell_error == 0 then
-					return ("%s%s"):format(name, branch)
+					return ("%s__%s"):format(name, branch)
 				else
 					return name
 				end
