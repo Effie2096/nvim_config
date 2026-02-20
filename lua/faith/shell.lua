@@ -30,7 +30,7 @@ local powershell_options = {
 
 local nushell_options = {
 	shell = "nu",
-	shellcmdflag = "--login --stdin --no-newline -c",
+	shellcmdflag = "--stdin --no-newline -c",
 	shellredir = "out+err> %s",
 	shellpipe = "| complete | update stderr { ansi strip } | tee { get stderr | save --force --raw %s } | into record",
 	shelltemp = false,
