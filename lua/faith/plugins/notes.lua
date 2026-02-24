@@ -1,4 +1,7 @@
 local icons = require("faith.icons")
+local wk = require("which-key")
+
+local use_cm_todos = false
 
 local checkboxes = {
 	unchecked = {
@@ -50,7 +53,7 @@ local obsidian_maps = {
 			)
 		end,
 		mode = "n",
-		opts = { desc = "[o]bsidian [n]ew: Create new note." },
+		desc = "[o]bsidian [n]ew: Create new note.",
 	},
 	{
 		lhs = "<leader>oq",
@@ -61,7 +64,7 @@ local obsidian_maps = {
 			)
 		end,
 		mode = "n",
-		opts = { desc = "[o]bsidian [q]uickswitch: Switch to note." },
+		desc = "[o]bsidian [q]uickswitch: Switch to note.",
 	},
 	{
 		lhs = "<leader>os",
@@ -72,7 +75,7 @@ local obsidian_maps = {
 			)
 		end,
 		mode = "n",
-		opts = { desc = "[o]bsidian [s]earch: Search (or create) note." },
+		desc = "[o]bsidian [s]earch: Search (or create) note.",
 	},
 	{
 		lhs = "<leader>ofw",
@@ -83,20 +86,24 @@ local obsidian_maps = {
 			)
 		end,
 		mode = "n",
-		opts = { desc = "[o]bsidian [w]orkspace: Open picker listing workspaces." },
+		desc = "[o]bsidian [w]orkspace: Open picker listing workspaces.",
 	},
 	{
-		lhs = "<leader>ol",
+		lhs = "<localleader>ol",
 		rhs = function()
+			local mode = vim.api.nvim_get_mode().mode
+
+			if mode:sub(1, 1) == "n" then
+				vim.cmd("normal! viw")
+			end
 			vim.api.nvim_cmd(
 				{ cmd = "Obsidian", args = { "link" } },
 				{ output = true }
 			)
 		end,
-		mode = "v",
-		opts = {
-			desc = "[o]bsidian [l]ink: Link to note (if any) that match text under cursor or selection.",
-		},
+		mode = { "n", "v" },
+
+		desc = "[o]bsidian [l]ink: Link to note (if any) that match text in selection.",
 	},
 	{
 		mode = "v",
@@ -131,7 +138,7 @@ local obsidian_maps = {
 				{ output = false }
 			)
 		end,
-		opts = { desc = "[o]bsidian [L]ink: Link selected text to new note." },
+		desc = "[o]bsidian [L]ink: Link selected text to new note.",
 	},
 	{
 		lhs = "<leader>oo",
@@ -143,8 +150,9 @@ local obsidian_maps = {
 		end,
 		mode = "n",
 		opts = {
-			desc = "[o]bsidian [o]pen: Open current note in Obsidian app.",
+			buffer = true,
 		},
+		desc = "[o]bsidian [o]pen: Open current note in Obsidian app.",
 	},
 	{
 		lhs = "<leader>ofb",
@@ -156,8 +164,9 @@ local obsidian_maps = {
 		end,
 		mode = "n",
 		opts = {
-			desc = "[o]bsidian [b]acklinks: Search references to current note.",
+			buffer = true,
 		},
+		desc = "[o]bsidian [f]ind [b]acklinks: Search references to current note.",
 	},
 	{
 		lhs = "<leader>ofl",
@@ -168,9 +177,7 @@ local obsidian_maps = {
 			)
 		end,
 		mode = "n",
-		opts = {
-			desc = "[o]bsidian [f]ind [l]inks: List all links in current note.",
-		},
+		desc = "[o]bsidian [f]ind [l]inks: List all links in current note.",
 	},
 	{
 		lhs = "<leader>oft",
@@ -181,12 +188,10 @@ local obsidian_maps = {
 			)
 		end,
 		mode = "n",
-		opts = {
-			desc = "[o]bsidian [f]ind [t]ags: List all tags in vault.",
-		},
+		desc = "[o]bsidian [f]ind [t]ags: List all tags in vault.",
 	},
 	{
-		lhs = "<leader>ot",
+		lhs = "<leader>oti",
 		rhs = function()
 			vim.api.nvim_cmd(
 				{ cmd = "Obsidian", args = { "template" } },
@@ -194,12 +199,10 @@ local obsidian_maps = {
 			)
 		end,
 		mode = "n",
-		opts = {
-			desc = "[o]bsidian [t]emplate: Insert template from templates folder.",
-		},
+		desc = "[o]bsidian [t]emplate [i]nsert: Insert template from templates folder.",
 	},
 	{
-		lhs = "<leader>oT",
+		lhs = "<leader>otn",
 		rhs = function()
 			vim.api.nvim_cmd(
 				{ cmd = "Obsidian", args = { "new_from_template" } },
@@ -208,14 +211,15 @@ local obsidian_maps = {
 		end,
 		mode = "n",
 		opts = {
-			desc = "[o]bsidian [T]emplate: Create new note from template from templates folder.",
+			buffer = true,
 		},
+		desc = "[o]bsidian [t]emplate [n]ew: Create new note from template from templates folder.",
 	},
 	{
 		lhs = "<leader>op",
 		rhs = function()
 			local title = vim.fn.input({
-				prompt = "Creating note. (Cancel to abort).",
+				prompt = "New file name for image. (Cancel to abort).",
 			})
 			if title == "" then
 				vim.notify(
@@ -226,15 +230,15 @@ local obsidian_maps = {
 				return
 			end
 
+			title = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+
 			vim.api.nvim_cmd(
 				{ cmd = "Obsidian", args = { "paste_img", title } },
 				{ output = false }
 			)
 		end,
 		mode = "n",
-		opts = {
-			desc = "[o]bsidian [p]aste: Paste image from clipboard and save it to vault.",
-		},
+		desc = "[o]bsidian [p]aste: Paste image from clipboard and save it to vault.",
 	},
 	{
 		lhs = "gf",
@@ -245,11 +249,219 @@ local obsidian_maps = {
 			)
 		end,
 		mode = "n",
-		opts = {
-			desc = "[g]o [f]ile: Open linked note in split",
+		desc = "[g]o [f]ile: Open linked note in split",
+	},
+	{
+		lhs = "<leader>odd",
+		rhs = function()
+			vim.api.nvim_cmd(
+				{ cmd = "Obsidian", args = { "today" } },
+				{ output = false }
+			)
+		end,
+		mode = "n",
+		desc = "[o]obsidian [d]aily to[d]ay: Open daily note.",
+	},
+	{
+		lhs = "<leader>ody",
+		rhs = function()
+			vim.api.nvim_cmd(
+				{ cmd = "Obsidian", args = { "today", "-1" } },
+				{ output = false }
+			)
+		end,
+		mode = "n",
+		desc = "[o]obsidian [d]aily [y]esterday: Open yesterday's daily note.",
+	},
+}
+
+wk.add(vim
+	.iter(vim.deepcopy(obsidian_maps))
+	:map(function(map)
+		return {
+			map.lhs,
+			map.rhs,
+			desc = map.desc,
+			mode = map.mode,
+			icon = map.icon,
+			map.opts or {},
+			cond = function()
+				return vim.o.filetype == "markdown"
+			end,
+		}
+	end)
+	:totable())
+
+local checkmate_maps = {
+	{
+		lhs = "<localleader>ct",
+		rhs = "<cmd>Checkmate toggle<CR>",
+		desc = "[c]heck [t]oggle: Toggle todo item",
+		mode = { "n", "v" },
+		icon = {
+			icon = checkboxes.checked.rendered,
+			hl = checkboxes.checked.highlight,
+		},
+	},
+	{
+		lhs = "<localleader>cc",
+		rhs = "<cmd>Checkmate check<CR>",
+		desc = "[c]heck [c]heck: Set todo item as checked (done)",
+		mode = { "n", "v" },
+		icon = {
+			icon = checkboxes.checked.rendered,
+			hl = checkboxes.checked.highlight,
+		},
+	},
+	{
+		lhs = "<localleader>cu",
+		rhs = "<cmd>Checkmate uncheck<CR>",
+		desc = "[c]heck [u]ncheck: Set todo item as unchecked (not done)",
+		mode = { "n", "v" },
+		icon = {
+			icon = checkboxes.unchecked.rendered,
+			hl = checkboxes.unchecked.highlight,
+		},
+	},
+	{
+		lhs = "<localleader>c=",
+		rhs = "<cmd>Checkmate cycle_next<CR>",
+		desc = "Cycle todo item(s) to the next state",
+		mode = { "n", "v" },
+	},
+	{
+		lhs = "<localleader>c-",
+		rhs = "<cmd>Checkmate cycle_previous<CR>",
+		desc = "Cycle todo item(s) to the previous state",
+		mode = { "n", "v" },
+	},
+	{
+		lhs = "<localleader>cn",
+		rhs = "<cmd>Checkmate create<CR>",
+		desc = "[c]heck [n]ew: Create todo item",
+		mode = { "n", "v" },
+		icon = {
+			icon = " ",
+			hl = checkboxes.checked.highlight,
+		},
+	},
+	{
+		lhs = "<localleader>cr",
+		rhs = "<cmd>Checkmate remove<CR>",
+		desc = "[c]heck [r]emove: Remove todo marker (convert to text)",
+		mode = { "n", "v" },
+		icon = {
+			icon = "󰕛 ",
+			hl = checkboxes.paused.highlight,
+		},
+	},
+	{
+		lhs = "<localleader>ca",
+		rhs = "<cmd>Checkmate archive<CR>",
+		desc = "[c]heck [a]rchive: Archive checked/completed todo items (move to bottom section)",
+		mode = { "n" },
+		icon = {
+			icon = " ",
+			hl = "Normal",
+		},
+	},
+	{
+		lhs = "<localleader>cf",
+		rhs = "<cmd>Checkmate select_todo<CR>",
+		desc = "[c]heck [f]ind: Open a picker to select a todo from the current buffer",
+		mode = { "n" },
+		icon = {
+			icon = "󰝖 ",
+			hl = "Normal",
+		},
+	},
+
+	{
+		lhs = "<localleader>c]",
+		rhs = "<cmd>Checkmate metadata jump_next<CR>",
+		desc = "Move cursor to next metadata tag",
+		mode = { "n" },
+	},
+	{
+		lhs = "<localleader>c[",
+		rhs = "<cmd>Checkmate metadata jump_previous<CR>",
+		desc = "Move cursor to previous metadata tag",
+		mode = { "n" },
+	},
+
+	{
+		lhs = "<localleader>cmd",
+		rhs = "<cmd>Checkmate metadata toggle done<CR>",
+		desc = "[c]heck [m]etadata [d]one: Toggle '@done' metadata.",
+		mode = { "n", "v" },
+		icon = {
+			icon = checkboxes.checked.rendered,
+			hl = checkboxes.checked.highlight,
+		},
+	},
+	{
+		lhs = "<localleader>cms",
+		rhs = "<cmd>Checkmate metadata toggle started<CR>",
+		desc = "[c]heck [m]etadata [s]tarted: Toggle '@started' metadata.",
+		mode = { "n", "v" },
+		icon = {
+			icon = checkboxes.in_progress.rendered,
+			hl = checkboxes.in_progress.highlight,
+		},
+	},
+	{
+		lhs = "<localleader>cmp",
+		rhs = "<cmd>Checkmate metadata toggle priority<CR>",
+		desc = "[c]heck [m]etadata [p]riority: Toggle '@priority' metadata.",
+		mode = { "n", "v" },
+		icon = {
+			icon = checkboxes.urgent.rendered,
+			hl = checkboxes.urgent.highlight,
+		},
+	},
+	{
+		lhs = "<localleader>cmv",
+		rhs = "<cmd>Checkmate metadata select_value<CR>",
+		desc = "[c]heck [m]etadata [v]alue: Update the value of a metadata tag under the cursor",
+		mode = { "n" },
+		icon = {
+			icon = "󰉺 ",
+			hl = checkboxes.checked.highlight,
+		},
+	},
+	{
+		lhs = "<localleader>cmr",
+		rhs = "<cmd>Checkmate remove_all_metadata<CR>",
+		desc = "[c]heck [m]etadata [R]emove: Remove all metadata from a todo item",
+		mode = { "n", "v" },
+		icon = {
+			icon = "󰉺 ",
+			hl = checkboxes.cancelled.highlight,
 		},
 	},
 }
+wk.add(vim.list_extend(
+	vim
+		.iter(vim.deepcopy(checkmate_maps))
+		:map(function(map)
+			return {
+				map.lhs,
+				map.rhs,
+				desc = map.desc,
+				mode = map.mode,
+				icon = map.icon,
+				map.opts or {},
+				cond = function()
+					return vim.o.filetype == "markdown"
+				end,
+			}
+		end)
+		:totable(),
+	{
+		{ "<localleader>c", group = "Checkmate" },
+		{ "<localleader>cm", group = "Checkmate Metadata" },
+	}
+))
 
 local function md(raw)
 	return ("[%s]"):format(raw)
@@ -336,10 +548,12 @@ return {
 			render_modes = { "n", "i", "c" },
 			restart_highlighter = true,
 			heading = {
-				-- icons = { "󰎤 ", "󰎧 ", "󰎪 ", "󰎭 ", "󰎱 ", "󰎳 " },
-				icons = { " " },
+				icons = { "󰎤 ", "󰎧 ", "󰎪 ", "󰎭 ", "󰎱 ", "󰎳 " },
+				-- icons = { " " },
 				position = "inline",
 				border = true,
+				left_pad = 1,
+				sign = true,
 				-- border_virtual = true,
 				width = { "block" },
 				min_width = vim.o.textwidth - 1,
@@ -360,7 +574,7 @@ return {
 				border_virtual = true,
 			},
 			checkbox = {
-				enabled = true,
+				enabled = not use_cm_todos,
 				bullet = false,
 				left_pad = 1,
 				unchecked = {
@@ -403,10 +617,20 @@ return {
 			},
 			link = {
 				enabled = true,
+				wiki = {
+					enabled = true,
+					icon = "", --'󱗖 ',
+					body = function()
+						return nil
+					end,
+					highlight = "RenderMarkdownWikiLink",
+					scope_highlight = nil,
+				},
 			},
 			code = {
 				width = "block",
 				border = "thin",
+				sign = true,
 				language_border = " ",
 				language_left = ("%s%s"):format(
 					icons.separators.slant.right,
@@ -650,6 +874,12 @@ return {
 
 			local opts = {
 				legacy_commands = false,
+				statusline = {
+					enabled = false,
+					format = "{{backlinks}} backlinks  {{properties}} properties  {{words}} words  {{chars}} chars",
+					hl_group = "Comment",
+					separator = string.rep("-", 80),
+				},
 				workspaces = workspaces,
 				templates = {
 					subdir = "_System/Templates/",
@@ -672,14 +902,15 @@ return {
 					local id = tostring(os.date("%Y%m%d%H%M%S", os.time()))
 
 					if title ~= nil then
-						suffix = title
+						-- If title is given, transform it into valid file name.
+						suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
 					else
 						-- If title is nil, just add 4 random uppercase letters to the suffix.
 						for _ = 1, 4 do
 							suffix = suffix .. string.char(math.random(65, 90))
 						end
 					end
-					return ("%s %s"):format(id, suffix)
+					return ("%s_%s"):format(id, suffix)
 				end,
 
 				-- Optional, customize how note file names are generated given the ID, target directory, and title.
@@ -693,6 +924,15 @@ return {
 				note = {
 					template = "Unique Note.md",
 				},
+
+				daily_notes = {
+					enabled = true,
+					folder = "dailies",
+					-- date_format = "YYYY-MM-DD",
+					-- alias_format = nil,
+					default_tags = { "daily-notes" },
+					workdays_only = false,
+				},
 				-- Optional, customize how wiki links are formatted. You can set this to one of:
 				--	* "use_alias_only", e.g. '[[Foo Bar]]'
 				--	* "prepend_note_id", e.g. '[[foo-bar|Foo Bar]]'
@@ -705,9 +945,10 @@ return {
 					-- A function that determines the text to insert in the note when pasting an image.
 					-- It takes two arguments, the `obsidian.Client` and an `obsidian.Path` to the image file.
 					-- This is the default implementation.
-					img_text_func = function(client, path)
-						path = client:vault_relative_path(path) or path
-						return string.format("![%s](%s)", path.name, path)
+					img_text_func = function(path)
+						local name = vim.fs.basename(tostring(path))
+						local encoded_name = require("obsidian.util").urlencode(name)
+						return string.format("![%s](%s)", name, encoded_name)
 					end,
 				},
 				checkbox = {
@@ -740,50 +981,53 @@ return {
 			---@type checkmate.Config
 			local opts = {
 				files = { "*.md" }, -- any .md file (instead of defaults)
+				ui = { picker = "native" },
 				list_continuation = {
 					enabled = false,
 				},
+				show_todo_count = true,
+				todo_count_position = use_cm_todos and "inline" or "eol",
 				todo_states = {
 					unchecked = {
-						marker = md(checkboxes.unchecked.raw),
-						-- marker = checkboxes.unchecked.rendered,
+						marker = use_cm_todos and checkboxes.unchecked.rendered
+							or md(checkboxes.unchecked.raw),
 					},
 					checked = {
-						marker = "[x]",
-						-- marker = checkboxes.checked.rendered,
+						marker = use_cm_todos and checkboxes.checked.rendered
+							or md(checkboxes.checked.raw),
 					},
 
 					in_progress = {
-						marker = md(checkboxes.in_progress.raw),
-						-- marker = checkboxes.in_progress.rendered,
+						marker = use_cm_todos and checkboxes.in_progress.rendered
+							or md(checkboxes.in_progress.raw),
 						markdown = checkboxes.in_progress.raw,
 						type = "incomplete", -- Counts as "not done"
 						order = 50,
 					},
 					cancelled = {
-						marker = md(checkboxes.cancelled.raw),
-						-- marker = checkboxes.cancelled.rendered,
+						marker = use_cm_todos and checkboxes.cancelled.rendered
+							or md(checkboxes.cancelled.raw),
 						markdown = checkboxes.cancelled.raw,
 						type = "complete",
 						order = 2,
 					},
 					paused = {
-						marker = md(checkboxes.paused.raw),
-						-- marker = checkboxes.paused.rendered,
+						marker = use_cm_todos and checkboxes.paused.rendered
+							or md(checkboxes.paused.raw),
 						markdown = checkboxes.paused.raw,
 						type = "incomplete",
 						order = 100,
 					},
 					urgent = {
-						marker = md(checkboxes.urgent.raw),
-						-- marker = checkboxes.urgent.rendered,
+						marker = use_cm_todos and checkboxes.urgent.rendered
+							or md(checkboxes.urgent.raw),
 						markdown = checkboxes.urgent.raw,
 						type = "incomplete",
 						order = 1,
 					},
 					optional = {
-						marker = md(checkboxes.optional.raw),
-						-- marker = checkboxes.optional.rendered,
+						marker = use_cm_todos and checkboxes.optional.rendered
+							or md(checkboxes.optional.raw),
 						markdown = checkboxes.optional.raw,
 						type = "inactive",
 						order = 101,
@@ -792,23 +1036,95 @@ return {
 				todo_count_formatter = function(completed, total)
 					return string.format("(%d/%d)", completed, total)
 				end,
+				use_metadata_keymaps = false,
+				metadata = {
+					-- Example: A @priority tag that has dynamic color based on the priority value
+					priority = {
+						---@return vim.api.keyset.highlight
+						style = function(context)
+							local value = context.value:lower()
+							if value == "high" then
+								return { link = "TaskMeta_prio_high" }
+							elseif value == "medium" then
+								return { link = "TaskMeta_prio_medium" }
+							elseif value == "low" then
+								return { link = "TaskMeta_prio_low" }
+							else -- fallback
+								return { fg = "#8be9fd" }
+							end
+						end,
+						get_value = function()
+							return "medium" -- Default priority
+						end,
+						choices = function()
+							return { "low", "medium", "high" }
+						end,
+						-- key = "<leader>Tp",
+						sort_order = 10,
+						jump_to_on_insert = "value",
+						select_on_insert = true,
+					},
+					-- Example: A @started tag that uses a default date/time string when added
+					started = {
+						aliases = { "init" },
+						---@type vim.api.keyset.highlight
+						style = { link = "TaskMeta_started" },
+						get_value = function()
+							return tostring(os.date("%m/%d/%y %H:%M"))
+						end,
+						-- key = "<leader>Ts",
+						on_add = function(todo)
+							require("checkmate").set_todo_state(todo, "in_progress")
+						end,
+						on_remove = function(todo)
+							require("checkmate").set_todo_state(todo, "unchecked")
+						end,
+						sort_order = 20,
+					},
+					-- Example: A @done tag that also sets the todo item state when it is added and removed
+					done = {
+						aliases = { "completed", "finished" },
+						---@type vim.api.keyset.highlight
+						style = { link = "TaskMeta_done" },
+						get_value = function()
+							return tostring(os.date("%m/%d/%y %H:%M"))
+						end,
+						-- key = "<leader>Td",
+						on_add = function(todo)
+							require("checkmate").set_todo_state(todo, "checked")
+						end,
+						on_remove = function(todo)
+							require("checkmate").set_todo_state(todo, "unchecked")
+						end,
+						sort_order = 30,
+					},
+				},
+				keys = false,
+				-- keys = vim
+				-- 	.iter(vim.deepcopy(checkmate_maps))
+				-- 	:fold({}, function(acc, map)
+				-- 		acc[map.lhs] = { map.rhs, map.desc, map.mode }
+				-- 		return acc
+				-- 	end),
 
 				style = {
-					CheckmateTodoCountIndicator = { link = "AccentInverse" },
+					CheckmateTodoCountIndicator = { link = "DiagnosticVirtualTextHint" },
+					CheckmateCheckedMarker = { link = checkboxes.checked.highlight },
+					CheckmateUncheckedMarker = { link = checkboxes.unchecked.highlight },
+					CheckmateInProgressMarker = {
+						link = checkboxes.in_progress.highlight,
+					},
+					CheckmateCancelledMarker = { link = checkboxes.cancelled.highlight },
+					CheckmateCancelledMainContent = {
+						link = checkboxes.cancelled.scope_highlight,
+					},
+					CheckmatePausedMarker = { link = checkboxes.paused.highlight },
+					CheckmateUrgentMarker = { link = checkboxes.urgent.highlight },
+					CheckmateUrgentMainContent = {
+						link = checkboxes.urgent.scope_highlight,
+					},
+					CheckmateOptionalMarker = { link = checkboxes.optional.highlight },
 				},
-				-- {
-				-- 	CheckmateCheckedMarker = { link = checkboxes.checked.highlight },
-				-- 	CheckmateUncheckedMarker = { link = checkboxes.unchecked.highlight },
-				-- 	CheckmateInProgressMarker = { link = checkboxes.inProgress.highlight },
-				-- 	CheckmateCancelledMarker = { link = checkboxes.cancelled.highlight },
-				-- 	CheckmateCancelledMainContent = {
-				-- 		link = checkboxes.cancelled.scope_highlight,
-				-- 	},
-				-- 	CheckmatePausedMarker = { link = checkboxes.paused.highlight },
-				-- 	CheckmateUrgentMarker = { link = checkboxes.urgent.highlight },
-				-- 	CheckmateUrgentMainContent = { link = checkboxes.urgent.scope_highlight },
-				-- 	CheckmateOptionalMarker = { link = checkboxes.optional.highlight },
-				-- },
 			}
 			require("checkmate").setup(opts)
 

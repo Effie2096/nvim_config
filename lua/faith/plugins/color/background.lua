@@ -6,14 +6,12 @@ local astronomy_file =
 if vim.fn.filereadable(astronomy_file) == 0 then
 	return
 end
+local themes_list = require("faith.plugins.color.themery")
 
+math.randomseed(os.time())
 local themes = {
-	dark = {
-		colorscheme = "Eldritch Default",
-	},
-	light = {
-		colorscheme = "Nightfox Day",
-	},
+	dark = themes_list.dark[math.random(1, #themes_list.dark)],
+	light = themes_list.light[math.random(1, #themes_list.light)],
 }
 
 local uv = vim.uv

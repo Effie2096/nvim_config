@@ -5,7 +5,7 @@ local winbar_ignore = ignore.winbar_ignore
 
 return {
 	"fileformat",
-	padding = { left = 1, right = 1 },
+	padding = { left = 0, right = 1 },
 	fmt = function(str)
 		if str == "" then -- only show if *not* unix format
 			return ""

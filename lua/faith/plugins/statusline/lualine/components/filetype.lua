@@ -14,7 +14,7 @@ return {
 	-- icon =    {'X', align='right'}
 	-- Icon string ^ in table is ignored in filetype component
 	padding = { left = 1, right = 0 },
-	separator = "",
+	separator = nil,
 	color = "WinBar",
 	fmt = function(str)
 		local ft = vim.bo.filetype

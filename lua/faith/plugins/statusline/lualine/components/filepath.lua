@@ -15,15 +15,22 @@ local sep = histr(icons.ui.ChevronRight, "Comment")
 
 return {
 	function()
+		local buf_name = vim.api.nvim_buf_get_name(0)
+		local buf_path = Path:new(buf_name)
+		local relative = buf_path:make_relative(vim.uv.cwd())
+
 		local pathI = vim
-			.iter(
-				path_parts(
-					Path:new(vim.api.nvim_buf_get_name(0)):make_relative(vim.uv.cwd())
-				)
-			)
+			.iter(path_parts(relative))
+			:filter(function(folder)
+				return not folder:match(":")
+			end)
 			:rskip(1)
 
 		if pathI:peek() == nil then
+			return ""
+		end
+
+		if buf_path:is_absolute() then
 			return ""
 		end
 

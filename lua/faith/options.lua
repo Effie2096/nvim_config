@@ -93,37 +93,29 @@ vim.opt.fillchars:append({
 	diff = icons.git.signs.diff,
 })
 
-vim.api.nvim_create_autocmd({ "FileType" }, {
+vim.api.nvim_create_autocmd({ "BufReadPre" }, {
+	group = vim.api.nvim_create_augroup("set_formatoptions", { clear = true }),
 	pattern = "*",
-	callback = function(ctx)
-		if ctx.match == "md" then
-			vim.opt.formatoptions:remove("c")
-			vim.opt.formatoptions:remove("q")
-			vim.opt.formatoptions:remove("j")
-			vim.opt.formatoptions:remove("l")
-
-			vim.opt.formatoptions:append("w")
-			vim.opt.formatoptions:append("a")
-			vim.opt.formatoptions:append("n")
-		else
-			-- defaults ig
+	callback = function(_)
+		-- default tcqj
+		vim.opt.formatoptions = {
 			-- Auto formatting is BAD.
-			vim.opt.formatoptions:remove("a")
+			a = false,
 			-- Don't auto format my code. I have linters for that.
-			vim.opt.formatoptions:remove("t")
+			t = false,
 			-- In general, I like it when comments respect textwidth
-			vim.opt.formatoptions:append("c")
+			c = true,
 			-- Allow formatting comments w/ gq
-			vim.opt.formatoptions:append("q")
+			q = true,
 			-- O and o, don't continue comments
-			vim.opt.formatoptions:remove("o")
+			o = false,
 			-- But do continue when pressing enter.
-			vim.opt.formatoptions:append("r")
+			r = true,
 			-- Indent past the formatlistpat, not underneath it.
-			vim.opt.formatoptions:append("n") -- doesn't work well with "2"
-			vim.opt.formatoptions:remove("2")
+			n = true,
+			["2"] = false,
 			-- Auto-remove comments if possible.
-			vim.opt.formatoptions:append("j")
-		end
+			j = true,
+		}
 	end,
 })

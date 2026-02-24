@@ -1,4 +1,4 @@
-local themes = require("faith.plugins.color.themes")
+local themes_list = vim.deepcopy(require("faith.plugins.color.themery"))
 local apply_theme_overrides =
 	require("faith.plugins.color.overrides").apply_theme_overrides
 
@@ -19,13 +19,17 @@ return {
 		config = function()
 			require("themery").setup({
 				themes = vim.list_extend(
-					themes.dark,
-					vim.list_extend(themes.light, vim.list_extend({}, themes.color))
+					themes_list.dark,
+					vim.list_extend(
+						themes_list.light,
+						vim.list_extend({}, themes_list.color)
+					)
 				),
 			})
 			require("faith.plugins.color.background")
 		end,
 	},
+	require("faith.plugins.color.themes.kanagawa"),
 	{ -- eldritch
 		"eldritch-theme/eldritch.nvim",
 		lazy = false,

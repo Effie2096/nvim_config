@@ -2,9 +2,9 @@ local components =
 	require("faith.plugins.statusline.lualine.components").components()
 
 local sections = {
-	lualine_a = { components.vanity.trans_flag },
+	lualine_a = { "trans_flag" },
 	lualine_b = {
-		-- components.resession,
+		components.resession,
 		components.root,
 		components.branch,
 	},
@@ -42,6 +42,7 @@ local winbar = {
 	},
 	lualine_c = {
 		components.breadcrumbs,
+		components.obsidian,
 	},
 	lualine_x = {
 		components.location,

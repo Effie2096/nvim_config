@@ -57,7 +57,7 @@ return {
 					},
 					{
 						sign = {
-							namespace = { "diagnostic.signs" },
+							namespace = { "diagnostic%.signs", "render%-markdown%.nvim" },
 							text = { "💡", "🔎" },
 							name = { "todo%-sign%-.*" },
 							maxwidth = 1,

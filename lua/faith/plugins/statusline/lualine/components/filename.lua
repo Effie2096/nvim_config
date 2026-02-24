@@ -33,10 +33,6 @@ return {
 	color = "WinBar",
 	separator = "",
 	fmt = function(str)
-		if str == "[No Name]" or str == "[New]" then
-			return str
-		end
-
 		local name = str
 		local ft = vim.bo.filetype
 		local bt = vim.bo.buftype

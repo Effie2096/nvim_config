@@ -11,7 +11,8 @@ return {
 			-- or leave it empty to use the default settings
 			-- refer to the configuration section below
 			image = {
-				force = true,
+				enabled = true,
+				force = false,
 				img_dirs = {
 					"img",
 					"images",
@@ -21,6 +22,60 @@ return {
 					"media",
 					"Attachments",
 				},
+				resolve = function(path, src)
+					local api = require("obsidian.api")
+					if api.path_is_note(path) then
+						return api.resolve_attachment_path(src)
+					end
+				end,
+				doc = {
+					-- enable image viewer for documents
+					-- a treesitter parser must be available for the enabled languages.
+					enabled = true,
+					-- render the image inline in the buffer
+					-- if your env doesn't support unicode placeholders, this will be disabled
+					-- takes precedence over `opts.float` on supported terminals
+					inline = false,
+					-- render the image in a floating window
+					-- only used if `opts.inline` is disabled
+					float = true,
+					max_width = 80,
+					max_height = 40,
+					-- Set to `true`, to conceal the image text when rendering inline.
+					-- (experimental)
+					---@param lang string tree-sitter language
+					---@param type snacks.image.Type image type
+					conceal = function(lang, type)
+						-- only conceal math expressions
+						return type == "math"
+					end,
+				},
+			},
+			dim = {
+				enabled = false,
+				---@type snacks.scope.Config
+				scope = {
+					min_size = 5,
+					max_size = 40,
+					siblings = true,
+				},
+				-- animate scopes. Enabled by default for Neovim >= 0.10
+				-- Works on older versions but has to trigger redraws during animation.
+				---@type snacks.animate.Config|{enabled?: boolean}
+				animate = {
+					enabled = true,
+					easing = "outQuad",
+					duration = {
+						step = 20, -- ms per step
+						total = 100, -- maximum duration
+					},
+				},
+				-- what buffers to dim
+				filter = function(buf)
+					return vim.g.snacks_dim ~= false
+						and vim.b[buf].snacks_dim ~= false
+						and vim.bo[buf].buftype == ""
+				end,
 			},
 			bigfile = { enabled = true },
 			bufdelete = { enable = true },
@@ -35,7 +90,7 @@ return {
 			scroll = { enabled = false },
 			statuscolumn = { enabled = false },
 			words = { enabled = false },
-			toggle = { enables = true },
+			toggle = { enabled = true },
 			scratch = {
 				filekey = {
 					cwd = true, -- use current working directory
@@ -44,7 +99,12 @@ return {
 				},
 			},
 			zen = {
+				enabled = true,
 				toggles = { dim = false },
+				show = {
+					statusline = true,
+					tabline = false,
+				},
 				zoom = {
 					show = {
 						statusline = true,
@@ -54,16 +114,14 @@ return {
 			},
 			styles = {
 				snacks_image = {
-					relative = "win",
-					border = false,
+					relative = "editor",
+					border = true,
 					focusable = false,
 					backdrop = false,
-					row = function()
-						return vim.api.nvim_win_get_cursor(0)[1]
-					end,
-					col = 0,
+					-- row = 1,
+					col = -1,
 					-- width/height are automatically set by the image size unless specified below
-					bufpos = { 0, 0 },
+					-- bufpos = { 0, 0 },
 				},
 				input = {
 					relative = "editor",
@@ -72,9 +130,9 @@ return {
 					enter = true,
 					fixbuf = false,
 					minimal = false,
-					width = 90,
+					width = 87,
 					height = 0,
-					backdrop = { transparent = true, blend = 10 },
+					backdrop = { transparent = true, blend = 1 },
 				},
 				zoom_indicator = {
 					text = " ",
@@ -90,15 +148,15 @@ return {
 				},
 				scratch = {
 					ft = "markdown",
-					-- position = "right",
-					-- width = function()
-					-- 	local width = math.floor((vim.opt.columns:get() * 0.35))
-					-- 	return width < 50 and 50 or width
-					-- end,
-					-- height = function()
-					-- 	local height = math.floor((vim.opt.lines:get() * 0.3))
-					-- 	return height < 10 and 10 or height
-					-- end,
+					position = "right",
+					width = function()
+						local width = math.floor((vim.opt.columns:get() * 0.35))
+						return width < 50 and 50 or width
+					end,
+					height = function()
+						local height = math.floor((vim.opt.lines:get() * 0.3))
+						return height < 10 and 10 or height
+					end,
 				},
 			},
 		},

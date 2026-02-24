@@ -92,6 +92,57 @@ return {
 
 		return color_map
 	end,
+	["kanagawa"] = function(scheme)
+		local colors = require("kanagawa.colors").setup({ theme = scheme })
+
+		---@type ColorMap
+		local color_map = {
+			bg = colors.theme.ui.bg,
+			bg_light = colors.theme.ui.bg_gutter,
+			bg_dark = colors.theme.ui.bg_dim,
+			fg = colors.theme.ui.fg,
+			fg_light = colors.theme.ui.fg_reverse,
+			fg_dark = colors.theme.ui.fg_dim,
+			float = colors.theme.ui.float.bg,
+			float_light = colors.theme.ui.pmenu.bg_sel,
+			float_dark = colors.theme.ui.pmenu.bg,
+			surface = colors.theme.ui.bg_m2,
+			surface_light = colors.theme.ui.bg_m1,
+			surface_dark = colors.theme.ui.bg_m3,
+
+			accent = colors.palette.sakuraPink,
+			red = colors.palette.samuraiRed,
+			red_light = colors.palette.peachRed,
+			red_dark = colors.palette.lotusRed3,
+			green = colors.palette.springGreen,
+			green_light = colors.palette.lotusGreen3,
+			green_dark = colors.palette.lotusGreen2,
+			blue = colors.palette.crystalBlue,
+			blue_light = colors.palette.lotusBlue3,
+			blue_dark = colors.palette.lotusBlue4,
+			cyan = colors.palette.springBlue,
+			cyan_light = colors.palette.lightBlue,
+			cyan_dark = colors.palette.waveAqua2,
+			pink = colors.palette.sakuraPink,
+			pink_light = colors.palette.lotusPink,
+			pink_dark = colors.palette.dragonPink,
+			purple = colors.palette.lotusViolet4,
+			purple_light = colors.palette.oniViolet,
+			purple_dark = colors.palette.lotusInk2,
+			yellow = colors.palette.lotusYellow3,
+			yellow_light = colors.palette.lotusYellow4,
+			yellow_dark = colors.palette.lotusYellow2,
+			orange = colors.palette.lotusOrange2,
+			orange_light = colors.palette.surimiOrange,
+			orange_dark = colors.palette.lotusOrange,
+			error = colors.palette.samuraiRed,
+			warn = colors.palette.roninYellow,
+			info = colors.palette.waveAqua2,
+			hint = colors.palette.dragonBlue,
+		}
+
+		return color_map
+	end,
 	["eldritch"] = function(scheme)
 		local colors = require("eldritch.colors")
 

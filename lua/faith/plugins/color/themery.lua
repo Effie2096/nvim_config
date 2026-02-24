@@ -10,6 +10,10 @@ local themes = {
 			colorscheme = "eldritch",
 		},
 		{
+			name = "Kanagawa Dragon",
+			colorscheme = "kanagawa-dragon",
+		},
+		{
 			name = "Catppuccin Mocha",
 			colorscheme = "catppuccin-mocha",
 		},
@@ -68,8 +72,16 @@ local themes = {
 			name = "Sakura Light",
 			colorscheme = "sakura",
 		},
+		{
+			name = "Kanagawa Lotus",
+			colorscheme = "kanagawa-lotus",
+		},
 	},
 	color = {
+		{
+			name = "Kanagawa Wave",
+			colorscheme = "kanagawa-wave",
+		},
 		{
 			name = "Monokai Pro",
 			colorscheme = "monokai-pro-default",
@@ -95,7 +107,7 @@ local themes = {
 
 local function setBackground(theme, background)
 	return vim.tbl_extend(
-		"force",
+		"keep",
 		theme,
 		{ before = [[vim.o.background = "]] .. background .. [["]] }
 	)

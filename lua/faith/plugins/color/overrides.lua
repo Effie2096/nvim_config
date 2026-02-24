@@ -11,6 +11,16 @@ M.apply_theme_overrides = function(theme, scheme)
 		return vim.api.nvim_get_hl(0, { name = name })
 	end
 
+	local function set_hl(names, val)
+		if type(names) == "string" then
+			vim.api.nvim_set_hl(0, names, val)
+		else
+			vim.iter(names):each(function(name)
+				vim.api.nvim_set_hl(0, name, val)
+			end)
+		end
+	end
+
 	vim.api.nvim_set_hl(
 		0,
 		"Accent",
@@ -22,61 +32,69 @@ M.apply_theme_overrides = function(theme, scheme)
 		{ fg = color_map.accent, bold = true }
 	)
 
-	vim.api.nvim_set_hl(0, "TransB", { bg = "#5bcffa" })
-	vim.api.nvim_set_hl(0, "TransP", { bg = "#ffb5cd" })
-	vim.api.nvim_set_hl(0, "TransW", { bg = "#ffffff" })
+	set_hl("TransB", { bg = "#5bcffa" })
+	set_hl("TransP", { bg = "#ffb5cd" })
+	set_hl("TransW", { bg = "#ffffff" })
 
-	local sidebar_bg = color_map.bg
-	vim.api.nvim_set_hl(0, "SignColumn", {
+	local sidebar_bg = color_map.bg_dark
+	set_hl("SignColumn", {
 		bg = sidebar_bg,
 	})
-	vim.api.nvim_set_hl(0, "EndOfBuffer", {
+	set_hl("EndOfBuffer", {
 		bg = "NONE",
 		fg = color_map.bg,
 	})
-	vim.api.nvim_set_hl(0, "LineNr", {
+	set_hl("LineNr", {
+		fg = color_map.accent,
+		bg = sidebar_bg,
+	})
+	set_hl("LineNrAbove", {
 		fg = h("Comment").fg,
 		bg = sidebar_bg,
 	})
-	vim.api.nvim_set_hl(0, "CursorLineSign", {
+	set_hl("LineNrBelow", {
+		fg = h("Comment").fg,
+		bg = sidebar_bg,
+	})
+	set_hl("CursorLineSign", {
 		fg = color_map.accent,
 		bg = sidebar_bg,
 	})
-	vim.api.nvim_set_hl(0, "CursorLineNr", {
+	set_hl("CursorLineNr", {
 		fg = color_map.accent,
 		bg = sidebar_bg,
 	})
-	vim.api.nvim_set_hl(0, "FoldColumn", {
+	set_hl("FoldColumn", {
 		fg = color_map.accent,
 		bg = sidebar_bg,
 	})
-	vim.api.nvim_set_hl(0, "CursorLineFold", {
+	set_hl("CursorLineFold", {
 		fg = color_map.accent,
 		bg = sidebar_bg,
 	})
-	vim.api.nvim_set_hl(0, "Folded", {
+	set_hl("Folded", {
 		fg = color_map.accent,
 		bg = sidebar_bg,
 	})
 
-	vim.api.nvim_set_hl(0, "NormalFloat", {
+	set_hl("NormalFloat", {
 		fg = color_map.fg,
 		bg = color_map.float,
 	})
-	vim.api.nvim_set_hl(0, "FloatBorder", {
+	set_hl("FloatBorder", {
 		fg = color_map.accent,
 		bg = color_map.float,
 	})
-	vim.api.nvim_set_hl(0, "WinSeparator", {
+	set_hl("WinSeparator", {
 		fg = color_map.accent,
 		bg = sidebar_bg,
 	})
-	vim.api.nvim_set_hl(0, "ColorfulWinSep", {
+	set_hl("ColorfulWinSep", {
 		fg = color_map.accent,
 		bg = sidebar_bg,
 	})
 
-	vim.api.nvim_set_hl(0, "LspSignatureActiveParameter", {
+	set_hl("LspSignatureActiveParameter", {
 		fg = color_map.bg,
 		bg = color_map.accent,
 		italic = true,
@@ -89,53 +107,47 @@ M.apply_theme_overrides = function(theme, scheme)
 	)
 
 	local statusline_bg = sidebar_bg
-	vim.api.nvim_set_hl(0, "StatusLine", {
+	set_hl("StatusLine", {
 		fg = color_map.fg,
 		bg = statusline_bg,
 	})
-	vim.api.nvim_set_hl(0, "StatusLineNC", {
+	set_hl("StatusLineNC", {
 		fg = color_map.fg,
 		bg = statusline_bg,
 	})
-	vim.api.nvim_set_hl(0, "WinBar", {
+	set_hl("WinBar", {
 		link = "StatusLine",
 	})
-	vim.api.nvim_set_hl(0, "WinBarNC", {
+	set_hl("WinBarNC", {
 		link = "StatusLineNC",
 	})
 
-	vim.api.nvim_set_hl(0, "DiagnosticCheck", { fg = color_map.green })
+	set_hl("DiagnosticCheck", { fg = color_map.green })
 
 	for _, level in pairs({ "Error", "Warn", "Info", "Hint" }) do
-		vim.api.nvim_set_hl(0, "Diagnostic" .. level, {
+		set_hl("Diagnostic" .. level, {
 			fg = color_map[level:lower()],
 		})
-		vim.api.nvim_set_hl(0, "DiagnosticVirtualText" .. level, {
+		set_hl("DiagnosticVirtualText" .. level, {
 			fg = color_map[level:lower()],
 		})
-		vim.api.nvim_set_hl(0, "BarDiag" .. level, {
+		set_hl("DiagnosticVirtualLines" .. level, {
+			fg = color_map[level:lower()],
+		})
+		set_hl("DiagnosticSign" .. level, {
+			fg = color_map[level:lower()],
+		})
+		set_hl("BarDiag" .. level, {
 			link = "Diagnostic" .. level,
 		})
-		vim.api.nvim_set_hl(0, "Diagnostic" .. level .. "Num", {
+		set_hl("Diagnostic" .. level .. "Num", {
 			link = "Diagnostic" .. level,
 			bold = true,
 			italic = true,
 		})
 	end
-	vim.api.nvim_set_hl(0, "SessionAuto", {
+	set_hl("SessionAuto", {
 		fg = color_map.yellow,
-	})
-
-	vim.api.nvim_set_hl(0, "DiffChange", { bg = "#3d4261" })
-	vim.api.nvim_set_hl(0, "DiffText", {
-		bg = "#3d5a8a",
-		special = "#3d5a8a",
-		underline = true,
-	})
-
-	vim.api.nvim_set_hl(0, "GitSignsChangedelete", {
-		fg = color_map.blue,
-		bg = color_map.red,
 	})
 
 	vim.api.nvim_set_hl(
@@ -174,96 +186,118 @@ M.apply_theme_overrides = function(theme, scheme)
 		"Heading6",
 		{ fg = color_map.surface_dark, bg = color_map.red }
 	)
-	vim.api.nvim_set_hl(0, "CodeBlock", { bg = color_map.bg_dark })
-	vim.api.nvim_set_hl(0, "RenderMarkdownCode", { bg = color_map.bg_dark })
-	vim.api.nvim_set_hl(0, "HeadingBullet", { fg = color_map.surface_dark })
-	vim.api.nvim_set_hl(0, "Conceal", { bg = color_map.bg })
-	vim.api.nvim_set_hl(
-		0,
-		"RenderMarkdownDash",
-		{ bg = "NONE", fg = color_map.fg }
-	)
+	set_hl("CodeBlock", { bg = color_map.bg_dark })
+	set_hl("RenderMarkdownCode", { bg = color_map.bg_dark })
+	set_hl("HeadingBullet", { fg = color_map.surface_dark })
+	set_hl("Conceal", { bg = color_map.bg })
+	set_hl("RenderMarkdownDash", { bg = "NONE", fg = color_map.fg })
+	set_hl("RenderMarkdownWikiLink", { fg = color_map.cyan })
+	set_hl("markdownFootnote", { fg = color_map.cyan_dark, bold = true })
 
-	vim.api.nvim_set_hl(0, "RenderMarkdownH1Bg", {
-		bg = color_map.green,
+	local mdh1 = color_map.green
+	local mdh2 = color_map.orange
+	local mdh3 = color_map.purple
+	local mdh4 = color_map.blue_dark
+	local mdh5 = color_map.yellow
+	local mdh6 = color_map.red
+	set_hl("@markup.heading.1.markdown", { fg = mdh1, bg = color_map.bg })
+	set_hl({ "markdownH1", "RenderMarkdownH1Bg" }, {
+		bg = mdh1,
 		fg = color_map.bg,
+		bold = true,
 	})
-	vim.api.nvim_set_hl(0, "RenderMarkdownH2Bg", {
-		bg = color_map.orange,
+	set_hl("@markup.heading.2.markdown", { fg = mdh2, bg = color_map.bg })
+	set_hl({ "markdownH2", "RenderMarkdownH2Bg" }, {
+		bg = mdh2,
 		fg = color_map.bg,
+		bold = true,
 	})
-	vim.api.nvim_set_hl(0, "RenderMarkdownH3Bg", {
-		bg = color_map.purple_dark,
+	set_hl("@markup.heading.3.markdown", { fg = mdh3, bg = color_map.bg })
+	set_hl({ "markdownH3", "RenderMarkdownH3Bg" }, {
+		bg = mdh3,
 		fg = color_map.bg,
+		bold = true,
 	})
-	vim.api.nvim_set_hl(0, "RenderMarkdownH4Bg", {
-		bg = color_map.blue_dark,
+	set_hl("@markup.heading.4.markdown", { fg = mdh4, bg = color_map.bg })
+	set_hl({ "markdownH4", "RenderMarkdownH4Bg" }, {
+		bg = mdh4,
 		fg = color_map.bg,
+		bold = true,
 	})
-	vim.api.nvim_set_hl(0, "RenderMarkdownH5Bg", {
-		bg = color_map.yellow,
+	set_hl("@markup.heading.5.markdown", { fg = mdh5, bg = color_map.bg })
+	set_hl({ "markdownH5", "RenderMarkdownH5Bg" }, {
+		bg = mdh5,
 		fg = color_map.bg,
+		bold = true,
 	})
-	vim.api.nvim_set_hl(0, "RenderMarkdownH6Bg", {
-		bg = color_map.red,
+	set_hl("@markup.heading.6.markdown", { fg = mdh6, bg = color_map.bg })
+	set_hl({ "markdownH6", "RenderMarkdownH6Bg" }, {
+		bg = mdh6,
 		fg = color_map.bg,
+		bold = true,
 	})
 
-	vim.api.nvim_set_hl(0, "RenderMarkdownChecked", {
+	set_hl("RenderMarkdownChecked", {
 		fg = color_map.green,
 	})
-	vim.api.nvim_set_hl(0, "RenderMarkdownUnchecked", {
+	set_hl("RenderMarkdownUnchecked", {
 		fg = color_map.blue,
 	})
-	vim.api.nvim_set_hl(0, "RenderMarkdownCancelled", {
+	set_hl("RenderMarkdownCancelled", {
 		fg = h("Comment").fg,
 	})
-	vim.api.nvim_set_hl(0, "RenderMarkdownCancelledMainContent", {
+	set_hl("RenderMarkdownCancelledMainContent", {
 		fg = h("Comment").fg,
 		strikethrough = true,
 	})
-	vim.api.nvim_set_hl(0, "RenderMarkdownPaused", {
+	set_hl("RenderMarkdownPaused", {
 		fg = color_map.warn,
 	})
-	vim.api.nvim_set_hl(0, "RenderMarkdownUrgent", {
+	set_hl("RenderMarkdownUrgent", {
 		fg = color_map.error,
 	})
-	vim.api.nvim_set_hl(0, "RenderMarkdownOptional", {
+	set_hl("RenderMarkdownOptional", {
 		fg = color_map.purple,
 	})
-	vim.api.nvim_set_hl(0, "RenderMarkdownInProgress", {
+	set_hl("RenderMarkdownInProgress", {
 		fg = color_map.warn,
 	})
 
-	vim.api.nvim_set_hl(0, "RenderMarkdownInlineHighlight", {
+	set_hl("RenderMarkdownInlineHighlight", {
 		bg = color_map.yellow,
 		fg = color_map.bg,
 		bold = true,
 	})
-	vim.api.nvim_set_hl(0, "RenderMarkdownTableFill", { link = "Normal" })
+	set_hl("RenderMarkdownTableFill", { link = "Normal" })
 
-	vim.api.nvim_set_hl(0, "IblScope", { fg = color_map.accent })
-	vim.api.nvim_set_hl(0, "IblWhitespace", { fg = h("Comment").fg })
-	vim.api.nvim_set_hl(0, "NonText", { fg = h("Comment").fg })
+	set_hl("TaskMeta_done", { fg = color_map.green })
+	set_hl("TaskMeta_started", { fg = color_map.yellow })
+	set_hl("TaskMeta_prio_high", { fg = color_map.red, bold = true })
+	set_hl("TaskMeta_prio_medium", { fg = color_map.orange })
+	set_hl("TaskMeta_prio_low", { fg = color_map.blue_light })
+
+	set_hl("IblScope", { fg = color_map.accent })
+	set_hl("IblWhitespace", { fg = h("Comment").fg })
+	set_hl("NonText", { fg = h("Comment").fg })
 
 	vim.api.nvim_set_hl(
 		0,
 		"@markup.quote",
 		{ fg = color_map.yellow, bold = false }
 	)
-	vim.api.nvim_set_hl(0, "@markup.italic", {
+	set_hl("@markup.italic", {
 		fg = color_map.purple_dark,
 		italic = true,
 	})
-	vim.api.nvim_set_hl(0, "@markup.strong", { fg = color_map.red, bold = true })
+	set_hl("@markup.strong", { fg = color_map.red, bold = true })
 
-	vim.api.nvim_set_hl(0, "RainbowRed", { fg = color_map.red })
-	vim.api.nvim_set_hl(0, "RainbowYellow", { fg = color_map.yellow })
-	vim.api.nvim_set_hl(0, "RainbowBlue", { fg = color_map.blue_dark })
-	vim.api.nvim_set_hl(0, "RainbowOrange", { fg = color_map.orange })
-	vim.api.nvim_set_hl(0, "RainbowGreen", { fg = color_map.green })
-	vim.api.nvim_set_hl(0, "RainbowViolet", { fg = color_map.purple_dark })
-	vim.api.nvim_set_hl(0, "RainbowCyan", { fg = color_map.green_light })
+	set_hl("RainbowRed", { fg = color_map.red })
+	set_hl("RainbowYellow", { fg = color_map.yellow })
+	set_hl("RainbowBlue", { fg = color_map.blue_dark })
+	set_hl("RainbowOrange", { fg = color_map.orange })
+	set_hl("RainbowGreen", { fg = color_map.green })
+	set_hl("RainbowViolet", { fg = color_map.purple_dark })
+	set_hl("RainbowCyan", { fg = color_map.green_light })
 
 	vim.api.nvim_set_hl(
 		0,
@@ -276,7 +310,27 @@ M.apply_theme_overrides = function(theme, scheme)
 		{ fg = color_map.bg, bg = color_map.accent, bold = true }
 	)
 
-	vim.api.nvim_set_hl(0, "BranchIndicator", { fg = color_map.blue })
+	vim.api.nvim_set_hl(
+		0,
+		"DiffAdd",
+		{ bg = color_map.green_light, fg = color_map.green_dark }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"DiffChange",
+		{ bg = color_map.blue_light, fg = color_map.blue_dark }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"DiffDelete",
+		{ bg = color_map.red_light, fg = color_map.red_dark }
+	)
+	set_hl("DiffText", {
+		fg = color_map.bg,
+		underline = true,
+	})
+
+	set_hl("BranchIndicator", { fg = color_map.blue })
 	vim.api.nvim_set_hl(
 		0,
 		"GitSignsAddInline",
@@ -317,6 +371,20 @@ M.apply_theme_overrides = function(theme, scheme)
 		"GitSignsChangeNr",
 		{ fg = color_map.blue, bg = sidebar_bg }
 	)
+	vim.api.nvim_set_hl(
+		0,
+		"GitSignsAdd",
+		{ fg = color_map.green, bg = sidebar_bg }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"GitSignsDelete",
+		{ fg = color_map.red_light, bg = sidebar_bg }
+	)
+	set_hl("GitSignsChangedelete", {
+		fg = color_map.blue,
+		bg = color_map.red,
+	})
 
 	-- Telescope
 	local telescope_bg = color_map.float
@@ -326,10 +394,15 @@ M.apply_theme_overrides = function(theme, scheme)
 
 	vim.api.nvim_set_hl(
 		0,
+		"TelescopeSelectionCaret",
+		{ fg = color_map.accent, bg = telescope_bg }
+	)
+	vim.api.nvim_set_hl(
+		0,
 		"TelescopePromptCounter",
 		{ fg = color_map.fg_dark, bg = telescope_prompt_bg }
 	)
-	vim.api.nvim_set_hl(0, "TelescopeSelection", { bg = color_map.float_dark })
+	set_hl("TelescopeSelection", { bg = color_map.float_dark })
 
 	vim.api.nvim_set_hl(
 		0,
@@ -342,9 +415,9 @@ M.apply_theme_overrides = function(theme, scheme)
 		{ fg = color_map.bg, bg = color_map.green }
 	)
 
-	vim.api.nvim_set_hl(0, "TelescopePromptNormal", { bg = telescope_prompt_bg })
-	vim.api.nvim_set_hl(0, "TelescopeResultsNormal", { bg = telescope_prompt_bg })
-	vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = telescope_bg })
+	set_hl("TelescopePromptNormal", { bg = telescope_prompt_bg })
+	set_hl("TelescopeResultsNormal", { bg = telescope_prompt_bg })
+	set_hl("TelescopeNormal", { bg = telescope_bg })
 	vim.api.nvim_set_hl(
 		0,
 		"TelescopePreviewNormal",
@@ -374,23 +447,23 @@ M.apply_theme_overrides = function(theme, scheme)
 
 	local ts_context_bg = color_map.bg
 	local ts_bottom = true
-	vim.api.nvim_set_hl(0, "TreesitterContext", {
+	set_hl("TreesitterContext", {
 		bg = ts_context_bg,
 	})
-	vim.api.nvim_set_hl(0, "TreesitterContextBottom", {
+	set_hl("TreesitterContextBottom", {
 		bg = ts_context_bg,
 		sp = color_map.accent,
 		underline = ts_bottom,
 	})
-	vim.api.nvim_set_hl(0, "TreesitterContextSeparator", {
+	set_hl("TreesitterContextSeparator", {
 		bg = ts_context_bg,
 	})
-	local lnr = h("LineNr")
-	vim.api.nvim_set_hl(0, "TreesitterContextLineNumber", {
+	local lnr = h("LineNrAbove")
+	set_hl("TreesitterContextLineNumber", {
 		fg = lnr.fg,
 		bg = sidebar_bg,
 	})
-	vim.api.nvim_set_hl(0, "TreesitterContextLineNumberBottom", {
+	set_hl("TreesitterContextLineNumberBottom", {
 		fg = lnr.fg,
 		bg = sidebar_bg,
 		sp = color_map.accent,
@@ -400,39 +473,39 @@ M.apply_theme_overrides = function(theme, scheme)
 	local pmenu_bg = color_map.float_dark
 	local pmenu_sel_bg = color_map.float
 
-	vim.api.nvim_set_hl(0, "Pmenu", { fg = color_map.fg, bg = pmenu_bg })
-	vim.api.nvim_set_hl(0, "PmenuThumb", { bg = pmenu_bg })
-	vim.api.nvim_set_hl(0, "PmenuMatch", { bold = true })
-	vim.api.nvim_set_hl(0, "PmenuExtra", { bg = pmenu_bg })
-	vim.api.nvim_set_hl(0, "PmenuSbar", { fg = color_map.bg_dark, bg = pmenu_bg })
-	vim.api.nvim_set_hl(0, "PmenuKind", { link = "Pmenu" })
+	set_hl("Pmenu", { fg = color_map.fg, bg = pmenu_bg })
+	set_hl("PmenuThumb", { bg = pmenu_bg })
+	set_hl("PmenuMatch", { bold = true })
+	set_hl("PmenuExtra", { bg = pmenu_bg })
+	set_hl("PmenuSbar", { fg = color_map.bg_dark, bg = pmenu_bg })
+	set_hl("PmenuKind", { link = "Pmenu" })
 
-	vim.api.nvim_set_hl(0, "PmenuSel", { bg = pmenu_sel_bg })
-	vim.api.nvim_set_hl(0, "PmenuMatchSel", { bold = true, bg = pmenu_sel_bg })
-	vim.api.nvim_set_hl(0, "PmenuExtraSel", { bold = true, bg = pmenu_sel_bg })
-	vim.api.nvim_set_hl(0, "PmenuKindSel", { link = "PmenuSel" })
+	set_hl("PmenuSel", { bg = pmenu_sel_bg })
+	set_hl("PmenuMatchSel", { bold = true, bg = pmenu_sel_bg })
+	set_hl("PmenuExtraSel", { bold = true, bg = pmenu_sel_bg })
+	set_hl("PmenuKindSel", { link = "PmenuSel" })
 
 	-- stylua: ignore start
-	vim.api.nvim_set_hl(0, "BlinkCmpMenu", { link = "Pmenu" })
-	vim.api.nvim_set_hl(0, "BlinkCmpMenuBorder", { link = "Pmenu" })
-	vim.api.nvim_set_hl(0, "BlinkCmpMenuSelection", { link = "PmenuSel" })
-	vim.api.nvim_set_hl(0, "BlinkCmpScrollBarThumb", { link = "PmenuThumb" })
-	vim.api.nvim_set_hl(0, "BlinkCmpScrollBarGutter", { link = "PmenuSbar" })
-	vim.api.nvim_set_hl(0, "BlinkCmpLabel", { link = "Pmenu" })
-	vim.api.nvim_set_hl(0, "BlinkCmpLabelDeprecated", { link = "PmenuExtra" })
-	vim.api.nvim_set_hl(0, "BlinkCmpLabelMatch", { link = "Pmenu" })
-	vim.api.nvim_set_hl(0, "BlinkCmpLabelDetail", { link = "PmenuExtra" })
-	vim.api.nvim_set_hl(0, "BlinkCmpLabelDescription", { link = "PmenuExtra" })
-	vim.api.nvim_set_hl(0, "BlinkCmpKind", { link = "PmenuKind" })
-	vim.api.nvim_set_hl(0, "BlinkCmpSource", { link = "PmenuExtra" })
-	vim.api.nvim_set_hl(0, "BlinkCmpGhostText", { link = "NonText" })
-	vim.api.nvim_set_hl(0, "BlinkCmpDoc", { link = "NormalFloat" })
-	vim.api.nvim_set_hl(0, "BlinkCmpDocBorder", { link = "NormalFloat" })
-	vim.api.nvim_set_hl(0, "BlinkCmpDocSeparator", { link = "NormalFloat" })
-	vim.api.nvim_set_hl(0, "BlinkCmpDocCursorLine", { link = "Visual" })
-	vim.api.nvim_set_hl(0, "BlinkCmpSignatureHelp", { link = "NormalFloat" })
-	vim.api.nvim_set_hl(0, "BlinkCmpSignatureHelpBorder", { link = "NormalFloat" })
-	vim.api.nvim_set_hl(0, "BlinkCmpSignatureHelpActiveParameter", { link = "LspSignatureActiveParameter" })
+	set_hl("BlinkCmpMenu", { link = "Pmenu" })
+	set_hl("BlinkCmpMenuBorder", { link = "Pmenu" })
+	set_hl("BlinkCmpMenuSelection", { link = "PmenuSel" })
+	set_hl("BlinkCmpScrollBarThumb", { link = "PmenuThumb" })
+	set_hl("BlinkCmpScrollBarGutter", { link = "PmenuSbar" })
+	set_hl("BlinkCmpLabel", { link = "Pmenu" })
+	set_hl("BlinkCmpLabelDeprecated", { link = "PmenuExtra" })
+	set_hl("BlinkCmpLabelMatch", { link = "Pmenu" })
+	set_hl("BlinkCmpLabelDetail", { link = "PmenuExtra" })
+	set_hl("BlinkCmpLabelDescription", { link = "PmenuExtra" })
+	set_hl("BlinkCmpKind", { link = "PmenuKind" })
+	set_hl("BlinkCmpSource", { link = "PmenuExtra" })
+	set_hl("BlinkCmpGhostText", { link = "NonText" })
+	set_hl("BlinkCmpDoc", { link = "NormalFloat" })
+	set_hl("BlinkCmpDocBorder", { link = "NormalFloat" })
+	set_hl("BlinkCmpDocSeparator", { link = "NormalFloat" })
+	set_hl("BlinkCmpDocCursorLine", { link = "Visual" })
+	set_hl("BlinkCmpSignatureHelp", { link = "NormalFloat" })
+	set_hl("BlinkCmpSignatureHelpBorder", { link = "NormalFloat" })
+	set_hl("BlinkCmpSignatureHelpActiveParameter", { link = "LspSignatureActiveParameter" })
 
 
 	local filesystem = color_map.blue_light
@@ -446,125 +519,125 @@ M.apply_theme_overrides = function(theme, scheme)
 	local variable = color_map.green
 	local str = color_map.green_light
 
-	vim.api.nvim_set_hl(0, "LspKindArray", { fg = variable })
-	vim.api.nvim_set_hl(0, "LspKindBoolean", { fg = constant })
-	vim.api.nvim_set_hl(0, "LspKindClass",{ fg = struct })
-	vim.api.nvim_set_hl(0, "LspKindColor",{ fg = constant })
-	vim.api.nvim_set_hl(0, "LspKindConstant",{ fg = constant })
-	vim.api.nvim_set_hl(0, "LspKindConstructor",{ fg = func })
-	vim.api.nvim_set_hl(0, "LspKindEnum",{ fg = struct })
-	vim.api.nvim_set_hl(0, "LspKindEnumMember",{ fg = constant })
-	vim.api.nvim_set_hl(0, "LspKindEvent",{ fg = async })
-	vim.api.nvim_set_hl(0, "LspKindField",{ fg = variable })
-	vim.api.nvim_set_hl(0, "LspKindFile",{ fg = filesystem })
-	vim.api.nvim_set_hl(0, "LspKindFolder",{ fg = filesystem })
-	vim.api.nvim_set_hl(0, "LspKindFunction",{ fg = func })
-	vim.api.nvim_set_hl(0, "LspKindInterface",{ fg = struct })
-	vim.api.nvim_set_hl(0, "LspKindKey",{ fg = constant })
-	vim.api.nvim_set_hl(0, "LspKindKeyword",{ fg = keyword })
-	vim.api.nvim_set_hl(0, "LspKindMethod",{ fg = func })
-	vim.api.nvim_set_hl(0, "LspKindModule",{ fg = struct })
-	vim.api.nvim_set_hl(0, "LspKindNamespace",{ fg = struct })
-	vim.api.nvim_set_hl(0, "LspKindNull",{ fg = constant })
-	vim.api.nvim_set_hl(0, "LspKindNumber",{ fg = constant })
-	vim.api.nvim_set_hl(0, "LspKindObject",{ fg = struct })
-	vim.api.nvim_set_hl(0, "LspKindOperator",{ fg = keyword })
-	vim.api.nvim_set_hl(0, "LspKindPackage",{ fg = filesystem })
-	vim.api.nvim_set_hl(0, "LspKindProperty",{ fg = variable })
-	vim.api.nvim_set_hl(0, "LspKindReference",{ fg = keyword })
-	vim.api.nvim_set_hl(0, "LspKindSnippet",{ fg = snippet })
-	vim.api.nvim_set_hl(0, "LspKindString",{ fg = str })
-	vim.api.nvim_set_hl(0, "LspKindStruct",{ fg = struct })
-	vim.api.nvim_set_hl(0, "LspKindText",{ fg = str })
-	vim.api.nvim_set_hl(0, "LspKindTypeParameter",{ fg = variable })
-	vim.api.nvim_set_hl(0, "LspKindUnit",{ fg = struct })
-	vim.api.nvim_set_hl(0, "LspKindValue",{ fg = variable })
-	vim.api.nvim_set_hl(0, "LspKindVariable",{ fg = variable })
+	set_hl("LspKindArray", { fg = variable })
+	set_hl("LspKindBoolean", { fg = constant })
+	set_hl("LspKindClass",{ fg = struct })
+	set_hl("LspKindColor",{ fg = constant })
+	set_hl("LspKindConstant",{ fg = constant })
+	set_hl("LspKindConstructor",{ fg = func })
+	set_hl("LspKindEnum",{ fg = struct })
+	set_hl("LspKindEnumMember",{ fg = constant })
+	set_hl("LspKindEvent",{ fg = async })
+	set_hl("LspKindField",{ fg = variable })
+	set_hl("LspKindFile",{ fg = filesystem })
+	set_hl("LspKindFolder",{ fg = filesystem })
+	set_hl("LspKindFunction",{ fg = func })
+	set_hl("LspKindInterface",{ fg = struct })
+	set_hl("LspKindKey",{ fg = constant })
+	set_hl("LspKindKeyword",{ fg = keyword })
+	set_hl("LspKindMethod",{ fg = func })
+	set_hl("LspKindModule",{ fg = struct })
+	set_hl("LspKindNamespace",{ fg = struct })
+	set_hl("LspKindNull",{ fg = constant })
+	set_hl("LspKindNumber",{ fg = constant })
+	set_hl("LspKindObject",{ fg = struct })
+	set_hl("LspKindOperator",{ fg = keyword })
+	set_hl("LspKindPackage",{ fg = filesystem })
+	set_hl("LspKindProperty",{ fg = variable })
+	set_hl("LspKindReference",{ fg = keyword })
+	set_hl("LspKindSnippet",{ fg = snippet })
+	set_hl("LspKindString",{ fg = str })
+	set_hl("LspKindStruct",{ fg = struct })
+	set_hl("LspKindText",{ fg = str })
+	set_hl("LspKindTypeParameter",{ fg = variable })
+	set_hl("LspKindUnit",{ fg = struct })
+	set_hl("LspKindValue",{ fg = variable })
+	set_hl("LspKindVariable",{ fg = variable })
 
 
-	vim.api.nvim_set_hl(0, "BlinkCmpKindCopilot", { fg = color_map.bg, bg = color_map.green_light })
+	set_hl("BlinkCmpKindCopilot", { fg = color_map.bg, bg = color_map.green_light })
 
-	vim.api.nvim_set_hl(0, "BlinkCmpKind", { fg = color_map.bg, bg = color_map.purple_dark })
-	vim.api.nvim_set_hl(0, "BlinkCmpKindArray", { fg = color_map.bg, bg = h("LspKindArray").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindBoolean", { fg = color_map.bg, bg = h("LspKindBoolean").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindClass",{ fg = color_map.bg, bg = h("LspKindClass").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindColor",{ fg = color_map.bg, bg = h("LspKindColor").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindConstant",{ fg = color_map.bg, bg = h("LspKindConstant").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindConstructor",{ fg = color_map.bg, bg = h("LspKindConstructor").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindEnum",{ fg = color_map.bg, bg = h("LspKindEnum").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindEnumMember",{ fg = color_map.bg, bg = h("LspKindEnumMember").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindEvent",{ fg = color_map.bg, bg = h("LspKindEvent").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindField",{ fg = color_map.bg, bg = h("LspKindField").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindFile",{ fg = color_map.bg, bg = h("LspKindFile").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindFolder",{ fg = color_map.bg, bg = h("LspKindFolder").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindFunction",{ fg = color_map.bg, bg = h("LspKindFunction").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindInterface",{ fg = color_map.bg, bg = h("LspKindInterface").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindKey",{ fg = color_map.bg, bg = h("LspKindKey").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindKeyword",{ fg = color_map.bg, bg = h("LspKindKeyword").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindMethod",{ fg = color_map.bg, bg = h("LspKindMethod").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindModule",{ fg = color_map.bg, bg = h("LspKindModule").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindNamespace",{ fg = color_map.bg, bg = h("LspKindNamespace").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindNull",{ fg = color_map.bg, bg = h("LspKindNull").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindNumber",{ fg = color_map.bg, bg = h("LspKindNumber").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindObject",{ fg = color_map.bg, bg = h("LspKindObject").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindOperator",{ fg = color_map.bg, bg = h("LspKindOperator").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindPackage",{ fg = color_map.bg, bg = h("LspKindPackage").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindProperty",{ fg = color_map.bg, bg = h("LspKindProperty").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindReference",{ fg = color_map.bg, bg = h("LspKindReference").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindSnippet",{ fg = color_map.bg, bg = h("LspKindSnippet").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindString",{ fg = color_map.bg, bg = h("LspKindString").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindStruct",{ fg = color_map.bg, bg = h("LspKindStruct").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindText",{ fg = color_map.bg, bg = h("LspKindText").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindTypeParameter",{ fg = color_map.bg, bg = h("LspKindTypeParameter").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindUnit",{ fg = color_map.bg, bg = h("LspKindUnit").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindValue",{ fg = color_map.bg, bg = h("LspKindValue").fg})
-	vim.api.nvim_set_hl(0, "BlinkCmpKindVariable",{ fg = color_map.bg, bg = h("LspKindVariable").fg})
+	set_hl("BlinkCmpKind", { fg = color_map.bg, bg = color_map.purple_dark })
+	set_hl("BlinkCmpKindArray", { fg = color_map.bg, bg = h("LspKindArray").fg})
+	set_hl("BlinkCmpKindBoolean", { fg = color_map.bg, bg = h("LspKindBoolean").fg})
+	set_hl("BlinkCmpKindClass",{ fg = color_map.bg, bg = h("LspKindClass").fg})
+	set_hl("BlinkCmpKindColor",{ fg = color_map.bg, bg = h("LspKindColor").fg})
+	set_hl("BlinkCmpKindConstant",{ fg = color_map.bg, bg = h("LspKindConstant").fg})
+	set_hl("BlinkCmpKindConstructor",{ fg = color_map.bg, bg = h("LspKindConstructor").fg})
+	set_hl("BlinkCmpKindEnum",{ fg = color_map.bg, bg = h("LspKindEnum").fg})
+	set_hl("BlinkCmpKindEnumMember",{ fg = color_map.bg, bg = h("LspKindEnumMember").fg})
+	set_hl("BlinkCmpKindEvent",{ fg = color_map.bg, bg = h("LspKindEvent").fg})
+	set_hl("BlinkCmpKindField",{ fg = color_map.bg, bg = h("LspKindField").fg})
+	set_hl("BlinkCmpKindFile",{ fg = color_map.bg, bg = h("LspKindFile").fg})
+	set_hl("BlinkCmpKindFolder",{ fg = color_map.bg, bg = h("LspKindFolder").fg})
+	set_hl("BlinkCmpKindFunction",{ fg = color_map.bg, bg = h("LspKindFunction").fg})
+	set_hl("BlinkCmpKindInterface",{ fg = color_map.bg, bg = h("LspKindInterface").fg})
+	set_hl("BlinkCmpKindKey",{ fg = color_map.bg, bg = h("LspKindKey").fg})
+	set_hl("BlinkCmpKindKeyword",{ fg = color_map.bg, bg = h("LspKindKeyword").fg})
+	set_hl("BlinkCmpKindMethod",{ fg = color_map.bg, bg = h("LspKindMethod").fg})
+	set_hl("BlinkCmpKindModule",{ fg = color_map.bg, bg = h("LspKindModule").fg})
+	set_hl("BlinkCmpKindNamespace",{ fg = color_map.bg, bg = h("LspKindNamespace").fg})
+	set_hl("BlinkCmpKindNull",{ fg = color_map.bg, bg = h("LspKindNull").fg})
+	set_hl("BlinkCmpKindNumber",{ fg = color_map.bg, bg = h("LspKindNumber").fg})
+	set_hl("BlinkCmpKindObject",{ fg = color_map.bg, bg = h("LspKindObject").fg})
+	set_hl("BlinkCmpKindOperator",{ fg = color_map.bg, bg = h("LspKindOperator").fg})
+	set_hl("BlinkCmpKindPackage",{ fg = color_map.bg, bg = h("LspKindPackage").fg})
+	set_hl("BlinkCmpKindProperty",{ fg = color_map.bg, bg = h("LspKindProperty").fg})
+	set_hl("BlinkCmpKindReference",{ fg = color_map.bg, bg = h("LspKindReference").fg})
+	set_hl("BlinkCmpKindSnippet",{ fg = color_map.bg, bg = h("LspKindSnippet").fg})
+	set_hl("BlinkCmpKindString",{ fg = color_map.bg, bg = h("LspKindString").fg})
+	set_hl("BlinkCmpKindStruct",{ fg = color_map.bg, bg = h("LspKindStruct").fg})
+	set_hl("BlinkCmpKindText",{ fg = color_map.bg, bg = h("LspKindText").fg})
+	set_hl("BlinkCmpKindTypeParameter",{ fg = color_map.bg, bg = h("LspKindTypeParameter").fg})
+	set_hl("BlinkCmpKindUnit",{ fg = color_map.bg, bg = h("LspKindUnit").fg})
+	set_hl("BlinkCmpKindValue",{ fg = color_map.bg, bg = h("LspKindValue").fg})
+	set_hl("BlinkCmpKindVariable",{ fg = color_map.bg, bg = h("LspKindVariable").fg})
 
 
-	vim.api.nvim_set_hl(0, "NavicText",               { fg = h("Comment").fg, force = true })
-	vim.api.nvim_set_hl(0, "NavicSeparator",          { fg = h("Comment").fg, bold = true, force = true })
+	set_hl("NavicText",               { fg = h("Comment").fg, force = true })
+	set_hl("NavicSeparator",          { fg = h("Comment").fg, bold = true, force = true })
 
-	vim.api.nvim_set_hl(0, "NavicIconsArray", { link = "LspKindArray" })
-	vim.api.nvim_set_hl(0, "NavicIconsBoolean", { link = "LspKindBoolean" })
-	vim.api.nvim_set_hl(0, "NavicIconsClass",{ link = "LspKindClass" })
-	vim.api.nvim_set_hl(0, "NavicIconsColor",{ link = "LspKindColor" })
-	vim.api.nvim_set_hl(0, "NavicIconsConstant",{ link = "LspKindConstant" })
-	vim.api.nvim_set_hl(0, "NavicIconsConstructor",{ link = "LspKindConstructor" })
-	vim.api.nvim_set_hl(0, "NavicIconsEnum",{ link = "LspKindEnum" })
-	vim.api.nvim_set_hl(0, "NavicIconsEnumMember",{ link = "LspKindEnumMember" })
-	vim.api.nvim_set_hl(0, "NavicIconsEvent",{ link = "LspKindEvent" })
-	vim.api.nvim_set_hl(0, "NavicIconsField",{ link = "LspKindField" })
-	vim.api.nvim_set_hl(0, "NavicIconsFile",{ link = "LspKindFile" })
-	vim.api.nvim_set_hl(0, "NavicIconsFolder",{ link = "LspKindFolder" })
-	vim.api.nvim_set_hl(0, "NavicIconsFunction",{ link = "LspKindFunction" })
-	vim.api.nvim_set_hl(0, "NavicIconsInterface",{ link = "LspKindInterface" })
-	vim.api.nvim_set_hl(0, "NavicIconsKey",{ link = "LspKindKey" })
-	vim.api.nvim_set_hl(0, "NavicIconsKeyword",{ link = "LspKindKeyword" })
-	vim.api.nvim_set_hl(0, "NavicIconsMethod",{ link = "LspKindMethod" })
-	vim.api.nvim_set_hl(0, "NavicIconsModule",{ link = "LspKindModule" })
-	vim.api.nvim_set_hl(0, "NavicIconsNamespace",{ link = "LspKindNamespace" })
-	vim.api.nvim_set_hl(0, "NavicIconsNull",{ link = "LspKindNull" })
-	vim.api.nvim_set_hl(0, "NavicIconsNumber",{ link = "LspKindNumber" })
-	vim.api.nvim_set_hl(0, "NavicIconsObject",{ link = "LspKindObject" })
-	vim.api.nvim_set_hl(0, "NavicIconsOperator",{ link = "LspKindOperator" })
-	vim.api.nvim_set_hl(0, "NavicIconsPackage",{ link = "LspKindPackage" })
-	vim.api.nvim_set_hl(0, "NavicIconsProperty",{ link = "LspKindProperty" })
-	vim.api.nvim_set_hl(0, "NavicIconsReference",{ link = "LspKindReference" })
-	vim.api.nvim_set_hl(0, "NavicIconsSnippet",{ link = "LspKindSnippet" })
-	vim.api.nvim_set_hl(0, "NavicIconsString",{ link = "LspKindString" })
-	vim.api.nvim_set_hl(0, "NavicIconsStruct",{ link = "LspKindStruct" })
-	vim.api.nvim_set_hl(0, "NavicIconsText",{ link = "LspKindText" })
-	vim.api.nvim_set_hl(0, "NavicIconsTypeParameter",{ link = "LspKindTypeParameter" })
-	vim.api.nvim_set_hl(0, "NavicIconsUnit",{ link = "LspKindUnit" })
-	vim.api.nvim_set_hl(0, "NavicIconsValue",{ link = "LspKindValue" })
-	vim.api.nvim_set_hl(0, "NavicIconsVariable",{ link = "LspKindVariable" })
+	set_hl("NavicIconsArray", { link = "LspKindArray" })
+	set_hl("NavicIconsBoolean", { link = "LspKindBoolean" })
+	set_hl("NavicIconsClass",{ link = "LspKindClass" })
+	set_hl("NavicIconsColor",{ link = "LspKindColor" })
+	set_hl("NavicIconsConstant",{ link = "LspKindConstant" })
+	set_hl("NavicIconsConstructor",{ link = "LspKindConstructor" })
+	set_hl("NavicIconsEnum",{ link = "LspKindEnum" })
+	set_hl("NavicIconsEnumMember",{ link = "LspKindEnumMember" })
+	set_hl("NavicIconsEvent",{ link = "LspKindEvent" })
+	set_hl("NavicIconsField",{ link = "LspKindField" })
+	set_hl("NavicIconsFile",{ link = "LspKindFile" })
+	set_hl("NavicIconsFolder",{ link = "LspKindFolder" })
+	set_hl("NavicIconsFunction",{ link = "LspKindFunction" })
+	set_hl("NavicIconsInterface",{ link = "LspKindInterface" })
+	set_hl("NavicIconsKey",{ link = "LspKindKey" })
+	set_hl("NavicIconsKeyword",{ link = "LspKindKeyword" })
+	set_hl("NavicIconsMethod",{ link = "LspKindMethod" })
+	set_hl("NavicIconsModule",{ link = "LspKindModule" })
+	set_hl("NavicIconsNamespace",{ link = "LspKindNamespace" })
+	set_hl("NavicIconsNull",{ link = "LspKindNull" })
+	set_hl("NavicIconsNumber",{ link = "LspKindNumber" })
+	set_hl("NavicIconsObject",{ link = "LspKindObject" })
+	set_hl("NavicIconsOperator",{ link = "LspKindOperator" })
+	set_hl("NavicIconsPackage",{ link = "LspKindPackage" })
+	set_hl("NavicIconsProperty",{ link = "LspKindProperty" })
+	set_hl("NavicIconsReference",{ link = "LspKindReference" })
+	set_hl("NavicIconsSnippet",{ link = "LspKindSnippet" })
+	set_hl("NavicIconsString",{ link = "LspKindString" })
+	set_hl("NavicIconsStruct",{ link = "LspKindStruct" })
+	set_hl("NavicIconsText",{ link = "LspKindText" })
+	set_hl("NavicIconsTypeParameter",{ link = "LspKindTypeParameter" })
+	set_hl("NavicIconsUnit",{ link = "LspKindUnit" })
+	set_hl("NavicIconsValue",{ link = "LspKindValue" })
+	set_hl("NavicIconsVariable",{ link = "LspKindVariable" })
 	-- stylua: ignore end
 
 	--scrollbar
 	local scroll_handle = color_map.bg_dark
 	local scroll_norm = color_map.bg
 
-	vim.api.nvim_set_hl(0, "ScrollbarHandle", { fg = "NONE", bg = scroll_handle })
+	set_hl("ScrollbarHandle", { fg = "NONE", bg = scroll_handle })
 	vim.api.nvim_set_hl(
 		0,
 		"ScrollbarCursorHandle",
@@ -675,7 +748,7 @@ M.apply_theme_overrides = function(theme, scheme)
 		"ScrollbarGitDeleteHandle",
 		{ fg = color_map.red, bg = scroll_handle }
 	)
-	vim.api.nvim_set_hl(0, "LightBulbVirtualText", { link = "ColorColumn" })
+	set_hl("LightBulbVirtualText", { link = "ColorColumn" })
 
 	vim.api.nvim_set_hl(
 		0,
@@ -776,11 +849,11 @@ M.apply_theme_overrides = function(theme, scheme)
 		"TabLineSep",
 		{ fg = tab_inactive_bg, bg = tab_inactive_fg }
 	)
-	vim.api.nvim_set_hl(0, "TabLineSel", {
+	set_hl("TabLineSel", {
 		fg = tab_active_fg,
 		bg = tab_active_bg,
 	})
-	vim.api.nvim_set_hl(0, "TabLineSelSep", {
+	set_hl("TabLineSelSep", {
 		fg = tab_active_bg,
 		bg = tab_active_fg,
 	})
@@ -800,7 +873,7 @@ M.apply_theme_overrides = function(theme, scheme)
 		"HarpoonSeparator",
 		{ fg = color_map.accent, bg = tab_inactive_bg }
 	)
-	vim.api.nvim_set_hl(0, "HarpoonInactive", { bg = tab_inactive_bg })
+	set_hl("HarpoonInactive", { bg = tab_inactive_bg })
 	vim.api.nvim_set_hl(
 		0,
 		"HarpoonActive",
@@ -817,15 +890,15 @@ M.apply_theme_overrides = function(theme, scheme)
 		{ bg = tab_inactive_bg, fg = color_map.accent }
 	)
 
-	vim.api.nvim_set_hl(0, "DapBreakpoint", {
+	set_hl("DapBreakpoint", {
 		fg = color_map.red,
 		bg = sidebar_bg,
 	})
-	vim.api.nvim_set_hl(0, "DapBreakpointCondition", {
+	set_hl("DapBreakpointCondition", {
 		fg = color_map.purple,
 		bg = sidebar_bg,
 	})
-	vim.api.nvim_set_hl(0, "DapLogPoint", {
+	set_hl("DapLogPoint", {
 		fg = color_map.yellow,
 		bg = sidebar_bg,
 	})
@@ -835,22 +908,23 @@ M.apply_theme_overrides = function(theme, scheme)
 		"SnacksZenIcon",
 		{ fg = color_map.accent, bg = tab_inactive_bg }
 	)
-	vim.api.nvim_set_hl(0, "SnacksInputNormal", { fg = color_map.accent })
-	vim.api.nvim_set_hl(0, "SnacksInputBorder", { fg = color_map.accent })
-	vim.api.nvim_set_hl(0, "SnacksInputTitle", { fg = color_map.accent })
-	vim.api.nvim_set_hl(0, "SnacksInputIcon", { fg = color_map.green })
+	set_hl("SnacksInputNormal", { fg = color_map.accent })
+	set_hl("SnacksInputBorder", { fg = color_map.accent })
+	set_hl("SnacksInputTitle", { fg = color_map.accent })
+	set_hl("SnacksInputIcon", { fg = color_map.green })
+	set_hl("SnacksDim", { fg = color_map.bg_light })
 
-	vim.api.nvim_set_hl(0, "UgUndo", { bg = color_map.red_dark })
-	vim.api.nvim_set_hl(0, "UgRedo", { bg = color_map.green_dark })
-	vim.api.nvim_set_hl(0, "UgYank", { bg = color_map.yellow_dark })
-	vim.api.nvim_set_hl(0, "UgPaste", { bg = color_map.cyan_dark })
-	vim.api.nvim_set_hl(0, "UgSearch", { bg = color_map.purple_dark })
-	vim.api.nvim_set_hl(0, "UgComment", { bg = color_map.orange_dark })
-	vim.api.nvim_set_hl(0, "UgCursor", { bg = color_map.pink_dark })
+	set_hl("UgUndo", { bg = color_map.red_dark })
+	set_hl("UgRedo", { bg = color_map.green_dark })
+	set_hl("UgYank", { bg = color_map.yellow_dark })
+	set_hl("UgPaste", { bg = color_map.cyan_dark })
+	set_hl("UgSearch", { bg = color_map.purple_dark })
+	set_hl("UgComment", { bg = color_map.orange_dark })
+	set_hl("UgCursor", { bg = color_map.pink_dark })
 
-	vim.api.nvim_set_hl(0, "CoverageCovered", { fg = color_map.green })
-	vim.api.nvim_set_hl(0, "CoverageUncovered", { fg = color_map.red })
-	vim.api.nvim_set_hl(0, "CoveragePartial", { fg = color_map.yellow })
+	set_hl("CoverageCovered", { fg = color_map.green })
+	set_hl("CoverageUncovered", { fg = color_map.red })
+	set_hl("CoveragePartial", { fg = color_map.yellow })
 
 	vim.api.nvim_set_hl(
 		0,
@@ -875,13 +949,13 @@ M.apply_theme_overrides = function(theme, scheme)
 
 	local prog_fill = color_map.accent
 	local prog_empty = color_map.fg
-	vim.api.nvim_set_hl(0, "CodeStatsIcon", { fg = color_map.yellow })
+	set_hl("CodeStatsIcon", { fg = color_map.yellow })
 	vim.api.nvim_set_hl(
 		0,
 		"ProgressFilled",
 		{ fg = prog_fill, bg = prog_fill, bold = true }
 	)
-	vim.api.nvim_set_hl(0, "ProgressEmpty", { fg = prog_empty, bg = prog_empty })
+	set_hl("ProgressEmpty", { fg = prog_empty, bg = prog_empty })
 	vim.api.nvim_set_hl(
 		0,
 		"TextFilled",
@@ -892,7 +966,7 @@ M.apply_theme_overrides = function(theme, scheme)
 		"TextEmpty",
 		{ fg = "#000000", bg = prog_empty, bold = true }
 	) -- same bg as empty bar
-	vim.api.nvim_set_hl(0, "ProgressBorder", { fg = "#aaaaaa", bg = "#000000" })
+	set_hl("ProgressBorder", { fg = "#aaaaaa", bg = "#000000" })
 
 	local fidget_bg = color_map.bg
 	local fidget_ns = vim.api.nvim_create_namespace("fidget-window")
@@ -938,15 +1012,15 @@ M.apply_theme_overrides = function(theme, scheme)
 		{ fg = color_map.accent, bg = sidebar_bg }
 	)
 
-	vim.api.nvim_set_hl(0, "OsWin", { fg = "#01beff" })
-	vim.api.nvim_set_hl(0, "OsMac", { fg = "#2e2e2e" })
+	set_hl("OsWin", { fg = "#01beff" })
+	set_hl("OsMac", { fg = "#2e2e2e" })
 
 	vim.api.nvim_set_hl(
 		0,
 		"MarkSignHL",
 		{ fg = color_map.accent, bold = true, italic = true }
 	)
-	vim.api.nvim_set_hl(0, "MarkSignNumHL", { link = "LineNr" })
+	set_hl("MarkSignNumHL", { link = "LineNr" })
 
 	local todo_FIX = color_map.red
 	local todo_WARN = color_map.yellow
@@ -955,43 +1029,43 @@ M.apply_theme_overrides = function(theme, scheme)
 	local todo_PERF = color_map.pink
 	local todo_TEST = color_map.purple
 
-	vim.api.nvim_set_hl(0, "TodoBgFIX", { fg = color_map.bg, bg = todo_FIX })
-	vim.api.nvim_set_hl(0, "TodoFgFIX", { fg = todo_FIX })
-	vim.api.nvim_set_hl(0, "TodoSignFIX", { fg = todo_FIX })
+	set_hl("TodoBgFIX", { fg = color_map.bg, bg = todo_FIX })
+	set_hl("TodoFgFIX", { fg = todo_FIX })
+	set_hl("TodoSignFIX", { fg = todo_FIX })
 
-	vim.api.nvim_set_hl(0, "TodoBgHACK", { fg = color_map.bg, bg = todo_WARN })
-	vim.api.nvim_set_hl(0, "TodoFgHACK", { fg = todo_WARN })
-	vim.api.nvim_set_hl(0, "TodoSignHACK", { fg = todo_WARN })
+	set_hl("TodoBgHACK", { fg = color_map.bg, bg = todo_WARN })
+	set_hl("TodoFgHACK", { fg = todo_WARN })
+	set_hl("TodoSignHACK", { fg = todo_WARN })
 
-	vim.api.nvim_set_hl(0, "TodoBgNOTE", { fg = color_map.bg, bg = todo_NOTE })
-	vim.api.nvim_set_hl(0, "TodoFgNOTE", { fg = todo_NOTE })
-	vim.api.nvim_set_hl(0, "TodoSignNOTE", { fg = todo_NOTE })
+	set_hl("TodoBgNOTE", { fg = color_map.bg, bg = todo_NOTE })
+	set_hl("TodoFgNOTE", { fg = todo_NOTE })
+	set_hl("TodoSignNOTE", { fg = todo_NOTE })
 
-	vim.api.nvim_set_hl(0, "TodoBgPERF", { fg = color_map.bg, bg = todo_PERF })
-	vim.api.nvim_set_hl(0, "TodoFgPERF", { fg = todo_PERF })
-	vim.api.nvim_set_hl(0, "TodoSignPERF", { fg = todo_PERF })
+	set_hl("TodoBgPERF", { fg = color_map.bg, bg = todo_PERF })
+	set_hl("TodoFgPERF", { fg = todo_PERF })
+	set_hl("TodoSignPERF", { fg = todo_PERF })
 
-	vim.api.nvim_set_hl(0, "TodoBgTEST", { fg = color_map.bg, bg = todo_TEST })
-	vim.api.nvim_set_hl(0, "TodoFgTEST", { fg = todo_TEST })
-	vim.api.nvim_set_hl(0, "TodoSignTEST", { fg = todo_TEST })
+	set_hl("TodoBgTEST", { fg = color_map.bg, bg = todo_TEST })
+	set_hl("TodoFgTEST", { fg = todo_TEST })
+	set_hl("TodoSignTEST", { fg = todo_TEST })
 
-	vim.api.nvim_set_hl(0, "TodoBgTODO", { fg = color_map.bg, bg = todo_TODO })
-	vim.api.nvim_set_hl(0, "TodoFgTODO", { fg = todo_TODO })
-	vim.api.nvim_set_hl(0, "TodoSignTODO", { fg = todo_TODO })
+	set_hl("TodoBgTODO", { fg = color_map.bg, bg = todo_TODO })
+	set_hl("TodoFgTODO", { fg = todo_TODO })
+	set_hl("TodoSignTODO", { fg = todo_TODO })
 
-	vim.api.nvim_set_hl(0, "TodoBgWARN", { fg = color_map.bg, bg = todo_WARN })
-	vim.api.nvim_set_hl(0, "TodoFgWARN", { fg = todo_WARN })
-	vim.api.nvim_set_hl(0, "TodoSignWARN", { fg = todo_WARN })
+	set_hl("TodoBgWARN", { fg = color_map.bg, bg = todo_WARN })
+	set_hl("TodoFgWARN", { fg = todo_WARN })
+	set_hl("TodoSignWARN", { fg = todo_WARN })
 
 	local usage_bg = "NONE"
 
 	--stylua: ignore start
-	vim.api.nvim_set_hl(0, "SymbolUsageRounding", { fg=usage_bg })
-	vim.api.nvim_set_hl(0, "SymbolUsageContent", { fg= h("Comment").fg, bg=usage_bg })
-	vim.api.nvim_set_hl(0, "SymbolUsageText", { fg = h("Comment").fg, bg = usage_bg, italic = true })
-	vim.api.nvim_set_hl(0, "SymbolUsageImpl", { fg=color_map.cyan, bg=usage_bg })
-	vim.api.nvim_set_hl(0, "SymbolUsageRef", { fg=color_map.yellow, bg=usage_bg })
-	vim.api.nvim_set_hl(0, "SymbolUsageDef", { fg=color_map.purple, bg=usage_bg })
+	set_hl("SymbolUsageRounding", { fg=usage_bg })
+	set_hl("SymbolUsageContent", { fg= h("Comment").fg, bg=usage_bg })
+	set_hl("SymbolUsageText", { fg = h("Comment").fg, bg = usage_bg, italic = true })
+	set_hl("SymbolUsageImpl", { fg=color_map.cyan, bg=usage_bg })
+	set_hl("SymbolUsageRef", { fg=color_map.yellow, bg=usage_bg })
+	set_hl("SymbolUsageDef", { fg=color_map.purple, bg=usage_bg })
 	--stylua: ignore end
 
 	require("lualine.config").apply_configuration({
