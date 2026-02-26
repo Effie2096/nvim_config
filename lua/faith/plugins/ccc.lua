@@ -1,3 +1,6 @@
+local icons = require("faith.icons")
+local borders = icons.borders.edge_thin
+
 return {
 	{
 		"uga-rosa/ccc.nvim",
@@ -18,8 +21,24 @@ return {
 					},
 					update_insert = true,
 				},
+				win_opts = {
+					relative = "cursor",
+					row = 1,
+					col = 1,
+					style = "minimal",
+					border = {
+						borders.top_left,
+						borders.top,
+						borders.top_right,
+						borders.right,
+						borders.bottom_right,
+						borders.bottom,
+						borders.bottom_left,
+						borders.left,
+					},
+				},
 				virtual_pos = "inline-left",
-				virtual_symbol = require("faith.icons").ui.Circle,
+				virtual_symbol = icons.ui.Circle,
 				inputs = {
 					ccc.input.rgb,
 					ccc.input.hsl,
