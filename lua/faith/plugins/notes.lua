@@ -1169,4 +1169,11 @@ return {
 		"luizribeiro/vim-cooklang",
 		ft = "cook",
 	},
+	{
+		"Praczet/words-the-def.nvim",
+		ft = { "markdown", "cook", "text" },
+		config = function()
+			require("words-the-def").setup({})
+		end,
+	},
 }
