@@ -13,7 +13,6 @@ local sections = {
 		components.git_conflict,
 
 		components.language_server,
-		components.windsurf,
 
 		components.lint_progress,
 		components.asyncrun,

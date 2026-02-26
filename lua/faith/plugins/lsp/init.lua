@@ -418,21 +418,6 @@ return {
 			"folke/lazydev.nvim",
 			{ "yus-works/csc.nvim", opts = {} },
 		},
-		init = function()
-			vim.api.nvim_create_autocmd("User", {
-				pattern = "BlinkCmpMenuOpen",
-				callback = function()
-					require("codeium.virtual_text").clear()
-				end,
-			})
-
-			vim.api.nvim_create_autocmd("User", {
-				pattern = "BlinkCmpMenuClose",
-				callback = function()
-					require("codeium.virtual_text").complete()
-				end,
-			})
-		end,
 		--- @module 'blink.cmp'
 		--- @type blink.cmp.Config
 		opts = {
@@ -491,7 +476,7 @@ return {
 					},
 				},
 				menu = {
-					auto_show = false,
+					auto_show = true,
 					direction_priority = function()
 						local ctx = require("blink.cmp").get_context()
 						local item = require("blink.cmp").get_selected_item()
