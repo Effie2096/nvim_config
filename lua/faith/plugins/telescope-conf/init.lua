@@ -36,8 +36,8 @@ function M.project_files()
 	local opts = vim.deepcopy(layouts.default_flex)
 	opts = vim.tbl_deep_extend("force", opts, {
 		prompt_title = "Project Files",
-		cwd = require("lspconfig.util").root_pattern(".git")(vim.fn.expand("%:p")),
-		-- file_ignore_patterns = require("faith.plugins.telescope-conf.layouts").file_ignore.file_ignore_patterns,
+		cwd = require("lspconfig.util").root_pattern(".git")(vim.fn.expand("%:p"))
+			or vim.fn.getcwd(),
 	})
 	require("telescope.builtin").find_files(opts)
 end
@@ -239,7 +239,9 @@ return setmetatable({}, {
 		if M[k] then
 			return M[k]
 		else
-			return require("telescope.builtin")[k]
+			return function()
+				require("telescope.builtin")[k](vim.deepcopy(layouts.default_flex))
+			end
 		end
 	end,
 })
