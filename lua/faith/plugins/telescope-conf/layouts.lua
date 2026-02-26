@@ -336,7 +336,7 @@ M.file_ignore = {
 		"%.swp", "%.zip", "%.exe", "%.mid", "%.jar", "%.class", "%.mm", "%.o", "%.obj",
 		"%.csproj", "%.sln", "%.cache", "%.asset", "%.prefs", "%.dwlt", "%.db", "%.catalog", "%.graph", "%.meta",
 		"%.bmp", "%.gif", "%.ico", "%.jpg", "%.png", "%.ico", "%.webp",
-		"%.pdf",
+		-- "%.pdf",
 		"^tmp[\\/]", "^.vs[\\/]", "^Library[\\/]", "^Logs[\\/]", "^obj[\\/]", "^Packages[\\/]", "^ProjectSettings[\\/]",
 		"^%.venv[\\/]"
 	}

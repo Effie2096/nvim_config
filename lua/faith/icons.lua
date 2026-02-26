@@ -218,6 +218,7 @@ local icons = {
 		trail = "×",
 		indent = "▏",
 		indent_focus = "▍",
+		showbreak = "▋",
 	},
 	diagnostic = {
 		error = "󰅙 ",

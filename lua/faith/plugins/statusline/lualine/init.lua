@@ -17,6 +17,9 @@ local sections = {
 		components.lint_progress,
 		components.asyncrun,
 		components.overseer,
+
+		{ "%=" },
+		components.obsidian,
 	},
 	lualine_x = {
 		-- buffers,
@@ -41,7 +44,6 @@ local winbar = {
 	},
 	lualine_c = {
 		components.breadcrumbs,
-		components.obsidian,
 	},
 	lualine_x = {
 		components.location,

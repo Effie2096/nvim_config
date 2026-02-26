@@ -73,7 +73,8 @@ vim.opt.shiftwidth = indentWidth
 -- } Indentation
 
 vim.opt.linebreak = true
-vim.opt.showbreak = "▋" .. (string.rep(" ", (indentWidth * 2) - 1) or "")
+vim.opt.showbreak = icons.characters.showbreak
+	.. (string.rep(" ", ((indentWidth * 2) - 1) or 0) or "")
 vim.opt.breakat = " ^!@;:,./?([{<>"
 vim.opt.breakindent = true
 vim.opt.breakindentopt = { "shift:0" }
@@ -93,29 +94,23 @@ vim.opt.fillchars:append({
 	diff = icons.git.signs.diff,
 })
 
-vim.api.nvim_create_autocmd({ "BufReadPre" }, {
-	group = vim.api.nvim_create_augroup("set_formatoptions", { clear = true }),
-	pattern = "*",
-	callback = function(_)
-		-- default tcqj
-		vim.opt.formatoptions = {
-			-- Auto formatting is BAD.
-			a = false,
-			-- Don't auto format my code. I have linters for that.
-			t = false,
-			-- In general, I like it when comments respect textwidth
-			c = true,
-			-- Allow formatting comments w/ gq
-			q = true,
-			-- O and o, don't continue comments
-			o = false,
-			-- But do continue when pressing enter.
-			r = true,
-			-- Indent past the formatlistpat, not underneath it.
-			n = true,
-			["2"] = false,
-			-- Auto-remove comments if possible.
-			j = true,
-		}
-	end,
-})
+-- default tcqj
+vim.opt.formatoptions = {
+	-- Auto formatting is BAD.
+	a = false,
+	-- Don't auto format my code. I have linters for that.
+	t = false,
+	-- In general, I like it when comments respect textwidth
+	c = true,
+	-- Allow formatting comments w/ gq
+	q = true,
+	-- O and o, don't continue comments
+	o = false,
+	-- But do continue when pressing enter.
+	r = true,
+	-- Indent past the formatlistpat, not underneath it.
+	n = true,
+	["2"] = false,
+	-- Auto-remove comments if possible.
+	j = true,
+}

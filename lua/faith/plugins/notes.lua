@@ -546,7 +546,8 @@ return {
 			file_types = { "markdown", "Avante" },
 			completions = { lsp = { enabled = true } },
 			render_modes = { "n", "i", "c" },
-			restart_highlighter = true,
+			nested = true,
+			restart_highlighter = false,
 			heading = {
 				icons = { "󰎤 ", "󰎧 ", "󰎪 ", "󰎭 ", "󰎱 ", "󰎳 " },
 				-- icons = { " " },
@@ -576,7 +577,7 @@ return {
 			checkbox = {
 				enabled = not use_cm_todos,
 				bullet = false,
-				left_pad = 1,
+				left_pad = 0,
 				unchecked = {
 					icon = checkboxes.unchecked.rendered,
 					highlight = checkboxes.unchecked.highlight,
@@ -981,7 +982,7 @@ return {
 			---@type checkmate.Config
 			local opts = {
 				files = { "*.md" }, -- any .md file (instead of defaults)
-				ui = { picker = "native" },
+				ui = { picker = "telescope" },
 				list_continuation = {
 					enabled = false,
 				},

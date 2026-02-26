@@ -59,7 +59,7 @@ return {
 					ccc.picker.css_lch,
 					ccc.picker.css_oklab,
 					ccc.picker.css_oklch,
-					ccc.picker.css_name,
+					-- ccc.picker.css_name,
 					ccc.picker.defaults,
 				},
 			}
