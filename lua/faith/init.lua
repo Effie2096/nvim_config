@@ -1,5 +1,6 @@
 require("faith.globals")
 require("faith.shell")
+require("faith.spell")
 require("faith.options")
 require("faith.mappings")
 require("faith.bootstrap")

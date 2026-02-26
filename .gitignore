@@ -14,7 +14,7 @@ node_modules/
 jspm_packages/
 
 # vim/nvim
-spell
+spell/*.spl
 .nvim
 Session
 Session.vim
