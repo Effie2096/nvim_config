@@ -143,7 +143,7 @@ return {
 				-- html = require("faith.plugins.lsp.settings.html"),
 				superhtml = {},
 				jsonls = require("faith.plugins.lsp.settings.jsonls"),
-				-- kotlin_lsp = {},
+				kotlin_lsp = {},
 				lemminx = require("faith.plugins.lsp.settings.lemminx"),
 				lua_ls = require("faith.plugins.lsp.settings.lua_ls"),
 				marksman = {},
@@ -630,7 +630,6 @@ return {
 		opts = {},
 	},
 	require("faith.plugins.lsp.java"),
-	-- require("faith.plugins.lsp.kotlin"),
 	require("faith.plugins.lsp.rust"),
 	{
 		"uga-rosa/ccc.nvim",
