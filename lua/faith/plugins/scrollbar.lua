@@ -3,6 +3,7 @@ local icons = require("faith.icons")
 return {
 	{
 		"petertriho/nvim-scrollbar",
+		event = "VeryLazy",
 		dependencies = {
 			"lewis6991/gitsigns.nvim",
 			{

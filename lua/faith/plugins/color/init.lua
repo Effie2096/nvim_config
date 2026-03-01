@@ -26,12 +26,20 @@ return {
 			require("faith.plugins.color.background")
 		end,
 	},
-	{
+	{ -- eldritch
 		"eldritch-theme/eldritch.nvim",
 		lazy = false,
 		priority = 1000,
 		opts = {
 			dim_inactive = false, -- dims inactive windows, transparent must be false for this to work
+			styles = {
+				-- Style to be applied to different syntax groups
+				-- Value is any valid attr-list value for `:help nvim_set_hl`
+				comments = { italic = true },
+				keywords = {},
+				functions = {},
+				variables = {},
+			},
 		},
 		init = function()
 			vim.api.nvim_create_autocmd("ColorScheme", {
@@ -49,7 +57,7 @@ return {
 			})
 		end,
 	},
-	{
+	{ -- tokyonight
 		"folke/tokyonight.nvim",
 		lazy = false,
 		priority = 1000,
@@ -72,7 +80,7 @@ return {
 		end,
 		opts = {},
 	},
-	{
+	{ -- monokai
 		"loctvl842/monokai-pro.nvim",
 		lazy = false,
 		priority = 1000,
@@ -100,7 +108,7 @@ return {
 			})
 		end,
 	},
-	{
+	{ -- tokyodark
 		"tiagovla/tokyodark.nvim",
 		lazy = false,
 		priority = 1000,
@@ -117,7 +125,7 @@ return {
 			})
 		end,
 	},
-	{
+	{ -- nightfox
 		"EdenEast/nightfox.nvim",
 		lazy = false,
 		priority = 1000,
@@ -157,7 +165,7 @@ return {
 			})
 		end,
 	},
-	{
+	{ -- catppuccin
 		"catppuccin/nvim",
 		name = "catppuccin",
 		lazy = false,
@@ -183,7 +191,7 @@ return {
 				percentage = 0.15,
 			},
 			styles = {
-				comments = {},
+				comments = { "italic" },
 				conditionals = { "bold" },
 				loops = { "bold" },
 				functions = {},
@@ -282,7 +290,7 @@ return {
 			},
 		},
 	},
-	{
+	{ -- matrix
 		"iruzo/matrix-nvim",
 		lazy = false,
 		priority = 1000,
@@ -301,7 +309,7 @@ return {
 			})
 		end,
 	},
-	{
+	{ -- midnight
 		"dasupradyumna/midnight.nvim",
 		lazy = false,
 		priority = 1000,
@@ -314,7 +322,7 @@ return {
 			})
 		end,
 	},
-	{
+	{ -- sakura
 		"anAcc22/sakura.nvim",
 		lazy = false,
 		priority = 1000,
@@ -328,7 +336,7 @@ return {
 			})
 		end,
 	},
-	{
+	{ -- yorumi
 		"yorumicolors/yorumi.nvim",
 		lazy = false,
 		priority = 1000,
@@ -341,8 +349,9 @@ return {
 			})
 		end,
 	},
-	{
+	{ -- nvim-transparent
 		"xiyaowong/nvim-transparent",
+		lazy = false,
 		opts = function()
 			require("transparent").clear_prefix("lualine_a")
 			require("transparent").clear_prefix("lualine_b")
@@ -413,24 +422,6 @@ return {
 					"FidgetSep",
 					"FidgetWindow",
 
-					"BufferCurrent",
-					"BufferCurrentIndex",
-					"BufferCurrentMod",
-					"BufferCurrentSign",
-					"BufferCurrentTarget",
-					"BufferVisible",
-					"BufferVisibleIndex",
-					"BufferVisibleMod",
-					"BufferVisibleSign",
-					"BufferVisibleTarget",
-					"BufferInactive",
-					"BufferInactiveIndex",
-					"BufferInactiveMod",
-					"BufferInactiveSign",
-					"BufferInactiveTarget",
-					"BufferTabpages",
-					"BufferTabpage",
-
 					"BarDiagError",
 					"BarDiagWarn",
 					"BarDiagInfo",
@@ -442,40 +433,6 @@ return {
 					"TreesitterContext",
 					"TreesitterContextSeparator",
 					"TreesitterContextLineNumberBottom",
-
-					"barbecue_normal",
-					"barbecue_modified",
-					"barbecue_ellipsis",
-					"barbecue_separator",
-					"barbecue_dirname",
-					"barbecue_basename",
-					"barbecue_context",
-					"barbecue_context_file",
-					"barbecue_context_module",
-					"barbecue_context_namespace",
-					"barbecue_context_package",
-					"barbecue_context_class",
-					"barbecue_context_method",
-					"barbecue_context_property",
-					"barbecue_context_field",
-					"barbecue_context_constructor",
-					"barbecue_context_enum",
-					"barbecue_context_interface",
-					"barbecue_context_function",
-					"barbecue_context_variable",
-					"barbecue_context_constant",
-					"barbecue_context_string",
-					"barbecue_context_number",
-					"barbecue_context_boolean",
-					"barbecue_context_array",
-					"barbecue_context_object",
-					"barbecue_context_key",
-					"barbecue_context_null",
-					"barbecue_context_enum_member",
-					"barbecue_context_struct",
-					"barbecue_context_event",
-					"barbecue_context_operator",
-					"barbecue_context_type_parameter",
 
 					"GitSignsAdd",
 					"GitSignsChange",
@@ -506,6 +463,8 @@ return {
 					"ScrollbarGitDelete",
 
 					"ScrollbarMark",
+
+					"LspInlayHint",
 				},
 			}
 

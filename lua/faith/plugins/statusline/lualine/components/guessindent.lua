@@ -14,14 +14,15 @@ return {
 		if indent ~= nil then
 			local is_tabs = indent ~= nil and type(indent) ~= "number"
 			if is_tabs then
-				out = histr(icons.ui.Tab, highlight, true)
+				out =
+					histr(("%s%s"):format(vim.bo.tabstop, icons.ui.Tab), highlight, true)
 			else
 				out = histr(("%s%s"):format(indent, icons.ui.Space), highlight, true)
 			end
 		end
 		return out
 	end,
-	padding = 0,
+	padding = { left = 0, right = 1 },
 	cond = function()
 		return gi.guess_from_buffer() ~= nil and winbar_ignore()
 	end,

@@ -1,6 +1,7 @@
 return {
 	{
 		"saghen/blink.pairs",
+		event = "VeryLazy",
 		version = "*", -- (recommended) only required with prebuilt binaries
 
 		-- download prebuilt binaries from github releases
@@ -22,7 +23,7 @@ return {
 				cmdline = true,
 				-- or disable with `vim.g.pairs = false` (global) and `vim.b.pairs = false` (per-buffer)
 				-- and/or with `vim.g.blink_pairs = false` and `vim.b.blink_pairs = false`
-				disabled_filetypes = {},
+				disabled_filetypes = { "markdown", "markdown_inline" },
 				-- see the defaults:
 				-- https://github.com/Saghen/blink.pairs/blob/main/lua/blink/pairs/config/mappings.lua#L14
 				pairs = {
@@ -53,7 +54,7 @@ return {
 					cmdline = false,
 					-- also include pairs not on top of the cursor, but surrounding the cursor
 					include_surrounding = true,
-					group = "Accent",
+					group = "BlinkPairsMatchParen",
 					priority = 250,
 				},
 			},

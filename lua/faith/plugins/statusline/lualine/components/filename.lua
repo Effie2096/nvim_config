@@ -15,7 +15,7 @@ return {
 	"filename",
 	file_status = false, -- Displays file status (readonly status, modified status)
 	newfile_status = true, -- Display new file status (new file means no write after created)
-	path = 4, -- 0: Just the filename
+	path = 0, -- 0: Just the filename
 	-- 1: Relative path
 	-- 2: Absolute path
 	-- 3: Absolute path, with tilde as the home directory
@@ -33,6 +33,10 @@ return {
 	color = "WinBar",
 	separator = "",
 	fmt = function(str)
+		if str == "[No Name]" or str == "[New]" then
+			return str
+		end
+
 		local name = str
 		local ft = vim.bo.filetype
 		local bt = vim.bo.buftype
@@ -82,6 +86,6 @@ return {
 			goto continue
 		end
 		::continue::
-		return trunc(name, 10, 0, 5, false)
+		return trunc(name, 10, 0, 5, false, true)
 	end,
 }

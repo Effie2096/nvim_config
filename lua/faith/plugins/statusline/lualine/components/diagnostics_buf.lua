@@ -22,6 +22,7 @@ return {
 	update_in_insert = true, -- Update diagnostics in insert mode.
 	always_visible = false, -- Show diagnostics even if there are none.
 	color = "WinBar",
+	padding = { left = 0, right = 1 },
 	fmt = function(str, ctx)
 		local buf = vim.api.nvim_get_current_buf()
 

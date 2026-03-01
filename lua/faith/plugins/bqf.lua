@@ -3,6 +3,8 @@ local icons = require("faith.icons")
 return {
 	{
 		"kevinhwang91/nvim-bqf",
+		event = "QuickFixCmdPre",
+		ft = "qf",
 		config = function()
 			local opts = {
 				auto_enable = true,

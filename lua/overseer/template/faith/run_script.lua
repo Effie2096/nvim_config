@@ -3,23 +3,6 @@ local overseer = require("overseer")
 local TAG = constants.TAG
 local files = require("overseer.files")
 
-local tmpl = {
-	priority = 60,
-	tags = { TAG.RUN },
-	params = {
-		cmd = { optional = true, type = "string" },
-		args = { optional = true, type = "string" },
-		cwd = { optional = true },
-	},
-	builder = function(params)
-		return {
-			cmd = { params.cmd },
-			args = params.args,
-			cwd = params.cwd,
-		}
-	end,
-}
-
 local script_ext = {
 	sh = {
 		cmd = "bash",
@@ -55,28 +38,33 @@ return {
 			end)
 		end, files.list_files(root))
 
+		if not scripts then
+			return "no scripts found"
+		end
+
 		local ret = {}
 		for _, filename in ipairs(scripts) do
 			local script_spec = script_ext[filename:match("%.([^\\/%.]-)%.?$")]
 
 			local args = {}
-			if script_spec.args then
+			if script_spec.args ~= nil then
 				vim.list_extend(args, script_spec.args)
 			end
-			table.insert(args, files.join(root, filename))
+			-- table.insert(args, vim.fn.glob(("%s/%s"):format(root, filename), true))
+			table.insert(args, filename)
 
-			table.insert(
-				ret,
-				overseer.wrap_template(tmpl, {
-					name = filename,
-					tags = { TAG.RUN },
-					priority = 55,
-				}, {
-					cmd = script_spec.cmd,
-					args = args,
-					cwd = root,
-				})
-			)
+			table.insert(ret, {
+				name = filename,
+				tags = { TAG.RUN },
+				priority = 55,
+				builder = function()
+					return {
+						cmd = script_spec.cmd,
+						args = args or "",
+						cwd = root,
+					}
+				end,
+			})
 		end
 
 		cb(ret)

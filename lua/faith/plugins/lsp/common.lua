@@ -139,27 +139,27 @@ M.on_attach = function(client_id, bufnr)
 		end, { buffer = bufnr, desc = "[t]oggle Inlay [h]ints" })
 	end
 
-	if
-		client
-		and client_supports_method(
-			client,
-			vim.lsp.protocol.Methods.textDocument_codeLens,
-			bufnr
-		)
-	then
-		vim.lsp.codelens.refresh({ bufnr = bufnr })
-		local auto_refresh_codelens =
-			vim.api.nvim_create_augroup("RefreshCodelens", { clear = false })
-		vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "BufWritePost" }, {
-			group = auto_refresh_codelens,
-			buffer = bufnr,
-			callback = function()
-				vim.lsp.codelens.refresh({
-					bufnr = bufnr,
-				})
-			end,
-		})
-	end
+	-- if
+	-- 	client
+	-- 	and client_supports_method(
+	-- 		client,
+	-- 		vim.lsp.protocol.Methods.textDocument_codeLens,
+	-- 		bufnr
+	-- 	)
+	-- then
+	-- 	vim.lsp.codelens.refresh({ bufnr = bufnr })
+	-- 	local auto_refresh_codelens =
+	-- 		vim.api.nvim_create_augroup("RefreshCodelens", { clear = false })
+	-- 	vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "BufWritePost" }, {
+	-- 		group = auto_refresh_codelens,
+	-- 		buffer = bufnr,
+	-- 		callback = function()
+	-- 			vim.lsp.codelens.refresh({
+	-- 				bufnr = bufnr,
+	-- 			})
+	-- 		end,
+	-- 	})
+	-- end
 
 	if
 		client
@@ -185,7 +185,17 @@ M.on_attach = function(client_id, bufnr)
 			vim.lsp.protocol.Methods.textDocument_documentSymbol
 		)
 	then
-		require("nvim-navic").attach(client, bufnr)
+		if
+			vim.tbl_isempty(vim
+				.iter({ "obsidian", "otter" })
+				:filter(function(value)
+					local match_start, match_end, match = client.name:find(value)
+					return match_start ~= nil
+				end)
+				:totable())
+		then
+			require("nvim-navic").attach(client, bufnr)
+		end
 	end
 
 	if client and client.name == "svelte" then

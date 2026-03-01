@@ -1,16 +1,10 @@
 local components =
 	require("faith.plugins.statusline.lualine.components").components()
-local icons = require("faith.icons")
-
-local winbar_ignore = require(
-	"faith.plugins.statusline.lualine.components.winbar"
-).ignore.winbar_ignore
-local trunc = require("faith.plugins.statusline.utils").trunc
 
 local sections = {
 	lualine_a = { components.vanity.trans_flag },
 	lualine_b = {
-		components.resession,
+		-- components.resession,
 		components.root,
 		components.branch,
 	},
@@ -29,6 +23,7 @@ local sections = {
 		-- buffers,
 		components.format_on_save,
 		components.show_macro_recording,
+		components.search_count,
 	},
 	lualine_y = {
 		components.codestats.total_xp,
@@ -41,21 +36,15 @@ local winbar = {
 		components.winnumber,
 	},
 	lualine_b = {
+		components.filepath,
 		components.filetype,
 		components.filename,
 	},
 	lualine_c = {
 		components.breadcrumbs,
-		{
-			"%=",
-			color = "WinBar",
-		},
 	},
 	lualine_x = {
-		{
-			"%=",
-			color = "WinBar",
-		},
+		components.location,
 		components.guessindent,
 		components.fileformat,
 		components.encoding,
@@ -72,7 +61,7 @@ return {
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons", lazy = true },
-		lazy = false,
+		event = "VeryLazy",
 		priority = 900, -- Load right after colorschemes/highlights set
 		init = function()
 			local buf_next = function(next, count)

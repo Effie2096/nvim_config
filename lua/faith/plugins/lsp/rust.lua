@@ -30,17 +30,12 @@ return {
 					},
 					server = {
 						on_attach = require("faith.plugins.lsp.common").on_attach,
-						default_settings = require(
-							"faith.plugins.lsp.settings.rust"
-						).settings,
+						default_settings = require("faith.plugins.lsp.settings.rust").settings,
 					},
 					dap = {
 						adapter = vim.tbl_deep_extend(
 							"force",
-							cfg.get_codelldb_adapter(
-								codelldb_path,
-								liblldb_path
-							),
+							cfg.get_codelldb_adapter(codelldb_path, liblldb_path),
 							{
 								cwd = "${workspaceFolder}",
 							}

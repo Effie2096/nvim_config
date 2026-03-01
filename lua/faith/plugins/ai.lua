@@ -2,6 +2,7 @@ return {
 
 	{
 		"Exafunction/windsurf.nvim",
+		event = "VeryLazy",
 		-- enabled = false,
 		dependencies = {
 			"nvim-lua/plenary.nvim",

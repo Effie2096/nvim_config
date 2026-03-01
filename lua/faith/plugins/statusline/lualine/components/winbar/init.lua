@@ -34,16 +34,17 @@ M.winbar_ft_icons = {
 	},
 	dapui_console = {
 		hl = "DevIconTerminal",
-		icon = require("nvim-web-devicons").get_icon_by_filetype(
-			"terminal",
-			{}
-		),
+		icon = require("nvim-web-devicons").get_icon_by_filetype("terminal", {}),
 	},
 	DiffviewFiles = {
 		icon = icons.git.Diff,
 		name = "Diffview",
 	},
 	Outline = {
+		icon = icons.ui.BulletList,
+		name = "Outline",
+	},
+	aerial = {
 		icon = icons.ui.BulletList,
 		name = "Outline",
 	},
@@ -109,8 +110,7 @@ M.winbar_ft_icons = {
 		name = function()
 			local name = {}
 			name.name = "Oil"
-			name.data =
-				require("oil").get_url_for_path(nil, false):gsub("oil://", "")
+			name.data = require("oil").get_url_for_path(nil, false):gsub("oil://", "")
 			return name
 		end,
 	},

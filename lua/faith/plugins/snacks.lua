@@ -1,3 +1,5 @@
+local tele_pickers = require("faith.plugins.telescope-conf")
+
 return {
 	{
 		"folke/snacks.nvim",
@@ -8,6 +10,18 @@ return {
 			-- your configuration comes here
 			-- or leave it empty to use the default settings
 			-- refer to the configuration section below
+			image = {
+				force = true,
+				img_dirs = {
+					"img",
+					"images",
+					"assets",
+					"static",
+					"public",
+					"media",
+					"Attachments",
+				},
+			},
 			bigfile = { enabled = true },
 			bufdelete = { enable = true },
 			dashboard = { enabled = false },
@@ -16,7 +30,7 @@ return {
 			input = { enabled = true },
 			picker = { enabled = false },
 			notifier = { enabled = false },
-			quickfile = { enabled = false },
+			quickfile = { enabled = true },
 			scope = { enabled = false },
 			scroll = { enabled = false },
 			statuscolumn = { enabled = false },
@@ -29,9 +43,38 @@ return {
 					count = true, -- use vim.v.count1
 				},
 			},
+			zen = {
+				toggles = { dim = false },
+				zoom = {
+					show = {
+						statusline = true,
+						tabline = true,
+					},
+				},
+			},
 			styles = {
+				snacks_image = {
+					relative = "win",
+					border = false,
+					focusable = false,
+					backdrop = false,
+					row = function()
+						return vim.api.nvim_win_get_cursor(0)[1]
+					end,
+					col = 0,
+					-- width/height are automatically set by the image size unless specified below
+					bufpos = { 0, 0 },
+				},
 				input = {
 					relative = "editor",
+				},
+				zen = {
+					enter = true,
+					fixbuf = false,
+					minimal = false,
+					width = 90,
+					height = 0,
+					backdrop = { transparent = true, blend = 10 },
 				},
 				zoom_indicator = {
 					text = " ",
@@ -128,6 +171,13 @@ return {
 					Snacks.scratch.select()
 				end,
 				desc = "Select Scratch Buffer",
+			},
+			{
+				"<leader>z",
+				function()
+					Snacks.zen.zen()
+				end,
+				desc = "Toggle Zoom",
 			},
 			{
 				"<leader>Z",

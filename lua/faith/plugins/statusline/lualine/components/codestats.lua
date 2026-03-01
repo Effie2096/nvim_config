@@ -47,6 +47,7 @@ M.buf_xp = {
 		return require("codestats").get_xp(0)
 	end,
 	color = "WinBar",
+	padding = { left = 0, right = 1 },
 	fmt = function(s)
 		if s and (s ~= "0" or nil) then
 			local level = calculate_level(s)

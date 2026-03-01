@@ -14,6 +14,14 @@ vim.opt.cmdheight = 1
 vim.opt.conceallevel = 2
 vim.opt.confirm = true
 vim.opt.cursorline = true
+vim.opt.guicursor = {
+	"v-c:block",
+	"i-ci-ve:ver20",
+	"r-cr:hor20",
+	"o:hor50",
+	"a:blinkwait700-blinkoff400-blinkon250-inverse/reverse",
+	"sm:block-blinkwait175-blinkoff150-blinkon175",
+}
 vim.opt.cursorlineopt = "line,number"
 vim.opt.hidden = true
 vim.opt.history = 5000
@@ -45,20 +53,17 @@ vim.opt.splitright = true
 vim.opt.swapfile = false
 vim.opt.termguicolors = true
 vim.opt.textwidth = 80
-vim.opt.colorcolumn = "+0"
+vim.opt.colorcolumn = "+1"
 vim.opt.timeoutlen = 300
 vim.opt.undofile = true
 vim.opt.updatetime = 250
-vim.opt.winminheight = 0
-vim.opt.winminwidth = 20
-vim.opt.equalalways = false
 vim.opt.wrap = true
 vim.opt.writebackup = false
 vim.opt.numberwidth = 3
 
 -- Indentation {
 local indentWidth = 2
--- vim.opt.tabstop = indentWidth
+vim.opt.tabstop = indentWidth
 -- vim.opt.softtabstop = 0 -- 0 means this is Off
 vim.opt.shiftwidth = indentWidth
 -- vim.opt.smarttab = true
@@ -68,10 +73,10 @@ vim.opt.shiftwidth = indentWidth
 -- } Indentation
 
 vim.opt.linebreak = true
-vim.opt.showbreak = "▋" .. (string.rep(" ", indentWidth) or "")
-vim.opt.breakat = " ^!@;:,./?([{"
+vim.opt.showbreak = "▋" .. (string.rep(" ", (indentWidth * 2) - 1) or "")
+vim.opt.breakat = " ^!@;:,./?([{<>"
 vim.opt.breakindent = true
-vim.opt.breakindentopt = { "shift:" .. (indentWidth * 2), "sbr" }
+vim.opt.breakindentopt = { "shift:0" }
 vim.opt.pumheight = 20
 vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8"

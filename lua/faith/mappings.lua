@@ -77,6 +77,7 @@ local function winNumberKeys(index)
 	local mapping = "<C-w>" .. index
 	local command = "<cmd>" .. index .. "wincmd w<CR>"
 	nnoremap(mapping, command, { silent = true })
+	tnoremap(mapping, command, { silent = true })
 end
 
 local i = 1
@@ -95,8 +96,7 @@ local tab_next = function(next, count)
 			return
 		end
 		vim.cmd(
-			(count ~= 0 and count or "")
-				.. (next and "tabnext" or "tabprevious")
+			(count ~= 0 and count or "") .. (next and "tabnext" or "tabprevious")
 		)
 	else
 		vim.cmd.tabnew()

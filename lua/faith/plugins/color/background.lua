@@ -1,9 +1,22 @@
--- return if astronomy file doesn't exist
-if vim.fn.filereadable("astronomy.json") == 0 then
-  return
+local state_dir = os.getenv("XDG_STATE_HOME")
+local astronomy_file =
+	vim.fs.find("astronomy.json", { path = state_dir, type = "file" })[1]
+
+-- TODO: cache time and only do file processing if passed that time <12-02-26, Effie2096>
+if vim.fn.filereadable(astronomy_file) == 0 then
+	return
 end
 
-local uv = vim.loop
+local themes = {
+	dark = {
+		colorscheme = "Eldritch Default",
+	},
+	light = {
+		colorscheme = "Nightfox Day",
+	},
+}
+
+local uv = vim.uv
 
 local function read_json(path)
 	local ok, content = pcall(function()
@@ -19,18 +32,7 @@ local function read_json(path)
 	return data
 end
 
-local path = os.getenv("XDG_STATE_HOME")
-local astronomy =
-	read_json(vim.fs.find("astronomy.json", { path = path, type = "file" })[1])
-
-local themes = {
-	dark = {
-		colorscheme = "Midnight",
-	},
-	light = {
-		colorscheme = "Nightfox Day",
-	},
-}
+local astronomy = read_json(astronomy_file)
 
 -- Helper: Convert hour/min to seconds since midnight
 local function time_to_seconds(hour, min)
@@ -78,23 +80,16 @@ local function determine_current_theme()
 		astronomy.today.sunrise.hour,
 		astronomy.today.sunrise.minute
 	)
-	local sunset = time_to_seconds(
-		astronomy.today.sunset.hour,
-		astronomy.today.sunset.minute
-	)
+	local sunset =
+		time_to_seconds(astronomy.today.sunset.hour, astronomy.today.sunset.minute)
 
 	if now >= sunrise and now < sunset then
 		return "light",
 			"dark",
-			delay_until(
-				astronomy.today.sunset.hour,
-				astronomy.today.sunset.minute
-			)
+			delay_until(astronomy.today.sunset.hour, astronomy.today.sunset.minute)
 	else
 		local next_sunrise = astronomy.tomorrow.sunrise
-		return "dark",
-			"light",
-			delay_until(next_sunrise.hour, next_sunrise.minute)
+		return "dark", "light", delay_until(next_sunrise.hour, next_sunrise.minute)
 	end
 end
 

@@ -29,17 +29,16 @@ return {
 	cache_key = function(opts)
 		return get_root_dir(opts)
 	end,
-	condition = {
-		callback = function(opts)
-			if not find_love(opts) then
-				return false, 'Command "love" not found'
-			end
-			return true
-		end,
-	},
 	generator = function(opts, cb)
 		local root_dir = get_root_dir(opts)
 		local cmd = find_love(opts)
+
+		if not cmd then
+			return 'Command "love" not found'
+		end
+		if not root_dir then
+			return "No love project found"
+		end
 
 		local ret = {
 			{

@@ -4,4 +4,6 @@ return {
 	"faith.cmake",
 	"faith.ninja",
 	"faith.run_script",
+	"faith.cook",
+	"faith.gradle",
 }

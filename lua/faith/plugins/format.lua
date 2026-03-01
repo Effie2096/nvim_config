@@ -15,9 +15,10 @@ local formatters_by_ft = {
 	python = { "ruff_format", "ruff_organize_imprts" },
 	rust = { "rustfmt" },
 	sh = { "beautysh" },
-	toml = { "taplo" },
+	toml = { "tombi" },
 	tsx = { "biome", "biome-check" },
 	typescript = { "biome", "biome-check" },
+	yaml = { "yamlfmt" },
 }
 -- stylua: ignore end
 
@@ -84,6 +85,16 @@ return {
 						return { "--column-width", vim.o.textwidth }
 					end,
 				},
+				yamlfmt = function(bufnr)
+					return {
+						prepend_args = {
+							"-formatter",
+							"include_document_start=true"
+								.. (",max_line_length=%s"):format(vim.bo[bufnr].textwidth - 20), -- fix because no yaml linters actually wrap at line length...
+							--.. ",retain_line_breaks=true" .. ",scan_folded_as_literal=true",
+						},
+					}
+				end,
 			},
 		},
 		init = function()
