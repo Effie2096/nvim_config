@@ -1,7 +1,12 @@
 return {
 	"tpope/vim-abolish",
 	"kevinhwang91/promise-async",
-
+	{ "nvim-lua/plenary.nvim", name = "plenary.nvim" },
+	{
+		"nvim-tree/nvim-web-devicons",
+		name = "dev_icons",
+		opts = {},
+	},
 	{
 		{
 			"folke/which-key.nvim",

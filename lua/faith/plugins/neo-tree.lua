@@ -12,13 +12,13 @@ return {
 		},
 		branch = "v3.x",
 		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+			"plenary.nvim",
+			"dev_icons", -- not strictly required, but recommended
 			"MunifTanjim/nui.nvim",
 			{
 				"antosha417/nvim-lsp-file-operations",
 				dependencies = {
-					"nvim-lua/plenary.nvim",
+					"plenary.nvim",
 					"nvim-neo-tree/neo-tree.nvim", -- makes sure that this loads after Neo-tree.
 				},
 				config = function()

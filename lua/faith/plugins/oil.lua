@@ -18,7 +18,7 @@ return {
 		-- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
 		lazy = false,
 		dependencies = {
-			"nvim-tree/nvim-web-devicons",
+			"dev_icons",
 		},
 		opts = {
 			win_options = {

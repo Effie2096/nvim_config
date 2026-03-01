@@ -3,7 +3,7 @@ return {
 		"nvim-telescope/telescope.nvim",
 		tag = "*",
 		dependencies = {
-			"nvim-lua/plenary.nvim",
+			"plenary.nvim",
 			"nvim-telescope/telescope-ui-select.nvim",
 			{
 				"nvim-telescope/telescope-fzf-native.nvim",

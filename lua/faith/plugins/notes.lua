@@ -826,7 +826,7 @@ return {
 		end,
 		dependencies = {
 			-- Required.
-			"nvim-lua/plenary.nvim",
+			"plenary.nvim",
 
 			-- optional
 			"saghen/blink.cmp",

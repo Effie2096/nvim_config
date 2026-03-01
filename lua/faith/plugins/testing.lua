@@ -66,7 +66,7 @@ return {
 		},
 		dependencies = {
 			"nvim-neotest/nvim-nio",
-			"nvim-lua/plenary.nvim",
+			"plenary.nvim",
 			"antoinemadec/FixCursorHold.nvim",
 			"nvim-treesitter/nvim-treesitter",
 

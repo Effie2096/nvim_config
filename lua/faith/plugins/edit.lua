@@ -157,7 +157,7 @@ return {
 		cmd = "Refactor",
 		-- branch = "develop",
 		dependencies = {
-			"nvim-lua/plenary.nvim",
+			"plenary.nvim",
 			"nvim-treesitter/nvim-treesitter",
 		},
 		opts = {

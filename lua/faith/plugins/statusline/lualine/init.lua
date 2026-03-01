@@ -62,7 +62,7 @@ local winbar = {
 return {
 	{
 		"nvim-lualine/lualine.nvim",
-		dependencies = { "nvim-tree/nvim-web-devicons", lazy = true },
+		dependencies = { "dev_icons" },
 		event = "VeryLazy",
 		priority = 900, -- Load right after colorschemes/highlights set
 		init = function()

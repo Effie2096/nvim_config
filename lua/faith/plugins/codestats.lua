@@ -1,7 +1,7 @@
 return {
 	{
 		"liljaylj/codestats.nvim",
-		dependencies = { "nvim-lua/plenary.nvim" },
+		dependencies = { "plenary.nvim" },
 		event = { "TextChanged", "InsertEnter" },
 		cmd = { "CodeStatsXpSend", "CodeStatsProfileUpdate" },
 		config = function()
