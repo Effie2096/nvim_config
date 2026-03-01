@@ -165,6 +165,7 @@ local icons = {
 		Fire = " ",
 		Note = " ",
 		BookMark = " ",
+		Book = "",
 		Pin = "",
 		Pencil = "󰏫 ",
 		Question = " ",

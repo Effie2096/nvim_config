@@ -76,6 +76,18 @@ M.apply_theme_overrides = function(theme, scheme)
 		fg = color_map.accent,
 		bg = sidebar_bg,
 	})
+	set_hl("SpellBad", {
+		fg = color_map.error,
+		undercurl = true,
+	})
+	set_hl({ "SpellRare", "SpellLocal" }, {
+		fg = color_map.warn,
+		undercurl = true,
+	})
+
+	set_hl("SpellCap", {
+		undercurl = true,
+	})
 
 	set_hl("NormalFloat", {
 		fg = color_map.fg,
@@ -588,6 +600,7 @@ M.apply_theme_overrides = function(theme, scheme)
 	set_hl("BlinkCmpKindString",{ fg = color_map.bg, bg = h("LspKindString").fg})
 	set_hl("BlinkCmpKindStruct",{ fg = color_map.bg, bg = h("LspKindStruct").fg})
 	set_hl("BlinkCmpKindText",{ fg = color_map.bg, bg = h("LspKindText").fg})
+	set_hl("BlinkCmpKindDict",{ fg = color_map.bg, bg = h("LspKindText").fg})
 	set_hl("BlinkCmpKindTypeParameter",{ fg = color_map.bg, bg = h("LspKindTypeParameter").fg})
 	set_hl("BlinkCmpKindUnit",{ fg = color_map.bg, bg = h("LspKindUnit").fg})
 	set_hl("BlinkCmpKindValue",{ fg = color_map.bg, bg = h("LspKindValue").fg})
