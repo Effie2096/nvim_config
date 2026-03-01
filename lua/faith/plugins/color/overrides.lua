@@ -290,7 +290,7 @@ M.apply_theme_overrides = function(theme, scheme)
 
 	set_hl("IblScope", { fg = color_map.accent })
 	set_hl("IblWhitespace", { fg = h("Comment").fg })
-	set_hl("NonText", { fg = h("Comment").fg })
+	set_hl("NonText", { fg = color_map.bg_light })
 
 	vim.api.nvim_set_hl(
 		0,
@@ -518,6 +518,7 @@ M.apply_theme_overrides = function(theme, scheme)
 	set_hl("BlinkCmpSignatureHelp", { link = "NormalFloat" })
 	set_hl("BlinkCmpSignatureHelpBorder", { link = "NormalFloat" })
 	set_hl("BlinkCmpSignatureHelpActiveParameter", { link = "LspSignatureActiveParameter" })
+
 
 
 	local filesystem = color_map.blue_light

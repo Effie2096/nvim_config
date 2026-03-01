@@ -418,6 +418,13 @@ return {
 					"Folded",
 					"CursorLineSign",
 
+					"SignColumn",
+					"WinBar",
+					"StatusLine",
+					"LineNr",
+					"LineNrAbove",
+					"LineNrBelow",
+
 					"WinSeparator",
 					"ColorfulWinSep",
 

@@ -42,10 +42,6 @@ local themes = {
 			colorscheme = "midnight",
 		},
 		{
-			name = "Sakura Dark",
-			colorscheme = "sakura",
-		},
-		{
 			name = "Yorumi Abyss",
 			colorscheme = "yorumi",
 		},
