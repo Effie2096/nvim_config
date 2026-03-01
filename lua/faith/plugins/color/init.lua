@@ -455,19 +455,6 @@ return {
 					"GitSignsStagedTogdeleteNr",
 					"GitSignsStagedTopdelete",
 
-					"ScrollbarHint",
-					"ScrollbarInfo",
-					"ScrollbarMisc",
-					"ScrollbarWarn",
-					"ScrollbarError",
-					"ScrollbarCursor",
-					"ScrollbarGitAdd",
-					"ScrollbarSearch",
-					"ScrollbarGitChange",
-					"ScrollbarGitDelete",
-
-					"ScrollbarMark",
-
 					"LspInlayHint",
 				},
 			}

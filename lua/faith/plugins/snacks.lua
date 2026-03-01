@@ -156,6 +156,12 @@ return {
 						wo = {
 							winhighlight = "NormalFloat:Normal,Normal:Normal",
 						},
+						on_open = function(win)
+							vim.cmd.ScrollViewDisable()
+						end,
+						on_close = function(win)
+							vim.cmd.ScrollViewEnable()
+						end,
 					},
 					zoom_indicator = {
 						text = " ",

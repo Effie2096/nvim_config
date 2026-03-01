@@ -637,117 +637,14 @@ M.apply_theme_overrides = function(theme, scheme)
 	local scroll_handle = color_map.bg_dark
 	local scroll_norm = color_map.bg
 
-	set_hl("ScrollbarHandle", { fg = "NONE", bg = scroll_handle })
-	vim.api.nvim_set_hl(
-		0,
-		"ScrollbarCursorHandle",
-		{ fg = color_map.accent, bg = scroll_handle }
-	)
-	vim.api.nvim_set_hl(
-		0,
-		"ScrollbarCursor",
-		{ fg = color_map.accent, bg = scroll_norm }
-	)
-	vim.api.nvim_set_hl(
-		0,
-		"ScrollbarSearchHandle",
-		{ fg = color_map.orange, bg = scroll_handle }
-	)
-	vim.api.nvim_set_hl(
-		0,
-		"ScrollbarSearch",
-		{ fg = color_map.orange, bg = scroll_norm }
-	)
-	vim.api.nvim_set_hl(
-		0,
-		"ScrollbarErrorHandle",
-		{ fg = color_map.error, bg = scroll_handle }
-	)
-	vim.api.nvim_set_hl(
-		0,
-		"ScrollbarError",
-		{ fg = color_map.error, bg = scroll_norm }
-	)
-	vim.api.nvim_set_hl(
-		0,
-		"ScrollbarWarnHandle",
-		{ fg = color_map.warn, bg = scroll_handle }
-	)
-	vim.api.nvim_set_hl(
-		0,
-		"ScrollbarWarn",
-		{ fg = color_map.warn, bg = scroll_norm }
-	)
-	vim.api.nvim_set_hl(
-		0,
-		"ScrollbarInfoHandle",
-		{ fg = color_map.info, bg = scroll_handle }
-	)
-	vim.api.nvim_set_hl(
-		0,
-		"ScrollbarInfo",
-		{ fg = color_map.info, bg = scroll_norm }
-	)
-	vim.api.nvim_set_hl(
-		0,
-		"ScrollbarHintHandle",
-		{ fg = color_map.hint, bg = scroll_handle }
-	)
-	vim.api.nvim_set_hl(
-		0,
-		"ScrollbarHint",
-		{ fg = color_map.hint, bg = scroll_norm }
-	)
-	vim.api.nvim_set_hl(
-		0,
-		"ScrollbarMiscHandle",
-		{ fg = color_map.fg, bg = scroll_handle }
-	)
-	vim.api.nvim_set_hl(
-		0,
-		"ScrollbarMisc",
-		{ fg = color_map.fg, bg = scroll_norm }
-	)
-	vim.api.nvim_set_hl(
-		0,
-		"ScrollbarMarkHandle",
-		{ fg = color_map.accent, bg = scroll_handle }
-	)
-	vim.api.nvim_set_hl(
-		0,
-		"ScrollbarMark",
-		{ fg = color_map.accent, bg = scroll_norm }
-	)
-	vim.api.nvim_set_hl(
-		0,
-		"ScrollbarGitAdd",
-		{ fg = color_map.green, bg = scroll_norm }
-	)
-	vim.api.nvim_set_hl(
-		0,
-		"ScrollbarGitAddHandle",
-		{ fg = color_map.green, bg = scroll_handle }
-	)
-	vim.api.nvim_set_hl(
-		0,
-		"ScrollbarGitChange",
-		{ fg = color_map.green, bg = scroll_norm }
-	)
-	vim.api.nvim_set_hl(
-		0,
-		"ScrollbarGitChangeHandle",
-		{ fg = color_map.blue, bg = scroll_handle }
-	)
-	vim.api.nvim_set_hl(
-		0,
-		"ScrollbarGitDelete",
-		{ fg = color_map.blue, bg = scroll_norm }
-	)
-	vim.api.nvim_set_hl(
-		0,
-		"ScrollbarGitDeleteHandle",
-		{ fg = color_map.red, bg = scroll_handle }
-	)
+	-- set_hl("ScrollView", {
+	-- 	fg = "NONE",
+	-- })
+	set_hl("ScrollViewCursor", { fg = color_map.accent, bg = "NONE" })
+	set_hl("ScrollViewMarks", { fg = color_map.purple_light, bg = "NONE" })
+	set_hl("ScrollViewSearch", { fg = color_map.orange, bg = "NONE" })
+	set_hl("ScrollViewSpell", { fg = color_map.error, bg = "NONE" })
+
 	set_hl("LightBulbVirtualText", { link = "ColorColumn" })
 
 	vim.api.nvim_set_hl(

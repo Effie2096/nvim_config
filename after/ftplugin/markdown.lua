@@ -114,9 +114,13 @@ vim.keymap.set({ "n" }, "<leader>z", function()
 			vim.wo[win.win].relativenumber = false
 			vim.wo[win.win].number = false
 			vim.wo[win.win].winbar = ""
+			vim.cmd.ScrollViewDisable()
+		end,
+		on_close = function(win)
+			vim.cmd.ScrollViewEnable()
 		end,
 	})
-end)
+end, { buffer = true })
 
 vim.api.nvim_create_autocmd("CursorHold", {
 	group = vim.api.nvim_create_augroup("markdown_image_hover", { clear = true }),

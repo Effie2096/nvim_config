@@ -40,6 +40,7 @@ vim.opt.listchars = {
 	nbsp = icons.characters.nbsp,
 }
 vim.opt.mouse = "a"
+vim.opt.mousemoveevent = true
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.scrolloff = 8
