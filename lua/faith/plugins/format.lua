@@ -48,7 +48,13 @@ return {
 			{
 				"<M-f>",
 				function()
-					require("conform").format({ async = true, lsp_format = "fallback" })
+					local ft = vim.bo.filetype
+					local opts = vim.tbl_extend(
+						"force",
+						{ async = true },
+						formatters_by_ft[ft] or { lsp_format = "fallback" }
+					)
+					require("conform").format(opts)
 				end,
 				mode = "",
 				desc = "[F]ormat buffer",
@@ -61,7 +67,9 @@ return {
 				if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
 					return
 				end
-				return { lsp_format = "fallback", timeout_ms = 500 }
+				local ft = vim.bo[bufnr].filetype
+				local opts = { lsp_format = "fallback", timeout_ms = 500 }
+				return vim.tbl_extend("force", opts, formatters_by_ft[ft])
 			end,
 			formatters_by_ft = formatters_by_ft,
 			formatters = {
