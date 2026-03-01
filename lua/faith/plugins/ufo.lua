@@ -130,6 +130,7 @@ return {
 				close_fold_kinds_for_ft = {
 					default = { "imports", "comment" },
 					json = { "array" },
+					kotlin = { "import_list" },
 					c = { "comment", "region" },
 					java = { "import_declaration", "line_comment" },
 				},

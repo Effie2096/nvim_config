@@ -694,6 +694,5 @@ return {
 		opts = {},
 	},
 	require("faith.plugins.lsp.java"),
-	-- require("faith.plugins.lsp.kotlin"),
 	require("faith.plugins.lsp.rust"),
 }
