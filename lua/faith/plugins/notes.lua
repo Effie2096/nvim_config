@@ -875,11 +875,15 @@ return {
 
 			local opts = {
 				legacy_commands = false,
-				statusline = {
-					enabled = false,
-					format = "{{backlinks}} backlinks  {{properties}} properties  {{words}} words  {{chars}} chars",
+				footer = {
+					enabled = true,
+					format = "   {{backlinks}}   {{properties}}   {{words}} 󰬴  {{chars}}",
 					hl_group = "Comment",
-					separator = string.rep("-", 80),
+					separator = string.rep("-", vim.o.textwidth),
+				},
+				statusline = {
+					enabled = true,
+					format = "  {{backlinks}}   {{properties}}   {{words}} 󰬴  {{chars}}",
 				},
 				workspaces = workspaces,
 				templates = {
@@ -1107,7 +1111,13 @@ return {
 				-- 		acc[map.lhs] = { map.rhs, map.desc, map.mode }
 				-- 		return acc
 				-- 	end),
-
+				smart_toggle = {
+					enabled = true,
+					check_down = "direct_children", -- How checking a parent affects children
+					uncheck_down = "direct_children", -- How unchecking a parent affects children
+					check_up = "direct_children", -- When to auto-check parents
+					uncheck_up = "direct_children", -- When to auto-uncheck parents
+				},
 				style = {
 					CheckmateTodoCountIndicator = { link = "DiagnosticVirtualTextHint" },
 					CheckmateCheckedMarker = { link = checkboxes.checked.highlight },

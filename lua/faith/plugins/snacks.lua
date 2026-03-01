@@ -154,7 +154,7 @@ return {
 							bg = util.color("Normal", "bg"),
 						},
 						wo = {
-							winhighlight = "NormalFloat:Normal,Normal:Normal",
+							winhighlight = "NormalFloat:Normal,Normal:Normal,WinBar:Comment",
 						},
 						on_open = function(win)
 							vim.cmd.ScrollViewDisable()

@@ -366,6 +366,7 @@ return {
 			-- require("transparent").clear_prefix("lualine_c_filetype_DevIcon")
 
 			require("transparent").clear_prefix("NeoTree")
+			require("transparent").clear_prefix("CheckMate")
 
 			local opts = {
 				exclude_groups = {
@@ -393,6 +394,23 @@ return {
 					"UgSearch",
 					"UgComment",
 					"UgCursor",
+
+					"RenderMarkdownH1",
+					"RenderMarkdownH2",
+					"RenderMarkdownH3",
+					"RenderMarkdownH4",
+					"RenderMarkdownH5",
+					"RenderMarkdownH6",
+
+					"RenderMarkdownH1Bg",
+					"RenderMarkdownH2Bg",
+					"RenderMarkdownH3Bg",
+					"RenderMarkdownH4Bg",
+					"RenderMarkdownH5Bg",
+					"RenderMarkdownH6Bg",
+
+					"CodeBlock",
+					"RenderMarkdownCode",
 				},
 				extra_groups = {
 					"FoldColumn",
