@@ -41,7 +41,8 @@ return {
 			},
 		},
 		config = function()
-			require("resession").setup({
+			local resession = require("resession")
+			resession.setup({
 				dir = "sessions",
 				options = {
 					"binary",
@@ -96,16 +97,17 @@ return {
 				callback = function()
 					-- Only load the session if nvim was started with no args
 					if vim.fn.argc(-1) == 0 and not vim.g.using_stdin then
-						require("resession").load(get_session_name(), {
+						resession.load(get_session_name(), {
 							dir = "sessions/auto/",
 							silence_errors = true,
 						})
 					end
 				end,
+				nested = true, -- needed for plugins that add stuff on VimEnter not working
 			})
 			vim.api.nvim_create_autocmd("VimLeavePre", {
 				callback = function()
-					require("resession").save(get_session_name(), {
+					resession.save(get_session_name(), {
 						dir = "sessions/auto/",
 						notify = false,
 					})
@@ -118,16 +120,20 @@ return {
 				end,
 			})
 
+			resession.add_hook("post_load", function()
+				vim.cmd.doautoall("BufReadPost") -- fix first buffer on load not having anything set up correctly
+			end)
+
 			vim.keymap.set("n", "<leader>ss", function()
-				require("resession").save()
+				resession.save()
 			end, {
 				desc = "[s]ession [s]tart: start recording session to a centralized location.",
 			})
 			vim.keymap.set("n", "<leader>sl", function()
-				require("resession").load()
+				resession.load()
 			end, { desc = "[s]ession [l]oad: load session." })
 			vim.keymap.set("n", "<leader>sd", function()
-				require("resession").delete()
+				resession.delete()
 			end, { desc = "[s]ession [d]elete: delete session." })
 		end,
 	},
