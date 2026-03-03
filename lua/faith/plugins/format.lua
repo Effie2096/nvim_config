@@ -69,7 +69,7 @@ return {
 				end
 				local ft = vim.bo[bufnr].filetype
 				local opts = { lsp_format = "fallback", timeout_ms = 500 }
-				return vim.tbl_extend("force", opts, formatters_by_ft[ft])
+				return vim.tbl_extend("force", opts, formatters_by_ft[ft] or {})
 			end,
 			formatters_by_ft = formatters_by_ft,
 			formatters = {
