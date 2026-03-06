@@ -20,7 +20,9 @@ return {
 			current_only = false,
 			hide_on_cursor_intersect = true,
 			cursor_symbol = "•",
+			cursor_priority = 100,
 			signs_scrollbar_overlap = "over",
+			signs_max_per_row = 1,
 			signs_on_startup = {
 				"cursor",
 				"keywords",
@@ -28,7 +30,7 @@ return {
 				"search",
 				"spell",
 			},
-			scrollview_search_symbol = { "-", "=", vim.fn.nr2char(0x2261) },
+			search_symbol = { "-", "=", vim.fn.nr2char(0x2261) },
 		},
 	},
 
@@ -67,9 +69,9 @@ return {
 					end
 					render.setVirt(0, lnum - 1, col - 1, chunks, nearest)
 				end,
-				build_position_cb = function(plist, _, _, _)
-					require("scrollbar.handlers.search").handler.show(plist.start_pos)
-				end,
+				-- build_position_cb = function(plist, _, _, _)
+				-- 	require("scrollbar.handlers.search").handler.show(plist.start_pos)
+				-- end,
 			})
 
 			local kopts = { noremap = true, silent = true }
@@ -142,7 +144,16 @@ return {
 			-- whether to map keybinds or not. default true
 			default_mappings = true,
 			-- which builtin marks to show. default {}
-			-- builtin_marks = { ".", "<", ">", "^" },
+			builtin_marks = {
+				"^",
+				"<",
+				">",
+				-- "[",
+				-- "]",
+				-- "'",
+				-- "`",
+				".",
+			},
 			-- whether movements cycle back to the beginning/end of buffer. default true
 			cyclic = true,
 			-- whether the shada file is updated after modifying uppercase marks. default false
@@ -169,85 +180,4 @@ return {
 			mappings = {},
 		},
 	},
-	-- {
-	-- 	"petertriho/nvim-scrollbar",
-	-- 	event = "VeryLazy",
-	-- 	dependencies = {
-	-- 		"lewis6991/gitsigns.nvim",
-	-- 	},
-	-- 	config = function()
-	-- 		local opts = {
-	-- 			set_highlights = false,
-	-- 			show_in_active_only = true,
-	-- 			hide_if_all_visible = true,
-	-- 			excluded_filetypes = {
-	-- 				"neo-tree",
-	-- 			},
-	-- 			marks = {
-	-- 				Misc = {
-	-- 					text = { "-", "=" },
-	-- 					priority = 6,
-	-- 				},
-	-- 				Mark = {
-	-- 					text = { "", "" },
-	-- 					priority = 8,
-	-- 					highlight = "ScrollbarMark",
-	-- 				},
-	-- 				GitAdd = {
-	-- 					text = icons.git.signs.add,
-	-- 					priority = 7,
-	-- 					gui = nil,
-	-- 					color = nil,
-	-- 					cterm = nil,
-	-- 					color_nr = nil, -- cterm
-	-- 					highlight = "GitSignsAdd",
-	-- 				},
-	-- 				GitChange = {
-	-- 					text = icons.git.signs.mod,
-	-- 					priority = 7,
-	-- 					gui = nil,
-	-- 					color = nil,
-	-- 					cterm = nil,
-	-- 					color_nr = nil, -- cterm
-	-- 					highlight = "GitSignsChange",
-	-- 				},
-	-- 				GitDelete = {
-	-- 					text = icons.git.signs.delete,
-	-- 					priority = 7,
-	-- 					gui = nil,
-	-- 					color = nil,
-	-- 					cterm = nil,
-	-- 					color_nr = nil, -- cterm
-	-- 					highlight = "GitSignsDelete",
-	-- 				},
-	-- 			},
-	-- 			handlers = {
-	-- 				cursor = true,
-	-- 				diagnostic = true,
-	-- 				-- gitsigns = true, -- Requires gitsigns
-	-- 				handle = true,
-	-- 				search = true, -- Requires hlslens
-	-- 				ale = false, -- Requires ALE
-	-- 			},
-	-- 		}
-	-- 		require("scrollbar").setup(opts)
-
-	-- 		require("scrollbar.handlers").register("Marks", function(bufnr)
-	-- 			local marks_api = require("marks")
-	-- 			local ret = {}
-	-- 			if marks_api.mark_state.buffers[bufnr] then
-	-- 				for mark, data in
-	-- 					pairs(marks_api.mark_state.buffers[bufnr].placed_marks)
-	-- 				do
-	-- 					table.insert(ret, {
-	-- 						line = data.line - 1,
-	-- 						text = mark,
-	-- 						type = "Mark",
-	-- 					})
-	-- 				end
-	-- 			end
-	-- 			return ret
-	-- 		end)
-	-- 	end,
-	-- },
 }

@@ -68,6 +68,14 @@ return {
 						click = "v:lua.ScSa",
 					},
 					{
+						sign = {
+							name = { "Marks_.*" },
+							maxwidth = 1,
+							colwidth = 1,
+							auto = true,
+						},
+					},
+					{
 						text = { require("statuscol.builtin").lnumfunc },
 						condition = {
 							true,
