@@ -859,7 +859,7 @@ M.apply_theme_overrides = function(theme, scheme)
 	)
 
 	local prog_fill = color_map.accent
-	local prog_empty = color_map.fg
+	local prog_empty = color_map.bg_light
 	set_hl("CodeStatsIcon", { fg = color_map.yellow })
 	vim.api.nvim_set_hl(
 		0,
@@ -870,13 +870,13 @@ M.apply_theme_overrides = function(theme, scheme)
 	vim.api.nvim_set_hl(
 		0,
 		"TextFilled",
-		{ fg = "#000000", bg = prog_fill, bold = true }
-	) -- same bg as filled bar
+		{ fg = color_map.fg, bg = prog_fill, bold = true }
+	)
 	vim.api.nvim_set_hl(
 		0,
 		"TextEmpty",
-		{ fg = "#000000", bg = prog_empty, bold = true }
-	) -- same bg as empty bar
+		{ fg = color_map.fg, bg = prog_empty, bold = true }
+	)
 	set_hl("ProgressBorder", { fg = "#aaaaaa", bg = "#000000" })
 
 	local fidget_bg = color_map.bg

@@ -18,9 +18,9 @@ return function(current, total, width, display)
 			end
 			table.insert(segments, histr(c, hl))
 		elseif i <= filled_len then
-			table.insert(segments, histr("█", "ProgressFilled"))
+			table.insert(segments, histr(" ", "ProgressFilled"))
 		else
-			table.insert(segments, histr("█", "ProgressEmpty"))
+			table.insert(segments, histr(" ", "ProgressEmpty"))
 		end
 	end
 
