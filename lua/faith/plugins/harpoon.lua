@@ -131,16 +131,17 @@ return {
 		end,
 		keys = {
 			{
-				"<leader>ma",
+				"<leader>Ha",
 				function()
 					require("harpoon")
 						:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
 						:add()
 				end,
+				desc = "[H]arpoon [a]dd: Add harpoon.",
 				{ "n" },
 			},
 			{
-				"<leader>me",
+				"<leader>He",
 				function()
 					require("harpoon").ui:toggle_quick_menu(
 						require("harpoon"):list(
@@ -148,10 +149,11 @@ return {
 						)
 					)
 				end,
+				desc = "[H]arpoon [e]dit: Edit harpoons.",
 				{ "n" },
 			},
 			{
-				"<M-h>",
+				"<M-m>",
 				function()
 					require("harpoon")
 						:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
@@ -160,7 +162,7 @@ return {
 				{ "n" },
 			},
 			{
-				"<M-j>",
+				"<M-n>",
 				function()
 					require("harpoon")
 						:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
@@ -169,7 +171,7 @@ return {
 				{ "n" },
 			},
 			{
-				"<M-k>",
+				"<M-e>",
 				function()
 					require("harpoon")
 						:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
@@ -178,7 +180,7 @@ return {
 				{ "n" },
 			},
 			{
-				"<M-l>",
+				"<M-i>",
 				function()
 					require("harpoon")
 						:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
@@ -187,7 +189,7 @@ return {
 				{ "n" },
 			},
 			{
-				"<M-;>",
+				"<M-a>",
 				function()
 					require("harpoon")
 						:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
@@ -196,7 +198,7 @@ return {
 				{ "n" },
 			},
 			{
-				"<M-'>",
+				"<M-;>",
 				function()
 					require("harpoon")
 						:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
