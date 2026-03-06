@@ -623,10 +623,7 @@ return {
 					}
 					if
 						-- turn on dictionary in markdown or text file
-						vim.tbl_contains(
-							{ "markdown", "text", "gitcommit" },
-							vim.bo.filetype
-						)
+						vim.tbl_contains({ "markdown", "text" }, vim.bo.filetype)
 						-- or turn on dictionary if cursor is in the comment block
 						or inside_comment_block()
 					then
