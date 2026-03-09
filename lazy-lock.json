@@ -120,6 +120,7 @@
   "tokyodark.nvim": { "branch": "master", "commit": "659aff3c73dc2e0159314050a81671f0b2eaad01" },
   "tokyonight.nvim": { "branch": "main", "commit": "5da1b76e64daf4c5d410f06bcb6b9cb640da7dfd" },
   "treesj": { "branch": "main", "commit": "186084dee5e9c8eec40f6e39481c723dd567cb05" },
+  "twilight.nvim": { "branch": "main", "commit": "664e752f4a219801265cc3fc18782b457b58c1e1" },
   "undotree": { "branch": "master", "commit": "178d19e00a643f825ea11d581b1684745d0c4eda" },
   "vim-abolish": { "branch": "master", "commit": "dcbfe065297d31823561ba787f51056c147aa682" },
   "vim-cooklang": { "branch": "main", "commit": "ba334ed1668ddf82ad46beea5354aa6398093ec6" },
@@ -133,4 +134,5 @@
   "words-the-def.nvim": { "branch": "main", "commit": "9c31f0b3580f7538355e1e741dd0b9d298cd14bf" },
   "xmake.nvim": { "branch": "main", "commit": "ae9bb3ec97cd27cd95f616687096e529363aa80b" },
   "yorumi.nvim": { "branch": "main", "commit": "e5b93e2c0adb3d95ca9f3c5c20e824d15afcfe48" }
+  "zen-mode.nvim": { "branch": "main", "commit": "8564ce6d29ec7554eb9df578efa882d33b3c23a7" }
 }

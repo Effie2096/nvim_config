@@ -52,11 +52,11 @@ return {
 				dim = {
 					enabled = false,
 					---@type snacks.scope.Config
-					scope = {
-						min_size = 5,
-						max_size = 40,
-						siblings = true,
-					},
+					-- scope = {
+					-- 	min_size = 5,
+					-- 	max_size = 40,
+					-- 	siblings = true,
+					-- },
 					-- animate scopes. Enabled by default for Neovim >= 0.10
 					-- Works on older versions but has to trigger redraws during animation.
 					---@type snacks.animate.Config|{enabled?: boolean}
@@ -100,7 +100,7 @@ return {
 					},
 				},
 				notifier = { enabled = false },
-				quickfile = { enabled = true },
+				quickfile = { enabled = false },
 				scope = { enabled = false },
 				scroll = { enabled = false },
 				statuscolumn = { enabled = false },
@@ -114,7 +114,7 @@ return {
 					},
 				},
 				zen = {
-					enabled = true,
+					enabled = false,
 					center = true,
 					toggles = { dim = false },
 					show = {
@@ -260,20 +260,6 @@ return {
 					Snacks.scratch.select()
 				end,
 				desc = "Select Scratch Buffer",
-			},
-			{
-				"<leader>z",
-				function()
-					Snacks.zen.zen()
-				end,
-				desc = "Toggle Zoom",
-			},
-			{
-				"<leader>Z",
-				function()
-					Snacks.zen.zoom()
-				end,
-				desc = "Toggle Zoom",
 			},
 			{
 				"<leader>sp",
