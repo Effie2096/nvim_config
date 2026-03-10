@@ -1,5 +1,6 @@
 -- stylua: ignore start
 local formatters_by_ft = {
+	bash = { "beaytysh" },
 	cs = { "csharpier" },
 	css = { "biome", "biome-check" },
 	go = { "gofumpt" },
@@ -11,14 +12,16 @@ local formatters_by_ft = {
 	jsx = { "biome", "biome-check" },
 	-- kotlin = { "ktlint" },
 	lua = { "stylua" },
+	markdown = { "injected" },
 	ocaml = { "ocamlformat" },
-	python = { "ruff_format", "ruff_organize_imprts" },
+	python = { "ruff_format", "ruff_organize_imports" },
 	rust = { "rustfmt" },
 	sh = { "beautysh" },
 	toml = { "tombi" },
 	tsx = { "biome", "biome-check" },
 	typescript = { "biome", "biome-check" },
 	yaml = { "yamlfmt" },
+	zsh = { "beaytysh" },
 }
 -- stylua: ignore end
 

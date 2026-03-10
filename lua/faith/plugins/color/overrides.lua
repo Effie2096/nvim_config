@@ -212,42 +212,77 @@ M.apply_theme_overrides = function(theme, scheme)
 	local mdh4 = color_map.blue_dark
 	local mdh5 = color_map.yellow
 	local mdh6 = color_map.red
-	set_hl("@markup.heading.1.markdown", { fg = mdh1, bg = color_map.bg })
-	set_hl({ "markdownH1", "RenderMarkdownH1Bg" }, {
-		bg = mdh1,
-		fg = color_map.bg,
-		bold = true,
+	set_hl({
+		"@markup.heading.1.markdown",
+		"RenderMarkdownH1",
+		"markdownH1",
+	}, { fg = mdh1, bold = true })
+	set_hl({ "RenderMarkdownH1Bg" }, {
+		fg = mdh1,
+		--
 	})
-	set_hl("@markup.heading.2.markdown", { fg = mdh2, bg = color_map.bg })
-	set_hl({ "markdownH2", "RenderMarkdownH2Bg" }, {
-		bg = mdh2,
-		fg = color_map.bg,
-		bold = true,
+	set_hl("RenderMarkdown_RenderMarkdownH1Bg_bg_as_fg", { fg = mdh1 })
+
+	set_hl(
+		{ "@markup.heading.2.markdown", "RenderMarkdownH2", "markdownH2" },
+		{ fg = mdh2, bold = true }
+	)
+	set_hl({ "RenderMarkdownH2Bg" }, {
+		fg = mdh2,
+		-- fg = color_map.bg,
 	})
-	set_hl("@markup.heading.3.markdown", { fg = mdh3, bg = color_map.bg })
-	set_hl({ "markdownH3", "RenderMarkdownH3Bg" }, {
-		bg = mdh3,
-		fg = color_map.bg,
-		bold = true,
+	set_hl(
+		"RenderMarkdown_RenderMarkdownH2Bg_bg_as_fg",
+		{ fg = mdh2, force = true }
+	)
+	set_hl(
+		{ "@markup.heading.3.markdown", "RenderMarkdownH3", "markdownH3" },
+		{ fg = mdh3, bold = true }
+	)
+	set_hl({ "RenderMarkdownH3Bg" }, {
+		fg = mdh3,
+		-- fg = color_map.bg,
 	})
-	set_hl("@markup.heading.4.markdown", { fg = mdh4, bg = color_map.bg })
-	set_hl({ "markdownH4", "RenderMarkdownH4Bg" }, {
-		bg = mdh4,
-		fg = color_map.bg,
-		bold = true,
+	set_hl(
+		"RenderMarkdown_RenderMarkdownH3Bg_bg_as_fg",
+		{ fg = mdh3, force = true }
+	)
+	set_hl(
+		{ "@markup.heading.4.markdown", "RenderMarkdownH4", "markdownH4" },
+		{ fg = mdh4, bold = true }
+	)
+	set_hl({ "RenderMarkdownH4Bg" }, {
+		fg = mdh4,
+		-- fg = color_map.bg,
 	})
-	set_hl("@markup.heading.5.markdown", { fg = mdh5, bg = color_map.bg })
-	set_hl({ "markdownH5", "RenderMarkdownH5Bg" }, {
-		bg = mdh5,
-		fg = color_map.bg,
-		bold = true,
+	set_hl(
+		"RenderMarkdown_RenderMarkdownH4Bg_bg_as_fg",
+		{ fg = mdh4, force = true }
+	)
+	set_hl(
+		{ "@markup.heading.5.markdown", "RenderMarkdownH5", "markdownH5" },
+		{ fg = mdh5, bold = true }
+	)
+	set_hl({ "RenderMarkdownH5Bg" }, {
+		fg = mdh5,
+		-- fg = color_map.bg,
 	})
-	set_hl("@markup.heading.6.markdown", { fg = mdh6, bg = color_map.bg })
-	set_hl({ "markdownH6", "RenderMarkdownH6Bg" }, {
-		bg = mdh6,
-		fg = color_map.bg,
-		bold = true,
+	set_hl(
+		"RenderMarkdown_RenderMarkdownH5Bg_bg_as_fg",
+		{ fg = mdh5, force = true }
+	)
+	set_hl(
+		{ "@markup.heading.6.markdown", "RenderMarkdownH6", "markdownH6" },
+		{ fg = mdh6, bold = true }
+	)
+	set_hl({ "RenderMarkdownH6Bg" }, {
+		fg = mdh6,
+		-- fg = color_map.bg,
 	})
+	set_hl(
+		"RenderMarkdown_RenderMarkdownH6Bg_bg_as_fg",
+		{ fg = mdh6, force = true }
+	)
 
 	set_hl("RenderMarkdownChecked", {
 		fg = color_map.green,

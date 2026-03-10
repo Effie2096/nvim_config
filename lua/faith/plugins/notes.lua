@@ -1,4 +1,4 @@
-local icons = require("faith.icons")
+local icons = vim.deepcopy(require("faith.icons"))
 local wk = require("which-key")
 
 local use_cm_todos = false
@@ -547,17 +547,45 @@ return {
 			completions = { lsp = { enabled = true } },
 			render_modes = { "n", "i", "c" },
 			nested = true,
-			restart_highlighter = false,
+			restart_highlighter = true,
 			heading = {
-				icons = { "󰎤 ", "󰎧 ", "󰎪 ", "󰎭 ", "󰎱 ", "󰎳 " },
+				-- icons = { "󰎤 ", "󰎧 ", "󰎪 ", "󰎭 ", "󰎱 ", "󰎳 " },
+				icons = vim
+					.iter(ipairs(icons.numbers.subscript))
+					:take(6)
+					:map(function(key, value)
+						return string.format("%s · ", value)
+					end)
+					:totable(),
+
 				-- icons = { " " },
 				position = "inline",
+				above = "",
+				below = icons.borders.edge_thin.top,
 				border = true,
 				left_pad = 1,
 				sign = true,
 				-- border_virtual = true,
 				width = { "block" },
-				min_width = vim.o.textwidth - 1,
+				min_width = 79,
+				-- backgrounds = {
+
+				-- 	"RenderMarkdownH1Bg",
+				-- 	"RenderMarkdownH2Bg",
+				-- 	"RenderMarkdownH3Bg",
+				-- 	"RenderMarkdownH4Bg",
+				-- 	"RenderMarkdownH5Bg",
+				-- 	"RenderMarkdownH6Bg",
+				-- },
+				-- foregrounds = {
+
+				-- 	"RenderMarkdownH1",
+				-- 	"RenderMarkdownH2",
+				-- 	"RenderMarkdownH3",
+				-- 	"RenderMarkdownH4",
+				-- 	"RenderMarkdownH5",
+				-- 	"RenderMarkdownH6",
+				-- },
 			},
 			indent = {
 				enabled = false,
@@ -879,10 +907,9 @@ return {
 					enabled = true,
 					format = "   {{backlinks}}   {{properties}}   {{words}} 󰬴  {{chars}}",
 					hl_group = "Comment",
-					separator = string.rep("-", vim.o.textwidth),
+					separator = string.rep("-", vim.o.textwidth or 80),
 				},
 				statusline = {
-					enabled = true,
 					format = "  {{backlinks}}   {{properties}}   {{words}} 󰬴  {{chars}}",
 				},
 				workspaces = workspaces,
@@ -891,17 +918,15 @@ return {
 					date_format = "%Y%m%d",
 					time_format = "%H%M%S",
 					-- A map for custom variables, the key should be the variable and the value a function
-					substitutions = {
-						["date:YYYY-MM-DD"] = function()
-							return tostring(os.date("%Y-%m-%d", os.time()))
-						end,
-					},
+					substitutions = {},
 				},
 
 				-- Where to put new notes. Valid options are
 				--  * "current_dir" - put new notes in same directory as the current buffer.
 				--  * "notes_subdir" - put new notes in the default notes subdirectory.
-				new_notes_location = "current_dir",
+				---@type obsidian.config.NewNotesLocation
+				new_notes_location = "notes_subdir",
+				notes_subdir = "",
 				note_id_func = function(title)
 					local suffix = ""
 					local id = tostring(os.date("%Y%m%d%H%M%S", os.time()))
@@ -927,7 +952,7 @@ return {
 				end,
 
 				note = {
-					template = "Unique Note.md",
+					template = "unique-note.md",
 				},
 
 				daily_notes = {
@@ -991,6 +1016,7 @@ return {
 					enabled = false,
 				},
 				show_todo_count = true,
+				todo_count_recursive = false,
 				todo_count_position = use_cm_todos and "inline" or "eol",
 				todo_states = {
 					unchecked = {

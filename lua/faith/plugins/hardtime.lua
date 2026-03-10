@@ -17,11 +17,7 @@ return {
 				["<Left>"] = false,
 				["<Right>"] = false,
 			},
-			disabled_filetypes = {
-				lazy = true,
-				["neo-tree"] = false,
-				["dapui*"] = false,
-			},
+			-- disabled_filetypes = { },
 			hints = {
 				["[dcyvV][ia][%(%)]"] = {
 					message = function(keys)

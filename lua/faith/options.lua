@@ -44,6 +44,7 @@ vim.opt.mousemoveevent = true
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.scrolloff = 8
+vim.opt.smoothscroll = true
 vim.opt.shortmess:append({ c = true })
 vim.opt.showmode = false
 vim.opt.showtabline = 1
@@ -51,6 +52,7 @@ vim.opt.signcolumn = "yes:3"
 vim.opt.smartcase = true
 vim.opt.splitbelow = false
 vim.opt.splitright = true
+vim.opt.splitkeep = "screen"
 vim.opt.swapfile = false
 vim.opt.termguicolors = true
 vim.opt.textwidth = 80
@@ -94,24 +96,27 @@ vim.opt.fillchars:append({
 	verthoriz = icons.borders.square.center, -- "┼",
 	diff = icons.git.signs.diff,
 })
-
--- default tcqj
-vim.opt.formatoptions = {
-	-- Auto formatting is BAD.
-	a = false,
-	-- Don't auto format my code. I have linters for that.
-	t = false,
-	-- In general, I like it when comments respect textwidth
-	c = true,
-	-- Allow formatting comments w/ gq
-	q = true,
-	-- O and o, don't continue comments
-	o = false,
-	-- But do continue when pressing enter.
-	r = true,
-	-- Indent past the formatlistpat, not underneath it.
-	n = true,
-	["2"] = false,
-	-- Auto-remove comments if possible.
-	j = true,
-}
+vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
+	group = vim.api.nvim_create_augroup("set_formatoptions", { clear = true }),
+	pattern = "*",
+	callback = function(_)
+		-- default tcqj
+		-- Auto formatting is BAD.
+		vim.opt_local.formatoptions:remove("a")
+		-- Don't auto format my code. I have linters for that.
+		vim.opt_local.formatoptions:remove("t")
+		-- In general, I like it when comments respect textwidth
+		vim.opt_local.formatoptions:append("c")
+		-- Allow formatting comments w/ gq
+		vim.opt_local.formatoptions:append("q")
+		-- O and o, don't continue comments
+		vim.opt_local.formatoptions:remove("o")
+		-- But do continue when pressing enter.
+		vim.opt_local.formatoptions:append("r")
+		-- Indent past the formatlistpat, not underneath it.
+		vim.opt_local.formatoptions:append("n")
+		vim.opt_local.formatoptions:remove("2")
+		-- Auto-remove comments if possible.
+		vim.opt_local.formatoptions:append("j")
+	end,
+})
