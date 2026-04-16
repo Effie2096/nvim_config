@@ -169,6 +169,9 @@ return {
 				"andymass/vim-matchup",
 				lazy = false,
 				init = function()
+					vim.g.matchup_matchparen_enabled = 1
+					vim.g.matchup_matchparen_hi_background = 0
+					vim.g.matchup_matchpref = { html = { tagnameonly = 1 } }
 					vim.g.matchup_matchparen_offscreen = {
 						method = "popup",
 						fullwidth = 1,
@@ -177,7 +180,7 @@ return {
 						border = 0,
 					}
 					vim.g.matchup_transmute_enabled = 1
-					vim.g.matchup_matchparen_deferred = 0
+					vim.g.matchup_matchparen_deferred = 1
 					vim.g.matchup_matchparen_hi_surround_always = 0
 					vim.g.matchup_treesitter_disable_virtual_text = false
 				end,

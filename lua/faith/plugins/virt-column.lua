@@ -6,7 +6,7 @@ return {
 		events = "VeryLazy",
 		opts = {
 			char = icons.characters.indent,
-			highlight = { "VirtColumn", "Comment" },
+			highlight = { "VirtColumn", "NonText" },
 		},
 	},
 }

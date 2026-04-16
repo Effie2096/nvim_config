@@ -407,10 +407,6 @@ return {
 					require("luasnip.loaders.from_vscode").lazy_load({
 						paths = snippet_path .. "/vscode",
 					})
-					require("luasnip").add_snippets(
-						"supercollider",
-						require("scnvim/utils").get_snippets()
-					)
 
 					ls.config.set_config({
 						-- This tells LuaSnip to remember to keep around the last snippet.

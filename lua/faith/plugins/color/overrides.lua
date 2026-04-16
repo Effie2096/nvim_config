@@ -346,6 +346,7 @@ M.apply_theme_overrides = function(theme, scheme)
 	set_hl("RainbowViolet", { fg = color_map.purple_dark })
 	set_hl("RainbowCyan", { fg = color_map.green_light })
 
+	vim.api.nvim_set_hl(0, "MatchBackground", { bg = color_map.bg_dark })
 	vim.api.nvim_set_hl(
 		0,
 		"BlinkPairsUnmatched",
