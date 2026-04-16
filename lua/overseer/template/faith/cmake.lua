@@ -5,7 +5,6 @@ local TAG = constants.TAG
 ---@type overseer.TemplateFileDefinition
 local tmpl = {
 	name = "CMake",
-	priority = 60,
 	tags = { TAG.BUILD },
 	params = {
 		cmd = { optional = true, type = "string" },
@@ -74,7 +73,6 @@ return {
 			{
 				postfix = "",
 				cwd = source_dir,
-				priority = 69,
 			},
 		}
 		for _, root in ipairs(roots) do
@@ -88,7 +86,6 @@ return {
 							root.postfix
 						),
 						tags = command.tags,
-						priority = root.priority,
 					}, {
 						args = command.args,
 						cwd = root.cwd,

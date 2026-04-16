@@ -43,7 +43,7 @@ return {
 			-- require("telescope").load_extension("git_worktree")
 			-- require("telescope").load_extension("scdoc")
 			require("telescope").load_extension("noice")
-			-- require("telescope").load_extension("scope")
+			require("telescope").load_extension("scope")
 			require("telescope").load_extension("fidget")
 		end,
 	},

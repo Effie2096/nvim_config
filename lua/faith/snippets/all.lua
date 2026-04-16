@@ -35,13 +35,9 @@ return {
 	make_date(
 		"timestamp",
 		"%Y-%m-%dT%H:%M:%S.000",
-		{ c(1, { t("+01:00"), t("Z") }) }
+		{ c(1, { t("+00:00"), t("Z") }) }
 	),
-	make_date(
-		"rfc822",
-		"%a, %d %b %Y %H:%M:%S",
-		{ c(1, { t(" +0100"), t(" GMT") }) }
-	),
+	make_date("rfc822", "%a, %d %b %Y %H:%M:%S", { t(" +0000") }),
 	make_date("date", "%Y-%m-%d"),
 	make_date("now", "%H:%M:%S"),
 }

@@ -66,6 +66,9 @@ return {
 				separator = "────────────────────────────────────────",
 				-- Default direction. Can be "left", "right", or "bottom"
 				direction = "bottom",
+				keymaps = {
+					["W"] = { "keymap.run_action", opts = { action = "watch" } },
+				},
 			},
 		},
 		keys = {
@@ -80,10 +83,32 @@ return {
 					require("overseer").open({ enter = false })
 				end,
 				{ "n", "i" },
+				desc = "OverseerRun BUILD",
 			},
 			{
 				"<F5>",
 				function()
+					local overseer = require("overseer")
+
+					local task_list = require("overseer.task_list")
+					local tasks = overseer.list_tasks({
+						status = {
+							overseer.STATUS.SUCCESS,
+							overseer.STATUS.FAILURE,
+							overseer.STATUS.CANCELED,
+						},
+						filter = function(task)
+							vim.notify(vim.inspect(task))
+							return true
+						end,
+						sort = task_list.sort_finished_recently,
+					})
+					-- if vim.tbl_isempty(tasks) then
+					-- 	vim.notify("No tasks found", vim.log.levels.WARN)
+					-- else
+					-- 	local most_recent = tasks[1]
+					-- 	overseer.run_action(most_recent, "restart")
+					-- end
 					require("overseer").run_task({
 						tags = {
 							require("overseer").TAG.RUN,
@@ -92,6 +117,7 @@ return {
 					require("overseer").open({ enter = false })
 				end,
 				{ "n", "i" },
+				desc = "OverseerRun RUN",
 			},
 		},
 	},

@@ -6,6 +6,9 @@ end, { desc = "[t]ab [a]add: create new tab." })
 vim.keymap.set("n", "<leader>ttr", function()
 	require("faith.tabnames.tabnames").rename_tab()
 end, { desc = "[t]ab [r]ename: rename current tab." })
+vim.keymap.set("n", "<leader>ttc", function()
+	vim.cmd.tabclose()
+end, { desc = "[t]ab [c]lose: close current tab." })
 
 vim.api.nvim_create_autocmd(
 	{ "WinLeave", "WinEnter", "BufCreate", "BufLeave", "BufEnter" },

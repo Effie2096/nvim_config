@@ -1,0 +1,37 @@
+vim.opt.langmap = vim.fn.join({
+	[[wW;qQ]],
+	[[lL;wW]],
+	[[yY;eE]],
+	[[pP;rR]],
+	[[bB;tT]],
+	[[zZ;yY]],
+	[[fF;uU]],
+	[[oO;iI]],
+	[[uU;oO]],
+	[['\";pP]],
+
+	[[cC;aA]],
+	[[rR;sS]],
+	[[sS;dD]],
+	[[tT;fF]],
+	[[gG;gG]],
+	[[mM;hH]],
+	[[nN;jJ]],
+	[[eE;kK]],
+	[[iI;lL]],
+	[[aA;\;:]],
+
+	[[qQ;zZ]],
+	[[jJ;xX]],
+	[[vV;cC]],
+	[[dD;vV]],
+	[[kK;bB]],
+	[[xX;nN]],
+	[[hH;mM]],
+	[[\,;\,]],
+	[[.;.]],
+	[[\;:;/?]],
+
+	[[;]],
+	[[;]],
+}, ",")

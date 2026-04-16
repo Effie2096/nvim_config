@@ -17,7 +17,7 @@ return {
 				["<Left>"] = false,
 				["<Right>"] = false,
 			},
-			-- disabled_filetypes = { },
+			disabled_filetypes = { "OverseerForm" },
 			hints = {
 				["[dcyvV][ia][%(%)]"] = {
 					message = function(keys)

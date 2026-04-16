@@ -59,7 +59,7 @@ return {
 					)
 					require("conform").format(opts)
 				end,
-				mode = "",
+				mode = { "n", "i" },
 				desc = "[F]ormat buffer",
 			},
 		},

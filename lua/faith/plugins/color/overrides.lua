@@ -360,17 +360,17 @@ M.apply_theme_overrides = function(theme, scheme)
 	vim.api.nvim_set_hl(
 		0,
 		"DiffAdd",
-		{ bg = color_map.green_light, fg = color_map.green_dark }
+		{ bg = color_map.green_light, fg = color_map.bg }
 	)
 	vim.api.nvim_set_hl(
 		0,
 		"DiffChange",
-		{ bg = color_map.blue_light, fg = color_map.blue_dark }
+		{ bg = color_map.blue_light, fg = color_map.bg }
 	)
 	vim.api.nvim_set_hl(
 		0,
 		"DiffDelete",
-		{ bg = color_map.red_light, fg = color_map.red_dark }
+		{ bg = color_map.red_light, fg = color_map.bg }
 	)
 	set_hl("DiffText", {
 		fg = color_map.bg,
@@ -566,6 +566,8 @@ M.apply_theme_overrides = function(theme, scheme)
 	local snippet = color_map.purple_dark
 	local variable = color_map.green
 	local str = color_map.green_light
+
+	set_hl("Directory", { fg = filesystem })
 
 	set_hl("LspKindArray", { fg = variable })
 	set_hl("LspKindBoolean", { fg = constant })

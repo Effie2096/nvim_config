@@ -471,35 +471,36 @@ return {
 	{
 		"jmbuhr/otter.nvim",
 		ft = { "markdown" },
-		opts = {
-			html = {
-				enabled = true,
-			},
-			css = {
-				enabled = true,
-			},
-			lsp = {
-				hover = {
-					border = {
-						icons.borders.square.top_left,
-						icons.borders.square.top,
-						icons.borders.square.top_right,
-						icons.borders.square.right,
-						icons.borders.square.bottom_right,
-						icons.borders.square.bottom,
-						icons.borders.square.bottom_left,
-						icons.borders.square.left,
+		config = function()
+			local opts = {
+				html = {
+					enabled = true,
+				},
+				css = {
+					enabled = true,
+				},
+				lsp = {
+					hover = {
+						border = {
+							icons.borders.square.top_left,
+							icons.borders.square.top,
+							icons.borders.square.top_right,
+							icons.borders.square.right,
+							icons.borders.square.bottom_right,
+							icons.borders.square.bottom,
+							icons.borders.square.bottom_left,
+							icons.borders.square.left,
+						},
 					},
 				},
-			},
-			verbose = {
-				no_code_found = false,
-			},
-		},
-		config = function()
+				verbose = {
+					no_code_found = false,
+				},
+			}
+			require("otter").setup(opts)
 			vim.api.nvim_create_autocmd({ "BufWinEnter", "BufWritePost" }, {
 				group = vim.api.nvim_create_augroup("attach_otter", { clear = true }),
-				pattern = { "*.md" },
+				pattern = { "*.md", "*.html" },
 				callback = function()
 					require("otter").activate()
 				end,

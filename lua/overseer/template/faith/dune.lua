@@ -5,7 +5,6 @@ local TAG = constants.TAG
 ---@type overseer.TemplateFileDefinition
 local tmpl = {
 	name = "dune",
-	priority = 60,
 	tags = { TAG.BUILD },
 	params = {
 		args = { optional = true, type = "list", delimiter = " " },
@@ -57,12 +56,10 @@ return {
 			},
 			{ args = { "clean" }, tags = { TAG.CLEAN } },
 		}
-		local roots =
-			{ {
-				postfix = "",
-				cwd = dune_dir,
-				priority = 55,
-			} }
+		local roots = { {
+			postfix = "",
+			cwd = dune_dir,
+		} }
 		for _, root in ipairs(roots) do
 			for _, command in ipairs(commands) do
 				table.insert(
@@ -74,7 +71,6 @@ return {
 							root.postfix
 						),
 						tags = command.tags,
-						priority = root.priority,
 					}, { args = command.args, cwd = root.cwd })
 				)
 			end

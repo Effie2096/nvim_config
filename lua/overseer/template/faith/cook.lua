@@ -51,7 +51,6 @@ return {
 			table.insert(ret, {
 				name = string.format("%s %s", cmd, vim.fn.fnamemodify(file, ":p:.")),
 				tags = { TAG.RUN },
-				priority = 55,
 				builder = function()
 					return {
 						cmd = cmd,

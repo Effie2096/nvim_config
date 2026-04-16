@@ -44,7 +44,6 @@ return {
 			{
 				name = string.format("%s %s", cmd, root_dir),
 				tags = { TAG.RUN },
-				priority = 55,
 				builder = function()
 					return {
 						cmd = {
@@ -58,7 +57,6 @@ return {
 			{
 				name = string.format("Love with Args:\n%s %s", cmd, root_dir),
 				tags = { TAG.RUN },
-				priority = 60,
 				builder = function()
 					return {
 						cmd = {

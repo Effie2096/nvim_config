@@ -27,15 +27,22 @@ return {
 		dependencies = {
 			{
 				"tiagovla/scope.nvim",
+				lazy = false,
 				init = function()
-					vim.keymap.set("n", "<leader>ttm", function()
+					vim.keymap.set("n", "<leader>ttM", function()
 						vim.api.nvim_cmd({
 							cmd = "ScopeMoveBuf",
 							args = vim.v.count ~= 0 and {
 								vim.v.count,
 							} or {},
 						}, {})
-					end, { desc = "{n}[t]ab [m]ove buffer: move buffer to tab." })
+					end, { desc = "{n}[t]ab [M]ove buffer: move buffer to tab." })
+					vim.keymap.set(
+						"n",
+						"<leader>bc",
+						require("scope.core").close_buffer,
+						{ desc = "[b]uffer [c]lose: Close buffer without desrupting tabs" }
+					)
 				end,
 				config = true,
 			},
@@ -72,7 +79,7 @@ return {
 					if vim.api.nvim_buf_get_name(bufnr) == "" then
 						return false
 					end
-					return vim.bo[bufnr].buflisted
+					return true
 				end,
 				extensions = {
 					quickfix = {},

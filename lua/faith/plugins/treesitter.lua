@@ -173,7 +173,7 @@ return {
 						method = "popup",
 						fullwidth = 1,
 						syntax_hl = 1,
-						highlight = "TreesitterContext",
+						highlight = "StatusLine",
 						border = 0,
 					}
 					vim.g.matchup_transmute_enabled = 1

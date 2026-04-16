@@ -144,7 +144,6 @@ return {
 					},
 				},
 			},
-			"saghen/blink.cmp",
 			{
 				"S1M0N38/love2d.nvim",
 				event = "VeryLazy",
@@ -408,6 +407,10 @@ return {
 					require("luasnip.loaders.from_vscode").lazy_load({
 						paths = snippet_path .. "/vscode",
 					})
+					require("luasnip").add_snippets(
+						"supercollider",
+						require("scnvim/utils").get_snippets()
+					)
 
 					ls.config.set_config({
 						-- This tells LuaSnip to remember to keep around the last snippet.
@@ -632,9 +635,20 @@ return {
 					return result
 				end,
 				providers = {
+					buffer = {
+						score_offset = -5,
+						opts = {
+							get_bufnrs = function()
+								return { vim.api.nvim_get_current_buf() }
+							end,
+						},
+					},
 					lazydev = {
 						module = "lazydev.integrations.blink",
 						score_offset = 100,
+					},
+					lsp = {
+						fallbacks = {},
 					},
 					-- codeium = { name = "Codeium", module = "codeium.blink", async = true },
 					ecolog = {
@@ -642,10 +656,19 @@ return {
 						module = "ecolog.integrations.cmp.blink_cmp",
 					},
 					path = {
+						score_offset = 3,
+						fallbacks = { "buffer" },
 						opts = {
-							get_cwd = function(_)
-								return vim.fn.getcwd()
+							trailing_slash = true,
+							label_trailing_slash = true,
+							get_cwd = function(context)
+								return vim.fn.expand(("#%d:p:h"):format(context.bufnr))
 							end,
+							show_hidden_files_by_default = false,
+							-- Treat `/path` as starting from the current working directory (cwd) instead of the root of your filesystem
+							ignore_root_slash = false,
+							-- Maximum number of files/directories to return. This limits memory use and responsiveness for very large folders.
+							max_entries = 10000,
 						},
 					},
 					dictionary = {

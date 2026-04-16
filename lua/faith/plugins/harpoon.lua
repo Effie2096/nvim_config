@@ -27,27 +27,41 @@ return {
 					},
 				})
 				harpoon:list(tab_name).name = tab_name
-				harpoon:list(tab_name).items = items or {} or {}
+				harpoon:list(tab_name).items = items or {}
 			end
 
 			local new_tab = function(index)
 				local tabs = vim.fn.tabpagenr("$")
 				local new_tab = index
 
-				local tab_name = string.format("%s%d", "tab", new_tab)
+				local tab_name = ("tab%d"):format(new_tab)
 				if harpoon:list(tab_name) then
 					-- if harpoon:list(tab_name).items then
 					local x = tabs - new_tab
 					for i = tabs, (tabs - x) + 1, -1 do
-						local current_tab_name = string.format("%s%d", "tab", i)
-						local previous_list =
-							harpoon:list(string.format("%s%d", "tab", i - 1))
+						local current_tab_name = ("tab%d"):format(i)
+						local previous_list = harpoon:list(("tab%d"):format(i - 1))
 
 						harpoon_tab_setup(current_tab_name, previous_list.items)
 					end
 					-- end
 				end
-				harpoon_tab_setup(string.format("tab%d", new_tab), {})
+				harpoon_tab_setup(("tab%d"):format(new_tab), {})
+			end
+
+			local tab_closed = function(index)
+				-- tab has been closed, shift all tab data from current down
+				local last_tab = vim.fn.tabpagenr("$")
+
+				for i = index, last_tab + 1 do
+					local tab_name = ("tab%d"):format(i)
+
+					if harpoon:list(tab_name) then
+						harpoon:list(tab_name).items = harpoon:list(("tab%d"):format(i + 1)).items
+							or {}
+					end
+				end
+				harpoon:list(("tab%d"):format(last_tab)):clear()
 			end
 
 			local tab_move = function(count)
@@ -67,31 +81,29 @@ return {
 					count = 0
 				end
 
-				local start_tab_name = string.format("%s%d", "tab", start_tab)
+				local start_tab_name = ("tab%d"):format(start_tab)
 				local start_data = harpoon:list(start_tab_name).items
 
 				vim.cmd.tabmove({ args = { count } })
 
 				if start_tab > count then
 					for i = start_tab, count + 1, -1 do
-						local current_tab_name = string.format("%s%d", "tab", i)
-						local previous_list =
-							harpoon:list(string.format("%s%d", "tab", i - 1)).items
+						local current_tab_name = ("tab%d"):format(i)
+						local previous_list = harpoon:list(("tab%d"):format(i - 1)).items
 
 						harpoon_tab_setup(current_tab_name, previous_list)
 					end
 
-					harpoon_tab_setup(string.format("tab%d", count + 1), start_data)
+					harpoon_tab_setup(("tab%d"):format(count + 1), start_data)
 				else
 					for i = start_tab, count - 1 do
-						local current_tab_name = string.format("%s%d", "tab", i)
-						local previous_list =
-							harpoon:list(string.format("%s%d", "tab", i + 1)).items
+						local current_tab_name = ("tab%d"):format(i)
+						local previous_list = harpoon:list(("tab%d"):format(i + 1)).items
 
 						harpoon_tab_setup(current_tab_name, previous_list)
 					end
 
-					harpoon_tab_setup(string.format("tab%d", count), start_data)
+					harpoon_tab_setup(("tab%d"):format(count), start_data)
 				end
 			end
 
@@ -101,7 +113,7 @@ return {
 
 			vim.api.nvim_create_autocmd("TabClosed", {
 				callback = function(args)
-					require("harpoon"):list("tab" .. args.file):clear()
+					tab_closed(args.file)
 				end,
 			})
 
@@ -133,9 +145,7 @@ return {
 			{
 				"<leader>Ha",
 				function()
-					require("harpoon")
-						:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
-						:add()
+					require("harpoon"):list(("tab%d"):format(vim.fn.tabpagenr())):add()
 				end,
 				desc = "[H]arpoon [a]dd: Add harpoon.",
 				{ "n" },
@@ -144,9 +154,7 @@ return {
 				"<leader>He",
 				function()
 					require("harpoon").ui:toggle_quick_menu(
-						require("harpoon"):list(
-							string.format("%s%d", "tab", vim.fn.tabpagenr())
-						)
+						require("harpoon"):list(("tab%d"):format(vim.fn.tabpagenr()))
 					)
 				end,
 				desc = "[H]arpoon [e]dit: Edit harpoons.",
@@ -156,7 +164,7 @@ return {
 				"<M-m>",
 				function()
 					require("harpoon")
-						:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
+						:list(("tab%d"):format(vim.fn.tabpagenr()))
 						:select(1)
 				end,
 				{ "n" },
@@ -165,7 +173,7 @@ return {
 				"<M-n>",
 				function()
 					require("harpoon")
-						:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
+						:list(("tab%d"):format(vim.fn.tabpagenr()))
 						:select(2)
 				end,
 				{ "n" },
@@ -174,7 +182,7 @@ return {
 				"<M-e>",
 				function()
 					require("harpoon")
-						:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
+						:list(("tab%d"):format(vim.fn.tabpagenr()))
 						:select(3)
 				end,
 				{ "n" },
@@ -183,7 +191,7 @@ return {
 				"<M-i>",
 				function()
 					require("harpoon")
-						:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
+						:list(("tab%d"):format(vim.fn.tabpagenr()))
 						:select(4)
 				end,
 				{ "n" },
@@ -192,7 +200,7 @@ return {
 				"<M-a>",
 				function()
 					require("harpoon")
-						:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
+						:list(("tab%d"):format(vim.fn.tabpagenr()))
 						:select(5)
 				end,
 				{ "n" },
@@ -201,7 +209,7 @@ return {
 				"<M-;>",
 				function()
 					require("harpoon")
-						:list(string.format("%s%d", "tab", vim.fn.tabpagenr()))
+						:list(("tab%d"):format(vim.fn.tabpagenr()))
 						:select(6)
 				end,
 				{ "n" },

@@ -75,8 +75,8 @@ return {
 							and vim.bo[buf].buftype == ""
 					end,
 				},
-				bigfile = { enabled = true },
-				bufdelete = { enable = true },
+				bigfile = { enabled = false },
+				bufdelete = { enable = false },
 				dashboard = { enabled = false },
 				explorer = { enabled = false },
 				indent = { enabled = false },
@@ -267,13 +267,6 @@ return {
 					Snacks.picker.lazy()
 				end,
 				desc = "Search for Plugin Spec",
-			},
-			{
-				"<leader>bc",
-				function()
-					Snacks.bufdelete.delete()
-				end,
-				desc = "[b]uffer [c]lose: Delete current buffer without closing window.",
 			},
 		},
 	},

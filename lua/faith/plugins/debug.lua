@@ -436,13 +436,13 @@ return {
 					local opts = { silent = true, noremap = true, buffer = args.buf }
 					vim.keymap.set(
 						{ "n" },
-						"<M-e>",
+						"<localleader>e",
 						"<CMD>Luadev<CR><Plug>(Luadev-RunLine)",
 						opts
 					)
 					vim.keymap.set(
 						{ "n", "v" },
-						"<C-e>",
+						"<localleader>E",
 						"<CMD>Luadev<CR><Plug>(Luadev-Run)",
 						opts
 					)

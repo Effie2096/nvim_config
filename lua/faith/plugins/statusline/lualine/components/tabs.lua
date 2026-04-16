@@ -13,7 +13,7 @@ return {
 	-- 3: shows the full path and shorten $HOME to ~
 	path = 0,
 	max_length = function()
-		return math.floor(vim.o.columns * 3 / 2) - 5
+		return math.floor(vim.o.columns * 4) - 5
 	end,
 	padding = { left = 0, right = 0 },
 	tabs_color = {
@@ -27,10 +27,8 @@ return {
 	},
 	fmt = function(name, context)
 		local is_current = context.tabnr == vim.fn.tabpagenr()
-		local tab_dir =
-			vim.fn.fnamemodify(vim.fn.getcwd(-1, context.tabnr), ":t")
-		local show_dir = tab_dir
-			~= vim.fn.fnamemodify(vim.fn.getcwd(-1, -1), ":t")
+		local tab_dir = vim.fn.fnamemodify(vim.fn.getcwd(-1, context.tabnr), ":t")
+		local show_dir = tab_dir ~= vim.fn.fnamemodify(vim.fn.getcwd(-1, -1), ":t")
 
 		local tabname = vim.fn.gettabvar(context.tabnr, "tabname")
 
@@ -39,8 +37,7 @@ return {
 			or ""
 
 		local path = (
-			show_dir and string.format("%s %s/", icons.kind.Folder, tab_dir)
-			or ""
+			show_dir and string.format("%s %s/", icons.kind.Folder, tab_dir) or ""
 		)
 
 		local highlight = (is_current and "TabLineSel" or "TabLine")
