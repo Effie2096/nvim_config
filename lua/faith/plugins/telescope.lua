@@ -9,7 +9,7 @@ return {
 				"nvim-telescope/telescope-fzf-native.nvim",
 				enabled = true,
 				build = function()
-					if vim.fn.executable("cmake") == 0 then
+					if vim.fn.executable("cmake") == 1 then
 						return "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build"
 					else
 						return "make"

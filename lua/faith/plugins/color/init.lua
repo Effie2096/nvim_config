@@ -2,20 +2,11 @@ local themes_list = vim.deepcopy(require("faith.plugins.color.themery"))
 local apply_theme_overrides =
 	require("faith.plugins.color.overrides").apply_theme_overrides
 
--- vim.api.nvim_create_autocmd("ColorScheme", {
--- 	pattern = { "*" },
--- 	callback = function()
--- 		if vim.g.transparent_enabled then
--- 			require("transparent").clear_prefix("lualine_c")
--- 		end
--- 	end,
--- })
-
 return {
 	{
 		"zaldih/themery.nvim",
 		lazy = false,
-		priority = 1000,
+		priority = 990,
 		config = function()
 			require("themery").setup({
 				themes = vim.list_extend(

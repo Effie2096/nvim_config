@@ -137,14 +137,14 @@ return {
 				preview = {
 					win_config = {
 						border = {
-							icons.borders.square.top_left,
 							icons.borders.square.top,
-							icons.borders.square.top_right,
-							icons.borders.square.right,
-							icons.borders.square.bottom_right,
+							icons.borders.square.top,
+							icons.borders.square.top,
+							" ",
 							icons.borders.square.bottom,
-							icons.borders.square.bottom_left,
-							icons.borders.square.left,
+							icons.borders.square.bottom,
+							icons.borders.square.bottom,
+							" ",
 						},
 						winhighlight = "Normal:Folded",
 						winblend = 0,

@@ -43,8 +43,6 @@ vim.lsp.config.ahk2 = {
 	},
 	single_file_support = true,
 	flags = { debounce_text_changes = 500 },
-	-- capabilities = capabilities,
-	-- on_attach = custom_attach,
 }
 
 vim.lsp.enable({ "ahk2" })

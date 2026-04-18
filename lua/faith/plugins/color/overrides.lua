@@ -908,7 +908,7 @@ M.apply_theme_overrides = function(theme, scheme)
 	vim.api.nvim_set_hl(
 		0,
 		"TextFilled",
-		{ fg = color_map.fg, bg = prog_fill, bold = true }
+		{ fg = color_map.bg, bg = prog_fill, bold = true }
 	)
 	vim.api.nvim_set_hl(
 		0,
