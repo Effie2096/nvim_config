@@ -1,11 +1,20 @@
 return {
-	"tpope/vim-abolish",
-	"kevinhwang91/promise-async",
-	{ "nvim-lua/plenary.nvim", name = "plenary.nvim" },
 	{
-		"nvim-tree/nvim-web-devicons",
-		name = "dev_icons",
-		opts = {},
+		'rcarriga/nvim-notify',
+		config = function()
+			local notify = require("notify")
+			notify.setup({
+				render = "wrapped-compact",
+				fps = 60,
+				top_down = false
+			})
+			vim.notify = require("notify")
+		end
+	},
+	"tpope/vim-abolish",
+	{
+		"godlygeek/tabular",
+		cmd = "Tabularize"
 	},
 	{
 		"HakonHarnes/img-clip.nvim",

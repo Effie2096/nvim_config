@@ -1,23 +1,10 @@
 return {
 	{
 		"folke/zen-mode.nvim",
-		dependencies = {
+		keys = {
 			{
-				"folke/twilight.nvim",
-				opts = {
-					dimming = {
-						alpha = 0.25,
-					},
-					context = 8,
-					treesitter = true,
-					expand = {
-						"function",
-						"method",
-						"table",
-						"if_statement",
-						"atx_heading",
-					},
-				},
+				"<leader>z",
+				"<cmd>ZenMode<CR>",
 			},
 		},
 		opts = {
@@ -45,7 +32,7 @@ return {
 					laststatus = 0, -- turn off the statusline in zen mode
 				},
 				gitsigns = { enabled = false },
-				twilight = { enabled = true },
+				twilight = { enabled = false },
 				todo = { enabled = true }, -- if set to "true", todo-comments.nvim highlights will be disabled
 				tmux = { enabled = false }, -- disables the tmux statusline
 				kitty = {
@@ -77,18 +64,13 @@ return {
 			},
 			on_open = function(_)
 				vim.diagnostic.hide(nil, 0)
-				vim.cmd.ScrollViewDisable()
+				-- vim.cmd.ScrollViewDisable()
 			end,
 			on_close = function()
 				vim.diagnostic.show(nil, 0)
-				vim.cmd.ScrollViewEnable()
+				-- vim.cmd.ScrollViewEnable()
 			end,
 		},
-		keys = {
-			{
-				"<leader>z",
-				"<cmd>ZenMode<CR>",
-			},
-		},
+
 	},
 }

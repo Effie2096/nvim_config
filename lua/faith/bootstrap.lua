@@ -1,5 +1,3 @@
--- [[ Install `lazy.nvim` plugin manager ]]
---    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
@@ -18,9 +16,8 @@ require('lazy').setup({
 },
 {
 	ui = {
-		-- If you are using a Nerd Font: set icons to an empty table which will use the
-		-- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
-		icons = vim.g.have_nerd_font and {} or {
+
+		icons = {
 			cmd = "⌘",
 			config = "🛠",
 			event = "📅",
@@ -36,5 +33,4 @@ require('lazy').setup({
 			lazy = "💤 ",
 		},
 	},
-}
-)
+})

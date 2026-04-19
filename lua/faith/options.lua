@@ -10,7 +10,7 @@ end)
 vim.opt.backspace = "indent,eol,start"
 vim.opt.backup = false
 vim.opt.breakindent = true
-vim.opt.cmdheight = 1
+vim.opt.cmdheight = 0
 vim.opt.conceallevel = 2
 vim.opt.confirm = true
 vim.opt.cursorline = true
@@ -48,7 +48,7 @@ vim.opt.smoothscroll = true
 vim.opt.shortmess:append({ c = true })
 vim.opt.showmode = false
 vim.opt.showtabline = 1
-vim.opt.signcolumn = "yes:3"
+vim.opt.signcolumn = "yes:1"
 vim.opt.smartcase = true
 vim.opt.splitbelow = false
 vim.opt.splitright = true

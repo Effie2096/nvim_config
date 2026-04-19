@@ -469,53 +469,6 @@ end
 
 return {
 	{
-		"jmbuhr/otter.nvim",
-		ft = { "markdown" },
-		config = function()
-			local opts = {
-				html = {
-					enabled = true,
-				},
-				css = {
-					enabled = true,
-				},
-				lsp = {
-					hover = {
-						border = {
-							icons.borders.square.top_left,
-							icons.borders.square.top,
-							icons.borders.square.top_right,
-							icons.borders.square.right,
-							icons.borders.square.bottom_right,
-							icons.borders.square.bottom,
-							icons.borders.square.bottom_left,
-							icons.borders.square.left,
-						},
-					},
-				},
-				verbose = {
-					no_code_found = false,
-				},
-			}
-			require("otter").setup(opts)
-			vim.api.nvim_create_autocmd({ "BufWinEnter", "BufWritePost" }, {
-				group = vim.api.nvim_create_augroup("attach_otter", { clear = true }),
-				pattern = { "*.md", "*.html" },
-				callback = function()
-					require("otter").activate()
-				end,
-			})
-			vim.api.nvim_create_autocmd({ "FileType" }, {
-				pattern = { "toml" },
-				group = vim.api.nvim_create_augroup("EmbedToml", {}),
-				callback = function()
-					require("otter").activate()
-				end,
-			})
-		end,
-	},
-	"godlygeek/tabular",
-	{
 		"Kicamon/markdown-table-mode.nvim",
 		cmd = "Mtm",
 		opts = {
@@ -531,16 +484,17 @@ return {
 		},
 	},
 	{
-		"iamcco/markdown-preview.nvim",
-		build = vim.fn["mkdp#util#install"],
-		ft = {
-			"markdown",
-		},
+		"bullets-vim/bullets.vim",
+		ft = { "markdown", "text" },
+		init = function()
+			vim.g.bullets_enabled_file_types = { "markdown", "text" }
+			vim.g.bullets_enable_in_empty_buffers = 0 -- default = 1
+		end,
 	},
 	{
 		"MeanderingProgrammer/render-markdown.nvim",
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
-		ft = { "markdown", "vim-plug", "Avante" },
+		ft = { "markdown", "Avante" },
 		---@module 'render-markdown'
 		---@type render.md.UserConfig
 		opts = {
@@ -565,7 +519,7 @@ return {
 				below = icons.borders.edge_thin.top,
 				border = true,
 				left_pad = 1,
-				sign = true,
+				sign = false,
 				-- border_virtual = true,
 				width = { "block" },
 				min_width = 79,
@@ -660,7 +614,7 @@ return {
 			code = {
 				width = "block",
 				border = "thin",
-				sign = true,
+				sign = false,
 				language_border = " ",
 				language_left = ("%s%s"):format(
 					icons.separators.slant.right,
@@ -689,7 +643,7 @@ return {
 			},
 			sign = {
 				-- Turn on / off sign rendering.
-				enabled = true,
+				enabled = false,
 				highlight = "RenderMarkdownSign",
 			},
 			-- paragraph = { left_margin = 0.5 },
@@ -855,7 +809,7 @@ return {
 		end,
 		dependencies = {
 			-- Required.
-			"plenary.nvim",
+			"nvim-lua/plenary.nvim",
 
 			-- optional
 			"saghen/blink.cmp",
@@ -1205,12 +1159,5 @@ return {
 	{
 		"luizribeiro/vim-cooklang",
 		ft = "cook",
-	},
-	{
-		"Praczet/words-the-def.nvim",
-		ft = { "markdown", "cook", "text" },
-		config = function()
-			require("words-the-def").setup({})
-		end,
 	},
 }

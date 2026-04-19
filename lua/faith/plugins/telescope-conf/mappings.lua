@@ -1,10 +1,8 @@
-if not pcall(require, "telescope") then
-	return
-end
-
 TelescopeMapArgs = TelescopeMapArgs or {}
 
-local map_tele = function(key, f, options, buffer)
+M = {}
+
+M.map_tele = function(key, f, options, buffer)
 	local map_key = vim.api.nvim_replace_termcodes(key .. f, true, true, true)
 
 	TelescopeMapArgs[map_key] = options or {}
@@ -29,33 +27,35 @@ local map_tele = function(key, f, options, buffer)
 	end
 end
 
+M.map_specs = {
 -- basic builtins
-map_tele("<leader>ff", "find_files")
-map_tele("<leader>fo", "oldfiles")
-map_tele("<leader>fp", "project_files")
-map_tele("<leader>fl", "current_buffer_fuzzy_find")
-map_tele("<leader>fL", "live_grep")
-map_tele("<leader>fb", "scope_buffers")
-map_tele("<leader>fB", "buffers")
-map_tele("<leader>fw", "grep_string")
-map_tele("<leader>fh", "help_tags")
-map_tele("<leader>fH", "highlights")
-map_tele("<leader>fk", "keymaps")
-map_tele("<leader>fs", "lsp_document_symbols")
-map_tele("<leader>fS", "lsp_workspace_symbols")
-map_tele("<leader>fgc", "git_commits")
-map_tele("<leader>fgb", "git_branches")
-map_tele("<leader>fgs", "git_status")
-map_tele("<leader>fi", "spell_suggest")
-map_tele("<leader>fd", "diagnostics")
-map_tele("<leader>;", "commands")
-map_tele("<leader>fq", "loclist")
-map_tele("<leader>fQ", "quickfix")
-map_tele("<leader>f;", "resume")
+{ func = "find_files", key = "<leader>ff" },
+{ func = "oldfiles", key = "<leader>fo" },
+{ func = "project_files", key = "<leader>fp" },
+{ func = "current_buffer_fuzzy_find", key = "<leader>fl" },
+{ func = "live_grep", key = "<leader>fL" },
+{ func = "scope_buffers", key = "<leader>fb" },
+{ func = "buffers", key = "<leader>fB" },
+{ func = "grep_string", key = "<leader>fw" },
+{ func = "help_tags", key = "<leader>fh" },
+{ func = "highlights", key = "<leader>fH" },
+{ func = "keymaps", key = "<leader>fk" },
+{ func = "lsp_document_symbols", key = "<leader>fs" },
+{ func = "lsp_workspace_symbols", key = "<leader>fS" },
+{ func = "git_commits", key = "<leader>fgc" },
+{ func = "git_branches", key = "<leader>fgb" },
+{ func = "git_status", key = "<leader>fgs" },
+{ func = "spell_suggest", key = "<leader>fi" },
+{ func = "diagnostics", key = "<leader>fd" },
+{ func = "commands", key = "<leader>;" },
+{ func = "loclist", key = "<leader>fq" },
+{ func = "quickfix", key = "<leader>fQ" },
+{ func = "resume", key = "<leader>f;" },
 
 -- extensions
-map_tele("<leader>ft", "todo")
-map_tele("<leader>fm", "harpoon")
--- map_tele("<leader>fgw", "git_worktrees")
+{ func = "todo", key = "<leader>ft" },
+{ func = "harpoon", key = "<leader>fm" },
+-- { func = "git_worktrees", key = "<leader>fgw" },
+}
 
-return map_tele
+return M

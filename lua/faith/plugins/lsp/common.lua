@@ -6,12 +6,7 @@ M.lsp_keymaps = function(bufnr)
 		vim.keymap.set(mode, keys, func, { buffer = bufnr, desc = desc })
 	end
 
-	vim.keymap.set("n", "K", function()
-		local winid = require("ufo").peekFoldedLinesUnderCursor()
-		if not winid then
-			vim.lsp.buf.hover()
-		end
-	end)
+	vim.keymap.set("n", "K", vim.lsp.buf.hover)
 	map(
 		"grd",
 		vim.lsp.buf.definition,
@@ -58,9 +53,7 @@ M.lsp_keymaps = function(bufnr)
 	-- 	"code [a]ction: List code actions available for selection.",
 	-- 	{ "v" }
 	-- )
-	map("<leader>dl", function()
-		vim.diagnostic.open_float()
-	end, "[d]iagnostic [l]ist: Open float listing all diagnostics on line.")
+	map("<leader>dl", vim.diagnostic.open_float, "[d]iagnostic [l]ist: Open float listing all diagnostics on line.")
 	-- map(
 	-- 	"<leader>rn",
 	-- 	vim.lsp.buf.rename,
@@ -176,26 +169,6 @@ M.on_attach = function(client_id, bufnr)
 				},
 			},
 		})
-	end
-
-	if
-		client
-		and client_supports_method(
-			client,
-			vim.lsp.protocol.Methods.textDocument_documentSymbol
-		)
-	then
-		if
-			vim.tbl_isempty(vim
-				.iter({ "obsidian", "otter" })
-				:filter(function(value)
-					local match_start, match_end, match = client.name:find(value)
-					return match_start ~= nil
-				end)
-				:totable())
-		then
-			require("nvim-navic").attach(client, bufnr)
-		end
 	end
 
 	if client and client.name == "svelte" then

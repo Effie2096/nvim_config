@@ -1,53 +1,35 @@
-local fk = require("faith.keymap")
-local nnoremap = fk.nnoremap
-local vnoremap = fk.vnoremap
-local xnoremap = fk.xnoremap
-local inoremap = fk.inoremap
-local tnoremap = fk.tnoremap
-
-local desc = fk.desc
-
 M = {}
 
 local opts = { noremap = true, silent = true }
 
-nnoremap("<Space>", "", opts)
+local desc = function(outer, desc)
+	return vim.tbl_extend("force", vim.deepcopy(outer), { desc = desc })
+end
+
+vim.keymap.set({"n"}, "<Space>", "", opts)
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
 vim.api.nvim_exec2([[cabbrev h vert h]], { output = false })
 
-nnoremap("<C-d>", "<C-d>zz", opts)
-nnoremap("<C-u>", "<C-u>zz", opts)
+vim.keymap.set({"n"}, "<C-d>", "<C-d>zz", opts)
+vim.keymap.set({"n"}, "<C-u>", "<C-u>zz", opts)
 -- keep search in middle of screen
-nnoremap("n", "nzzzv", opts)
-nnoremap("N", "Nzzzv", opts)
+vim.keymap.set({"n"}, "n", "nzzzv", opts)
+vim.keymap.set({"n"}, "N", "Nzzzv", opts)
 
 -- set more standard shortcut for saving
-nnoremap("<C-s>", "<cmd>w<CR>", opts)
-
-inoremap("<C-s>", "<cmd>w<CR>", opts)
-
-nnoremap("]q", "<cmd>cnext<CR>zz", opts)
-nnoremap("[q", "<cmd>cprevious<CR>zz", opts)
-nnoremap("[Q", "<cmd>cfirst<CR>zz", opts)
-nnoremap("]Q", "<cmd>clast<CR>zz", opts)
-
-nnoremap("]l", "<cmd>lnext<CR>zz", opts)
-nnoremap("[l", "<cmd>lprevious<CR>zz", opts)
-nnoremap("[L", "<cmd>lfirst<CR>zz", opts)
-nnoremap("]L", "<cmd>llast<CR>zz", opts)
+vim.keymap.set({"n", "i"}, "<C-s>", "<cmd>w<CR>", opts)
 
 -- keep cursor in same place when combining lines
-nnoremap("J", "mzJ`z", opts)
+vim.keymap.set({"n"}, "J", "mzJ`z", opts)
 
-xnoremap("<leader>p", '"_dP', opts)
+vim.keymap.set({"x"}, "<leader>p", '"_dP', opts)
 
-nnoremap("<leader>y", '"+y', opts)
-vnoremap("<leader>y", '"+y', opts)
-nnoremap("<leader>Y", '"+Y', opts)
+vim.keymap.set({"n", "v"}, "<leader>y", '"+y', opts)
+vim.keymap.set({"n"}, "<leader>Y", '"+Y', opts)
 
 -- Set working dir to dir of current buffer's file
-nnoremap(
+vim.keymap.set({"n"}, 
 	"<leader>cd",
 	"<cmd>cd %:p:h<CR>",
 	desc(
@@ -57,27 +39,27 @@ nnoremap(
 )
 
 -- add new line without entering insertmode
-nnoremap("<M-o>", "o<Esc>", opts)
-nnoremap("<M-O>", "O<Esc>", opts)
+vim.keymap.set({"n"}, "<M-o>", "o<Esc>", opts)
+vim.keymap.set({"n"}, "<M-O>", "O<Esc>", opts)
 
 -- Visual mode move lines {{
 -- using <cmd> instead of : breaks this for some reason
-vnoremap("<Down>", ":move '>+1<CR>:normal gv<CR>", opts)
-vnoremap("<Up>", ":move '<-2<CR>:normal gv<CR>", opts)
+vim.keymap.set({"v"}, "<Down>", ":move '>+1<CR>:normal gv<CR>", opts)
+vim.keymap.set({"v"}, "<Up>", ":move '<-2<CR>:normal gv<CR>", opts)
 
 -- Execute macro on visual range without stopping at non matching lines
-xnoremap("@", function()
+vim.keymap.set({"x"}, "@", function()
 	return ":normal @" .. vim.fn.getcharstr() .. "<CR>"
 end, { expr = true })
 
-nnoremap("<C-w>q", "<cmd>close<CR>", opts)
+vim.keymap.set({"n"}, "<C-w>q", "<cmd>close<CR>", opts)
 
 -- index windows and add mappings for jumping directly to them
 local function winNumberKeys(index)
 	local mapping = "<C-w>" .. index
 	local command = "<cmd>" .. index .. "wincmd w<CR>"
-	nnoremap(mapping, command, { silent = true })
-	tnoremap(mapping, command, { silent = true })
+	vim.keymap.set({"n"}, mapping, command, { silent = true })
+	vim.keymap.set({"t"}, mapping, command, { silent = true })
 end
 
 local i = 1
@@ -87,8 +69,7 @@ while i <= 9 do
 end
 
 -- Easy CAPS
--- inoremap("<S-U> <ESC>viwUi
-nnoremap("<S-U>", "viwU<ESC>", opts)
+vim.keymap.set({"n"}, "<S-U>", "viwU<ESC>", opts)
 
 local tab_next = function(next, count)
 	if vim.fn.tabpagenr("$") > 1 then
@@ -104,16 +85,23 @@ local tab_next = function(next, count)
 end
 
 -- stylua: ignore start
-nnoremap("gt", function() tab_next(true, vim.v.count) end, opts)
-nnoremap("gT", function() tab_next(false, vim.v.count) end, opts)
+vim.keymap.set({"n"}, "gt", function() tab_next(true, vim.v.count) end, opts)
+vim.keymap.set({"n"}, "gT", function() tab_next(false, vim.v.count) end, opts)
 -- stylua: ignore end
 
 -- better indentation
-vnoremap("<", "<gv", opts)
-vnoremap(">", ">gv", opts)
+vim.keymap.set({"v"}, "<", "<gv", opts)
+vim.keymap.set({"v"}, ">", ">gv", opts)
 
 -- enter insert mode on next line, with text after cursor on line after that
-inoremap("<M-o>", "<Space><Esc>r<CR>O", opts)
+vim.keymap.set({"i"}, "<M-o>", "<Space><Esc>r<CR>O", opts)
 
--- nnoremap("che", "<cmd>norm f=c^<CR>", opts)
--- nnoremap("cle", "<cmd>norm f=c$<CR>", opts)
+-- Clear highlights on search when pressing <Esc> in normal mode
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
+
+vim.keymap.set(
+	"t",
+	"<Esc><Esc>",
+	"<C-\\><C-n>",
+	{ desc = "Exit terminal mode" }
+)

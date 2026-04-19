@@ -1,33 +1,16 @@
 local icons = require("faith.icons")
 
 return {
-	{
-		"JezerM/oil-lsp-diagnostics.nvim",
-		lazy = true,
-		dependencies = "stevearc/oil.nvim",
-		opts = {},
-	},
-	{
-		"refractalize/oil-git-status.nvim",
-		lazy = true,
-		dependencies = "stevearc/oil.nvim",
-		opts = {
-			show_ignored = true,
-		},
-	},
-	{
-		"stevearc/oil.nvim",
-		-- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
-		lazy = false,
-		dependencies = {
-			"dev_icons",
-		},
-		config = function()
-			local oil = require("oil")
-
-			local opts = {
+	'stevearc/oil.nvim',
+	lazy = false, -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
+	dependencies = { { "nvim-mini/mini.icons", opts = {} } },
+	config = function()
+		local oil = require("oil")
+		---@module 'oil'
+		---@type oil.SetupOpts
+		local opts = {
 				win_options = {
-					signcolumn = "yes:2",
+					signcolumn = "yes:1",
 				},
 				delete_to_trash = true,
 				columns = {
@@ -88,9 +71,9 @@ return {
 					max_width = 0.8,
 					max_height = 0.8,
 					border = {
-						{ icons.borders.edge_thin.bottom, "AccentInverse" },
-						{ icons.borders.edge_thin.bottom, "AccentInverse" },
-						{ icons.borders.edge_thin.bottom, "AccentInverse" },
+						{ icons.borders.edge_thin.bottom, "Float" },
+						{ icons.borders.edge_thin.bottom, "Float" },
+						{ icons.borders.edge_thin.bottom, "Float" },
 						icons.borders.edge_thin.right,
 						icons.borders.edge_thin.bottom_right,
 						icons.borders.edge_thin.bottom,
@@ -99,7 +82,7 @@ return {
 					},
 					win_options = {
 						winblend = 0,
-						winhighlight = "FoldColumn:Float,SignColumn:Float,CursorLineNr:CursorLine,LineNr:Float,LineNrAbove:Float,LineNrBelow:Float,FloatTitle:Accent",
+						winhighlight = "FoldColumn:Float,SignColumn:Float,CursorLineNr:CursorLine,LineNr:Float,LineNrAbove:Float,LineNrBelow:Float,FloatTitle:Float",
 					},
 					-- optionally override the oil buffers window title with custom function: fun(winid: integer): string
 					get_win_title = nil,
@@ -112,14 +95,14 @@ return {
 					end,
 				},
 			}
-			oil.setup(opts)
 
-			vim.keymap.set(
-				{ "n" },
-				"<leader>O",
-				require("oil").toggle_float,
-				{ desc = "[O]il" }
-			)
-		end,
-	},
+		oil.setup(opts)
+
+		vim.keymap.set(
+			{ "n" },
+			"<leader>O",
+			require("oil").toggle_float,
+			{ desc = "[O]il" }
+		)
+	end
 }

@@ -38,8 +38,9 @@ function M.project_files()
 	local opts = vim.deepcopy(layouts.default_flex)
 	opts = vim.tbl_deep_extend("force", opts, {
 		prompt_title = "Project Files",
-		cwd = require("lspconfig.util").root_pattern(".git")(vim.fn.expand("%:p"))
-			or vim.fn.getcwd(),
+		cwd = vim.fs.dirname(
+		vim.fs.find(".git", { path = vim.fn.getcwd(), type = "directory", upwards = true, limit = math.huge })[1]
+	) or vim.fn.getcwd(),
 	})
 	require("telescope.builtin").find_files(opts)
 end
@@ -48,7 +49,9 @@ function M.oldfiles()
 	local opts = vim.deepcopy(layouts.default_flex)
 	opts = vim.tbl_deep_extend("force", opts, {
 		prompt_title = "Recent Files",
-		cwd = require("lspconfig.util").root_pattern(".git")(vim.fn.expand("%:p")),
+		cwd = vim.fs.dirname(
+		vim.fs.find(".git", { path = vim.fn.getcwd(), type = "directory", upwards = true, limit = math.huge })[1]
+	) or vim.fn.getcwd(),
 	})
 	require("telescope.builtin").oldfiles(opts)
 end
@@ -203,8 +206,9 @@ function M.live_grep(options)
 	end
 
 	opts = vim.tbl_deep_extend("force", opts, {
-		cwd = require("lspconfig.util").root_pattern(".git")(vim.fn.expand("%:p")),
-		-- file_ignore_patterns = require("faith.plugins.telescope-conf.layouts").file_ignore.file_ignore_patterns,
+		cwd = vim.fs.dirname(
+		vim.fs.find(".git", { path = vim.fn.getcwd(), type = "directory", upwards = true, limit = math.huge })[1]
+	) or vim.fn.getcwd(),
 	})
 	require("telescope.builtin").live_grep(opts)
 end

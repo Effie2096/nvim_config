@@ -38,57 +38,18 @@ local managed_servers = {
 	wgsl_analyzer = require("faith.plugins.lsp.settings.wgsl_analyzer"),
 }
 
--- Use this function to check if the cursor is inside a comment block
-local function inside_comment_block()
-	if vim.api.nvim_get_mode().mode ~= "i" then
-		return false
-	end
-	local node_under_cursor = vim.treesitter.get_node()
-	local parser = vim.treesitter.get_parser(nil, nil, { error = false })
-	local query = vim.treesitter.query.get(vim.bo.filetype, "highlights")
-	if not parser or not node_under_cursor or not query then
-		return false
-	end
-	local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-	row = row - 1
-	for id, node, _ in query:iter_captures(node_under_cursor, 0, row, row + 1) do
-		if query.captures[id]:find("comment") then
-			local start_row, start_col, end_row, end_col = node:range()
-			if start_row <= row and row <= end_row then
-				if start_row == row and end_row == row then
-					if start_col <= col and col <= end_col then
-						return true
-					end
-				elseif start_row == row then
-					if start_col <= col then
-						return true
-					end
-				elseif end_row == row then
-					if col <= end_col then
-						return true
-					end
-				else
-					return true
-				end
-			end
-		end
-	end
-	return false
-end
-
 return {
 	-- LSP Plugins
 	require("faith.plugins.lsp.json_schema"),
 	{
-		-- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
-		-- used for completion, annotations and signatures of Neovim apis
 		"folke/lazydev.nvim",
 		ft = "lua",
 		opts = {
 			library = {
 				-- Load luvit types when the `vim.uv` word is found
 				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
-				{ "nvim-dap-ui" },
+				 "nvim-dap-ui",
+				 "mini.icons"
 			},
 		},
 	},
@@ -117,33 +78,6 @@ return {
 			"williamboman/mason-lspconfig.nvim",
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
 
-			{
-				"j-hui/fidget.nvim",
-				opts = {
-					progress = {
-						display = {
-							done_style = "FidgetDone",
-							progress_style = "FidgetProgress",
-							group_style = "FidgetGroupName",
-							icon_style = "FidgetGroupIcon",
-						},
-					},
-					notification = {
-						view = {
-							group_separator_hl = "FidgetSep",
-						},
-						window = {
-							winblend = 0, -- needs 0 for catppuccin integration
-							normal_hl = "FidgetWindow",
-						},
-					},
-					integration = {
-						["nvim-tree"] = {
-							enable = false,
-						},
-					},
-				},
-			},
 			{
 				"S1M0N38/love2d.nvim",
 				event = "VeryLazy",
@@ -361,10 +295,6 @@ return {
 		version = "1.*",
 		dependencies = {
 			{
-				version = "v3.*.*",
-				"Kaiser-Yang/blink-cmp-dictionary",
-			},
-			{
 				"onsails/lspkind.nvim",
 				init = function()
 					require("lspkind").init({
@@ -509,7 +439,7 @@ return {
 			},
 
 			completion = {
-				ghost_text = { enabled = false, show_with_menu = false },
+				ghost_text = { enabled = true, show_with_menu = true },
 				list = {
 					selection = {
 						preselect = true,
@@ -552,39 +482,18 @@ return {
 									local icon = ctx.kind_icon
 									if vim.tbl_contains({ "Path" }, ctx.source_name) then
 										local dev_icon, _ =
-											require("nvim-web-devicons").get_icon(ctx.label)
+											MiniIcons.get(ctx.label)
 										if dev_icon then
 											icon = dev_icon
 										end
 									else
-										if ctx.source_name == "Codeium" then
-											icon = require("faith.icons").ui.Wand
-										elseif ctx.source_name == "Dict" then
-											icon = require("faith.icons").ui.Book
-										else
 											icon = require("lspkind").symbolic(ctx.kind, {
 												mode = "symbol",
 											})
-										end
 									end
 
 									return (" %s "):format(icon) .. ctx.icon_gap
 								end,
-
-								-- Optionally, use the highlight groups from nvim-web-devicons
-								-- You can also add the same function for `kind.highlight` if you want to
-								-- keep the highlight groups in sync with the icons.
-								-- highlight = function(ctx)
-								-- 	local hl = ctx.kind_hl
-								-- 	if vim.tbl_contains({ "Path" }, ctx.source_name) then
-								-- 		local dev_icon, dev_hl =
-								-- 			require("nvim-web-devicons").get_icon(ctx.label)
-								-- 		if dev_icon then
-								-- 			hl = dev_hl
-								-- 		end
-								-- 	end
-								-- 	return hl
-								-- end,
 							},
 							label = {
 								text = function(ctx)
@@ -612,22 +521,12 @@ return {
 			sources = {
 				default = function()
 					local result = {
-						"ecolog",
 						"lsp",
 						"path",
 						"snippets",
 						"lazydev",
 						"buffer",
-						-- "codeium",
 					}
-					if
-						-- turn on dictionary in markdown or text file
-						vim.tbl_contains({ "markdown", "text" }, vim.bo.filetype)
-						-- or turn on dictionary if cursor is in the comment block
-						or inside_comment_block()
-					then
-						table.insert(result, "dictionary")
-					end
 					return result
 				end,
 				providers = {
@@ -646,11 +545,6 @@ return {
 					lsp = {
 						fallbacks = {},
 					},
-					-- codeium = { name = "Codeium", module = "codeium.blink", async = true },
-					ecolog = {
-						name = "ecolog",
-						module = "ecolog.integrations.cmp.blink_cmp",
-					},
 					path = {
 						score_offset = 3,
 						fallbacks = { "buffer" },
@@ -665,24 +559,6 @@ return {
 							ignore_root_slash = false,
 							-- Maximum number of files/directories to return. This limits memory use and responsiveness for very large folders.
 							max_entries = 10000,
-						},
-					},
-					dictionary = {
-						module = "blink-cmp-dictionary",
-						name = "Dict",
-						-- 💡 Performance impact of min_keyword_length:
-						-- - In fallback mode: No impact on performance regardless of value
-						-- - With fzf: Higher values may improve performance
-						-- - With other commands (rg/grep): Higher values significantly improve performance
-						min_keyword_length = 2,
-						max_items = 10,
-						-- options for blink-cmp-dictionary
-						opts = {
-							force_fallback = false,
-							-- put your dictionary files here
-							dictionary_files = {
-								vim.fn.stdpath("config") .. "/spell/words.txt",
-							},
 						},
 					},
 				},
