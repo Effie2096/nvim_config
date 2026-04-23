@@ -43,7 +43,7 @@ return {
 				local telescope_bg = theme.ui.bg
 				local telescope_prompt_bg = theme.ui.bg
 				local telescope_preview_bg = theme.ui.bg_dim
-				local telescope_border = palette.sakuraPink
+				local telescope_border = accent
 
 				local mdh1 = theme.syn.string
 				local mdh2 = theme.syn.constant
@@ -52,25 +52,36 @@ return {
 				local mdh5 = theme.syn.identifier
 				local mdh6 = theme.syn.special2
 
+				local prog_fill = accent
+				local prog_empty = theme.ui.bg_dim
 
 				local filesystem = theme.syn.special1
 				local func = theme.syn.fun
 				local constant = theme.syn.constant
 				local type = theme.syn.type
-				local struct = theme.syn.type
 				local keyword = theme.syn.keyword
 				local async = theme.syn.punct
 				local snippet = theme.syn.statement
 				local variable = theme.syn.variable
 				local str = theme.syn.string
 
-
 				return {
 					EndOfBuffer = { bg = "NONE", fg = theme.ui.bg },
 					StatusLine = { bg = theme.ui.bg_gutter },
 					StatusLineNC = { link = "StatusLine" },
 					WinBar = { link = "StatusLine" },
-					WinBarNC = { link = "StatusLine" },
+					WinBarNC = { link = "WinBar" },
+					TabLine = { link = "StatusLine" },
+					TabLineFill = { link = "TabLine" },
+
+					Accent = { fg = accent, bold = true },
+					AccentInverse = { fg = theme.ui.bg, bg = accent, bold = true },
+
+					Trans_Blue = {fg = "#5bcffa"},
+					Trans_Pink = {fg = "#ffb5cd"},
+					Trans_White = {fg = "#ffffff"},
+
+					SessionAuto = { fg = theme.diag.warning },
 
 					TelescopeSelectionCaret = { fg = accent, bg = theme.ui.bg_dim },
 
@@ -140,75 +151,87 @@ return {
 					Directory =  { fg = filesystem },
 					LspKindArray =  { fg = variable },
 					LspKindBoolean =  { fg = constant },
-					LspKindClass = { fg = struct },
+					LspKindClass = { fg = type },
 					LspKindColor = { fg = constant },
 					LspKindConstant = { fg = constant },
 					LspKindConstructor = { fg = func },
-					LspKindEnum = { fg = struct },
+					LspKindEnum = { fg = type },
 					LspKindEnumMember = { fg = constant },
 					LspKindEvent = { fg = async },
 					LspKindField = { fg = variable },
 					LspKindFile = { fg = filesystem },
 					LspKindFolder = { fg = filesystem },
 					LspKindFunction = { fg = func },
-					LspKindInterface = { fg = struct },
+					LspKindInterface = { fg = type },
 					LspKindKey = { fg = constant },
 					LspKindKeyword = { fg = keyword },
 					LspKindMethod = { fg = func },
-					LspKindModule = { fg = struct },
-					LspKindNamespace = { fg = struct },
+					LspKindModule = { fg = type },
+					LspKindNamespace = { fg = type },
 					LspKindNull = { fg = constant },
 					LspKindNumber = { fg = constant },
-					LspKindObject = { fg = struct },
+					LspKindObject = { fg = type },
 					LspKindOperator = { fg = keyword },
 					LspKindPackage = { fg = filesystem },
 					LspKindProperty = { fg = variable },
 					LspKindReference = { fg = keyword },
 					LspKindSnippet = { fg = snippet },
 					LspKindString = { fg = str },
-					LspKindStruct = { fg = struct },
+					LspKindStruct = { fg = type },
 					LspKindText = { fg = str },
 					LspKindTypeParameter = { fg = variable },
-					LspKindUnit = { fg = struct },
+					LspKindUnit = { fg = type },
 					LspKindValue = { fg = variable },
 					LspKindVariable = { fg = variable },
 
 					BlinkCmpKind = { fg= theme.ui.bg, bg = theme.syn.special1 },
 					BlinkCmpKindArray =  { fg= theme.ui.bg, bg= variable },
 					BlinkCmpKindBoolean =  { fg= theme.ui.bg, bg= constant },
-					BlinkCmpKindClass = { fg= theme.ui.bg, bg= struct },
+					BlinkCmpKindClass = { fg= theme.ui.bg, bg= type },
 					BlinkCmpKindColor = { fg= theme.ui.bg, bg= constant },
 					BlinkCmpKindConstant = { fg= theme.ui.bg, bg= constant },
 					BlinkCmpKindConstructor = { fg= theme.ui.bg, bg= func },
-					BlinkCmpKindEnum = { fg= theme.ui.bg, bg= struct },
+					BlinkCmpKindEnum = { fg= theme.ui.bg, bg= type },
 					BlinkCmpKindEnumMember = { fg= theme.ui.bg, bg= constant },
 					BlinkCmpKindEvent = { fg= theme.ui.bg, bg= async },
 					BlinkCmpKindField = { fg= theme.ui.bg, bg= variable },
 					BlinkCmpKindFile = { fg= theme.ui.bg, bg= filesystem },
 					BlinkCmpKindFolder = { fg= theme.ui.bg, bg= filesystem },
 					BlinkCmpKindFunction = { fg= theme.ui.bg, bg= func },
-					BlinkCmpKindInterface = { fg= theme.ui.bg, bg= struct },
+					BlinkCmpKindInterface = { fg= theme.ui.bg, bg= type },
 					BlinkCmpKindKey = { fg= theme.ui.bg, bg= constant },
 					BlinkCmpKindKeyword = { fg= theme.ui.bg, bg= keyword },
 					BlinkCmpKindMethod = { fg= theme.ui.bg, bg= func },
-					BlinkCmpKindModule = { fg= theme.ui.bg, bg= struct },
-					BlinkCmpKindNamespace = { fg= theme.ui.bg, bg= struct },
+					BlinkCmpKindModule = { fg= theme.ui.bg, bg= type },
+					BlinkCmpKindNamespace = { fg= theme.ui.bg, bg= type },
 					BlinkCmpKindNull = { fg= theme.ui.bg, bg= constant },
 					BlinkCmpKindNumber = { fg= theme.ui.bg, bg= constant },
-					BlinkCmpKindObject = { fg= theme.ui.bg, bg= struct },
+					BlinkCmpKindObject = { fg= theme.ui.bg, bg= type },
 					BlinkCmpKindOperator = { fg= theme.ui.bg, bg= keyword },
 					BlinkCmpKindPackage = { fg= theme.ui.bg, bg= filesystem },
 					BlinkCmpKindProperty = { fg= theme.ui.bg, bg= variable },
 					BlinkCmpKindReference = { fg= theme.ui.bg, bg= keyword },
 					BlinkCmpKindSnippet = { fg= theme.ui.bg, bg= snippet },
 					BlinkCmpKindString = { fg= theme.ui.bg, bg= str },
-					BlinkCmpKindStruct = { fg= theme.ui.bg, bg= struct },
+					BlinkCmpKindStruct = { fg= theme.ui.bg, bg= type },
 					BlinkCmpKindText = { fg= theme.ui.bg, bg= str },
 					BlinkCmpKindDict ={ fg = theme.ui.bg, bg =str},
 					BlinkCmpKindTypeParameter = { fg= theme.ui.bg, bg= variable },
-					BlinkCmpKindUnit = { fg= theme.ui.bg, bg= struct },
+					BlinkCmpKindUnit = { fg= theme.ui.bg, bg= type },
 					BlinkCmpKindValue = { fg= theme.ui.bg, bg= variable },
 					BlinkCmpKindVariable = { fg= theme.ui.bg, bg= variable },
+
+					CodeStatsIcon = { fg = theme.syn.constant },
+					ProgressFilled = { fg = prog_fill, bg = prog_fill, bold = true },
+					ProgressEmpty = { fg = prog_empty, bg = prog_empty },
+					TextFilled = { fg = theme.ui.bg, bg = prog_fill, bold = true },
+					TextEmpty = { fg = theme.ui.fg, bg = prog_empty, bold = true },
+
+					HarpoonSeparator = { fg = theme.syn.comment },
+					HarpoonInactive = { link = "StatusLine" },
+					HarpoonActive = { fg = accent, bold = true },
+					HarpoonNumberActive = { fg = accent, bold = true, italic = true },
+					HarpoonNumberInactive = {  fg = accent, italic = true },
 				}
 			end,
 			theme = "wave",
@@ -218,6 +241,6 @@ return {
 			},
 		})
 
-		vim.cmd("colorscheme kanagawa")
+		vim.cmd.colorscheme("kanagawa")
 	end
 }

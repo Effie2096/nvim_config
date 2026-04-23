@@ -19,6 +19,7 @@ vim.keymap.set({"n"}, "N", "Nzzzv", opts)
 
 -- set more standard shortcut for saving
 vim.keymap.set({"n", "i"}, "<C-s>", "<cmd>w<CR>", opts)
+vim.keymap.set({"n"}, "<leader>bc", vim.cmd.bdelete,  opts)
 
 -- keep cursor in same place when combining lines
 vim.keymap.set({"n"}, "J", "mzJ`z", opts)

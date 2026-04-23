@@ -10,7 +10,8 @@ end)
 vim.opt.backspace = "indent,eol,start"
 vim.opt.backup = false
 vim.opt.breakindent = true
-vim.opt.cmdheight = 0
+vim.opt.cmdheight = 1
+vim.opt.showcmdloc = "last"
 vim.opt.conceallevel = 2
 vim.opt.confirm = true
 vim.opt.cursorline = true

@@ -1,11 +1,10 @@
 require("faith.options")
-require("faith.statusline")
 require("faith.mappings")
+require("faith.statusline")
 require("faith.bootstrap")
 require("faith.globals")
 require("faith.shell")
 require("faith.spell")
 require("faith.filetypes")
-require("faith.tabnames")
 
 require("faith.neovide")

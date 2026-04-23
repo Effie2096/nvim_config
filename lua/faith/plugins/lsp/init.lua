@@ -419,6 +419,8 @@ return {
 				["<C-y>"] = { "show", "select_and_accept", "fallback" },
 				["<C-u>"] = { "scroll_signature_up", "fallback" },
 				["<C-d>"] = { "scroll_signature_down", "fallback" },
+				["<C-b>"] = { function(cmp) cmp.scroll_documentation_up(4) end, "fallback" },
+				["<C-f>"] = { function(cmp) cmp.scroll_documentation_down(4) end, "fallback" },
 				["<C-k>"] = {},
 				["<Tab>"] = {},
 				-- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
@@ -469,6 +471,7 @@ return {
 						return { "s", "n" }
 					end,
 					draw = {
+						treesitter = { "lsp" },
 						-- We don't need label_description now because label and label_description are already
 						-- combined together in label by colorful-menu.nvim.
 						columns = {
@@ -482,13 +485,13 @@ return {
 									local icon = ctx.kind_icon
 									if vim.tbl_contains({ "Path" }, ctx.source_name) then
 										local dev_icon, _ =
-											MiniIcons.get(ctx.label)
+											require("mini.icons").get(ctx.label)
 										if dev_icon then
 											icon = dev_icon
 										end
 									else
 											icon = require("lspkind").symbolic(ctx.kind, {
-												mode = "symbol",
+												mode = "symbol"
 											})
 									end
 

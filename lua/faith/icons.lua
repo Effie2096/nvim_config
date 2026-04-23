@@ -5,7 +5,7 @@ local icons = {
 		rounded = { left = "", right = "" },
 		arrow = { left = "", right = "" },
 		straight = { left = "|", right = "|" },
-		bar = { left = "▎", right = "" },
+		bar = { left = "▎", right = "▕" },
 		arrow_bracket = { left = "", right = "" },
 		rounded_bracket = { left = "", right = "" },
 		blank = { left = "", right = "" },
