@@ -1,0 +1,152 @@
+vim.pack.add(
+	{ { src = "https://github.com/stevearc/conform.nvim" } },
+	{ load = function() end }
+)
+
+-- stylua: ignore start
+local formatters_by_ft = {
+	bash = { "beaytysh" },
+	cs = { "csharpier" },
+	css = { "biome", "biome-check" },
+	go = { "gofumpt" },
+	html = { "superhtml" },
+	java = { "google-java-format" },
+	javascript = { "biome", "biome-check" },
+	json = { "biome" },
+	jsonc = { "biome" },
+	jsx = { "biome", "biome-check" },
+	-- kotlin = { "ktlint" },
+	lua = { "stylua" },
+	markdown = { "injected" },
+	ocaml = { "ocamlformat" },
+	python = { "ruff_format", "ruff_organize_imports" },
+	rust = { "rustfmt" },
+	sh = { "beautysh" },
+	toml = { "tombi" },
+	tsx = { "biome", "biome-check" },
+	typescript = { "biome", "biome-check" },
+	yaml = { "yamlfmt" },
+	zsh = { "beaytysh" },
+}
+-- stylua: ignore end
+
+local formatters = {
+	-- "codespell",
+}
+
+formatters_by_ft = vim
+	.iter(formatters_by_ft)
+	:map(function(k, v)
+		vim.iter(formatters):each(function(f)
+			table.insert(v, f)
+		end)
+		return { k, v }
+	end)
+	:fold({}, function(acc, k)
+		acc[k[1]] = k[2]
+		return acc
+	end)
+
+vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+
+local notify_opts = {
+	title = "Formatting",
+}
+
+local config = function()
+	require("conform").setup({
+		notify_on_error = false,
+		format_on_save = function(bufnr)
+			-- Disable with a global or buffer-local variable
+			if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+				return
+			end
+			local ft = vim.bo[bufnr].filetype
+			local opts = { lsp_format = "fallback", timeout_ms = 500 }
+			return vim.tbl_extend("force", opts, formatters_by_ft[ft] or {})
+		end,
+		formatters_by_ft = formatters_by_ft,
+		formatters = {
+			prettierd = {
+				prepend_args = function()
+					return { "--no-semi", "--use-tabs" }
+				end,
+			},
+			black = {
+				prepend_args = function()
+					return { "--line-length", vim.o.textwidth }
+				end,
+			},
+			isort = {
+				prepend_args = function()
+					return { "--line-length", vim.o.textwidth, "--multi-line", "3" }
+				end,
+			},
+			stylua = {
+				prepend_args = function()
+					return { "--column-width", vim.o.textwidth }
+				end,
+			},
+			yamlfmt = function(bufnr)
+				return {
+					prepend_args = {
+						"-formatter",
+						"include_document_start=true"
+							.. (",max_line_length=%s"):format(vim.bo[bufnr].textwidth - 20), -- fix because no yaml linters actually wrap at line length...
+						--.. ",retain_line_breaks=true" .. ",scan_folded_as_literal=true",
+					},
+				}
+			end,
+		},
+	})
+end
+local load = function()
+	if not package.loaded["conform"] then
+		vim.cmd.packadd("conform.nvim")
+		config()
+	end
+end
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+	once = true,
+	callback = function()
+		load()
+		require("conform").format({ async = false })
+	end,
+})
+vim.keymap.set({ "n", "i" }, "<M-f>", function()
+	load()
+	local ft = vim.bo.filetype
+	local opts = vim.tbl_extend(
+		"force",
+		{ async = true },
+		formatters_by_ft[ft] or { lsp_format = "fallback" }
+	)
+	require("conform").format(opts)
+end, { desc = "[F]ormat buffer" })
+
+vim.api.nvim_create_user_command("Format", function()
+	load()
+	require("conform").format({ async = true })
+end, {
+	desc = "Format current buffer",
+})
+vim.api.nvim_create_user_command("FormatDisable", function(args)
+	if args.bang then
+		-- FormatDisable! will disable formatting just for this buffer
+		vim.b.disable_autoformat = true
+	else
+		vim.g.disable_autoformat = true
+	end
+	vim.notify("Auto-format on save disabled.", vim.log.levels.INFO, notify_opts)
+end, {
+	desc = "Disable autoformat-on-save",
+	bang = true,
+})
+vim.api.nvim_create_user_command("FormatEnable", function()
+	vim.b.disable_autoformat = false
+	vim.g.disable_autoformat = false
+	vim.notify("Auto-format on save enabled.", vim.log.levels.INFO, notify_opts)
+end, {
+	desc = "Re-enable autoformat-on-save",
+})

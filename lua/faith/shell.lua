@@ -42,11 +42,11 @@ local nushell_options = {
 local is_windows = vim.fn.has("win32") == 1
 
 local active_shell = function()
-	if vim.fn.executable("nu") == 1 then
-		return nushell_options
-	end
+	-- if vim.fn.executable("nu") == 1 then
+	-- 	return nushell_options
+	-- end
 	if is_windows then
-		return powershell_options
+		return cmd_options
 	end
 	return posix_shell_options
 end

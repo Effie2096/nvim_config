@@ -128,8 +128,6 @@ vim.keymap.set("n", "<localleader>ld", function()
 	vim.api.nvim_cmd({ cmd = "normal", args = { "2ds]" } }, { output = false })
 end, { buffer = true, desc = "[l]ink [d]elete: Unlink text under cursor." })
 
-require("ibl").setup_buffer(0, { indent = { char = indent_icon } })
-
 vim.api.nvim_create_autocmd("CursorHold", {
 	group = vim.api.nvim_create_augroup("markdown_image_hover", { clear = true }),
 	buffer = vim.api.nvim_get_current_buf(),

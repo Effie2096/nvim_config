@@ -1,13 +1,4 @@
-SHOULD_RELOAD_TELESCOPE = true
 local action_state = require("telescope.actions.state")
-
-local reloader = function()
-	if SHOULD_RELOAD_TELESCOPE then
-		RELOAD("plenary")
-		RELOAD("telescope")
-		RELOAD("faith.plugins.telescope-conf")
-	end
-end
 
 M = {}
 
@@ -61,119 +52,6 @@ local buffers_maps = function(_, map)
 	map("n", "d", require("telescope.actions").delete_buffer)
 end
 
-function M.scope_buffers()
-	local opts = vim.deepcopy(layouts.centered_compact) or {}
-	opts = vim.tbl_deep_extend("force", opts, {
-		prompt_title = "Scope Buffers",
-		attach_mappings = require("faith.plugins.telescope-conf.layouts").attach_mappings_with_defaults(
-			-- buffers_maps,
-			function(_, map)
-				map("i", "<c-d>", function(prompt_bufnr)
-					local current_picker = action_state.get_current_picker(prompt_bufnr)
-
-					current_picker:delete_selection(function(selection)
-						local current_tab = vim.api.nvim_get_current_tabpage()
-						local current_buf = selection.bufnr
-
-						-- Ensure the cache is up-to-date
-						require("scope.core").revalidate()
-
-						local buffers_in_current_tab =
-							require("scope.core").cache[current_tab]
-
-						-- Check if the buffer exists in other tabs (could be a utils function)
-						local buffer_exists_in_other_tabs = false
-						for tab, buffers in pairs(require("scope.core").cache) do
-							if tab ~= current_tab then
-								for _, buffer in ipairs(buffers) do
-									if buffer == current_buf then
-										buffer_exists_in_other_tabs = true
-										break
-									end
-								end
-							end
-							if buffer_exists_in_other_tabs then
-								break
-							end
-						end
-
-						-- If the buffer exists in other tabs, hide it in the current tab
-						if buffer_exists_in_other_tabs then
-							if #buffers_in_current_tab > 1 then
-								vim.api.nvim_buf_set_option(current_buf, "buflisted", false)
-								vim.cmd([[bprev]])
-							else
-								--     vim.cmd("tabclose")
-								local empty_buf = vim.api.nvim_create_buf(true, true)
-								vim.api.nvim_win_set_buf(
-									current_picker.original_win_id,
-									empty_buf
-								)
-								current_picker.original_bufnr = empty_buf
-								vim.api.nvim_buf_delete(selection.bufnr, { force = true })
-							end
-						else -- buffer does not exist in other tabs
-							local tab_count = #vim.api.nvim_list_tabpages()
-							if #buffers_in_current_tab == 1 then
-								if tab_count > 1 then
-									vim.api.nvim_buf_delete(current_buf, { force = true })
-									-- if tab_count > 1 then
-									--     vim.cmd("tabclose")
-									-- end
-
-									local empty_buf = vim.api.nvim_create_buf(true, true)
-									vim.api.nvim_win_set_buf(
-										current_picker.original_win_id,
-										empty_buf
-									)
-									current_picker.original_bufnr = empty_buf
-									vim.api.nvim_buf_delete(selection.bufnr, { force = true })
-								else
-									-- Ask for confirmation before quitting if it's the only tab
-									local choice = 1
-									if opts.ask then
-										choice = vim.fn.confirm(
-											"You're about to close the last tab. Do you want to quit?",
-											"&Yes\n&No"
-										)
-									end
-									-- if choice == 1 then
-									-- 	vim.cmd("qa!")
-									-- end
-								end
-							else
-								vim.api.nvim_buf_delete(current_buf, { force = opts.force })
-							end
-						end
-
-						-- Update the cache
-						require("scope.core").revalidate()
-						-- require("scope.core").close_buffer({
-						-- 	buf = selection.bufnr,
-						-- 	ask = false,
-						-- })
-					end)
-					return true
-				end)
-				map("n", "d", function(prompt_bufnr)
-					local current_picker = action_state.get_current_picker(prompt_bufnr)
-
-					current_picker:delete_selection(function(selection)
-						require("scope.core").close_buffer({
-							buf = selection.bufnr,
-							ask = false,
-						})
-					end)
-					return true
-				end)
-			end
-		),
-	})
-	-- scope.nvim makes buffers scoped by default so this feels inverted but
-	-- "scope_buffers" is the default `all` buffers command now.
-	require("telescope.builtin").buffers(opts)
-end
-
 function M.buffers()
 	local opts = vim.deepcopy(layouts.centered_compact) or {}
 	opts = vim.tbl_deep_extend("force", opts, {
@@ -183,7 +61,7 @@ function M.buffers()
 		),
 	})
 	-- scope.nvim show all buffers
-	require("telescope._extensions.scope").exports.buffers(opts)
+	require("telescope.builtin").buffers(opts)
 end
 
 function M.grep_string()
@@ -347,7 +225,6 @@ end
 
 return setmetatable({}, {
 	__index = function(_, k)
-		reloader()
 		if M[k] then
 			return M[k]
 		else

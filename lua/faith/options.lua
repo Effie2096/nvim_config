@@ -10,7 +10,7 @@ end)
 vim.opt.backspace = "indent,eol,start"
 vim.opt.backup = false
 vim.opt.breakindent = true
-vim.opt.cmdheight = 1
+vim.opt.cmdheight = 0
 vim.opt.showcmdloc = "last"
 vim.opt.conceallevel = 2
 vim.opt.confirm = true
@@ -49,7 +49,8 @@ vim.opt.smoothscroll = true
 vim.opt.shortmess:append({ c = true })
 vim.opt.showmode = false
 vim.opt.showtabline = 1
-vim.opt.signcolumn = "yes:1"
+vim.opt.signcolumn = "yes"
+vim.opt.numberwidth = 4
 vim.opt.smartcase = true
 vim.opt.splitbelow = false
 vim.opt.splitright = true
@@ -57,13 +58,12 @@ vim.opt.splitkeep = "screen"
 vim.opt.swapfile = false
 vim.opt.termguicolors = true
 vim.opt.textwidth = 80
-vim.opt.colorcolumn = "+1"
+vim.opt.colorcolumn = "0"
 vim.opt.timeoutlen = 300
 vim.opt.undofile = true
-vim.opt.updatetime = 250
+vim.opt.updatetime = 200
 vim.opt.wrap = true
 vim.opt.writebackup = false
-vim.opt.numberwidth = 3
 
 -- Indentation {
 local indentWidth = 2
@@ -88,13 +88,13 @@ vim.opt.fileencoding = "utf-8"
 vim.opt.fileformat = "unix"
 vim.opt.nrformats = "alpha,hex,bin"
 vim.opt.fillchars:append({
-	horiz = icons.borders.square.top, -- "─",
-	horizup = icons.borders.square.inter_bottom, -- "┴",
-	horizdown = icons.borders.square.inter_top, -- "┬",
-	vert = icons.borders.square.left,
-	vertleft = icons.borders.square.inter_right, -- "┤",
-	vertright = icons.borders.square.inter_left, -- "├",
-	verthoriz = icons.borders.square.center, -- "┼",
+	horiz = icons.borders.edge_thin.top, -- "─",
+	horizup = icons.borders.edge_thin.top, -- "┴",
+	horizdown = icons.borders.edge_thin.top_left, -- "┬",
+	vert = icons.borders.edge_thin.left,
+	vertleft = icons.borders.edge_thin.left, -- "┤",
+	vertright = icons.borders.edge_thin.top_left, -- "├",
+	verthoriz = icons.borders.edge_thin.top_left, -- "┼",
 	diff = icons.git.signs.diff,
 })
 vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
