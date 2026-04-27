@@ -2,9 +2,11 @@ local histr = require("faith.statusline.utils").histr
 
 vim.opt.statusline = "%="
 
+if package.loaded["harpoon"] then
 vim.opt.statusline:append(
 	" %{%v:lua.require('faith.statusline.components.harpoon').statusline()%}"
 )
+end
 
 vim.opt.statusline:append("%=")
 

@@ -1,11 +1,21 @@
-require("ts_context_commentstring").setup({
-	kanata = { __default = ";; %s", __multiline = "#| %s |#" }
+local has_ts_context_commentstring, ts_context_commentstring =
+	pcall(require, "ts_context_commentstring")
+if not has_ts_context_commentstring then
+	return
+end
+local has_Comment, Comment = pcall(require, "Comment")
+if not has_Comment then
+	return
+end
+
+ts_context_commentstring.setup({
+	kanata = { __default = ";; %s", __multiline = "#| %s |#" },
 })
 
 local tcc =
-require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook()
+	require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook()
 
-require("Comment").setup({
+Comment.setup({
 	opleader = {
 		line = "gc",
 		block = "gb",
