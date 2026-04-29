@@ -4,13 +4,12 @@ local wk = require("which-key")
 local gh = function(str)
 	return ("https://github.com/%s"):format(str)
 end
+
 vim.pack.add({
 	{
 		src = gh("obsidian-nvim/obsidian.nvim"),
 		version = vim.version.range("3.x"),
 	},
-})
-vim.pack.add({
 	{ src = gh("HakonHarnes/img-clip.nvim") },
 	{ src = gh("Kicamon/markdown-table-mode.nvim") },
 	{ src = gh("bullets-vim/bullets.vim") },
@@ -1064,107 +1063,119 @@ local function get_workspaces()
 	-- 		)
 	-- 	end
 	-- end
-	return vaults
+	return vim
+		.iter(vaults)
+		:filter(function(vault)
+			return vault.path ~= nil and vault.path ~= ""
+		end)
+		:totable()
 end
 local workspaces = get_workspaces()
-
-local opts = {
-	legacy_commands = false,
-	footer = {
-		enabled = true,
-		format = "   {{backlinks}}   {{properties}}   {{words}} 󰬴  {{chars}}",
-		hl_group = "Comment",
-		separator = string.rep("-", vim.o.textwidth or 80),
-	},
-	statusline = {
-		format = "  {{backlinks}}   {{properties}}   {{words}} 󰬴  {{chars}}",
-	},
-	workspaces = workspaces,
-	templates = {
-		subdir = "_System/Templates/",
-		date_format = "%Y%m%d",
-		time_format = "%H%M%S",
-		-- A map for custom variables, the key should be the variable and the value a function
-		substitutions = {},
-	},
-
-	-- Where to put new notes. Valid options are
-	--  * "current_dir" - put new notes in same directory as the current buffer.
-	--  * "notes_subdir" - put new notes in the default notes subdirectory.
-	---@type obsidian.config.NewNotesLocation
-	new_notes_location = "notes_subdir",
-	notes_subdir = "",
-	note_id_func = function(title)
-		local suffix = ""
-		local id = tostring(os.date("%Y%m%d%H%M%S", os.time()))
-
-		if title ~= nil then
-			-- If title is given, transform it into valid file name.
-			suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
-		else
-			-- If title is nil, just add 4 random uppercase letters to the suffix.
-			for _ = 1, 4 do
-				suffix = suffix .. string.char(math.random(65, 90))
-			end
-		end
-		return ("%s_%s"):format(id, suffix)
-	end,
-
-	-- Optional, customize how note file names are generated given the ID, target directory, and title.
-	---@param spec { id: string, dir: obsidian.Path, title: string|? }
-	---@return string|obsidian.Path The full path to the new note.
-	note_path_func = function(spec)
-		local path = spec.dir / tostring(spec.id)
-		return path
-	end,
-
-	note = {
-		template = "unique-note.md",
-	},
-
-	daily_notes = {
-		enabled = true,
-		folder = "dailies",
-		-- date_format = "YYYY-MM-DD",
-		-- alias_format = nil,
-		default_tags = { "daily-notes" },
-		workdays_only = false,
-	},
-	-- Optional, customize how wiki links are formatted. You can set this to one of:
-	--	* "use_alias_only", e.g. '[[Foo Bar]]'
-	--	* "prepend_note_id", e.g. '[[foo-bar|Foo Bar]]'
-	--	* "prepend_note_path", e.g. '[[foo-bar.md|Foo Bar]]'
-	--	* "use_path_only", e.g. '[[foo-bar.md]]'
-	wiki_link_func = require("obsidian.builtin").wiki_link_path_prefix,
-	-- Optional, for templates (see below).
-	attachments = {
-		folder = "Attachments",
-		-- A function that determines the text to insert in the note when pasting an image.
-		-- It takes two arguments, the `obsidian.Client` and an `obsidian.Path` to the image file.
-		-- This is the default implementation.
-		img_text_func = function(path)
-			local name = vim.fs.basename(tostring(path))
-			local encoded_name = require("obsidian.util").urlencode(name)
-			return string.format("![%s](%s)", name, encoded_name)
-		end,
-	},
-	checkbox = {
-		order = {
-			checkboxes.unchecked.raw,
-			checkboxes.checked.raw,
-			checkboxes.cancelled.raw,
-			checkboxes.in_progress.raw,
-			checkboxes.paused.raw,
-			checkboxes.urgent.raw,
-			checkboxes.optional.raw,
+if #workspaces > 0 then
+	vim.cmd.packadd("obsidian.nvim")
+	local obsidian = require("obsidian")
+	local opts = {
+		legacy_commands = false,
+		footer = {
+			enabled = true,
+			format = "   {{backlinks}}   {{properties}}   {{words}} 󰬴  {{chars}}",
+			hl_group = "Comment",
+			separator = string.rep("-", vim.o.textwidth or 80),
 		},
-	},
-	ui = {
-		enable = false,
-	},
-}
-require("obsidian").setup(opts)
+		statusline = {
+			format = "  {{backlinks}}   {{properties}}   {{words}} 󰬴  {{chars}}",
+		},
+		workspaces = workspaces,
+		templates = {
+			subdir = "_System/Templates/",
+			date_format = "%Y%m%d",
+			time_format = "%H%M%S",
+			-- A map for custom variables, the key should be the variable and the value a function
+			substitutions = {},
+		},
 
-vim.iter(obsidian_maps):each(function(map)
-	vim.keymap.set(map.mode, map.lhs, map.rhs, map.opts)
-end)
+		-- Where to put new notes. Valid options are
+		--  * "current_dir" - put new notes in same directory as the current buffer.
+		--  * "notes_subdir" - put new notes in the default notes subdirectory.
+		---@type obsidian.config.NewNotesLocation
+		new_notes_location = "notes_subdir",
+		notes_subdir = "",
+		note_id_func = function(title)
+			local suffix = ""
+			local id = tostring(os.date("%Y%m%d%H%M%S", os.time()))
+
+			if title ~= nil then
+				-- If title is given, transform it into valid file name.
+				suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+			else
+				-- If title is nil, just add 4 random uppercase letters to the suffix.
+				for _ = 1, 4 do
+					suffix = suffix .. string.char(math.random(65, 90))
+				end
+			end
+			return ("%s_%s"):format(id, suffix)
+		end,
+
+		-- Optional, customize how note file names are generated given the ID, target directory, and title.
+		---@param spec { id: string, dir: obsidian.Path, title: string|? }
+		---@return string|obsidian.Path The full path to the new note.
+		note_path_func = function(spec)
+			local path = spec.dir / tostring(spec.id)
+			return path
+		end,
+
+		note = {
+			template = "unique-note.md",
+		},
+
+		daily_notes = {
+			enabled = true,
+			folder = "dailies",
+			-- date_format = "YYYY-MM-DD",
+			-- alias_format = nil,
+			default_tags = { "daily-notes" },
+			workdays_only = false,
+		},
+		-- Optional, customize how wiki links are formatted. You can set this to one of:
+		--	* "use_alias_only", e.g. '[[Foo Bar]]'
+		--	* "prepend_note_id", e.g. '[[foo-bar|Foo Bar]]'
+		--	* "prepend_note_path", e.g. '[[foo-bar.md|Foo Bar]]'
+		--	* "use_path_only", e.g. '[[foo-bar.md]]'
+		wiki_link_func = require("obsidian.builtin").wiki_link_path_prefix,
+		-- Optional, for templates (see below).
+		attachments = {
+			folder = "Attachments",
+			-- A function that determines the text to insert in the note when pasting an image.
+			-- It takes two arguments, the `obsidian.Client` and an `obsidian.Path` to the image file.
+			-- This is the default implementation.
+			img_text_func = function(path)
+				local name = vim.fs.basename(tostring(path))
+				local encoded_name = require("obsidian.util").urlencode(name)
+				return string.format("![%s](%s)", name, encoded_name)
+			end,
+		},
+		checkbox = {
+			order = {
+				checkboxes.unchecked.raw,
+				checkboxes.checked.raw,
+				checkboxes.cancelled.raw,
+				checkboxes.in_progress.raw,
+				checkboxes.paused.raw,
+				checkboxes.urgent.raw,
+				checkboxes.optional.raw,
+			},
+		},
+		ui = {
+			enable = false,
+		},
+	}
+	obsidian.setup(opts)
+
+	vim.iter(obsidian_maps):each(function(map)
+		vim.keymap.set(map.mode, map.lhs, map.rhs, map.opts)
+	end)
+else
+	vim.notify("No vaults found.", vim.log.levels.WARNING, {
+		title = "Obsidian.nvim",
+	})
+end
