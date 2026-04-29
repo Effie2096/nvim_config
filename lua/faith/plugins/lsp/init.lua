@@ -316,7 +316,8 @@ blink.setup({
 						text = function(ctx)
 							local icon = ctx.kind_icon
 							if vim.tbl_contains({ "Path" }, ctx.source_name) then
-								local dev_icon, _ = require("mini.icons").get(ctx.label)
+								local dev_icon, _ =
+									require("mini.icons").get("directory", ctx.label)
 								if dev_icon then
 									icon = dev_icon
 								end
