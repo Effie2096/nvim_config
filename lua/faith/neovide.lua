@@ -2,7 +2,7 @@ if not vim.g.neovide then
 	return
 end
 
-vim.o.guifont = "Lilex_Nerd_Font,FiraCode_Nerd_Font,Iosevka_NFP:h10"
+vim.o.guifont = "Iosevka_NF:h10"
 vim.g.neovide_underline_stroke_scale = 1.5
 
 vim.g.neovide_cursor_animation_length = 0.05
@@ -31,8 +31,8 @@ local resize = function(increase)
 end
 vim.keymap.set({ "n", "i" }, "<C-->", function()
 	resize(false)
-end, { silent = true })
+end, { desc = "Decrease Font", silent = true })
 
 vim.keymap.set({ "n", "i" }, "<C-=>", function()
 	resize(true)
-end, { silent = true })
+end, { desc = "Increase Font", silent = true })
