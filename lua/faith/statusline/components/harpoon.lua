@@ -28,7 +28,10 @@ M.keys = {
 ---@field lable { text: string, group: string}
 
 M.get_data = function()
-	if package.loaded.harpoon == nil or next(harpoon:list().items) == nil then
+	if package.loaded.harpoon == nil then
+		return ""
+	end
+	if next(harpoon:list().items) == nil then
 		return ""
 	end
 
