@@ -222,32 +222,8 @@ M.layout_configs = {
 		borderchars = M.border_presets.Preview_emphasis,
 		layout_config = {
 			prompt_position = 'top',
-			flip_columns = 180,
+			flip_columns = 164,
 			flip_lines = 50,
-			horizontal = {
-				preview_width = function (_, cols, _)
-					if cols > 250 then
-						return math.floor(cols * 0.4)
-					elseif cols > 200 then
-						return 100
-					elseif cols > 150 then
-						return 81
-					else
-						return math.floor(cols * 0.4)
-					end
-				end,
-			},
-			vertical = {
-				preview_height = function (_, _, lines)
-					if lines > 200 then
-						return 20
-					elseif lines > 150 then
-						return math.floor(lines * 0.5)
-					else
-						return math.floor(lines * 0.4)
-					end
-				end,
-			},
 		}
 	},
 	default_vert = {
