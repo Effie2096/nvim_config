@@ -231,6 +231,14 @@ local icons = {
 		[3] = "󰌵 ",
 		[4] = " ",
 	},
+	task = {
+		status = {
+			FAILURE = "󰅚 ",
+			CANCELED = " ",
+			SUCCESS = "󰄴 ",
+			RUNNING = "󰑮 ",
+		},
+	},
 	testing = {
 		covered = "█",
 		uncovered = "█",

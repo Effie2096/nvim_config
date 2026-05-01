@@ -1,4 +1,5 @@
 local histr = require("faith.statusline.utils").histr
+local icons = require("faith.icons")
 
 vim.opt.statusline = "%="
 
@@ -51,9 +52,9 @@ function Winbar()
 	return result
 end
 
-vim.api.nvim_create_augroup("dapui_winbars", { clear = true })
+vim.api.nvim_create_augroup("winbars", { clear = true })
 vim.api.nvim_create_autocmd({ "FileType" }, {
-	group = "dapui_winbars",
+	group = "winbars",
 	desc = "Add statusline to dap ui",
 	pattern = { "*" },
 	callback = function()
@@ -80,16 +81,17 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 				if buf_ft == "dap-repl" then
 					vim.api.nvim_set_option_value(
 						"winbar",
-						("%s %s"):format(
+						("%%=%s  %s %s "):format(
+							"%{%v:lua.require('faith.statusline.components.dap_bar')()%}",
 							win_number,
-							"%{%v:lua.require('faith.statusline.components.dap_bar')()%}"
+							"Repl"
 						),
 						{ win = win_id }
 					)
 				else
 					vim.api.nvim_set_option_value(
 						"winbar",
-						("%s %s"):format(
+						("%%=%s %s "):format(
 							win_number,
 							string.gsub(buf_ft:gsub("dapui_", ""), "^%l", string.upper)
 						),
@@ -97,6 +99,42 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 					)
 					-- result = result .. string.gsub(buf_ft:gsub("dapui_", ""), "^%l", string.upper)
 				end
+			elseif buf_ft == "OverseerList" then
+				local constants = require("overseer.constants")
+				local task_list = require("overseer.task_list")
+				local util = require("overseer.util")
+				local STATUS = constants.STATUS
+
+				local tasks = task_list.list_tasks()
+				local tasks_by_status = util.tbl_group_by(tasks, "status")
+
+				local pieces = {}
+
+				for _, status in ipairs(STATUS.values) do
+					local status_tasks = tasks_by_status[status]
+					if icons.task.status[status] and status_tasks then
+						table.insert(
+							pieces,
+							histr(
+								("%s%s"):format(icons.task.status[status], #status_tasks),
+								("Overseer%s"):format(status)
+							)
+						)
+					end
+				end
+				return vim.api.nvim_set_option_value(
+					"winbar",
+					("%%=%s%s %s"):format(
+						table.concat(pieces, " ") .. (#pieces > 0 and " " or ""),
+						histr(
+							(" %d "):format(vim.api.nvim_win_get_number(win_id)),
+							"AccentInverse",
+							true
+						),
+						"Tasks"
+					),
+					{ win = win_id }
+				)
 			end
 		end
 	end,

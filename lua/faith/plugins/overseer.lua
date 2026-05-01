@@ -25,7 +25,7 @@ local actions = {
 }
 
 ---@type overseer.Config
-local	opts = {
+local opts = {
 	templates = {
 		"builtin",
 		"faith",
@@ -53,51 +53,43 @@ local	opts = {
 		keymaps = {
 			["W"] = { "keymap.run_action", opts = { action = "watch" } },
 		},
-	}
+	},
 }
 
 overseer.setup(opts)
 
-vim.keymap.set({ "n", "i" },	"<F4>",
-	function()
-		require("overseer").run_task({
-			tags = {
-				require("overseer").TAG.BUILD,
-			},
-		})
-		require("overseer").open({ enter = false })
-	end,
-	{ desc = "OverseerRun BUILD", }
-)
-vim.keymap.set(
-	{ "n", "i" },
-	"<F5>",
-	function()
-		-- local task_list = require("overseer.task_list")
-		-- local tasks = overseer.list_tasks({
-		-- 	status = {
-		-- 		overseer.STATUS.SUCCESS,
-		-- 		overseer.STATUS.FAILURE,
-		-- 		overseer.STATUS.CANCELED,
-		-- 	},
-		-- 	filter = function(task)
-		-- 		vim.notify(vim.inspect(task))
-		-- 		return true
-		-- 	end,
-		-- 	sort = task_list.sort_finished_recently,
-		-- })
-		-- if vim.tbl_isempty(tasks) then
-		-- 	vim.notify("No tasks found", vim.log.levels.WARN)
-		-- else
-		-- 	local most_recent = tasks[1]
-		-- 	overseer.run_action(most_recent, "restart")
-		-- end
-		require("overseer").run_task({
-			tags = {
-				require("overseer").TAG.RUN,
-			},
-		})
-		require("overseer").open({ enter = false })
-	end,
-	{ desc = "OverseerRun RUN", }
-)
+vim.keymap.set({ "n", "i" }, "<F4>", function()
+	require("overseer").run_task({
+		tags = {
+			require("overseer").TAG.BUILD,
+		},
+	})
+	require("overseer").open({ enter = false })
+end, { desc = "OverseerRun BUILD" })
+vim.keymap.set({ "n", "i" }, "<F5>", function()
+	-- local task_list = require("overseer.task_list")
+	-- local tasks = overseer.list_tasks({
+	-- 	status = {
+	-- 		overseer.STATUS.SUCCESS,
+	-- 		overseer.STATUS.FAILURE,
+	-- 		overseer.STATUS.CANCELED,
+	-- 	},
+	-- 	filter = function(task)
+	-- 		vim.notify(vim.inspect(task))
+	-- 		return true
+	-- 	end,
+	-- 	sort = task_list.sort_finished_recently,
+	-- })
+	-- if vim.tbl_isempty(tasks) then
+	-- 	vim.notify("No tasks found", vim.log.levels.WARN)
+	-- else
+	-- 	local most_recent = tasks[1]
+	-- 	overseer.run_action(most_recent, "restart")
+	-- end
+	require("overseer").run_task({
+		tags = {
+			require("overseer").TAG.RUN,
+		},
+	})
+	require("overseer").open({ enter = false })
+end, { desc = "OverseerRun RUN" })
