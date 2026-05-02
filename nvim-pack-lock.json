@@ -198,6 +198,11 @@
       "rev": "05adc14db5c2d0eae064765101dd5e9c594c7851",
       "src": "https://github.com/stevearc/resession.nvim"
     },
+    "rustaceanvim": {
+      "rev": "bc391bbb8db0dbf3e3e9fe8f9f03112ecbab7463",
+      "src": "https://github.com/mrcjkb/rustaceanvim",
+      "version": "9.0.0 - 10.0.0"
+    },
     "smart-splits.nvim": {
       "rev": "ba2850ff3d3b09785a7105c69d06a12117d4b97d",
       "src": "https://github.com/mrjones2014/smart-splits.nvim",
