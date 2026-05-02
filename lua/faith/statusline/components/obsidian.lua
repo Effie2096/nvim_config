@@ -1,4 +1,4 @@
 return function()
-	local has, status  = pcall(vim.api.nvim_get_option_value,"obsidian_status", { buf = 0 })
-	return has and status or ""
+	local status = vim.b.obsidian_status
+	return (vim.b.obsidian_buffer and (status ~= "")) and status or nil
 end

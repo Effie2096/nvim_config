@@ -99,6 +99,12 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 					)
 					-- result = result .. string.gsub(buf_ft:gsub("dapui_", ""), "^%l", string.upper)
 				end
+			elseif buf_ft == "markdown" and vim.b.obsidian_buffer then
+				vim.api.nvim_set_option_value(
+					"winbar",
+					("%%=%s%%="):format(vim.b.obsidian_status),
+					{ win = win_id }
+				)
 			end
 		end
 	end,

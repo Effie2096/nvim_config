@@ -8,7 +8,7 @@ end
 vim.pack.add({
 	{
 		src = gh("obsidian-nvim/obsidian.nvim"),
-		version = vim.version.range("3.x"),
+		version = vim.version.range("*"),
 	},
 	{ src = gh("HakonHarnes/img-clip.nvim") },
 	{ src = gh("Kicamon/markdown-table-mode.nvim") },
@@ -1088,8 +1088,8 @@ if #workspaces > 0 then
 		workspaces = workspaces,
 		templates = {
 			subdir = "_System/Templates/",
-			date_format = "%Y%m%d",
-			time_format = "%H%M%S",
+			date_format = "YYYYMMDD",
+			time_format = "HHMMSS",
 			-- A map for custom variables, the key should be the variable and the value a function
 			substitutions = {},
 		},
@@ -1136,12 +1136,11 @@ if #workspaces > 0 then
 			default_tags = { "daily-notes" },
 			workdays_only = false,
 		},
-		-- Optional, customize how wiki links are formatted. You can set this to one of:
-		--	* "use_alias_only", e.g. '[[Foo Bar]]'
-		--	* "prepend_note_id", e.g. '[[foo-bar|Foo Bar]]'
-		--	* "prepend_note_path", e.g. '[[foo-bar.md|Foo Bar]]'
-		--	* "use_path_only", e.g. '[[foo-bar.md]]'
-		wiki_link_func = require("obsidian.builtin").wiki_link_path_prefix,
+		link = {
+			style = "wiki",
+			format = "relative",
+			auto_update = false,
+		},
 		-- Optional, for templates (see below).
 		attachments = {
 			folder = "Attachments",
@@ -1175,7 +1174,7 @@ if #workspaces > 0 then
 		vim.keymap.set(map.mode, map.lhs, map.rhs, map.opts)
 	end)
 else
-	vim.notify("No vaults found.", vim.log.levels.WARNING, {
+	vim.notify("No vaults found.", vim.log.levels.WARN, {
 		title = "Obsidian.nvim",
 	})
 end
