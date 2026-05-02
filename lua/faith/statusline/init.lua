@@ -99,42 +99,6 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 					)
 					-- result = result .. string.gsub(buf_ft:gsub("dapui_", ""), "^%l", string.upper)
 				end
-			elseif buf_ft == "OverseerList" then
-				local constants = require("overseer.constants")
-				local task_list = require("overseer.task_list")
-				local util = require("overseer.util")
-				local STATUS = constants.STATUS
-
-				local tasks = task_list.list_tasks()
-				local tasks_by_status = util.tbl_group_by(tasks, "status")
-
-				local pieces = {}
-
-				for _, status in ipairs(STATUS.values) do
-					local status_tasks = tasks_by_status[status]
-					if icons.task.status[status] and status_tasks then
-						table.insert(
-							pieces,
-							histr(
-								("%s%s"):format(icons.task.status[status], #status_tasks),
-								("Overseer%s"):format(status)
-							)
-						)
-					end
-				end
-				return vim.api.nvim_set_option_value(
-					"winbar",
-					("%%=%s%s %s"):format(
-						table.concat(pieces, " ") .. (#pieces > 0 and " " or ""),
-						histr(
-							(" %d "):format(vim.api.nvim_win_get_number(win_id)),
-							"AccentInverse",
-							true
-						),
-						"Tasks"
-					),
-					{ win = win_id }
-				)
 			end
 		end
 	end,

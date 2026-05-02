@@ -1,6 +1,8 @@
 local incline = require("incline")
 local helpers = require("incline.helpers")
 
+local utils = require("faith.statusline.utils")
+
 local mini_icons = require("mini.icons")
 incline.setup({
 	window = {
@@ -20,7 +22,86 @@ incline.setup({
 	hide = {
 		cursorline = "smart",
 	},
+	ignore = {
+		buftypes = {},
+		filetypes = {},
+		floating_wins = true,
+		unlisted_buffers = false,
+		wintypes = {
+			-- "",
+			"autocmd",
+			"command",
+			-- 'loclist',
+			"popup",
+			"preview",
+			-- 'quickfix',
+			"unknown",
+		},
+	},
+	---@param props {buf: integer, focused: boolean, win: integer}
 	render = function(props)
+		local bt = vim.api.nvim_get_option_value("buftype", { buf = props.buf })
+		if
+			vim.tbl_contains({
+				-- '',
+				"acwrite",
+				-- 'help',
+				-- "nofile",
+				"nowrite",
+				-- "quickfix",
+				"terminal",
+				"prompt",
+			}, bt)
+		then
+			return
+		end
+
+		local ft = vim.api.nvim_get_option_value("filetype", { buf = props.buf })
+		local win_number = {
+			(" %d "):format(vim.api.nvim_win_get_number(props.win)),
+			group = "AccentInverse",
+		}
+
+		if bt == "nofile" and not vim.tbl_contains({ "OverseerList" }, ft) then
+			return
+		end
+
+		if bt == "quickfix" then
+			return {
+				" ",
+				utils.qf_title(),
+				" ",
+				win_number,
+				" ",
+				utils.qf_label(),
+				" ",
+				group = "WinBar",
+			}
+		end
+
+		if ft == "OverseerList" then
+			local task_data =
+				require("faith.statusline.components.overseer").get_data()
+			local tasks = vim
+				.iter(task_data)
+				:map(function(status, task)
+					return {
+						task.icon,
+						task.count,
+						" ",
+						group = task.group,
+					}
+				end)
+				:totable()
+			return {
+				#tasks > 0 and " " or "",
+				tasks,
+				win_number,
+				" Tasks ",
+				group = "WinBar",
+			}
+		end
+
 		local filename =
 			vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
 		if filename == "" then
@@ -30,10 +111,7 @@ incline.setup({
 		local modified = vim.bo[props.buf].modified
 
 		return {
-			{
-				(" %d "):format(vim.api.nvim_win_get_number(props.win)),
-				group = "AccentInverse"
-			},
+			win_number,
 			ft_icon and {
 				" ",
 				ft_icon,
