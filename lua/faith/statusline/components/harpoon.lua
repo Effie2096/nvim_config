@@ -17,15 +17,18 @@ M.keys = {
 }
 
 ---@class mark_data
----@field pre_fix { text: string, group: string }[]
+---@field prefix { text: string, group: string }[]
 ---@field marks markStatus[]
----@field post_fix { text: string, group: string }[]
+---@field postfix { text: string, group: string }[]
 
 ---@class markStatus
 ---@field current boolean
+---@field path string
 ---@field key { text: string, group: string}
 ---@field icon { text: string, group: string}|nil
+---@field prefix { text: string, group: string}|nil
 ---@field lable { text: string, group: string}
+---@field postfix { text: string, group: string}|nil
 
 M.get_data = function()
 	if package.loaded.harpoon == nil then
@@ -39,15 +42,59 @@ M.get_data = function()
 
 	local buf = vim.api.nvim_buf_get_name(0)
 
-	local function get_folder_initial(filepath)
-		local parent = vim.fn.fnamemodify(filepath, ":p:h"):gsub(".*[/\\\\]", "")
-		return parent:sub(1, 1)
+	local function split_path(path)
+		local parts = {}
+		for part in vim.fs.normalize(path):gmatch("[^/]+") do
+			table.insert(parts, part)
+		end
+		return parts
+	end
+	local function slice(tbl, start_idx)
+		local result = {}
+		for i = start_idx, #tbl do
+			table.insert(result, tbl[i])
+		end
+		return result
 	end
 
-	local name_count = {}
-	for _, mark in ipairs(marks) do
-		local name = vim.fn.fnamemodify(mark.value, ":t")
-		name_count[name] = (name_count[name] or 0) + 1
+	local function shortest_unique_suffixes(path_specs)
+		local split_paths = {}
+		local max_depth = 0
+
+		for i, spec in ipairs(path_specs) do
+			split_paths[i] = {}
+			split_paths[i].path = split_path(spec.path)
+			split_paths[i].shortened = spec.shortened
+			max_depth = math.max(max_depth, #split_paths[i].path)
+		end
+
+		for depth = 1, max_depth do
+			local seen = {}
+			local unique = true
+			local suffixes = {}
+
+			for i, spec in ipairs(split_paths) do
+				local start_idx = math.max(1, #spec.path - depth + 1)
+				local suffix_parts = slice(spec.path, start_idx)
+
+				local key = table.concat(suffix_parts, "/")
+
+				if seen[key] then
+					unique = false
+				end
+
+				seen[key] = true
+				suffixes[i] = {}
+				suffixes[i].path = suffix_parts
+				suffixes[i].shortened = spec.shortened
+			end
+
+			if unique then
+				return suffixes
+			end
+		end
+
+		return split_paths
 	end
 
 	local extra_marks = 0
@@ -86,12 +133,14 @@ M.get_data = function()
 				mark_display.current = false
 				mark_display.icon = nil
 			else
+				mark_display.path = vim.fs.normalize(mark.value)
+
 				local mark_file = vim.fn.fnamemodify(mark.value, ":t")
 
-				if name_count[mark_file] > 1 then
-					local initial = get_folder_initial(mark.value)
-					mark_file = ("%s/%s"):format(initial, mark_file)
-				end
+				-- if name_count[mark_file] > 1 then
+				-- 	local initial = get_folder_initial(mark.value)
+				-- 	mark_file = ("%s/%s"):format(initial, mark_file)
+				-- end
 
 				local icon, hl, _ = require("mini.icons").get("file", mark_file)
 				mark_display.icon = {
@@ -116,8 +165,48 @@ M.get_data = function()
 			end
 		end
 
+		local name_count = {}
+		for _, mark in ipairs(mark_data.marks) do
+			local name = vim.fn.fnamemodify(mark.path, ":t")
+			name_count[name] = (name_count[name] or 0) + 1
+		end
+
+		local shorten = shortest_unique_suffixes(vim
+			.iter(mark_data.marks)
+			:map(function(mark)
+				local name = vim.fn.fnamemodify(mark.path, ":t")
+				local ret = {}
+				ret.shortened = name_count[name] > 1
+				ret.path = mark.path
+				return ret
+			end)
+			:totable())
+
+		mark_data.marks = vim
+			.iter(ipairs(mark_data.marks))
+			:map(function(i, mark)
+				if shorten[i].shortened then
+					mark.prefix = {
+						text = vim
+							.iter(shorten[i].path)
+							:map(function(dir)
+								local s, e = dir:find("%w")
+								return dir:sub(s, e)
+							end)
+							:join("/") .. "/",
+						group = "@comment",
+					}
+					mark.postfix = {
+						text = shorten[i].path[1],
+						group = "@comment",
+					}
+				end
+				return mark
+			end)
+			:totable()
+
 		if extra_marks > 0 then
-			mark_data.post_fix = {
+			mark_data.postfix = {
 				{
 					text = ("+%d"):format(extra_marks),
 					group = "HarpoonNumberActive",
@@ -129,27 +218,56 @@ M.get_data = function()
 	end
 end
 
+local function splitIntoLetters(inputString)
+	local letters = {}
+	for letter in string.gmatch(inputString, ".") do
+		table.insert(letters, letter)
+	end
+	return letters
+end
+
 M.statusline = function()
 	local data = M.get_data()
-	local pre_fix = {}
+	local prefix = {}
 	local marks = {}
-	local post_fix = {}
+	local postfix = {}
 
 	if data.marks then
 		marks = vim
 			.iter(data.marks)
 			:map(function(mark)
-				return ("%s %s %s"):format(
+				return ("%s %s %s%s%s"):format(
 					histr(mark.key.text, mark.key.group, true),
 					histr(mark.icon.text, mark.icon.group, true),
-					histr(mark.lable.text, mark.lable.group, true)
+					mark.prefix and histr(mark.prefix.text, mark.prefix.group, true) or "",
+					histr(mark.lable.text, mark.lable.group, true),
+					mark.postfix
+							and histr(
+								vim
+									.iter(splitIntoLetters(mark.postfix.text))
+									:map(function(letter)
+										return icons.letters.superscript[letter:lower()] or letter
+									end)
+									:join(""),
+								mark.postfix.group,
+								true
+							)
+						or ""
 				)
 			end)
 			:totable()
 	end
-	if data.post_fix then
-		post_fix = vim
-			.iter(data.post_fix)
+	if data.prefix then
+		prefix = vim
+			.iter(data.prefix)
+			:map(function(part)
+				return histr(part.text, part.group, true)
+			end)
+			:totable()
+	end
+	if data.postfix then
+		postfix = vim
+			.iter(data.postfix)
 			:map(function(part)
 				return histr(part.text, part.group, true)
 			end)
@@ -157,7 +275,7 @@ M.statusline = function()
 	end
 
 	return vim
-		.iter({ marks, post_fix })
+		.iter({ prefix, marks, postfix })
 		:flatten()
 		:join(" " .. histr(separator, "HarpoonSeparator") .. " ")
 end
