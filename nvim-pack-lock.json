@@ -248,6 +248,11 @@
       "rev": "3aab2147e74890957785941f0c1ad87d0a44c15a",
       "src": "https://github.com/folke/which-key.nvim"
     },
+    "xmake.nvim": {
+      "rev": "32462f8bfbb5022c0772337dbef1efbf8610b392",
+      "src": "https://github.com/Mythos-404/xmake.nvim",
+      "version": "3.0.0 - 4.0.0"
+    },
     "zen-mode.nvim": {
       "rev": "8564ce6d29ec7554eb9df578efa882d33b3c23a7",
       "src": "https://github.com/folke/zen-mode.nvim"

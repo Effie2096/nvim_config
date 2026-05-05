@@ -102,6 +102,10 @@ vim.pack.add({
 	{ src = gh("mason-org/mason.nvim") },
 	{ src = gh("mason-org/mason-lspconfig.nvim") },
 	{ src = gh("S1M0N38/love2d.nvim") },
+	{
+		src = "https://github.com/Mythos-404/xmake.nvim",
+		version = vim.version.range("^3"),
+	},
 
 	-- completion
 	{ src = gh("Saghen/blink.cmp"), version = vim.version.range("1.x") },
