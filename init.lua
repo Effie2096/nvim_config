@@ -91,6 +91,7 @@ vim.pack.add({
 	{ src = gh("folke/snacks.nvim") },
 	{ src = gh("liljaylj/codestats.nvim") },
 	{ src = gh("b0o/incline.nvim") },
+	{ src = gh("lukas-reineke/indent-blankline.nvim") },
 
 	{ src = gh("nmac427/guess-indent.nvim") },
 	{ src = gh("stevearc/resession.nvim") },
