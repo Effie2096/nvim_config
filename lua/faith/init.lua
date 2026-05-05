@@ -1,6 +1,5 @@
 require("faith.options")
 require("faith.mappings")
-require("faith.statusline")
 require("faith.globals")
 require("faith.autocmds")
 require("faith.shell")

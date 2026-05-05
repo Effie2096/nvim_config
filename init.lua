@@ -150,3 +150,5 @@ vim.pack.add({
 })
 
 require("faith.plugins")
+
+require("faith.statusline")
