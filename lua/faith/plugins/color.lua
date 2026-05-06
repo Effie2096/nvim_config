@@ -20,7 +20,7 @@ kanagawa.setup({
 	keywordStyle = { italic = true },
 	statementStyle = { bold = true },
 	typeStyle = {},
-	transparent = true, -- do not set background color
+	transparent = false, -- do not set background color
 	dimInactive = false, -- dim inactive window `:h hl-NormalNC`
 	terminalColors = true, -- define vim.g.terminal_color_{0,17}
 	colors = { -- add/modify theme and palette colors
@@ -33,8 +33,8 @@ kanagawa.setup({
 
 		local accent = palette.sakuraPink
 
-		local telescope_bg = theme.ui.bg
-		local telescope_prompt_bg = theme.ui.bg
+		local telescope_bg = theme.ui.bg_gutter
+		local telescope_prompt_bg = theme.ui.bg_gutter
 		local telescope_preview_bg = theme.ui.bg_dim
 		local telescope_border = accent
 
@@ -255,7 +255,7 @@ kanagawa.setup({
 				HarpoonNumberInactive = { fg = accent, italic = true },
 			},
 			vim
-				.iter({ "Error", "Warn", "Info", "Hint" })
+				.iter({ "Error", "Warning", "Info", "Hint" })
 				:fold({}, function(acc, level)
 					acc["Diagnostic" .. level] = {
 						fg = theme.diag[level:lower()],
@@ -268,6 +268,10 @@ kanagawa.setup({
 					}
 					acc["DiagnosticSign" .. level] = {
 						bg = sidebar_bg,
+						fg = theme.diag[level:lower()],
+					}
+					acc["WinBarDiagnosticSign" .. level] = {
+						bg = theme.ui.bg_gutter,
 						fg = theme.diag[level:lower()],
 					}
 					acc["Diagnostic" .. level .. "Num"] = {

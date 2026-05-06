@@ -1,6 +1,7 @@
 local incline = require("incline")
 local helpers = require("incline.helpers")
 
+local icons = require("faith.icons")
 local utils = require("faith.statusline.utils")
 
 local mini_icons = require("mini.icons")
@@ -110,15 +111,44 @@ incline.setup({
 		local ft_icon, ft_color = mini_icons.get("file", filename)
 		local modified = vim.bo[props.buf].modified
 
+		local function get_diagnostic_label()
+			local diag_icons = {
+				hint = icons.diagnostic.hint,
+				info = icons.diagnostic.info,
+				warning = icons.diagnostic.warn,
+				error = icons.diagnostic.error,
+			}
+			local label = {}
+
+			for severity, icon in pairs(diag_icons) do
+				local n = #vim.diagnostic.get(
+					props.buf,
+					{ severity = vim.diagnostic.severity[string.upper(severity)] }
+				)
+				if n > 0 then
+					table.insert(
+						label,
+						{ icon .. n .. " ", group = "WinBarDiagnosticSign" .. severity }
+					)
+				end
+			end
+
+			if #label > 0 then
+				table.insert(label, 1, { " " })
+			end
+
+			return label
+		end
+
 		return {
+			get_diagnostic_label(),
 			win_number,
 			ft_icon and {
 				" ",
 				ft_icon,
 				" ",
 				group = ft_color,
-			} or "",
-			" ",
+			} or " ",
 			{
 				filename,
 				group = modified and "DiagnosticError" or "WinBar",
