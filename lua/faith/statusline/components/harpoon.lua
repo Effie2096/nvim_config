@@ -64,7 +64,7 @@ M.get_data = function()
 		for i, spec in ipairs(path_specs) do
 			split_paths[i] = {}
 			split_paths[i].path = split_path(spec.path)
-			split_paths[i].shortened = spec.shortened
+			split_paths[i].shortened = spec.shortened and #split_paths[i].path > 1 -- only shortened if not at root
 			max_depth = math.max(max_depth, #split_paths[i].path)
 		end
 
@@ -137,11 +137,6 @@ M.get_data = function()
 
 				local mark_file = vim.fn.fnamemodify(mark.value, ":t")
 
-				-- if name_count[mark_file] > 1 then
-				-- 	local initial = get_folder_initial(mark.value)
-				-- 	mark_file = ("%s/%s"):format(initial, mark_file)
-				-- end
-
 				local icon, hl, _ = require("mini.icons").get("file", mark_file)
 				mark_display.icon = {
 					text = icon or "",
@@ -165,18 +160,20 @@ M.get_data = function()
 			end
 		end
 
-		local name_count = {}
-		for _, mark in ipairs(mark_data.marks) do
-			local name = vim.fn.fnamemodify(mark.path, ":t")
-			name_count[name] = (name_count[name] or 0) + 1
-		end
+		local name_count = vim
+			.iter(ipairs(mark_data.marks))
+			:fold({}, function(acc, _, mark)
+				local name = vim.fn.fnamemodify(mark.path, ":t")
+				acc[name] = (acc[name] or 0) + 1
+				return acc
+			end)
 
 		local shorten = shortest_unique_suffixes(vim
 			.iter(mark_data.marks)
 			:map(function(mark)
 				local name = vim.fn.fnamemodify(mark.path, ":t")
 				local ret = {}
-				ret.shortened = name_count[name] > 1
+				ret.shortened = name_count[name] > 1 -- only duplicate file names should have their paths shortened
 				ret.path = mark.path
 				return ret
 			end)
