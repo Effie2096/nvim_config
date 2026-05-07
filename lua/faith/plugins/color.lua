@@ -16,8 +16,8 @@ kanagawa.setup({
 	compile = true, -- enable compiling the colorscheme
 	undercurl = true, -- enable undercurls
 	commentStyle = { italic = true },
-	functionStyle = {},
-	keywordStyle = { italic = true },
+	functionStyle = { italic = true },
+	keywordStyle = { bold = true },
 	statementStyle = { bold = true },
 	typeStyle = {},
 	transparent = false, -- do not set background color

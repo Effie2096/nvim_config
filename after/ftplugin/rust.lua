@@ -1,12 +1,4 @@
-vim.opt_local.expandtab = false
 vim.lsp.inlay_hint.enable(true)
-
-vim.pack.add({
-	{
-		src = "https://github.com/mrcjkb/rustaceanvim",
-		version = vim.version.range("^9"),
-	},
-})
 
 local bufnr = vim.api.nvim_get_current_buf()
 
