@@ -63,4 +63,4 @@ require("zen-mode").setup({
 	end,
 })
 
-vim.keymap.set({"n"}, "<leader>z", vim.cmd.ZenMode)
+vim.keymap.set({ "n" }, "<leader>z", vim.cmd.ZenMode)
