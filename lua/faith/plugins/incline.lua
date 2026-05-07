@@ -51,7 +51,7 @@ incline.setup({
 				"nowrite",
 				-- "quickfix",
 				"terminal",
-				"prompt",
+				-- "prompt",
 			}, bt)
 		then
 			return
@@ -63,9 +63,9 @@ incline.setup({
 			group = "AccentInverse",
 		}
 
-		if bt == "nofile" and not vim.tbl_contains({ "OverseerList" }, ft) then
-			return
-		end
+		-- if bt == "nofile" and not vim.tbl_contains({ "OverseerList" }, ft) then
+		-- 	return
+		-- end
 
 		if bt == "quickfix" then
 			return {
@@ -100,6 +100,23 @@ incline.setup({
 				win_number,
 				" Tasks ",
 				group = "WinBar",
+			}
+		end
+		if
+			vim.list_contains({
+				"dap-repl",
+				"dapui_breakpoints",
+				"dapui_console",
+				"dapui_scopes",
+				"dapui_stacks",
+				"dapui_watches",
+			}, ft)
+		then
+			return {
+				win_number,
+				" ",
+				string.gsub(ft:gsub("dapui_", ""), "^%l", string.upper),
+				" ",
 			}
 		end
 

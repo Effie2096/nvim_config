@@ -63,42 +63,12 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 		for _, win_id in ipairs(win_ids) do
 			local buf_id = vim.api.nvim_win_get_buf(win_id)
 			local buf_ft = vim.api.nvim_get_option_value("filetype", { buf = buf_id })
-			if
-				vim.list_contains({
-					"dap-repl",
-					"dapui_breakpoints",
-					"dapui_console",
-					"dapui_scopes",
-					"dapui_stacks",
-					"dapui_watches",
-				}, buf_ft)
-			then
-				local win_number = histr(
-					(" %d "):format(vim.api.nvim_win_get_number(win_id)),
-					"AccentInverse",
-					true
+			if buf_ft == "dap-repl" then
+				vim.api.nvim_set_option_value(
+					"winbar",
+					"%{%v:lua.require('faith.statusline.components.dap_bar')()%}",
+					{ win = win_id }
 				)
-				if buf_ft == "dap-repl" then
-					vim.api.nvim_set_option_value(
-						"winbar",
-						("%%=%s  %s %s "):format(
-							"%{%v:lua.require('faith.statusline.components.dap_bar')()%}",
-							win_number,
-							"Repl"
-						),
-						{ win = win_id }
-					)
-				else
-					vim.api.nvim_set_option_value(
-						"winbar",
-						("%%=%s %s "):format(
-							win_number,
-							string.gsub(buf_ft:gsub("dapui_", ""), "^%l", string.upper)
-						),
-						{ win = win_id }
-					)
-					-- result = result .. string.gsub(buf_ft:gsub("dapui_", ""), "^%l", string.upper)
-				end
 			elseif buf_ft == "markdown" and vim.b.obsidian_buffer then
 				vim.api.nvim_set_option_value(
 					"winbar",
