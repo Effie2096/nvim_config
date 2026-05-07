@@ -183,16 +183,16 @@ M.get_data = function()
 			.iter(ipairs(mark_data.marks))
 			:map(function(i, mark)
 				if shorten[i].shortened then
-					mark.prefix = {
-						text = vim
-							.iter(shorten[i].path)
-							:map(function(dir)
-								local s, e = dir:find("%w")
-								return dir:sub(s, e)
-							end)
-							:join("/") .. "/",
-						group = "@comment",
-					}
+					-- mark.prefix = {
+					-- 	text = vim
+					-- 		.iter(shorten[i].path)
+					-- 		:map(function(dir)
+					-- 			local s, e = dir:find("%w")
+					-- 			return dir:sub(s, e)
+					-- 		end)
+					-- 		:join("/") .. "/",
+					-- 	group = "@comment",
+					-- }
 					mark.postfix = {
 						text = shorten[i].path[1],
 						group = "@comment",
