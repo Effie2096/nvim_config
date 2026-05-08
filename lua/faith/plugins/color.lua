@@ -92,6 +92,10 @@ kanagawa.setup({
 
 				SessionAuto = { fg = theme.diag.warning },
 
+				DapBreakpoint = { fg = theme.diag.error },
+				DapBreakpointCondition = { fg = theme.diag.info },
+				DapLogPoint = { fg = theme.diag.warning },
+
 				GitSignsAdd = { fg = theme.vcs.added, bg = theme.ui.bg },
 				GitSignsChange = { fg = theme.vcs.changed, bg = theme.ui.bg },
 				GitSignsDelete = { fg = theme.vcs.removed, bg = theme.ui.bg },

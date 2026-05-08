@@ -85,7 +85,10 @@ local config = function()
 			},
 			{
 				sign = {
-					namespace = { "diagnostic%.signs", "render%-markdown%.nvim" },
+					namespace = {
+						"diagnostic%.signs%.sorted",
+						"render%-markdown%.nvim",
+					},
 					text = { "💡", "🔎" },
 					name = { "todo%-sign%-.*" },
 					maxwidth = 1,
@@ -137,7 +140,7 @@ local config = function()
 			DapBreakpointRejected = require("faith.plugins.statuscol").toggle_breakpoint,
 			DapBreakpoint = require("faith.plugins.statuscol").toggle_breakpoint,
 			DapBreakpointCondition = require("faith.plugins.statuscol").toggle_breakpoint,
-			["diagnostic/signs"] = require("statuscol.builtin").diagnostic_click,
+			["diagnostic.signs.sorted"] = require("statuscol.builtin").diagnostic_click,
 			GitSignsTopdelete = require("statuscol.builtin").gitsigns_click,
 			GitSignsUntracked = require("statuscol.builtin").gitsigns_click,
 			GitSignsAdd = require("statuscol.builtin").gitsigns_click,

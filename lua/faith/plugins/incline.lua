@@ -26,18 +26,24 @@ incline.setup({
 	ignore = {
 		buftypes = {},
 		filetypes = {},
-		floating_wins = true,
+		floating_wins = false,
+		wintypes = function(winid, wintype)
+			local zen_view = package.loaded["zen-mode.view"]
+			if zen_view and zen_view.is_open() then
+				return winid ~= zen_view.win
+			end
+			return vim.tbl_contains({
+				-- "",
+				"autocmd",
+				"command",
+				-- 'loclist',
+				"popup",
+				"preview",
+				-- 'quickfix',
+				"unknown",
+			}, wintype)
+		end,
 		unlisted_buffers = false,
-		wintypes = {
-			-- "",
-			"autocmd",
-			"command",
-			-- 'loclist',
-			"popup",
-			"preview",
-			-- 'quickfix',
-			"unknown",
-		},
 	},
 	---@param props {buf: integer, focused: boolean, win: integer}
 	render = function(props)
@@ -72,10 +78,9 @@ incline.setup({
 				" ",
 				utils.qf_title(),
 				" ",
-				win_number,
-				" ",
 				utils.qf_label(),
 				" ",
+				win_number,
 				group = "WinBar",
 			}
 		end
@@ -97,8 +102,8 @@ incline.setup({
 			return {
 				#tasks > 0 and " " or "",
 				tasks,
-				win_number,
 				" Tasks ",
+				win_number,
 				group = "WinBar",
 			}
 		end
@@ -112,11 +117,17 @@ incline.setup({
 				"dapui_watches",
 			}, ft)
 		then
+			if ft == "dap-repl" then
+				return {
+					" Repl ",
+					win_number,
+				}
+			end
 			return {
-				win_number,
 				" ",
 				string.gsub(ft:gsub("dapui_", ""), "^%l", string.upper),
 				" ",
+				win_number,
 			}
 		end
 
@@ -159,7 +170,6 @@ incline.setup({
 
 		return {
 			get_diagnostic_label(),
-			win_number,
 			ft_icon and {
 				" ",
 				ft_icon,
@@ -172,6 +182,7 @@ incline.setup({
 				gui = modified and "bold,italic" or "bold",
 			},
 			" ",
+			win_number,
 			group = "WinBar",
 		}
 	end,

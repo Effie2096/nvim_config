@@ -316,32 +316,25 @@ dapui.setup({
 	layouts = {
 		{
 			elements = {
-				-- Elements can be strings or table with id and size keys.
-				"stacks",
-				{ id = "scopes", size = 0.5 },
+				{ id = "repl", size = 0.40 },
+				{ id = "console", size = 0.60 },
 			},
-			size = 0.25,
-			position = "right",
-		},
-		{
-			elements = {
-				"repl",
-				{ id = "console", size = 0.5 },
-			},
-			size = 0.25,
+			size = 8,
 			position = "bottom",
 		},
 		{
 			elements = {
+				"breakpoints",
+				"stacks",
 				"watches",
-				{ id = "breakpoints", size = 0.5 },
+				"scopes",
 			},
-			size = 0.30,
+			size = 40,
 			position = "left",
 		},
 	},
 	controls = {
-		enabled = false,
+		enabled = true,
 		-- Display controls in this element
 		element = "repl",
 		icons = {
@@ -382,6 +375,12 @@ vim.keymap.set("n", "<Leader>dB", function()
 end, {
 	desc = "[d]ebug [B]reakpoint conditional: Toggle conditional debug breakpoint on current line.",
 })
+vim.keymap.set("n", "<Leader>dp", function()
+	require("persistent-breakpoints.api").set_log_point()
+end, {
+	desc = "[d]ebug log [p]oint: Add logging debug breakpoint on current line.",
+})
+
 vim.keymap.set("n", "<F6>", function()
 	require("dap").continue()
 end, {
@@ -401,15 +400,6 @@ vim.keymap.set("n", "<F9>", function()
 	require("dap").step_out()
 end, {
 	desc = "Debug: Step Out",
-})
-vim.keymap.set("n", "<Leader>dp", function()
-	require("dap").set_breakpoint(
-		nil,
-		nil,
-		vim.fn.input({ prompt = "Log point message: " })
-	)
-end, {
-	desc = "[d]ebug log [p]oint: Add logging debug breakpoint on current line.",
 })
 vim.keymap.set("n", "<leader>de", function()
 	require("dapui").eval()
@@ -439,7 +429,7 @@ end, {
 	desc = "[d]ebug ui [o]pen: Toggle debugger ui.",
 })
 vim.keymap.set("n", "<leader>dt", function()
-	require("dapui").toggle({ layout = 2 })
+	require("dapui").toggle({ layout = 1 })
 end, {
 	desc = "[d]ebug [t]est view: Open repl and console for test output.",
 })

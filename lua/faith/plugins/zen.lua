@@ -11,7 +11,7 @@ require("zen-mode").setup({
 			signcolumn = "no",
 			relativenumber = false,
 			number = false,
-			winbar = "%=%{%v:lua.require('faith.statusline.components.obsidian')()%}%=",
+			winbar = "",
 			winhighlight = "NormalFloat:Normal,Normal:Normal,WinBar:Comment",
 		},
 	},
@@ -53,7 +53,18 @@ require("zen-mode").setup({
 			},
 		},
 	},
-	on_open = function(_)
+	on_open = function(win)
+		local buf = vim.api.nvim_win_get_buf(win)
+		if
+			vim.api.nvim_get_option_value("filetype", { buf = buf }) == "markdown"
+			and vim.b.obsidian_buffer ~= nil
+		then
+			vim.api.nvim_set_option_value(
+				"winbar",
+				"%=%{%v:lua.require('faith.statusline.components.obsidian')()%}%=",
+				{ win = win }
+			)
+		end
 		vim.diagnostic.hide(nil, 0)
 		-- vim.cmd.ScrollViewDisable()
 	end,

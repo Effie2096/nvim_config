@@ -71,7 +71,7 @@ local config = {
 	},
 	update_in_insert = true,
 	underline = true,
-	severity_sort = false,
+	severity_sort = true,
 	float = float_config,
 }
 
@@ -80,7 +80,7 @@ vim.diagnostic.config(config)
 -- Create a custom namespace. This will aggregate signs from all other
 -- namespaces and only show the one with the highest severity on a
 -- given line
-local ns = vim.api.nvim_create_namespace("my_namespace")
+local ns = vim.api.nvim_create_namespace("diagnostic.signs.sorted")
 
 -- Get a reference to the original signs handler
 local orig_signs_handler = vim.diagnostic.handlers.signs
