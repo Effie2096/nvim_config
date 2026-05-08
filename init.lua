@@ -136,6 +136,7 @@ vim.pack.add({
 
 	-- Versioning
 	{ src = gh("tpope/vim-fugitive") },
+	{ src = gh("lewis6991/gitsigns.nvim"), version = vim.version.range("2.x") },
 	{ src = gh("mbbill/undotree") },
 
 	-- Edit
