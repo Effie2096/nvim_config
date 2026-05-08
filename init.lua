@@ -71,6 +71,7 @@ vim.api.nvim_create_autocmd("PackChanged", {
 				build({ "cd", vim.fn.glob(folder), "&&", "make" })
 			end
 		end
+		vim.cmd.helptags("ALL")
 	end,
 })
 
@@ -103,7 +104,7 @@ vim.pack.add({
 	{ src = gh("mason-org/mason-lspconfig.nvim") },
 	{ src = gh("S1M0N38/love2d.nvim") },
 	{
-		src = "https://github.com/Mythos-404/xmake.nvim",
+		src = gh("Mythos-404/xmake.nvim"),
 		version = vim.version.range("^3"),
 	},
 
@@ -129,7 +130,7 @@ vim.pack.add({
 	{ src = gh("ThePrimeagen/harpoon"), version = "harpoon2" },
 	{ src = gh("stevearc/oil.nvim") },
 	{
-		src = "https://github.com/mrjones2014/smart-splits.nvim",
+		src = gh("mrjones2014/smart-splits.nvim"),
 		version = vim.version.range("2.x"),
 	},
 
