@@ -1,13 +1,3 @@
-local has_notify, notify = pcall(require, "notify")
-if has_notify then
-	notify.setup({
-		render = "wrapped-compact",
-		fps = 60,
-		top_down = false,
-	})
-	vim.notify = require("notify")
-end
-
 local has_which_key, which_key = pcall(require, "which-key")
 if has_which_key then
 	which_key.setup(

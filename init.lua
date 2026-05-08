@@ -82,7 +82,6 @@ vim.pack.add({
 
 	-- Libraries
 	{ src = gh("nvim-lua/plenary.nvim") },
-	{ src = gh("rcarriga/nvim-notify") },
 	{ src = gh("nvim-treesitter/nvim-treesitter") },
 	{ src = gh("nvim-treesitter/nvim-treesitter-textobjects") },
 	{ src = gh("nvim-mini/mini.icons") },
