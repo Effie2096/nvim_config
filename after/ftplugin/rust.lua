@@ -1,5 +1,3 @@
-vim.lsp.inlay_hint.enable(true)
-
 local bufnr = vim.api.nvim_get_current_buf()
 
 local opts = { silent = true, buffer = bufnr }

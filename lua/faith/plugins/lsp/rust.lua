@@ -35,15 +35,10 @@ vim.g.rustaceanvim = function()
 		},
 		server = {
 			on_attach = require("faith.plugins.lsp.common").on_attach,
+			default_settings = vim.lsp.config.rust_analyzer.settings,
 		},
 		dap = {
-			adapter = vim.tbl_deep_extend(
-				"force",
-				cfg.get_codelldb_adapter(codelldb_path, liblldb_path),
-				{
-					cwd = "${workspaceFolder}",
-				}
-			),
+			adapter = cfg.get_codelldb_adapter(codelldb_path, liblldb_path),
 		},
 	}
 end
