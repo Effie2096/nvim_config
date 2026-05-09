@@ -83,6 +83,8 @@ vim.pack.add({
 
 	-- Libraries
 	{ src = gh("nvim-lua/plenary.nvim") },
+	{ src = gh("nvim-neotest/nvim-nio") },
+	{ src = gh("antoinemadec/FixCursorHold.nvim") },
 	{ src = gh("nvim-treesitter/nvim-treesitter") },
 	{ src = gh("nvim-treesitter/nvim-treesitter-textobjects") },
 	{ src = gh("nvim-mini/mini.icons") },

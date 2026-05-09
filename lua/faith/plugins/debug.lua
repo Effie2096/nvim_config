@@ -9,7 +9,6 @@ vim.pack.add({
 
 vim.pack.add({
 	{ src = gh("rcarriga/nvim-dap-ui") },
-	{ src = gh("nvim-neotest/nvim-nio") },
 	{ src = gh("LiadOz/nvim-dap-repl-highlights") },
 	{ src = gh("ofirgall/goto-breakpoints.nvim") },
 	{ src = gh("theHamsta/nvim-dap-virtual-text") },
