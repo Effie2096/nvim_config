@@ -2,6 +2,10 @@ local has_codestats, codestats = pcall(require, "codestats")
 if not has_codestats then
 	return
 end
+if not vim.env.CODESTATS_KEY then
+	return
+end
+
 codestats.setup({
 	username = "effie", -- needed to fetch profile data
 	base_url = "https://codestats.net", -- codestats.net base url
