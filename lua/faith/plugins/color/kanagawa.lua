@@ -2,10 +2,12 @@ local kanagawa = require("kanagawa")
 
 vim.api.nvim_create_augroup("kanagawa_auto_compile", { clear = true })
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-	pattern = { "color.lua" },
+	pattern = { "kanagawa.lua" },
 	callback = function()
 		local path = vim.fn.stdpath("config")
-		vim.cmd("luafile " .. vim.fn.glob(path .. "/lua/faith/plugins/color.lua"))
+		vim.cmd(
+			"luafile " .. vim.fn.glob(path .. "/lua/faith/plugins/color/kanagawa.lua")
+		)
 		vim.cmd.KanagawaCompile()
 		return true
 	end,

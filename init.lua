@@ -79,7 +79,10 @@ local gh = function(str)
 	return ("https://github.com/%s"):format(str)
 end
 vim.pack.add({
+	{ src = gh("zaldih/themery.nvim") },
 	{ src = gh("rebelot/kanagawa.nvim") },
+	{ src = gh("webhooked/kanso.nvim") },
+	{ src = gh("EdenEast/nightfox.nvim") },
 
 	-- Libraries
 	{ src = gh("nvim-lua/plenary.nvim") },
