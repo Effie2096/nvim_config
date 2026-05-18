@@ -74,7 +74,7 @@ sign("DapLogPoint", {
 local vt_opts = {
 	enable_commands = true,
 	only_first_definition = false, -- only show virtual text at first definition (if there are multiple)
-	all_references = false, -- show virtual text on all all references of the variable (not only definitions)
+	all_references = true, -- show virtual text on all all references of the variable (not only definitions)
 	highlight_changed_variables = true,
 }
 require("nvim-dap-virtual-text").setup(vt_opts)
@@ -315,8 +315,8 @@ dapui.setup({
 	layouts = {
 		{
 			elements = {
-				{ id = "repl", size = 0.40 },
-				{ id = "console", size = 0.60 },
+				{ id = "repl", size = 60 },
+				"console",
 			},
 			size = 8,
 			position = "bottom",
@@ -328,7 +328,7 @@ dapui.setup({
 				"watches",
 				"scopes",
 			},
-			size = 40,
+			size = 60,
 			position = "left",
 		},
 	},
@@ -391,14 +391,14 @@ end, {
 	desc = "Debug: Step Into",
 })
 vim.keymap.set("n", "<F8>", function()
-	require("dap").step_over()
-end, {
-	desc = "Debug: Step Over",
-})
-vim.keymap.set("n", "<F9>", function()
 	require("dap").step_out()
 end, {
 	desc = "Debug: Step Out",
+})
+vim.keymap.set("n", "<F9>", function()
+	require("dap").step_over()
+end, {
+	desc = "Debug: Step Over",
 })
 vim.keymap.set("n", "<leader>de", function()
 	require("dapui").eval()

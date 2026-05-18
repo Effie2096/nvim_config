@@ -56,7 +56,7 @@ incline.setup({
 				-- "nofile",
 				"nowrite",
 				-- "quickfix",
-				"terminal",
+				-- "terminal",
 				-- "prompt",
 			}, bt)
 		then
@@ -72,6 +72,12 @@ incline.setup({
 		-- if bt == "nofile" and not vim.tbl_contains({ "OverseerList" }, ft) then
 		-- 	return
 		-- end
+		if bt == "terminal" then
+			return {
+				win_number,
+				group = "WinBar",
+			}
+		end
 
 		if bt == "quickfix" then
 			return {

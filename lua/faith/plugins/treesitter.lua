@@ -9,7 +9,6 @@ require("vim.treesitter.query").add_predicate(
 )
 vim.treesitter.language.register("scheme", "kanata")
 
-
 local ts = require("nvim-treesitter")
 ts.install({
 	"bash",
@@ -26,16 +25,19 @@ ts.install({
 	"vimdoc",
 })
 ts.setup()
-vim.api.nvim_create_autocmd("FileType", { -- enable treesitter highlighting and indents
-	callback = function(args)
-		local filetype = args.match
-		local lang = vim.treesitter.language.get_lang(filetype)
-		if vim.treesitter.language.add(lang) then
-			vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-			vim.treesitter.start()
-		end
-	end
-})
+vim.api.nvim_create_autocmd(
+	"FileType",
+	{ -- enable treesitter highlighting and indents
+		callback = function(args)
+			local filetype = args.match
+			local lang = vim.treesitter.language.get_lang(filetype)
+			if vim.treesitter.language.add(lang) then
+				vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+				vim.treesitter.start()
+			end
+		end,
+	}
+)
 
 -- Disable entire built-in ftplugin mappings to avoid conflicts.
 -- See https://github.com/neovim/neovim/tree/master/runtime/ftplugin for built-in ftplugins.
@@ -118,19 +120,19 @@ objmap("<leader>sap", "@parameter.inner", "swap_prev")
 objmap("]f", "@function.outer", "next_start", { "n", "x", "o" })
 objmap("][", "@class.outer","next_start" , { "n", "x", "o" })
 objmap("]b", "@block.outer","next_start" , { "n", "x", "o" })
-objmap("]a", "@parameter.inner", "next_start", { "n", "x", "o" })
+objmap("]p", "@parameter.inner", "next_start", { "n", "x", "o" })
 objmap("]F", "@function.outer", "next_end", { "n", "x", "o" })
 objmap("]]", "@class.outer", "next_end", { "n", "x", "o" })
 objmap("]B", "@block.outer", "next_end", { "n", "x", "o" })
-objmap("]A", "@parameter.inner", "next_end", { "n", "x", "o" })
+objmap("]P", "@parameter.inner", "next_end", { "n", "x", "o" })
 objmap("[f", "@function.outer", "prev_start", { "n", "x", "o" })
 objmap("[[", "@class.outer", "prev_start", { "n", "x", "o" })
 objmap("[b", "@block.outer", "prev_start", { "n", "x", "o" })
-objmap("[a", "@parameter.inner", "prev_start", { "n", "x", "o" })
+objmap("[p", "@parameter.inner", "prev_start", { "n", "x", "o" })
 objmap("[F", "@function.outer", "prev_end", { "n", "x", "o" })
 objmap("[]", "@class.outer", "prev_end", { "n", "x", "o" })
 objmap("]B", "@block.outer", "prev_end", { "n", "x", "o" })
-objmap("[A", "@parameter.inner", "prev_end", { "n", "x", "o" })
+objmap("[P", "@parameter.inner", "prev_end", { "n", "x", "o" })
 -- stylua: ignore end
 
 require("nvim-treesitter-textobjects").setup({
