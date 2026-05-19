@@ -233,9 +233,12 @@ vim.api.nvim_create_autocmd("FileType", {
 					icons.ui.Block,
 					icons.separators.slant.left
 				),
-				min_width = vim.o.textwidth - 3,
+				min_width = (
+					(vim.opt.textwidth:get() > 0) and vim.opt.textwidth:get() or 80
+				) - 3,
 				left_margin = 1,
 				left_pad = 1,
+				right_pad = 1,
 				language_pad = 0,
 				-- Used above code blocks for thin border.
 				above = "▄",
