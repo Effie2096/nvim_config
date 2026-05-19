@@ -77,12 +77,6 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 	end,
 })
 
-vim.cmd(
-	'let g:mkdp_images_path = "'
-		.. string.gsub(vim.fn.getcwd(), "\\", "/")
-		.. '/"'
-)
-
 local opts = { silent = true, buffer = true, noremap = true }
 -- swap wrap navigation mappings
 vim.keymap.set({ "n", "v" }, "$", "g$", opts)
