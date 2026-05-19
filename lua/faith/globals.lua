@@ -18,3 +18,11 @@ P = function(v)
 	print(vim.inspect(v))
 	return v
 end
+function Eatchar(pat)
+	local c = vim.fn.nr2char(vim.fn.getchar(0))
+	return (c ~= pat) and "" or c
+end
+vim.api.nvim_exec2(
+	[[cabbrev p lua P()<Left><C-R>=Eatchar('\s')<CR>]],
+	{ output = false }
+)
