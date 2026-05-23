@@ -80,7 +80,9 @@ local gh = function(str)
 end
 vim.pack.add({
 	{ src = gh("zaldih/themery.nvim") },
+	{ src = gh("f-person/auto-dark-mode.nvim") },
 	{ src = gh("rebelot/kanagawa.nvim") },
+	{ src = gh("thesimonho/kanagawa-paper.nvim") },
 	{ src = gh("webhooked/kanso.nvim") },
 	{ src = gh("EdenEast/nightfox.nvim") },
 
