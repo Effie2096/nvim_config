@@ -36,4 +36,44 @@ nightfox.setup({
 			variables = "NONE",
 		},
 	},
+	groups = {
+		all = vim.tbl_extend(
+			"force",
+			{
+				Accent = { fg = "palette.pink" },
+				AccentInverse = { bg = "palette.pink", fg = "palette.bg1" },
+			},
+			vim
+				.iter({
+					["Error"] = "palette.red",
+					["Warning"] = "palette.yellow",
+					["Info"] = "palette.blue",
+					["Hint"] = "palette.green",
+				})
+				:fold({}, function(acc, level, color)
+					acc["Diagnostic" .. level] = {
+						fg = color,
+					}
+					acc["DiagnosticVirtualText" .. level] = {
+						fg = color,
+					}
+					acc["DiagnosticVirtualLines" .. level] = {
+						fg = color,
+					}
+					acc["DiagnosticSign" .. level] = {
+						bg = "palette.bg1",
+						fg = color,
+					}
+					acc["WinBarDiagnosticSign" .. level] = {
+						bg = "palette.bg1",
+						fg = color,
+					}
+					acc["Diagnostic" .. level .. "Num"] = {
+						bg = "palette.bg1",
+						styles = "bold,italic",
+					}
+					return acc
+				end)
+		),
+	},
 })

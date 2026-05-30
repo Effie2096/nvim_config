@@ -1,3 +1,14 @@
+if vim.fn.executable("xmake") == 0 then
+	return
+end
+
+vim.pack.add({
+	{
+		src = "https://github.com/Mythos-404/xmake.nvim",
+		version = vim.version.range("^3"),
+	},
+}, { load = function() end })
+
 local function is_xmake_project()
 	return vim.fs.find(
 		"xmake.lua",
