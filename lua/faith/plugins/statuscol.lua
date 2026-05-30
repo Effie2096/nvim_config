@@ -120,6 +120,16 @@ local config = function()
 			{
 				text = { require("statuscol.builtin").foldfunc },
 				click = "v:lua.ScFa",
+				auto = true,
+			},
+			{
+				sign = {
+					text = { " " },
+					maxwidth = 1,
+					colwidth = 1,
+					auto = false,
+					wrap = false,
+				},
 			},
 			{
 				sign = {

@@ -65,6 +65,10 @@ vim.opt.updatetime = 200
 vim.opt.wrap = true
 vim.opt.writebackup = false
 
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
+vim.opt.foldcolumn = "auto:1"
+
 -- Indentation {
 local indentWidth = 2
 vim.opt.tabstop = indentWidth
@@ -96,6 +100,9 @@ vim.opt.fillchars:append({
 	vertright = icons.borders.edge_thin.top_left, -- "├",
 	verthoriz = icons.borders.edge_thin.top_left, -- "┼",
 	diff = icons.git.signs.diff,
+	foldopen = icons.ui.ArrowOpen,
+	foldclose = icons.ui.ArrowClosed,
+	foldsep = " ",
 })
 vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
 	group = vim.api.nvim_create_augroup("set_formatoptions", { clear = true }),
