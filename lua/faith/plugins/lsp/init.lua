@@ -154,7 +154,6 @@ if has_lazydev then
 		library = {
 			-- Load luvit types when the `vim.uv` word is found
 			{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
-			{ path = require("xmake.utils").path("addon") .. "/en" },
 			"overseer",
 			"nvim-dap-ui",
 			"mini.icons",

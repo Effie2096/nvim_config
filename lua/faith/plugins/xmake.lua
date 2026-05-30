@@ -21,6 +21,8 @@ local function config()
 		return
 	end
 
+	vim.cmd.packadd("xmake.nvim")
+
 	vim.notify("Xmake project found.", vim.log.levels.INFO, { title = "Xmake" })
 
 	local xmake = require("xmake")

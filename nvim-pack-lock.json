@@ -311,7 +311,7 @@
       "src": "https://github.com/folke/which-key.nvim"
     },
     "xmake.nvim": {
-      "rev": "32462f8bfbb5022c0772337dbef1efbf8610b392",
+      "rev": "c987ceca234fb3733a871605cf3e244ce256b4c4",
       "src": "https://github.com/Mythos-404/xmake.nvim",
       "version": "3.0.0 - 4.0.0"
     },
