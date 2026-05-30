@@ -35,6 +35,10 @@
       "src": "https://github.com/bngarren/checkmate.nvim",
       "version": "0.12.0 - 0.13.0"
     },
+    "codediff.nvim": {
+      "rev": "76ff1b13f0bcba655dca85cea1ef0df877a53c0f",
+      "src": "https://github.com/esmuellert/codediff.nvim"
+    },
     "codestats.nvim": {
       "rev": "041b315c4f82997186fcdb3fc2f687cc128a28f3",
       "src": "https://github.com/liljaylj/codestats.nvim"
