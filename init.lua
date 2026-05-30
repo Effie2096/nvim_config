@@ -109,6 +109,7 @@ vim.pack.add({
 	{ src = gh("neovim/nvim-lspconfig") },
 	{ src = gh("mason-org/mason.nvim") },
 	{ src = gh("mason-org/mason-lspconfig.nvim") },
+	{ src = gh("WhoIsSethDaniel/mason-tool-installer.nvim") },
 	{ src = gh("S1M0N38/love2d.nvim") },
 
 	-- completion

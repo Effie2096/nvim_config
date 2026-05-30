@@ -1,5 +1,42 @@
 local icons = require("faith.icons")
 
+local servers = {
+	"angularls",
+	"bacon_ls",
+	"basedpyright",
+	"bashls",
+	"biome",
+	"clangd",
+	"css_variables",
+	"cssls",
+	"cssmodules_ls",
+	"docker_compose_language_service",
+	"dockerls",
+	"emmet_language_server",
+	"gopls",
+	"jdtls",
+	"superhtml",
+	"jsonls",
+	-- "kotlin_lsp",
+	"lemminx",
+	"lua_ls",
+	"markdown_oxide",
+	-- "ocamllsp",
+	"omnisharp",
+	"powershell_es",
+	"tombi",
+	"ts_ls",
+	"yamlls",
+	"svelte",
+	"rust_analyzer",
+	"wgsl_analyzer",
+}
+local ensure_installed = vim.tbl_values(servers or {})
+vim.list_extend(ensure_installed, {
+	-- You can add other tools here that you want Mason to install
+	"stylua",
+})
+
 local float_config = {
 	focusable = false,
 	border = "single",
@@ -165,14 +202,14 @@ capabilities.textDocument.foldingRange = {
 	dynamicRegistration = false,
 	lineFoldingOnly = true,
 }
+capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true
 
 vim.lsp.config("*", {
 	capabilities = capabilities,
 })
 
 mason_lspconfig.setup({
-	ensure_installed = {},
-	automatic_installation = false,
+	ensure_installed = ensure_installed,
 	automatic_enable = {
 		exclude = {
 			"rust_analyzer",
