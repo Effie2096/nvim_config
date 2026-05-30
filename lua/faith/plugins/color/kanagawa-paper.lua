@@ -1,38 +1,22 @@
-local kanagawa = require("kanagawa")
+local paper = require("kanagawa-paper")
 
-vim.api.nvim_create_augroup("kanagawa_auto_compile", { clear = true })
+vim.api.nvim_create_augroup("kanagawa-paper_auto_compile", { clear = true })
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-	pattern = { "kanagawa.lua" },
+	pattern = { "kanagawa-paper.lua" },
 	callback = function()
 		local path = vim.fn.stdpath("config")
 		vim.cmd(
-			"luafile " .. vim.fn.glob(path .. "/lua/faith/plugins/color/kanagawa.lua")
+			"luafile "
+				.. vim.fn.glob(path .. "/lua/faith/plugins/color/kanagawa-paper.lua")
 		)
-		vim.cmd.KanagawaCompile()
+		vim.cmd.KanagawaPaperCache()
 		return true
 	end,
-	group = "kanagawa_auto_compile",
+	group = "kanagawa-paper_auto_compile",
 })
 
-kanagawa.setup({
-	compile = true, -- enable compiling the colorscheme
-	undercurl = true, -- enable undercurls
-	commentStyle = { italic = true },
-	functionStyle = { italic = true },
-	keywordStyle = { bold = true },
-	typeStyle = {},
-	transparent = false, -- do not set background color
-	dimInactive = false, -- dim inactive window `:h hl-NormalNC`
-	terminalColors = true, -- define vim.g.terminal_color_{0,17}
-	colors = { -- add/modify theme and palette colors
-		palette = {},
-		theme = {
-			wave = {},
-			lotus = {},
-			dragon = {},
-			all = {},
-		},
-	},
+paper.setup({
+	cache = true,
 	overrides = function(colors)
 		local palette = colors.palette
 		local theme = colors.theme
@@ -300,11 +284,4 @@ kanagawa.setup({
 				end)
 		)
 	end,
-	theme = "wave",
-	background = {
-		dark = "wave",
-		light = "lotus",
-	},
 })
-
-vim.cmd.colorscheme("kanagawa")
