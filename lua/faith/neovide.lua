@@ -3,12 +3,13 @@ if not vim.g.neovide then
 end
 
 vim.o.guifont = "Iosevka_NF:h10"
-vim.g.neovide_underline_stroke_scale = 1.5
+vim.g.neovide_underline_stroke_scale = 4
 
 vim.g.neovide_cursor_animation_length = 0.05
 vim.g.neovide_cursor_trail_size = 0.2
+vim.g.neovide_cursor_smooth_blink = true
 -- vim.g.neovide_fullscreen = true
-vim.opt.linespace = -3
+vim.opt.linespace = -4
 -- vim.g.neovide_transparency = 0.9
 
 vim.keymap.set({ "n" }, "<F11>", function()

@@ -15,12 +15,12 @@ local opts = {
 			"media",
 			"Attachments",
 		},
-		resolve = function(path, src)
-			local api = require("obsidian.api")
-			if api.path_is_note(path) then
-				return api.resolve_attachment_path(src)
-			end
-		end,
+		-- resolve = function(path, src)
+		-- 	local api = require("obsidian.api")
+		-- 	if api.path_is_note(path) then
+		-- 		return api.resolve_attachment_path(src)
+		-- 	end
+		-- end,
 		doc = {
 			-- enable image viewer for documents
 			-- a treesitter parser must be available for the enabled languages.
@@ -28,12 +28,12 @@ local opts = {
 			-- render the image inline in the buffer
 			-- if your env doesn't support unicode placeholders, this will be disabled
 			-- takes precedence over `opts.float` on supported terminals
-			inline = false,
+			inline = true,
 			-- render the image in a floating window
 			-- only used if `opts.inline` is disabled
 			float = true,
-			max_width = 80,
-			max_height = 40,
+			max_width = 78,
+			max_height = 30,
 			-- Set to `true`, to conceal the image text when rendering inline.
 			-- (experimental)
 			---@param lang string tree-sitter language

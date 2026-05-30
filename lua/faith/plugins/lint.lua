@@ -7,7 +7,6 @@ local config = function()
 	local lint = require("lint")
 	lint.linters_by_ft = {
 		css = { "biomejs" },
-		cpp = { "cpplint" },
 		dotenv = { "dotenv_linter" },
 		html = { "htmlhint" },
 		js = { "biomejs" },
