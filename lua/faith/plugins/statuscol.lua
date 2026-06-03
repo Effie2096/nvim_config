@@ -73,31 +73,31 @@ local config = function()
 					wrap = false,
 				},
 			},
-			{
-				sign = {
-					name = { ".*" },
-					maxwidth = 4,
-					colwidth = 2,
-					auto = true,
-					wrap = false,
-				},
-				click = "v:lua.ScSa",
-			},
-			{
-				sign = {
-					namespace = {
-						"diagnostic%.signs%.sorted",
-						"render%-markdown%.nvim",
-					},
-					text = { "💡", "🔎" },
-					name = { "todo%-sign%-.*" },
-					maxwidth = 1,
-					colwidth = 2,
-					auto = false,
-					foldclosed = true,
-				},
-				click = "v:lua.ScSa",
-			},
+			-- {
+			-- 	sign = {
+			-- 		name = { ".*" },
+			-- 		maxwidth = 4,
+			-- 		colwidth = 2,
+			-- 		auto = true,
+			-- 		wrap = false,
+			-- 	},
+			-- 	click = "v:lua.ScSa",
+			-- },
+			-- {
+			-- 	sign = {
+			-- 		namespace = {
+			-- 			"diagnostic%.signs%.sorted",
+			-- 			"render%-markdown%.nvim",
+			-- 		},
+			-- 		text = { "💡", "🔎" },
+			-- 		name = { "todo%-sign%-.*" },
+			-- 		maxwidth = 1,
+			-- 		colwidth = 2,
+			-- 		auto = false,
+			-- 		foldclosed = true,
+			-- 	},
+			-- 	click = "v:lua.ScSa",
+			-- },
 			{
 				text = { require("statuscol.builtin").lnumfunc },
 				condition = {
@@ -122,21 +122,21 @@ local config = function()
 				click = "v:lua.ScFa",
 				auto = true,
 			},
-			{
-				sign = {
-					text = { " " },
-					maxwidth = 1,
-					colwidth = 1,
-					auto = false,
-					wrap = false,
-				},
-			},
+			-- {
+			-- 	sign = {
+			-- 		text = { " " },
+			-- 		maxwidth = 1,
+			-- 		colwidth = 1,
+			-- 		auto = false,
+			-- 		wrap = false,
+			-- 	},
+			-- },
 			{
 				sign = {
 					name = { "Dap" },
 					maxwidth = 1,
 					colwidth = 1,
-					auto = false,
+					auto = true,
 				},
 			},
 		},
