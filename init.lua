@@ -42,7 +42,7 @@ vim.api.nvim_create_autocmd("PackChanged", {
 			vim.cmd.TSUpdate()
 		end
 		if name == "LuaSnip" and (kind == "update" or kind == "install") then
-			if vim.fn.executable("make") then
+			if vim.fn.executable("make") == 1 then
 				build({
 					"cd",
 					vim.fn.glob(folder),
@@ -56,7 +56,7 @@ vim.api.nvim_create_autocmd("PackChanged", {
 			name == "telescope-fzf-native.nvim"
 			and (kind == "update" or kind == "install")
 		then
-			if vim.fn.executable("cmake") then
+			if vim.fn.executable("cmake") == 1 then
 				build({
 					"cd",
 					vim.fn.glob(folder),
@@ -67,7 +67,7 @@ vim.api.nvim_create_autocmd("PackChanged", {
 					"&&",
 					"cmake --install build --prefix build",
 				})
-			elseif vim.fn.executable("make") then
+			elseif vim.fn.executable("make") == 1 then
 				build({ "cd", vim.fn.glob(folder), "&&", "make" })
 			end
 		end
