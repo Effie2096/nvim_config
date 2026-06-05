@@ -175,6 +175,7 @@ vim.keymap.set({ "n" }, "<leader>vs", vim.cmd.LoveStop, { desc = "Stop Love" })
 local mason = require("mason")
 local blink = require("blink.cmp")
 local mason_lspconfig = require("mason-lspconfig")
+local mason_tools = require("mason-tool-installer")
 local lspkind = require("lspkind")
 local luasnip = require("luasnip")
 local colorful_menu = require("colorful-menu")
@@ -206,15 +207,15 @@ vim.lsp.config("*", {
 	capabilities = capabilities,
 })
 
-mason_lspconfig.setup({
+mason_tools.setup({
 	ensure_installed = ensure_installed,
-	automatic_enable = {
-		exclude = {
-			"rust_analyzer",
-			-- "jdtls",
-		},
-	},
 })
+
+vim.iter(servers):each(function(server)
+	if not vim.tbl_contains({ "rust_analyzer" }, server) then
+		vim.lsp.enable(server)
+	end
+end)
 
 lspkind.init({ preset = "codicons" })
 require("luasnip.loaders.from_vscode").lazy_load()
