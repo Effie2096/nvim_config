@@ -25,7 +25,7 @@ require("vim._core.ui2").enable({
 
 require("faith")
 
-local function build(command)
+local function build(name, cmd, cwd)
 	local result = vim.system(cmd, { cwd = cwd }):wait()
 	if result.code ~= 0 then
 		local stderr = result.stderr or ''
