@@ -2,7 +2,14 @@ require("faith.plugins.color.kanagawa")
 require("faith.plugins.color.kanagawa-paper")
 require("faith.plugins.color.nightfox")
 
-require("auto-dark-mode").setup()
+vim.pack.add({
+	{ src = "https://github.com/f-person/auto-dark-mode.nvim" },
+}, { load = function(data)
+	if vim.fn.executable("dbus-send") == 1 or vim.fn.has("win32") == 1 then
+		vim.cmd.packadd("auto-dark-mode.nvim")
+		require("auto-dark-mode").setup()
+	end
+end })
 
 local themery = require("themery")
 themery.setup({
