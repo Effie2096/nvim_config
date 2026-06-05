@@ -1,3 +1,4 @@
+vim.loader.enable()
 require("vim._core.ui2").enable({
 	enable = true, -- Whether to enable or disable the UI.
 	msg = { -- Options related to the message module.
@@ -25,51 +26,37 @@ require("vim._core.ui2").enable({
 require("faith")
 
 local function build(command)
-	if type(command) == "table" then
-		vim.fn.system(vim.iter(command):join(" "))
-	elseif type(command) == "string" then
-		vim.fn.system(command)
+	local result = vim.system(cmd, { cwd = cwd }):wait()
+	if result.code ~= 0 then
+		local stderr = result.stderr or ''
+		local stdout = result.stdout or ''
+		local output = stderr ~= '' and stderr or stdout
+		if output == '' then output = "No output from build command." end
+		vim.notify(("Build failed for %s:\n%s"):format(name, output), vim.log.levels.ERROR)
 	end
 end
 
 vim.api.nvim_create_autocmd("PackChanged", {
 	callback = function(ev)
-		local name, kind, folder = ev.data.spec.name, ev.data.kind, ev.file
+		local name, kind = ev.data.spec.name, ev.data.kind
+		if kind ~= "install" and kind ~= 'update' then return end
+
 		if name == "nvim-treesitter" and kind == "update" then
 			if not ev.data.active then
 				vim.cmd.packadd("nvim-treesitter")
 			end
 			vim.cmd.TSUpdate()
+			return
 		end
-		if name == "LuaSnip" and (kind == "update" or kind == "install") then
-			if vim.fn.executable("make") == 1 then
-				build({
-					"cd",
-					vim.fn.glob(folder),
-					"&&",
-					"make",
-					"install_jsregexp",
-				})
+		if name == "LuaSnip" then
+			if vim.fn.has("win32") and vim.fn.executable("make") == 1 then
+				build(name, { "make", "install_jsregexp" }, ev.data.path)
 			end
+			return
 		end
-		if
-			name == "telescope-fzf-native.nvim"
-			and (kind == "update" or kind == "install")
-		then
-			if vim.fn.executable("cmake") == 1 then
-				build({
-					"cd",
-					vim.fn.glob(folder),
-					"&&",
-					"cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release",
-					"&&",
-					"cmake --build build --config Release",
-					"&&",
-					"cmake --install build --prefix build",
-				})
-			elseif vim.fn.executable("make") == 1 then
-				build({ "cd", vim.fn.glob(folder), "&&", "make" })
-			end
+		if name == "telescope-fzf-native.nvim" and vim.fn.executable("make") == 1 then
+			build(name, { "make" }, ev.data.path)
+			return
 		end
 		vim.cmd.helptags("ALL")
 	end,
