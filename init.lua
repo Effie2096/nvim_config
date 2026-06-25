@@ -28,18 +28,25 @@ require("faith")
 local function build(name, cmd, cwd)
 	local result = vim.system(cmd, { cwd = cwd }):wait()
 	if result.code ~= 0 then
-		local stderr = result.stderr or ''
-		local stdout = result.stdout or ''
-		local output = stderr ~= '' and stderr or stdout
-		if output == '' then output = "No output from build command." end
-		vim.notify(("Build failed for %s:\n%s"):format(name, output), vim.log.levels.ERROR)
+		local stderr = result.stderr or ""
+		local stdout = result.stdout or ""
+		local output = stderr ~= "" and stderr or stdout
+		if output == "" then
+			output = "No output from build command."
+		end
+		vim.notify(
+			("Build failed for %s:\n%s"):format(name, output),
+			vim.log.levels.ERROR
+		)
 	end
 end
 
 vim.api.nvim_create_autocmd("PackChanged", {
 	callback = function(ev)
 		local name, kind = ev.data.spec.name, ev.data.kind
-		if kind ~= "install" and kind ~= 'update' then return end
+		if kind ~= "install" and kind ~= "update" then
+			return
+		end
 
 		if name == "nvim-treesitter" and kind == "update" then
 			if not ev.data.active then
@@ -54,7 +61,9 @@ vim.api.nvim_create_autocmd("PackChanged", {
 			end
 			return
 		end
-		if name == "telescope-fzf-native.nvim" and vim.fn.executable("make") == 1 then
+		if
+			name == "telescope-fzf-native.nvim" and vim.fn.executable("make") == 1
+		then
 			build(name, { "make" }, ev.data.path)
 			return
 		end
@@ -68,8 +77,6 @@ end
 vim.pack.add({
 	{ src = gh("zaldih/themery.nvim") },
 	{ src = gh("rebelot/kanagawa.nvim") },
-	{ src = gh("thesimonho/kanagawa-paper.nvim") },
-	{ src = gh("webhooked/kanso.nvim") },
 	{ src = gh("EdenEast/nightfox.nvim") },
 
 	-- Libraries
