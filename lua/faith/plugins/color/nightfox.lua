@@ -47,6 +47,7 @@ nightfox.setup({
 				.iter({
 					["Error"] = "palette.red",
 					["Warning"] = "palette.yellow",
+					["Warn"] = "palette.yellow",
 					["Info"] = "palette.blue",
 					["Hint"] = "palette.green",
 				})

@@ -89,6 +89,8 @@ kanagawa.setup({
 				TabLineFill = { link = "TabLine" },
 				WinSeparator = { bg = theme.ui.bg, fg = theme.ui.bg_gutter },
 
+				MsgArea = { link = "NormalFloat" },
+
 				String = { fg = theme.syn.string, italic = true },
 
 				Accent = { fg = accent, bold = true },
@@ -271,28 +273,33 @@ kanagawa.setup({
 				HarpoonNumberInactive = { fg = accent, italic = true },
 			},
 			vim
-				.iter({ "Error", "Warning", "Info", "Hint" })
+				.iter({ "Error", "Warn", "Warning", "Info", "Hint" })
 				:fold({}, function(acc, level)
+					local color = theme.diag[level:lower()]
+					if level == "Warn" then
+						color = theme.diag.warning
+					end
 					acc["Diagnostic" .. level] = {
-						fg = theme.diag[level:lower()],
+						fg = color,
 					}
 					acc["DiagnosticVirtualText" .. level] = {
-						fg = theme.diag[level:lower()],
+						fg = color,
+						bg = "NONE",
 					}
 					acc["DiagnosticVirtualLines" .. level] = {
-						fg = theme.diag[level:lower()],
+						fg = color,
 					}
 					acc["DiagnosticSign" .. level] = {
 						bg = sidebar_bg,
-						fg = theme.diag[level:lower()],
+						fg = color,
 					}
 					acc["WinBarDiagnosticSign" .. level] = {
 						bg = theme.ui.bg_gutter,
-						fg = theme.diag[level:lower()],
+						fg = color,
 					}
 					acc["Diagnostic" .. level .. "Num"] = {
 						bg = sidebar_bg,
-						fg = theme.diag[level:lower()],
+						fg = color,
 						bold = true,
 						italic = true,
 					}
