@@ -18,8 +18,8 @@ local opts = {
 	keymaps = {
 		["g?"] = { "actions.show_help", mode = "n" },
 		["<CR>"] = "actions.select",
-		["<C-s>"] = { "actions.select", opts = { vertical = true } },
-		["<C-x>"] = { "actions.select", opts = { horizontal = true } },
+		-- ["<C-s>"] = { "actions.select", opts = { vertical = true } },
+		-- ["<C-x>"] = { "actions.select", opts = { horizontal = true } },
 		["<C-t>"] = { "actions.select", opts = { tab = true } },
 		["<C-p>"] = function()
 			require("oil.actions").preview.callback()
