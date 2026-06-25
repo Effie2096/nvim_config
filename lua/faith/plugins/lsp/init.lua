@@ -45,9 +45,9 @@ local float_config = {
 	prefix = function(_, i, _)
 		return string.format("%s: ", i)
 	end,
-	width = 60,
 }
 
+---@type vim.diagnostic.Opts.VirtualText
 local virtual_text = {
 	spacing = 0,
 	virt_text_pos = "eol",
@@ -57,35 +57,35 @@ local virtual_text = {
 	end,
 	hl_mode = "combine",
 }
+
+---@type vim.diagnostic.Opts.VirtualLines
+local virtual_lines = {
+	current_line = true,
+	source = true,
+	prefix = "",
+	spacing = 1,
+	format = function(diagnostic)
+		if
+			vim.api.nvim_get_option_value("filetype", { scope = "local" })
+			== "rust"
+		then
+			diagnostic.message =
+				string.gsub(diagnostic.message, "`#%[.*%(.*%)%]` on by default", "", 1)
+			diagnostic.message = string.gsub(
+				diagnostic.message,
+				"for further information visit.*",
+				"",
+				1
+			)
+		end
+		return diagnostic.message:match(".-\n")
+	end,
+}
+
 ---@type vim.diagnostic.Opts
 local config = {
 	virtual_text = false,
-	virtual_lines = {
-		current_line = true,
-		source = true,
-		prefix = "",
-		spacing = 1,
-		format = function(diagnostic)
-			if
-				vim.api.nvim_get_option_value("filetype", { scope = "local" })
-				== "rust"
-			then
-				diagnostic.message = string.gsub(
-					diagnostic.message,
-					"`#%[.*%(.*%)%]` on by default",
-					"",
-					1
-				)
-				diagnostic.message = string.gsub(
-					diagnostic.message,
-					"for further information visit.*",
-					"",
-					1
-				)
-			end
-			return diagnostic.message
-		end,
-	},
+	virtual_lines = virtual_lines,
 	signs = {
 		text = {
 			[vim.diagnostic.severity.ERROR] = icons.diagnostic.error,
@@ -164,10 +164,6 @@ end
 local love2d = require("love2d")
 love2d.setup({
 	path_to_love_bin = "love",
-	-- set to "" to disable auto lsp setup (I'm setting it up manually)
-	path_to_love_library = "", -- vim.fn.globpath(vim.o.runtimepath, "love2d/library"),
-	restart_on_save = false,
-	debug_window_opts = nil,
 })
 vim.keymap.set({ "n" }, "<leader>vv", vim.cmd.LoveRun, { desc = "Run Love" })
 vim.keymap.set({ "n" }, "<leader>vs", vim.cmd.LoveStop, { desc = "Stop Love" })
@@ -183,6 +179,7 @@ local csc = require("csc")
 local nvim_svelte_snippets = require("nvim-svelte-snippets")
 
 mason.setup()
+mason_lspconfig.setup()
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),

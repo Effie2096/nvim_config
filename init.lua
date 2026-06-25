@@ -96,7 +96,7 @@ vim.pack.add({
 	{ src = gh("mason-org/mason.nvim") },
 	{ src = gh("mason-org/mason-lspconfig.nvim") },
 	{ src = gh("WhoIsSethDaniel/mason-tool-installer.nvim") },
-	{ src = gh("S1M0N38/love2d.nvim") },
+	{ src = gh("S1M0N38/love2d.nvim"), version = vim.version.range("3") },
 
 	-- completion
 	{ src = gh("Saghen/blink.cmp"), version = vim.version.range("1.x") },

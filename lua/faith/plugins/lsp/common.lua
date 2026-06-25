@@ -128,8 +128,8 @@ M.on_attach = function(client_id, bufnr)
 			bufnr
 		)
 	then
-		vim.lsp.inlay_hint.enable(true)
-		vim.keymap.set("n", "<leader>th", function()
+		vim.lsp.inlay_hint.enable(false)
+		vim.keymap.set("n", "<leader>uh", function()
 			vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({
 				bufnr = bufnr,
 			}))

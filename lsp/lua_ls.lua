@@ -1,15 +1,3 @@
-local function find_love()
-	local path_to_love_library =
-		vim.fn.globpath(vim.o.runtimepath, "love2d/library")
-	local library_path =
-		vim.fn.split(vim.fn.expand(path_to_love_library), "\n")[1]
-	if vim.fn.isdirectory(library_path) == 0 then
-		return ""
-	end
-
-	return library_path
-end
-
 return {
 	settings = {
 		Lua = {
@@ -24,6 +12,7 @@ return {
 				globals = {
 					"awesome",
 					"love",
+					"prism",
 					-- Busted/plenary test
 					"describe",
 					"it",
@@ -47,7 +36,6 @@ return {
 			workspace = {
 				library = {
 					"/usr/share/awesome/lib",
-					find_love(),
 				},
 			},
 			type = {

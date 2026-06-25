@@ -124,7 +124,8 @@
     },
     "love2d.nvim": {
       "rev": "25715394680590f56aab90390d430cab0dc46808",
-      "src": "https://github.com/S1M0N38/love2d.nvim"
+      "src": "https://github.com/S1M0N38/love2d.nvim",
+      "version": "3.0.0 - 4.0.0"
     },
     "lspkind.nvim": {
       "rev": "c7274c48137396526b59d86232eabcdc7fed8a32",

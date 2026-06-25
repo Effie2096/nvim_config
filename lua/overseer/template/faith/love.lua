@@ -4,13 +4,17 @@ local TAG = constants.TAG
 ---@param opts overseer.SearchParams
 ---@return nil|string
 local get_root_dir = function(opts)
-	local love_root = vim.fs.find(
-		{ "main.lua", "conf.lua" },
-		{ path = opts.dir, upward = true }
-	)
+	local love_root = vim.fs.find({ "main.lua", "conf.lua" }, {
+		path = opts.dir,
+		type = "file",
+		upward = true,
+		limit = math.huge,
+	})
+
 	if #love_root == 2 then
 		return vim.fs.dirname(love_root[1])
 	end
+	return nil
 end
 
 ---@param opts overseer.SearchParams
@@ -20,6 +24,8 @@ local find_love = function(opts)
 		return "lovec"
 	elseif vim.fn.executable("love") == 1 then
 		return "love"
+	elseif vim.fn.executable("love-git") == 1 then
+		return "love-git"
 	end
 	return nil
 end
