@@ -58,6 +58,7 @@ resession.setup({
 		quickfix = {},
 		overseer = {},
 		oil = {},
+		bpm = {},
 	},
 })
 
