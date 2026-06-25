@@ -35,6 +35,10 @@
       "src": "https://github.com/saghen/blink.pairs",
       "version": ">=0.0.0"
     },
+    "bpm.nvim": {
+      "rev": "b4fa2eb4e26f1f33f76dd1f8277c287989586d9b",
+      "src": "https://github.com/aurora0x27/bpm.nvim"
+    },
     "bullets.vim": {
       "rev": "28c22791153a90bb61a86fbeeae0f812e048ade7",
       "src": "https://github.com/bullets-vim/bullets.vim"
@@ -122,6 +126,10 @@
     "lspkind.nvim": {
       "rev": "c7274c48137396526b59d86232eabcdc7fed8a32",
       "src": "https://github.com/onsails/lspkind.nvim"
+    },
+    "lualine.nvim": {
+      "rev": "221ce6b2d999187044529f49da6554a92f740a96",
+      "src": "https://github.com/nvim-lualine/lualine.nvim"
     },
     "markdown-table-mode.nvim": {
       "rev": "0b768b58ec45afb7cb091175e837b7f5461663af",

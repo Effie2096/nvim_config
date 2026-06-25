@@ -16,6 +16,18 @@ M.keys = {
 	[6] = ";",
 }
 
+M.highlights = {
+	separator = "@comment",
+	active = {
+		number = "@number",
+		lable = "@number",
+	},
+	inactive = {
+		number = "@number",
+		lable = "StatusLine",
+	},
+}
+
 ---@class mark_data
 ---@field prefix { text: string, group: string }[]
 ---@field marks markStatus[]
@@ -144,15 +156,16 @@ M.get_data = function()
 				}
 				mark_display.lable = {
 					text = mark_file,
-					group = mark_display.current and "HarpoonActive" or "HarpoonInactive",
+					group = mark_display.current and M.highlights.active.lable
+						or M.highlights.inactive.lable,
 				}
 			end
 
 			if i <= #M.keys then
 				mark_display.key = {
 					text = M.keys[i],
-					group = mark_display.current and "HarpoonNumberActive"
-						or "HarpoonNumberInactive",
+					group = mark_display.current and M.highlights.active.number
+						or M.highlights.inactive.number,
 				}
 				table.insert(mark_data.marks, mark_display)
 			else
@@ -206,7 +219,7 @@ M.get_data = function()
 			mark_data.postfix = {
 				{
 					text = ("+%d"):format(extra_marks),
-					group = "HarpoonNumberActive",
+					group = M.highlights.active.number,
 				},
 			}
 		end
@@ -215,7 +228,7 @@ M.get_data = function()
 	end
 end
 
-local function splitIntoLetters(inputString)
+function M.splitIntoLetters(inputString)
 	local letters = {}
 	for letter in string.gmatch(inputString, ".") do
 		table.insert(letters, letter)
@@ -241,7 +254,7 @@ M.statusline = function()
 					mark.postfix
 							and histr(
 								vim
-									.iter(splitIntoLetters(mark.postfix.text))
+									.iter(M.splitIntoLetters(mark.postfix.text))
 									:map(function(letter)
 										return icons.letters.superscript[letter:lower()] or letter
 									end)
@@ -274,7 +287,7 @@ M.statusline = function()
 	return vim
 		.iter({ prefix, marks, postfix })
 		:flatten()
-		:join(" " .. histr(separator, "HarpoonSeparator") .. " ")
+		:join(" " .. histr(separator, M.highlights.separator) .. " ")
 end
 
 return M

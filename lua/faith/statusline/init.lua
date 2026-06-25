@@ -1,26 +1,6 @@
 local histr = require("faith.statusline.utils").histr
 local icons = require("faith.icons")
 
-vim.opt.statusline = "%="
-
-vim.opt.statusline:append(
-	" %{%v:lua.require('faith.statusline.components.harpoon').statusline()%}"
-)
-
-vim.opt.statusline:append("%=")
-
--- function Trans_Flag()
--- 	return string.format(
--- 		"%s%s%s%s%s",
--- 		histr("█", "Trans_Blue"),
--- 		histr("█", "Trans_Pink"),
--- 		histr("█", "Trans_White"),
--- 		histr("█", "Trans_Pink"),
--- 		histr("█", "Trans_Blue")
--- 	)
--- end
--- vim.opt.statusline:append("%{%v:lua.Trans_Flag()%}")
-
 function Winbar()
 	local win = vim.api.nvim_get_current_win()
 	local ft = vim.o.filetype
