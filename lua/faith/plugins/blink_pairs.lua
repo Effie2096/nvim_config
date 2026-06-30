@@ -2,6 +2,9 @@ vim.api.nvim_create_autocmd("PackChanged", {
 	callback = function(ev)
 		local name, kind, folder = ev.data.spec.name, ev.data.kind, ev.file
 		if name == "blink.pairs" and (kind == "update" or kind == "install") then
+			if not ev.data.active then
+				vim.cmd.packadd("blink.pairs")
+			end
 			require("blink.pairs").download():pwait(60000)
 		end
 	end,
