@@ -1,3 +1,7 @@
+vim.pack.add({
+	{ src = "https://github.com/lukas-reineke/indent-blankline.nvim" },
+})
+
 local icons = require("faith.icons")
 
 local ibl = require("ibl")

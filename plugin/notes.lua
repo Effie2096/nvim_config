@@ -19,7 +19,7 @@ vim.pack.add({
 		version = vim.version.range("~0.12.0"),
 	},
 	{ src = gh("luizribeiro/vim-cooklang") },
-}, { load = function() end })
+}, { load = false })
 
 local use_cm_todos = false
 

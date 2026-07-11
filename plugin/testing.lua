@@ -1,6 +1,6 @@
 vim.pack.add({
 	{ src = "https://github.com/nvim-neotest/neotest" },
-}, { load = function() end })
+}, { load = false })
 
 local config = function()
 	local neotest = require("neotest")
@@ -12,11 +12,15 @@ local config = function()
 	}
 	neotest.setup(opts)
 end
+
 local load = function()
-	if not package.loaded.neotest then
-		vim.cmd.packadd("neotest")
-		config()
+	if package.loaded.neotest then
+		return
 	end
+
+	vim.cmd.packadd("neotest")
+
+	config()
 end
 
 vim.api.nvim_create_user_command("Neotest", function(opts)

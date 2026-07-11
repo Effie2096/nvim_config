@@ -17,7 +17,7 @@ M.keys = {
 }
 
 M.highlights = {
-	separator = "@comment",
+	separator = "StatusLine",
 	active = {
 		number = "@number",
 		lable = "@number",

@@ -1,4 +1,5 @@
 require("mini.icons").setup()
+MiniIcons.mock_nvim_web_devicons()
 
 local has_which_key, which_key = pcall(require, "which-key")
 if has_which_key then
@@ -6,7 +7,7 @@ if has_which_key then
 		---@class wk.Opts
 		{
 			-- preset = "helix",
-			delay = 500,
+			delay = 0,
 			icons = {
 				mappings = true,
 				keys = {},

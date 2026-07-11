@@ -67,7 +67,6 @@ vim.api.nvim_create_autocmd("PackChanged", {
 			build(name, { "make" }, ev.data.path)
 			return
 		end
-		vim.cmd.helptags("ALL")
 	end,
 })
 
@@ -89,11 +88,7 @@ vim.pack.add({
 	{ src = gh("folke/which-key.nvim") },
 
 	{ src = gh("folke/snacks.nvim") },
-	{ src = gh("liljaylj/codestats.nvim") },
-	{ src = gh("b0o/incline.nvim") },
-	{ src = gh("lukas-reineke/indent-blankline.nvim") },
 
-	{ src = gh("nmac427/guess-indent.nvim") },
 	{ src = gh("stevearc/resession.nvim") },
 
 	-- LSP
@@ -121,31 +116,12 @@ vim.pack.add({
 	{ src = gh("nvim-telescope/telescope-fzf-native.nvim") },
 	{ src = gh("nvim-telescope/telescope.nvim") },
 
-	{ src = gh("stevearc/overseer.nvim") },
-
 	-- Navigation
 	{ src = gh("ThePrimeagen/harpoon"), version = "harpoon2" },
 	{ src = gh("stevearc/oil.nvim") },
-	{
-		src = gh("mrjones2014/smart-splits.nvim"),
-		version = vim.version.range("2.x"),
-	},
-
-	-- Versioning
-	{ src = gh("tpope/vim-fugitive") },
-	{ src = gh("lewis6991/gitsigns.nvim"), version = vim.version.range("2.x") },
-	{ src = gh("esmuellert/codediff.nvim") },
-	{ src = gh("mbbill/undotree") },
 
 	-- Edit
 	{ src = gh("tpope/vim-abolish") },
-	{ src = gh("monaqa/dial.nvim") },
-	{ src = gh("kylechui/nvim-surround"), version = vim.version.range("4.x") },
-
-	{ src = gh("karb94/neoscroll.nvim") },
-	{ src = gh("folke/zen-mode.nvim") },
-
-	{ src = gh("folke/todo-comments.nvim") },
 })
 
 require("faith.plugins")

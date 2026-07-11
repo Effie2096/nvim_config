@@ -1,28 +1,30 @@
 vim.pack.add(
 	{ { src = "https://github.com/mfussenegger/nvim-lint" } },
-	{ load = function() end }
+	{ load = false }
 )
+local linters_by_ft = {
+	css = { "biomejs" },
+	dotenv = { "dotenv_linter" },
+	html = { "htmlhint" },
+	js = { "biomejs" },
+	json = { "biomejs" },
+	jsonc = { "biomejs" },
+	jsx = { "biomejs" },
+	-- kotlin = { "ktlint" },
+	lua = { "selene" },
+	python = { "ruff" },
+	sh = { "shellcheck" },
+	-- toml = { "tombi" },
+	ts = { "biomejs" },
+	tsx = { "biomejs" },
+	vim = { "vint" },
+	yaml = { "yamllint" },
+}
 
 local config = function()
 	local lint = require("lint")
-	lint.linters_by_ft = {
-		css = { "biomejs" },
-		dotenv = { "dotenv_linter" },
-		html = { "htmlhint" },
-		js = { "biomejs" },
-		json = { "biomejs" },
-		jsonc = { "biomejs" },
-		jsx = { "biomejs" },
-		-- kotlin = { "ktlint" },
-		lua = { "selene" },
-		python = { "ruff" },
-		sh = { "shellcheck" },
-		-- toml = { "tombi" },
-		ts = { "biomejs" },
-		tsx = { "biomejs" },
-		vim = { "vint" },
-		yaml = { "yamllint" },
-	}
+
+	lint.linters_by_ft = linters_by_ft
 
 	local yamllint = require("lint").linters.yamllint
 	yamllint.args = {
@@ -52,15 +54,25 @@ local config = function()
 		end,
 	})
 end
+
 local load = function()
-	if not package.loaded["lint"] then
-		vim.cmd.packadd("nvim-lint")
-		config()
+	if package.loaded.lint then
+		return
 	end
+
+	vim.cmd.packadd("nvim-lint")
+
+	config()
 end
 
 vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 	once = true,
+	pattern = vim
+		.iter(linters_by_ft)
+		:map(function(ft, _)
+			return ("*.%s"):format(ft)
+		end)
+		:totable(),
 	callback = function()
 		load()
 	end,

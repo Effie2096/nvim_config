@@ -1,6 +1,5 @@
 local sn = require("snacks")
 local util = require("snacks.util")
-local supported = sn.image.supports()
 
 ---@type snacks.Config
 local opts = {
@@ -32,7 +31,7 @@ local opts = {
 			inline = true,
 			-- render the image in a floating window
 			-- only used if `opts.inline` is disabled
-			float = supported,
+			float = false,
 			max_width = 78,
 			max_height = 30,
 			-- Set to `true`, to conceal the image text when rendering inline.

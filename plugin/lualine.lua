@@ -1,6 +1,6 @@
 vim.pack.add({
 	{ src = "https://github.com/nvim-lualine/lualine.nvim" },
-}, { load = function() end })
+}, { load = false })
 
 local function config()
 	local lualine = require("lualine")
@@ -15,10 +15,10 @@ local function config()
 				unique = true,
 			},
 		},
-		lualine_c = { "%=", "harpoon" },
+		lualine_c = { "%=", "harpoon", "%=" },
 		lualine_x = { "macro_recording" },
 		lualine_y = {},
-		lualine_z = { "trans_flag" },
+		lualine_z = {},
 	}
 	local tabline = {
 		lualine_a = {},

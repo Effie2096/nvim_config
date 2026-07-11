@@ -1,6 +1,6 @@
 vim.pack.add(
 	{ { src = "https://github.com/stevearc/conform.nvim" } },
-	{ load = function() end }
+	{ load = false }
 )
 
 -- stylua: ignore start
@@ -47,14 +47,16 @@ formatters_by_ft = vim
 		return acc
 	end)
 
-vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
-
 local notify_opts = {
 	title = "Formatting",
 }
 
 local config = function()
-	require("conform").setup({
+	vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+
+	local conform = require("conform")
+
+	conform.setup({
 		notify_on_error = false,
 		format_on_save = function(bufnr)
 			-- Disable with a global or buffer-local variable
@@ -100,11 +102,15 @@ local config = function()
 		},
 	})
 end
+
 local load = function()
-	if not package.loaded["conform"] then
-		vim.cmd.packadd("conform.nvim")
-		config()
+	if package.loaded.conform then
+		return
 	end
+
+	vim.cmd.packadd("conform.nvim")
+
+	config()
 end
 
 vim.api.nvim_create_autocmd("BufWritePre", {

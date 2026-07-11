@@ -45,6 +45,7 @@ local float_config = {
 	prefix = function(_, i, _)
 		return string.format("%s: ", i)
 	end,
+	width = 60,
 }
 
 ---@type vim.diagnostic.Opts.VirtualText
@@ -110,6 +111,15 @@ local config = {
 	underline = true,
 	severity_sort = true,
 	float = float_config,
+	jump = {
+		on_jump = function(_, bufnr)
+			vim.diagnostic.open_float({
+				bufnr = bufnr,
+				scope = "cursor",
+				focus = false,
+			})
+		end,
+	},
 }
 
 vim.diagnostic.config(config)

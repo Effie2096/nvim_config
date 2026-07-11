@@ -5,7 +5,7 @@ local gh = function(str)
 end
 vim.pack.add({
 	{ src = gh("bfredl/nvim-luadev") },
-}, { load = function() end })
+}, { load = false })
 
 vim.pack.add({
 	{ src = gh("rcarriga/nvim-dap-ui") },
@@ -23,31 +23,33 @@ vim.api.nvim_create_autocmd("FileType", {
 	pattern = "lua",
 	once = true,
 	callback = function()
-		if not package.loaded.luadev then
-			vim.cmd.packadd("nvim-luadev")
-
-			local luadev_group =
-				vim.api.nvim_create_augroup("luadev_maps", { clear = true })
-			vim.api.nvim_create_autocmd({ "BufEnter" }, {
-				group = luadev_group,
-				pattern = { "*.lua" },
-				callback = function(args)
-					local opts = { silent = true, noremap = true, buffer = args.buf }
-					vim.keymap.set(
-						{ "n" },
-						"<localleader>e",
-						"<CMD>Luadev<CR><Plug>(Luadev-RunLine)",
-						opts
-					)
-					vim.keymap.set(
-						{ "n", "v" },
-						"<localleader>E",
-						"<CMD>Luadev<CR><Plug>(Luadev-Run)",
-						opts
-					)
-				end,
-			})
+		if package.loaded.luadev then
+			return
 		end
+
+		vim.cmd.packadd("nvim-luadev")
+
+		local luadev_group =
+			vim.api.nvim_create_augroup("luadev_maps", { clear = true })
+		vim.api.nvim_create_autocmd({ "BufEnter" }, {
+			group = luadev_group,
+			pattern = { "*.lua" },
+			callback = function(args)
+				local opts = { silent = true, noremap = true, buffer = args.buf }
+				vim.keymap.set(
+					{ "n" },
+					"<localleader>e",
+					"<CMD>Luadev<CR><Plug>(Luadev-RunLine)",
+					opts
+				)
+				vim.keymap.set(
+					{ "n", "v" },
+					"<localleader>E",
+					"<CMD>Luadev<CR><Plug>(Luadev-Run)",
+					opts
+				)
+			end,
+		})
 	end,
 })
 

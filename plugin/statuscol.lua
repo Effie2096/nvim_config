@@ -2,36 +2,35 @@ vim.pack.add({
 	{ src = "https://github.com/luukvbaal/statuscol.nvim" },
 }, { load = function() end })
 
-local M = {}
-
-function M.toggle_breakpoint(args)
-	local dap = vim.F.npcall(require, "dap")
-	if not dap then
-		return
-	end
-	if args.mods:find("c") then
-		require("persistent-breakpoints.api").set_conditional_breakpoint()
-	else
-		require("persistent-breakpoints.api").toggle_breakpoint()
-	end
-end
-function M.lnum_click(args)
-	if args.button == "l" then
-		-- Toggle DAP (conditional) breakpoint on (clickmod)left click
-		M.toggle_breakpoint(args)
-	elseif args.button == "m" then
-		vim.cmd("norm! yy") -- Yank on middle click
-	elseif args.button == "r" then
-		if args.clicks == 2 then
-			vim.cmd("norm! dd") -- Cut on double right click
-		else
-			vim.cmd("norm! p") -- Paste on right click
-		end
-	end
-end
-
 local config = function()
 	local statuscol = require("statuscol")
+
+	local function toggle_breakpoint(args)
+		local dap = vim.F.npcall(require, "dap")
+		if not dap then
+			return
+		end
+		if args.mods:find("c") then
+			require("persistent-breakpoints.api").set_conditional_breakpoint()
+		else
+			require("persistent-breakpoints.api").toggle_breakpoint()
+		end
+	end
+	local function lnum_click(args)
+		if args.button == "l" then
+			-- Toggle DAP (conditional) breakpoint on (clickmod)left click
+			toggle_breakpoint(args)
+		elseif args.button == "m" then
+			vim.cmd("norm! yy") -- Yank on middle click
+		elseif args.button == "r" then
+			if args.clicks == 2 then
+				vim.cmd("norm! dd") -- Cut on double right click
+			else
+				vim.cmd("norm! p") -- Paste on right click
+			end
+		end
+	end
+
 	statuscol.setup({
 		setopt = true, -- Whether to set the 'statuscolumn' option, may be set to false for those who
 		-- want to use the click handlers in their own 'statuscolumn': _G.Sc[SFL]a().
@@ -143,13 +142,13 @@ local config = function()
 		clickmod = "c", -- modifier used for certain actions in the builtin clickhandlers:
 		-- "a" for Alt, "c" for Ctrl and "m" for Meta.
 		clickhandlers = { -- builtin click handlers
-			Lnum = require("faith.plugins.statuscol").lnum_click,
+			Lnum = lnum_click,
 			FoldClose = require("statuscol.builtin").foldclose_click,
 			FoldOpen = require("statuscol.builtin").foldopen_click,
 			FoldOther = require("statuscol.builtin").foldother_click,
-			DapBreakpointRejected = require("faith.plugins.statuscol").toggle_breakpoint,
-			DapBreakpoint = require("faith.plugins.statuscol").toggle_breakpoint,
-			DapBreakpointCondition = require("faith.plugins.statuscol").toggle_breakpoint,
+			DapBreakpointRejected = toggle_breakpoint,
+			DapBreakpoint = toggle_breakpoint,
+			DapBreakpointCondition = toggle_breakpoint,
 			["diagnostic.signs.sorted"] = require("statuscol.builtin").diagnostic_click,
 			GitSignsTopdelete = require("statuscol.builtin").gitsigns_click,
 			GitSignsUntracked = require("statuscol.builtin").gitsigns_click,
@@ -162,12 +161,14 @@ local config = function()
 	})
 end
 
-vim.api.nvim_create_autocmd({ "VimEnter" }, {
-	once = true,
-	callback = function()
+local function load()
+	if not package.loaded.statuscol then
 		vim.cmd.packadd("statuscol.nvim")
 		config()
-	end,
-})
+	end
+end
 
-return M
+vim.api.nvim_create_autocmd({ "UIEnter" }, {
+	once = true,
+	callback = load,
+})
